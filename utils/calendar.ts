@@ -11,7 +11,7 @@ export function getUpdatedCalendar(
 export function getCalendarDetail(initialDate: dayjs.Dayjs): CalendarType {
   const month = initialDate.format('MM');
   const year = initialDate.format('YYYY');
-  const startDate = dayjs(`${year}${month}01`);
+  const startDate = dayjs(`${year}${month}01`).add(9, 'hour');
   const firstDOW = Number(startDate.format('d'));
   const lastDate = Number(startDate.clone().endOf('month').format('DD'));
   const monthName = startDate.format('MMMM');

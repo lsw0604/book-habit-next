@@ -1,10 +1,10 @@
-import { useSelector } from '@/store';
-import { useDispatch } from 'react-redux';
-import { calendarActions } from '@/store/calendar';
-import dayjs from 'dayjs';
-import { getCalendarDetail, getNewCalendar } from '@/utils/calendar';
-import { CalendarType } from '@/types/redux.calendar';
 import { useEffect, useMemo } from 'react';
+import dayjs from 'dayjs';
+
+import { calendarActions } from '@/app/store/calendar';
+import { useAppSelector, useAppDispatch } from '@/app/store';
+import { CalendarType } from '@/types/redux.calendar';
+import { getCalendarDetail, getNewCalendar } from '@/utils/calendar';
 
 interface IProps {
   myBookHistoryData: MyBookPageQueriesHistoryListType;
@@ -15,9 +15,9 @@ export default function useCalendarHook({
   myBookHistoryData,
   myBookTimeData,
 }: IProps) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const calendarState = useAppSelector((state) => state.calendar.calendar);
 
-  const calendarState = useSelector((state) => state.calendar.calendar);
   const setCalendarState = (state: CalendarType) => {
     dispatch(calendarActions.setCalendar(state));
   };
