@@ -21,7 +21,12 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@store": ["./app/store"]
+      "store/*": ["./app/store/*"],
+      "store": ["./app/store/index.ts"],
+      "lib/*": ["./app/lib/*"],
+      "components/*": ["./app/components/*"],
+      "types/*": ["./types/*"],
+      "style/*": ["./style/*"]
     }
   },
   "include": [

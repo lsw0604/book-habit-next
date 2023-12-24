@@ -5,7 +5,7 @@ import { CalendarType, RootCalendarType } from '@/types/redux.calendar';
 import { getCalendarDetail } from '@/utils/calendar';
 
 const initialState: RootCalendarType = {
-  calendar: getCalendarDetail(dayjs()),
+  calendar: getCalendarDetail(dayjs().format()),
 };
 
 const calendar = createSlice({

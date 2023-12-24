@@ -10,11 +10,13 @@ import {
 import calendar from './calendar';
 import modal from './modal';
 import myBooks from './myBook';
+import theme from './theme';
 
 const rootReducer = combineReducers({
   calendar: calendar.reducer,
   modal: modal.reducer,
   myBook: myBooks.reducer,
+  theme: theme.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

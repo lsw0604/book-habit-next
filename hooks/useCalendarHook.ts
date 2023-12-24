@@ -74,7 +74,7 @@ export default function useCalendarHook({
 
   useEffect(() => {
     if (myBookTimeData && myBookTimeData.endDate) {
-      setCalendarState(getCalendarDetail(dayjs(myBookTimeData.endDate)));
+      setCalendarState(getCalendarDetail(myBookTimeData.endDate));
     }
 
     if (
@@ -82,7 +82,7 @@ export default function useCalendarHook({
       myBookTimeData.endDate === undefined &&
       myBookTimeData.startDate
     ) {
-      setCalendarState(getCalendarDetail(dayjs(myBookTimeData.startDate)));
+      setCalendarState(getCalendarDetail(myBookTimeData.startDate));
     }
   }, [myBookTimeData, myBookTimeData?.endDate, myBookTimeData?.startDate]);
 

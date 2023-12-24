@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 type CalendarType = {
-  startDate: dayjs.Dayjs;
+  startDate: string;
   firstDOW: number;
   lastDate: number;
   monthName: string;

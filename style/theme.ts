@@ -1,5 +1,5 @@
-import { customize } from '@/style/colors';
-import { ColorType } from '@/types/style';
+import { customize } from 'style/colors';
+import { ColorType } from 'types/style';
 
 export const light = {
   main: customize.slate['100'],
