@@ -1,4 +1,4 @@
-type SearchBookAtomType = {
+type RootSearchBookRegisterType = {
   thumbnail?: string;
   isbn: string;
   price: number;

@@ -1,8 +1,10 @@
+'use client';
+
 import { ReactNode } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import useThemeHook from '@/hooks/useThemeHook';
 import GlobalStyle from '@/style/globalStyle';
+import useThemeHook from '@/hooks/useThemeHook';
 
 export default function StyledComponentsThemeProvider({
   children,

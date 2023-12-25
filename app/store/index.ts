@@ -11,12 +11,20 @@ import calendar from './calendar';
 import modal from './modal';
 import myBooks from './myBook';
 import theme from './theme';
+import bookRegister from './bookRegister';
+import user from './user';
+import searchBookRegister from './searchBookRegister';
+import toast from './toast';
 
 const rootReducer = combineReducers({
   calendar: calendar.reducer,
   modal: modal.reducer,
   myBook: myBooks.reducer,
   theme: theme.reducer,
+  bookRegister: bookRegister.reducer,
+  user: user.reducer,
+  searchBookRegister: searchBookRegister.reducer,
+  toast: toast.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

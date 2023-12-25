@@ -1,6 +1,6 @@
 import { ColorType, SystemTheme } from './style';
 
 type RootThemeType = {
-  themeMode: SystemTheme;
+  themeMode?: SystemTheme;
   colorMode?: ColorType;
 };

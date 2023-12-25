@@ -36,16 +36,14 @@ export default function Home() {
   const { colorHandler, themeHandler } = useThemeHook();
 
   return (
-    <main>
-      <Container>
-        <Color />
-        <input value={comment} onChange={onChange} />
-        <button onClick={onClick}>reset</button>
-        <button onClick={themeHandler}>DarkMode</button>
-        <button onClick={themeHandler}>LightMode</button>
-        <button onClick={() => colorHandler('cyan')}>Cyan</button>
-        <button onClick={() => colorHandler('fuchsia')}>fuchsia</button>
-      </Container>
-    </main>
+    <Container>
+      <Color />
+      <input value={comment} onChange={onChange} />
+      <button onClick={onClick}>reset</button>
+      <button onClick={themeHandler}>DarkMode</button>
+      <button onClick={themeHandler}>LightMode</button>
+      <button onClick={() => colorHandler('cyan')}>Cyan</button>
+      <button onClick={() => colorHandler('fuchsia')}>fuchsia</button>
+    </Container>
   );
 }

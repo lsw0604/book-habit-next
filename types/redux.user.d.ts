@@ -1,4 +1,4 @@
-type UserAtomType = {
+type RootUserType = {
   id: number;
   email: string;
   name?: string | '';
