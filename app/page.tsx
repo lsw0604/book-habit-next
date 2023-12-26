@@ -1,49 +1,58 @@
 'use client';
 
-import { ChangeEvent, useCallback } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { myBookActions } from 'store/myBook';
-import { RootState, useAppDispatch, useAppSelector } from 'store';
-import useThemeHook from '@/hooks/useThemeHook';
+import Loader from 'components/common/Loader';
+import { LogoMain } from '@/style/icon';
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
-  padding: 1rem;
-  background-color: ${({ theme }) => theme.mode.main};
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 `;
 
-const Color = styled.div`
-  width: 5rem;
-  height: 5rem;
-  background-color: ${({ theme }) => theme.colors.main};
-  border-radius: 1rem;
+const SubTitle = styled.h2`
+  font-size: 20px;
+`;
+
+const Title = styled.h1`
+  font-size: 40px;
+  text-align: center;
+`;
+
+const LoaderWrapper = styled.div`
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LogoWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  svg {
+    width: 10rem;
+  }
 `;
 
 export default function Home() {
-  const { comment } = useAppSelector((state: RootState) => state.myBook);
-  const dispatch = useAppDispatch();
-
-  const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    dispatch(myBookActions.setMyBookComment(event.target.value));
-  }, []);
-
-  const onClick = () => {
-    dispatch(myBookActions.setInitialState());
-  };
-
-  const { colorHandler, themeHandler } = useThemeHook();
-
   return (
     <Container>
-      <Color />
-      <input value={comment} onChange={onChange} />
-      <button onClick={onClick}>reset</button>
-      <button onClick={themeHandler}>DarkMode</button>
-      <button onClick={themeHandler}>LightMode</button>
-      <button onClick={() => colorHandler('cyan')}>Cyan</button>
-      <button onClick={() => colorHandler('fuchsia')}>fuchsia</button>
+      <LogoWrapper>
+        <LogoMain />
+      </LogoWrapper>
+      <SubTitle>부담없이 기록하는 독서기록장</SubTitle>
+      <Title>책벌래</Title>
+      <LoaderWrapper>
+        <Loader size={2} />
+      </LoaderWrapper>
     </Container>
   );
 }
