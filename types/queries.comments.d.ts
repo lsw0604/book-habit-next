@@ -22,28 +22,20 @@ type CommentsItemType = {
     | '50대'
     | '60대 이상';
   gender: GenderType;
+  like_user_ids: { user_id: number }[];
+  reply_ids: { reply_id: number }[];
 };
-
-// useCommentsLikeListQuery의 타입들
-
-type CommentsLikeListQueryResponseType = {
-  comment_likes: CommentsLikeListType;
-};
-type CommentsLikeListType = CommentsLikeItemType[];
-type CommentsLikeItemType = {
-  users_id: number;
-};
-
-type CommentsLikeListRequestType = number;
 
 // useCommentsLikeMutation의 타입들
 
-type CommentsLikeMutationResponseType = MutationResponse;
+type CommentsLikeMutationResponseType = MutationResponse & { user_id: number };
 type CommentsLikeMutationRequestType = number;
 
 // useCommentsLikeDeleteMutation의 타입들
 
-type CommentsLikeDeleteMutationResponseType = MutationResponse;
+type CommentsLikeDeleteMutationResponseType = MutationResponse & {
+  user_id: number;
+};
 type CommentsLikeDeleteMutationRequestType = number;
 
 // useCommentsDetailQuery의 타입들
@@ -52,7 +44,9 @@ type CommentsDetailQueryResponseType = CommentsItemType;
 type CommentsDetailQueryRequestType = number;
 
 // useCommentsReplyMutation의 타입들
-type CommentsReplyMutationResponseType = MutationResponse;
+type CommentsReplyMutationResponseType = MutationResponse & {
+  reply_id: number;
+};
 type CommentsReplyMutationRequestType = {
   body: { reply: string };
   comment_id: number;
@@ -60,7 +54,7 @@ type CommentsReplyMutationRequestType = {
 
 // useCommentsReplyListQuery의 타입들
 type CommentsReplyListQueryResponseType = {
-  reply: CommentsReplyListQueryListType;
+  reply_list: CommentsReplyListQueryListType;
 };
 type CommentsReplyListQueryListType = CommentsReplyListQueryItemType[];
 type CommentsReplyListQueryItemType = {
@@ -74,5 +68,7 @@ type CommentsReplyListQueryItemType = {
 type CommentsReplyListQueryRequestType = number;
 
 // useCommentsReplyDeleteMutation의 타입들
-type CommentsReplyDeleteMutationResponseType = MutationResponse;
+type CommentsReplyDeleteMutationResponseType = MutationResponse & {
+  reply_id: number;
+};
 type CommentsReplyDeleteMutationRequestType = number;

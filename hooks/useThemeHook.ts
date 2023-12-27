@@ -1,5 +1,3 @@
-'use client';
-
 import { ColorType, SystemTheme } from 'types/style';
 import { dark, shadow, light, colors } from 'style/theme';
 import { RootState, useAppDispatch, useAppSelector } from 'store';

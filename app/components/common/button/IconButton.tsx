@@ -1,76 +1,91 @@
 'use client';
 
-import { ButtonHTMLAttributes, ReactNode, memo } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 import Loader from 'components/common/Loader';
 
 interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  icon?: JSX.Element;
+  icon: JSX.Element;
   children: ReactNode;
-  text?: boolean;
   isLoading?: boolean;
+  mode?: 'text' | 'nav';
 }
 
-const Container = styled.button<{ text: boolean }>`
-  width: 100%;
-  justify-content: center;
-  background-color: ${(props) =>
-    props.text
-      ? ({ theme }) => theme.colors.main
-      : ({ theme }) => theme.mode.main};
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 0.25rem;
-  display: inline-flex;
-  align-items: center;
-  &:hover:enabled {
-    background-color: ${(props) =>
-      props.text
-        ? ({ theme }) => theme.colors.sub
-        : ({ theme }) => theme.mode.sub};
+const backgroundColorHandler = (mode?: 'text' | 'nav') => {
+  switch (mode) {
+    case 'text':
+      return css`
+        background-color: ${({ theme }) => theme.mode.main};
+        &:hover {
+          background-color: ${({ theme }) => theme.mode.sub};
+        }
+      `;
+    case 'nav':
+      return css`
+        background-color: ${({ theme }) => theme.mode.nav};
+        &:hover {
+          background-color: ${({ theme }) => theme.mode.nav};
+        }
+      `;
+    default:
+      return css`
+        background-color: ${({ theme }) => theme.mode.sub};
+        &:hover {
+          background-color: ${({ theme }) => theme.mode.main};
+        }
+      `;
   }
-  &:disabled {
-    background-color: ${({ theme }) => theme.mode.sub};
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-`;
+};
 
-const Icon = styled.div`
-  margin-right: 12px;
-  svg {
-    width: 1rem;
-    height: 1rem;
-    fill: ${({ theme }) => theme.mode.typo_main};
+const Container = styled.button<{ mode?: 'text' | 'nav' }>`
+  border-radius: 9999px;
+  ${({ mode }) => backgroundColorHandler(mode)};
+  padding: 0.125rem;
+  color: ${({ theme }) => theme.mode.typo_sub};
+  border: none;
+  width: 32px;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+  &:focus {
+    outline: none;
   }
 `;
 
 const Span = styled.span`
-  font-weight: 700;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 1rem;
-  line-height: 1.2rem;
-  color: ${({ theme }) => theme.mode.typo_main};
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 `;
 
-function iconButton({ text, children, icon, isLoading, ...props }: IProps) {
+const IconWrapper = styled.div`
+  height: 18px;
+  svg {
+    height: 18px;
+    fill: ${({ theme }) => theme.mode.typo_sub};
+  }
+`;
+
+export default function IconButton({
+  isLoading,
+  mode,
+  icon,
+  children,
+  ...props
+}: IProps) {
   return (
-    <Container text={!text} {...props}>
-      {isLoading ? (
-        <>
-          <Loader />
-        </>
-      ) : (
-        <>
-          {icon && <Icon>{icon}</Icon>}
-          <Span>{children}</Span>
-        </>
-      )}
+    <Container mode={mode} {...props}>
+      {!isLoading ? icon && <IconWrapper>{icon}</IconWrapper> : <Loader />}
+      <Span>{children}</Span>
     </Container>
   );
 }
-
-const IconButton = memo(iconButton);
-
-export default IconButton;

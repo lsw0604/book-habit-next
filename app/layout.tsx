@@ -2,10 +2,12 @@
 
 import styled, { css } from 'styled-components';
 import { usePathname } from 'next/navigation';
+import { QueryClientProvider } from '@tanstack/react-query';
 
 import ReduxProvider from 'lib/ReduxProvider';
 import StyledComponentsRegistry from 'lib/StyledComponentsRegistry';
 import StyledComponentsThemeProvider from 'lib/StyledComponentsThemeProvider';
+import { queryClient } from 'queries';
 
 import '@fontsource/noto-sans-kr/700.css';
 
@@ -36,11 +38,13 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <ReduxProvider>
-          <StyledComponentsRegistry>
-            <StyledComponentsThemeProvider>
-              <Container $pathname={pathname}>{children}</Container>
-            </StyledComponentsThemeProvider>
-          </StyledComponentsRegistry>
+          <QueryClientProvider client={queryClient}>
+            <StyledComponentsRegistry>
+              <StyledComponentsThemeProvider>
+                <Container $pathname={pathname}>{children}</Container>
+              </StyledComponentsThemeProvider>
+            </StyledComponentsRegistry>
+          </QueryClientProvider>
         </ReduxProvider>
       </body>
     </html>
