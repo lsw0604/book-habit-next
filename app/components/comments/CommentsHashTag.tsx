@@ -24,7 +24,7 @@ const Container = styled.ul`
   scroll-snap-type: y mandatory;
 `;
 
-const Tag = styled.li<{ isOn: boolean }>`
+const Tag = styled.li<{ $isOn: boolean }>`
   scroll-snap-align: start;
   margin-left: 8px;
   line-height: 12px;
@@ -37,8 +37,8 @@ const Tag = styled.li<{ isOn: boolean }>`
   white-space: nowrap;
   overflow: hidden;
   cursor: pointer;
-  color: ${({ isOn }) =>
-    isOn ? ({ theme }) => theme.colors.spinner : customize.gray['400']};
+  color: ${({ $isOn }) =>
+    $isOn ? ({ theme }) => theme.colors.spinner : customize.gray['400']};
   box-shadow: ${({ theme }) => theme.shadow.md};
   background-color: ${({ theme }) => theme.mode.sub};
 `;
@@ -84,7 +84,7 @@ export default function CommentsHashTag({
   return (
     <Container>
       {hashTag.map((tag) => (
-        <Tag key={tag} onClick={() => filterHandler(tag)} isOn={isOn(tag)}>
+        <Tag key={tag} onClick={() => filterHandler(tag)} $isOn={isOn(tag)}>
           #&nbsp;{tag}
         </Tag>
       ))}

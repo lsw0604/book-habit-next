@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { usePathname } from 'next/navigation';
 import { QueryClientProvider } from '@tanstack/react-query';
 
+import Header from 'components/header';
 import ReduxProvider from 'lib/ReduxProvider';
 import StyledComponentsRegistry from 'lib/StyledComponentsRegistry';
 import StyledComponentsThemeProvider from 'lib/StyledComponentsThemeProvider';
@@ -41,6 +42,7 @@ export default function RootLayout({
           <QueryClientProvider client={queryClient}>
             <StyledComponentsRegistry>
               <StyledComponentsThemeProvider>
+                <Header />
                 <Container $pathname={pathname}>{children}</Container>
               </StyledComponentsThemeProvider>
             </StyledComponentsRegistry>

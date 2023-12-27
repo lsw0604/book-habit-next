@@ -15,6 +15,14 @@ const modal = createSlice({
     setModalType(state, action: PayloadAction<ModalComponentType>) {
       state.type = action.payload;
     },
+    setModalState(state, action: PayloadAction<{ type: ModalComponentType }>) {
+      state.type = action.payload.type;
+      state.isOpen = true;
+    },
+    setModalClose(state, _: PayloadAction) {
+      state = initialState;
+      return state;
+    },
   },
 });
 

@@ -30,14 +30,14 @@ const HeartNumber = styled.p`
   color: ${({ theme }) => theme.mode.typo_sub};
 `;
 
-const HeartIconWrapper = styled.div<{ isLiked?: boolean }>`
+const HeartIconWrapper = styled.div<{ $isLiked?: boolean }>`
   height: 100%;
   width: 1rem;
   cursor: pointer;
   svg {
     width: 100%;
-    fill: ${({ isLiked, theme }) =>
-      isLiked ? customize.rose['300'] : theme.mode.typo_sub};
+    fill: ${({ $isLiked, theme }) =>
+      $isLiked ? customize.rose['300'] : theme.mode.typo_sub};
   }
 `;
 
@@ -72,7 +72,7 @@ export default function CommentsHeart({ comment_id, like_user_ids }: IProps) {
 
   return (
     <Container>
-      <HeartIconWrapper isLiked={isLiked}>
+      <HeartIconWrapper $isLiked={isLiked}>
         {commentLikeMutationIsLoading || commentLikeDeleteMutationIsLoading ? (
           <Loader />
         ) : isLiked ? (
