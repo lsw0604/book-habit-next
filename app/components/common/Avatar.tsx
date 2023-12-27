@@ -2,11 +2,13 @@
 
 import styled from 'styled-components';
 import { v4 } from 'uuid';
-import Loader from './Loader';
+import Image from 'next/image';
+
+import Loader from 'components/common/Loader';
 
 interface IProps {
   size: string;
-  src?: string;
+  src: string;
   editProfile?: () => void;
   isLoading?: boolean;
 }
@@ -31,10 +33,7 @@ const ProfileWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  img {
-    width: 100%;
-    height: 100%;
-  }
+  position: relative;
 `;
 
 /**
@@ -45,7 +44,7 @@ export default function Avatar({ size, src, editProfile, isLoading }: IProps) {
     <Container size={size} onClick={editProfile}>
       <ProfileWrapper>
         {!isLoading ? (
-          <img key={`profile/${v4()}`} src={src} alt={src} />
+          <Image key={`profile/${v4()}`} src={src} alt={src} fill />
         ) : (
           <Loader />
         )}

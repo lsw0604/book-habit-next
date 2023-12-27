@@ -1,7 +1,8 @@
-import { RootState, useAppDispatch, useAppSelector } from '@/app/store';
-import { toastActions } from '@/app/store/toast';
 import { useEffect } from 'react';
 import { v4 } from 'uuid';
+
+import { RootState, useAppDispatch, useAppSelector } from 'store';
+import { toastActions } from 'store/toast';
 
 export default function useToastHook() {
   const dispatch = useAppDispatch();

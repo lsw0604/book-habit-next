@@ -13,6 +13,9 @@ const nextConfig = {
     });
     return config;
   },
+  images: {
+    domains: ['pic.lsw0604.store'],
+  },
 };
 
 module.exports = nextConfig;
