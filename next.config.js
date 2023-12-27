@@ -14,7 +14,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['pic.lsw0604.store'],
+    domains: ['pic.lsw0604.store', 'search1.kakaocdn.net'],
   },
 };
 

@@ -2,6 +2,7 @@
 
 import { useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 import styled from 'styled-components';
 
 import { RootState, useAppDispatch, useAppSelector } from 'store';

@@ -20,41 +20,10 @@ const searchBookRegister = createSlice({
       state,
       action: PayloadAction<RootSearchBookRegisterType>
     ) {
-      state = action.payload;
-    },
-    setSearchBookRegisterThumbnail(
-      state,
-      action: PayloadAction<string | undefined>
-    ) {
-      state.thumbnail = action.payload;
-    },
-    setSearchBookRegisterStatus(state, action: PayloadAction<string>) {
-      state.status = action.payload;
-    },
-    setSearchBookRegisterISBN(state, action: PayloadAction<string>) {
-      state.isbn = action.payload;
-    },
-    setSearchBookRegisterPrice(state, action: PayloadAction<number>) {
-      state.price = action.payload;
-    },
-    setSearchBookRegisterPublisher(state, action: PayloadAction<string>) {
-      state.publisher = action.payload;
-    },
-    setSearchBookRegisterAuthors(state, action: PayloadAction<string[]>) {
-      state.authors = action.payload;
-    },
-    setSearchBookRegisterContents(state, action: PayloadAction<string>) {
-      state.contents = action.payload;
-    },
-    setSearchBookRegisterURL(state, action: PayloadAction<string>) {
-      state.url = action.payload;
-    },
-    setSearchBookRegisterTitle(state, action: PayloadAction<string>) {
-      state.title = action.payload;
+      Object.assign(state, action.payload);
     },
     setSearchBookInitialState(state, _: PayloadAction) {
-      state = initialState;
-      return state;
+      Object.assign(state, initialState);
     },
   },
 });
