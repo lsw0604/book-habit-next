@@ -6,6 +6,8 @@ import { QueryClientProvider } from '@tanstack/react-query';
 
 import Header from 'components/header';
 import NavigationBar from 'components/bottom';
+import ModalPortal from 'components/modal/ModalPortal';
+import Modal from 'components/modal';
 import ReduxProvider from 'lib/ReduxProvider';
 import StyledComponentsRegistry from 'lib/StyledComponentsRegistry';
 import StyledComponentsThemeProvider from 'lib/StyledComponentsThemeProvider';
@@ -46,6 +48,10 @@ export default function RootLayout({
                 <Header />
                 <Container $pathname={pathname}>{children}</Container>
                 <NavigationBar />
+                <ModalPortal>
+                  <Modal />
+                </ModalPortal>
+                <div id="root-modal" />
               </StyledComponentsThemeProvider>
             </StyledComponentsRegistry>
           </QueryClientProvider>

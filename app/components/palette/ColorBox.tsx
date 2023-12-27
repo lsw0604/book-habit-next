@@ -1,104 +1,75 @@
-'use client';
+import { useState, useCallback } from 'react';
+import styled from 'styled-components';
 
-import styled, { css } from 'styled-components';
-
-import Toggle from 'components/common/Toggle';
-import HeaderPaletteColorBox from 'components/palette/ColorBox';
-import { ColorType } from 'types/style';
-import { customize } from 'style/colors';
-import { IconCloudyParty, IconSunny } from 'style/icon';
 import useThemeHook from '@/hooks/useThemeHook';
-
-const ThemeCSS = css`
-  margin-bottom: 10px;
-`;
-
-const ColorCSS = css`
-  display: flex;
-  flex-direction: column;
-`;
+import { customize } from 'style/colors';
+import { ColorType } from 'types/style';
 
 const Container = styled.div`
-  position: absolute;
-  bottom: 5rem;
-  z-index: 9999;
   display: flex;
-  padding: 0.1rem;
-  margin-top: 0.8rem;
-  flex-direction: column;
-  width: 10rem;
-  height: auto;
-  border-width: 1px;
-  border-color: ${customize.gray['100']};
-  border-radius: 0.5rem;
-  background-color: ${({ theme }) => theme.mode.main};
-  box-shadow: ${({ theme }) => theme.shadow.xl};
-`;
-
-const Ul = styled.ul`
-  width: 100%;
-  height: 100%;
-  padding: 5px;
-`;
-
-const Li = styled.li<{ mode: 'theme' | 'color' }>`
-  border-radius: 0.5rem;
-  padding: 10px;
-  width: 100%;
-  height: auto;
-  color: ${({ theme }) => theme.mode.typo_sub};
-  display: inline-flex;
   justify-content: space-between;
-  align-items: center;
-  ${({ mode }) => mode === 'theme' && ThemeCSS}
-  ${({ mode }) => mode === 'color' && ColorCSS}
-`;
-
-const Label = styled.label`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
   width: 100%;
+  margin-top: 12px;
 `;
 
-const ColorButton = styled.div<{ $btnColor: ColorType }>`
+const ColorButtonsList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const ColorButton = styled.button<{
+  $btnColor: ColorType;
+}>`
   width: 1.5rem;
   height: 1.5rem;
   outline: 0;
   border-radius: 50%;
   margin: 3px;
-  background-color: ${({ $btnColor }) => customize[$btnColor]['400']};
+  background-color: ${({ $btnColor }) => customize[`${$btnColor}`][400]};
   border: 0;
   justify-content: center;
   align-items: center;
 `;
 
-const ICONS = [
-  <IconSunny key="sunny" style={{ fill: customize.yellow['300'] }} />,
-  <IconCloudyParty key="cloudy" style={{ fill: customize.yellow['300'] }} />,
-];
+export default function ColorBox() {
+  const [colors, setColors] = useState<ColorType[]>([
+    'lime',
+    'rose',
+    'sky',
+    'teal',
+    'yellow',
+    'fuchsia',
+    'orange',
+    'gray',
+  ]);
+  const { colorHandler, color } = useThemeHook();
 
-export default function Index() {
-  const { isOn, themeHandler, colorMode } = useThemeHook();
+  const handleColors = useCallback(
+    (color: ColorType) => {
+      colorHandler(color);
+      setColors((prev) => {
+        if (!prev.includes(color)) {
+          return [...prev, color];
+        }
+        return prev;
+      });
+    },
+    [color, colorHandler]
+  );
 
   return (
     <Container>
-      <Ul>
-        <Li mode="theme">
-          <Label>
-            <span>테마</span>
-            <Toggle isOn={isOn} toggleHandler={themeHandler} icons={ICONS} />
-          </Label>
-        </Li>
-        <Li mode="color">
-          <Label>
-            <span>색상</span>
-            <ColorButton $btnColor={colorMode as ColorType} />
-          </Label>
-          <HeaderPaletteColorBox />
-        </Li>
-      </Ul>
+      <ColorButtonsList>
+        {colors.map((color) => (
+          <ColorButton
+            key={color}
+            type="button"
+            $btnColor={color}
+            onClick={() => handleColors(color)}
+          />
+        ))}
+      </ColorButtonsList>
     </Container>
   );
 }

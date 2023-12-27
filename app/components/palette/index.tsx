@@ -80,7 +80,7 @@ const ICONS = [
 ];
 
 export default function Palette() {
-  const { isOn, themeHandler, colorMode } = useThemeHook();
+  const { isOn, themeHandler, color } = useThemeHook();
 
   return (
     <Container>
@@ -94,7 +94,7 @@ export default function Palette() {
         <Li mode="color">
           <Label>
             <span>색상</span>
-            <ColorButton $btnColor={colorMode as ColorType} />
+            <ColorButton $btnColor={color as ColorType} />
           </Label>
           <ColorBox />
         </Li>

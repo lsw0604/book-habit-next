@@ -66,7 +66,7 @@ export default function useThemeHook() {
   }, []);
 
   return {
-    colorMode,
+    color: colorMode,
     theme,
     isOn,
     colorHandler,
