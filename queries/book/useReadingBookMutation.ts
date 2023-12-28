@@ -1,20 +1,19 @@
 import { useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { useSetRecoilState } from 'recoil';
 import { AxiosError } from 'axios';
 
+import useToastHook from '@/hooks/useToastHook';
 import { readingBookRegisterAPI } from 'lib/api/book';
-import useToastHook from '@hooks/useToastHook';
-import { modalAtom } from 'recoil/modal';
-import useBookRegisterModalHook from '@hooks/useBookRegisterModalHook';
+import { useAppDispatch } from 'store';
+import { modalActions } from 'store/modal';
+import { bookRegisterActions } from 'store/bookRegister';
 import { queriesKey, queryClient } from 'queries';
 
 const { book, myBook } = queriesKey;
 
 export default function useReadingBookMutation() {
-  const setModalState = useSetRecoilState(modalAtom);
+  const dispatch = useAppDispatch();
   const { addToast } = useToastHook();
-  const { setBookRegisterModalState } = useBookRegisterModalHook();
 
   const { mutate, isLoading, isSuccess, data, isError, error } = useMutation<
     ReadingBookMutationResponseType,
@@ -35,12 +34,9 @@ export default function useReadingBookMutation() {
     if (isSuccess && data) {
       const { message, status } = data;
       addToast({ message, status });
-      setBookRegisterModalState({
-        startDate: null,
-        useValidate: false,
-        endDate: null,
-      });
-      setModalState({ isOpen: false });
+
+      dispatch(bookRegisterActions.setBookRegisterInitialState());
+      dispatch(modalActions.setModalClose());
     }
   }, [isSuccess, data]);
 

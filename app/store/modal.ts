@@ -20,8 +20,7 @@ const modal = createSlice({
       state.isOpen = true;
     },
     setModalClose(state, _: PayloadAction) {
-      state = initialState;
-      return state;
+      Object.assign(state, initialState);
     },
   },
 });

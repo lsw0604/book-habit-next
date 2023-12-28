@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useQueries } from '@tanstack/react-query';
 
-import useToastHook from '@hooks/useToastHook';
+import useToastHook from '@/hooks/useToastHook';
 import {
   myBookHistoryAPI,
   myBookInfoAPI,

@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
 import { myBookListAPI } from 'lib/api/myBook';
-import useToastHook from '@hooks/useToastHook';
+import useToastHook from '@/hooks/useToastHook';
 import { queriesKey } from 'queries';
 
 const { useMyBookListInfinityQueryKey } = queriesKey.myBook;

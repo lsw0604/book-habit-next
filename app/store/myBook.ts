@@ -16,6 +16,9 @@ const myBook = createSlice({
   name: 'my_book',
   initialState,
   reducers: {
+    setMyBookState(state, action: PayloadAction<RootMyBookType>) {
+      Object.assign(state, action.payload);
+    },
     setMyBookDate(state, action: PayloadAction<Date | null>) {
       state.date = action.payload;
     },
@@ -46,8 +49,7 @@ const myBook = createSlice({
       return state;
     },
     setInitialState(state, _: PayloadAction) {
-      state = initialState;
-      return state;
+      Object.assign(state, initialState);
     },
   },
 });

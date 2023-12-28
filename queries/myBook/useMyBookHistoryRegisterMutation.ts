@@ -2,11 +2,12 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
-import useToastHook from '@hooks/useToastHook';
-import useMyBookHook from '@hooks/useMyBookHook';
-import useModalHook from '@hooks/useModalHook';
+import useToastHook from '@/hooks/useToastHook';
 import { myBookHistoryRegisterAPI } from 'lib/api/myBook';
 import { queriesKey, queryClient } from 'queries';
+import { useAppDispatch } from '@/app/store';
+import { modalActions } from '@/app/store/modal';
+import { myBookActions } from '@/app/store/myBook';
 
 const {
   useMyBookHistoryRegisterMutationKey,
@@ -18,8 +19,7 @@ export default function useMyBookHistoryRegisterMutation(
   users_books_id: number
 ) {
   const { addToast } = useToastHook();
-  const { onChangeMyBookStateInitial } = useMyBookHook();
-  const { setModalState } = useModalHook();
+  const dispatch = useAppDispatch();
 
   const { mutate, isLoading, isSuccess, data, isError, error } = useMutation<
     MyBookHistoryMutationResponseType,
@@ -42,9 +42,10 @@ export default function useMyBookHistoryRegisterMutation(
   useEffect(() => {
     if (isSuccess && data) {
       const { message, status } = data;
+
       addToast({ message, status });
-      setModalState({ isOpen: false, type: undefined });
-      onChangeMyBookStateInitial();
+      dispatch(modalActions.setModalClose());
+      dispatch(myBookActions.setInitialState());
     }
   }, [isSuccess, data]);
 

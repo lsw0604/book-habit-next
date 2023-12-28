@@ -2,18 +2,19 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
-import useToastHook from '@hooks/useToastHook';
-import useMyBookHook from '@hooks/useMyBookHook';
+import useToastHook from '@/hooks/useToastHook';
 import { myBookCommentsRegisterAPI } from 'lib/api/myBook';
 import { queriesKey, queryClient } from 'queries';
+import { useAppDispatch } from '@/app/store';
+import { myBookActions } from '@/app/store/myBook';
 
 const { comments, myBook } = queriesKey;
 
 export default function useMyBookCommentRegisterMutation(
   users_books_id: number
 ) {
+  const dispatch = useAppDispatch();
   const { addToast } = useToastHook();
-  const { onChangeMyBookStateInitial } = useMyBookHook();
 
   const { isLoading, mutate, isSuccess, data, isError, error } = useMutation<
     MyBookCommentMutationResponseType,
@@ -38,7 +39,7 @@ export default function useMyBookCommentRegisterMutation(
     if (isSuccess && data) {
       const { status, message } = data;
       addToast({ status, message });
-      onChangeMyBookStateInitial();
+      dispatch(myBookActions.setInitialState());
     }
   }, [isSuccess, data]);
 

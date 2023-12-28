@@ -11,6 +11,7 @@ import useCommentsFilterHook from '@/hooks/useCommentsFilterHook';
 
 interface IProps {
   children: JSX.Element;
+  comments: CommentsListType;
 }
 
 const Container = styled.div`
@@ -34,15 +35,13 @@ const Header = styled.div`
   margin-bottom: 1rem;
 `;
 
-export default function CommentsFilterProvider({ children }: IProps) {
+export default function CommentsFilterProvider({ children, comments }: IProps) {
   const { filter, addFilter, removeFilter } = useCommentsFilterHook();
-  const { data, isFetching, isLoading } = useCommentsListQuery(filter);
+  // const { data, isFetching, isLoading } = useCommentsListQuery(filter);
 
-  if (!data) return null;
+  // if (!data) return null;
 
-  const { comments } = data;
-
-  if (comments.length === 0) return <CommentsEmpty />;
+  // if (comments.length === 0) return <CommentsEmpty />;
 
   return (
     <Container>
@@ -55,8 +54,8 @@ export default function CommentsFilterProvider({ children }: IProps) {
         />
       </Header>
       <CommentsList
-        isFetching={isFetching}
-        isLoading={isLoading}
+        // isFetching={isFetching}
+        // isLoading={isLoading}
         comments={comments}
       />
     </Container>

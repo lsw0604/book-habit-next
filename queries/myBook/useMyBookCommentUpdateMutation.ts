@@ -2,19 +2,19 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
-import useToastHook from '@hooks/useToastHook';
-import useModalHook from '@hooks/useModalHook';
-import useMyBookHook from '@hooks/useMyBookHook';
+import useToastHook from '@/hooks/useToastHook';
 import { myBookCommentUpdateAPI } from 'lib/api/myBook';
 import { queriesKey, queryClient } from 'queries';
+import { useAppDispatch } from 'store';
+import { modalActions } from 'store/modal';
+import { myBookActions } from 'store/myBook';
 
 const { useMyBookCommentUpdateMutationKey, useMyBookCommentListQueryKey } =
   queriesKey.myBook;
 
 export default function useMyBookCommentUpdateMutation() {
+  const dispatch = useAppDispatch();
   const { addToast } = useToastHook();
-  const { setModalState } = useModalHook();
-  const { onChangeMyBookStateInitial } = useMyBookHook();
 
   const { mutate, isLoading, data, isSuccess, isError, error } = useMutation<
     MyBookCommentUpdateMutationResponseType,
@@ -29,9 +29,10 @@ export default function useMyBookCommentUpdateMutation() {
   useEffect(() => {
     if (isSuccess && data) {
       const { message, status } = data;
-      setModalState({ isOpen: false, type: undefined });
+
       addToast({ message, status });
-      onChangeMyBookStateInitial();
+      dispatch(modalActions.setModalClose());
+      dispatch(myBookActions.setInitialState());
     }
   }, [isSuccess, data]);
 

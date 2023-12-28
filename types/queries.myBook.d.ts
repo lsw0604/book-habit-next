@@ -22,7 +22,7 @@ type MyBookCommentQueryRequestType = number;
 
 // useMyBookCommentDeleteMutation의 타입들
 type MyBookCommentDeleteMutationResponseType = MutationResponse;
-type MyBOokCommentDeleteMutationRequestType = number;
+type MyBookCommentDeleteMutationRequestType = number;
 
 // useMyBookHistoryDeleteMutation의 타입들
 type MyBookHistoryDeleteMutationResponseType = MutationResponse;

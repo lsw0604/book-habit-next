@@ -1,17 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { AxiosError } from 'axios';
 
 import { signUpAPI } from 'lib/api/auth';
-import useToastHook from '@hooks/useToastHook';
+import useToastHook from '@/hooks/useToastHook';
 import { queriesKey } from 'queries';
 
 const { useLocalRegisterMutationKey } = queriesKey.local;
 
 export default function useLocalRegisterMutation() {
   const { addToast } = useToastHook();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const { isLoading, mutate, data, isSuccess, isError, error } = useMutation<
     LocalSignUpMutationResponseType,
@@ -24,7 +24,7 @@ export default function useLocalRegisterMutation() {
       const { message, status } = data;
       addToast({ message, status });
       if (data.message === '회원가입에 성공 하셨습니다.') {
-        navigate('/search');
+        router.push('/search');
       }
     }
   }, [isSuccess, data]);

@@ -17,6 +17,9 @@ const user = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setUserState(state, action: PayloadAction<RootUserType>) {
+      Object.assign(state, action.payload);
+    },
     setUserId(state, action: PayloadAction<number>) {
       state.id = action.payload;
     },

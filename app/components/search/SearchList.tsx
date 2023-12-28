@@ -51,6 +51,7 @@ export default function SearchList() {
     searchParams.get('keyword') !== null ? searchParams.get('keyword') : null;
 
   const lastSearchRef = useRef<HTMLDivElement>(null);
+
   if (keyword === null) return null;
   // <SearchSkeleton search={keyword} />;
 

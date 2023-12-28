@@ -2,16 +2,17 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
+import useToastHook from '@/hooks/useToastHook';
 import { loginAPI } from 'lib/api/auth';
-import useToastHook from '@hooks/useToastHook';
-import useUserStateHook from '@hooks/useUserStateHook';
+import { useAppDispatch } from 'store';
+import { userActions } from 'store/user';
 import { queriesKey } from 'queries';
 
 const { useLocalLoginMutationKey } = queriesKey.local;
 
 export default function useLocalLoginMutation() {
+  const dispatch = useAppDispatch();
   const { addToast } = useToastHook();
-  const { setUserState } = useUserStateHook();
   const { isLoading, data, mutate, isSuccess, isError, error } = useMutation<
     LocalLoginMutationResponseType,
     AxiosError<{ message: string; status: StatusType }>,
@@ -20,29 +21,10 @@ export default function useLocalLoginMutation() {
 
   useEffect(() => {
     if (isSuccess && data) {
-      const {
-        id,
-        email,
-        access_jwt,
-        age,
-        gender,
-        message,
-        name,
-        provider,
-        status,
-        profile,
-      } = data;
+      const { message, status, access_jwt, ...rest } = data;
       window.localStorage.setItem('ACCESS', access_jwt);
-      setUserState({
-        age,
-        id,
-        email,
-        gender,
-        name,
-        provider,
-        isLogged: true,
-        profile,
-      });
+      dispatch(userActions.setUserState({ ...rest, isLogged: true }));
+
       addToast({ message, status });
     }
   }, [isSuccess, data]);

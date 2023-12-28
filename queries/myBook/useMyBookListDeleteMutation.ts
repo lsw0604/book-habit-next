@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
-import useToastHook from '@hooks/useToastHook';
+import useToastHook from '@/hooks/useToastHook';
 import { myBookListDeleteAPI } from 'lib/api/myBook';
 import { queriesKey, queryClient } from 'queries';
 import useMyBookListInfinityQuery from './useMyBookListInfinityQuery';
@@ -13,7 +13,7 @@ const { myBook, comments } = queriesKey;
 export default function useMyBookListDeleteMutation(
   users_books_id: MyBookListDeleteMutationRequestType
 ) {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { addToast } = useToastHook();
   const { refetch } = useMyBookListInfinityQuery('전체보기');
 
@@ -41,7 +41,7 @@ export default function useMyBookListDeleteMutation(
     if (isSuccess && data) {
       const { message, status } = data;
       addToast({ status, message });
-      navigate('/my_books');
+      router.push('/my_books');
     }
   }, [isSuccess, data]);
 

@@ -3,15 +3,16 @@ import { useEffect } from 'react';
 import { AxiosError } from 'axios';
 
 import { kakaoCallbackAPI } from 'lib/api/auth';
-import useToastHook from '@hooks/useToastHook';
-import useUserStateHook from '@hooks/useUserStateHook';
+import useToastHook from '@/hooks/useToastHook';
 import { queriesKey, queryClient } from 'queries';
+import { useAppDispatch } from '@/app/store';
+import { userActions } from '@/app/store/user';
 
 const { useKakaoCallbackQueryKey } = queriesKey.kakao;
 
 export default function useKakaoCallbackQuery(code: string) {
+  const dispatch = useAppDispatch();
   const { addToast } = useToastHook();
-  const { setUserState } = useUserStateHook();
 
   const { isLoading, data, isSuccess, isError, error, refetch } = useQuery<
     KakaoCallbackQueryResponseType,
@@ -28,7 +29,7 @@ export default function useKakaoCallbackQuery(code: string) {
     if (isSuccess && data) {
       const { message, status, access_jwt } = data;
       window.localStorage.setItem('ACCESS', access_jwt);
-      setUserState({ ...data, isLogged: true });
+      dispatch(userActions.setUserInitialState());
       addToast({ message, status });
     }
   }, [isSuccess, data]);

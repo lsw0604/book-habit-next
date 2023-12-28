@@ -7,8 +7,8 @@ import CommentLoading from 'components/comments/CommentsLoading';
 
 interface IProps {
   comments: CommentsListType;
-  isLoading: boolean;
-  isFetching: boolean;
+  // isLoading: boolean;
+  // isFetching: boolean;
 }
 
 const Container = styled.ul`
@@ -24,10 +24,10 @@ const Container = styled.ul`
 
 export default function CommentsList({
   comments,
-  isLoading,
-  isFetching,
-}: IProps) {
-  if (isLoading || isFetching) return <CommentLoading height="100%" />;
+}: // isLoading,
+// isFetching,
+IProps) {
+  // if (isLoading || isFetching) return <CommentLoading height="100%" />;
 
   return (
     <Container>
