@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ColorType, SystemTheme } from '@/types/style';
-
 const initialState: RootUserType = {
   id: 0,
   email: '',

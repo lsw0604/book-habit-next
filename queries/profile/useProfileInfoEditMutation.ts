@@ -1,20 +1,19 @@
 import { useMutation } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { AxiosError } from 'axios';
-import { useSetRecoilState } from 'recoil';
 
-import useToastHook from '@hooks/useToastHook';
-import { userAtom } from 'recoil/user';
-import { modalAtom } from 'recoil/modal';
+import useToastHook from '@/hooks/useToastHook';
 import { profileInfoUpdateAPI } from 'lib/api/auth';
 import { queriesKey } from 'queries';
+import { useAppDispatch } from '@/app/store';
+import { modalActions } from '@/app/store/modal';
+import { userActions } from '@/app/store/user';
 
 const { useProfileInfoEditMutationKey } = queriesKey.profile;
 
 export default function useProfileInfoEditMutation() {
+  const dispatch = useAppDispatch();
   const { addToast } = useToastHook();
-  const setUserState = useSetRecoilState(userAtom);
-  const setModalState = useSetRecoilState(modalAtom);
 
   const { mutate, isLoading, isError, isSuccess, data, error } = useMutation<
     ProfileInfoEditMutationResponseType,
@@ -27,13 +26,10 @@ export default function useProfileInfoEditMutation() {
       const { message, status, name, age, gender } = data;
 
       addToast({ message, status });
-      setUserState((prev: UserAtomType) => ({
-        ...prev,
-        name,
-        age,
-        gender,
-      }));
-      setModalState({ isOpen: false, type: undefined });
+      dispatch(userActions.setUserName(name));
+      dispatch(userActions.setUserAge(age));
+      dispatch(userActions.setUserGender(gender));
+      dispatch(modalActions.setModalClose());
     }
   }, [isSuccess, data]);
 

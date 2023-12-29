@@ -1,18 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
-import { useSetRecoilState } from 'recoil';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
-import { userAtom } from 'recoil/user';
-import useToastHook from '@hooks/useToastHook';
+import useToastHook from '@/hooks/useToastHook';
 import { profileUpdateAPI } from 'lib/api/auth';
 import { queriesKey } from 'queries';
+import { useAppDispatch } from '@/app/store';
+import { userActions } from '@/app/store/user';
 
 const { useProfileEditMutationKey } = queriesKey.profile;
 
 export default function useProfileEditMutation() {
+  const dispatch = useAppDispatch();
   const { addToast } = useToastHook();
-  const setUserState = useSetRecoilState(userAtom);
 
   const { mutate, isLoading, isError, isSuccess, data, error } = useMutation<
     ProfileEditMutationResponseType,
@@ -24,10 +24,7 @@ export default function useProfileEditMutation() {
     if (isSuccess && data) {
       const { message, status, profile } = data;
       addToast({ message, status });
-      setUserState((prev: UserAtomType) => ({
-        ...prev,
-        profile,
-      }));
+      dispatch(userActions.setUserProfile(profile));
     }
   }, [isSuccess, data]);
 

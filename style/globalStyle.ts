@@ -1,9 +1,18 @@
 import { createGlobalStyle, css } from 'styled-components';
 
 const globalStyle = css`
+  @font-face {
+    font-family: 'Noto Sans KR';
+    font-weight: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/noto-sans-kr.woff') format('woff'),
+      url('/fonts/noto-sans-kr.woff2') format('woff');
+  }
+
   body {
     font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 700;
+    font-weight: 400;
   }
 
   *,

@@ -9,7 +9,7 @@ import { IconRefresh } from 'style/icon';
 import { queriesKey, queryClient } from 'queries';
 
 interface IProps {
-  // refetch: () => void;
+  refetch: () => void;
 }
 
 const Container = styled.div`
@@ -30,8 +30,7 @@ const Time = styled.p`
 
 const { useCommentsListQueryKey } = queriesKey.comments;
 
-export default function CommentsTimer() {
-  // { refetch }: IProps
+export default function CommentsTimer({ refetch }: IProps) {
   const [second, setSecond] = useState<number>(59);
   const [minute, setMinute] = useState<number>(2);
 
@@ -41,7 +40,7 @@ export default function CommentsTimer() {
     queryClient.invalidateQueries({
       queryKey: [useCommentsListQueryKey],
     });
-    // refetch();
+    refetch();
   };
 
   useEffect(() => {

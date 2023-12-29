@@ -13,8 +13,6 @@ import StyledComponentsRegistry from 'lib/StyledComponentsRegistry';
 import StyledComponentsThemeProvider from 'lib/StyledComponentsThemeProvider';
 import { queryClient } from 'queries';
 
-import '@fontsource/noto-sans-kr/700.css';
-
 const LayoutCSS = css`
   padding: 4rem 0rem;
   @media screen and (min-width: 768ox) {
