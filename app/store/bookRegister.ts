@@ -3,25 +3,27 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const initialState: RootBookRegisterType = {
   endDate: null,
   startDate: null,
-  useValidate: false,
+  useValidation: false,
 };
 
 const bookRegister = createSlice({
   name: 'book_register',
   initialState,
   reducers: {
-    setBookRegisterEndDate(state, action: PayloadAction<Date>) {
+    setBookRegisterState(state, action: PayloadAction<RootBookRegisterType>) {
+      Object.assign(state, action.payload);
+    },
+    setBookRegisterEndDate(state, action: PayloadAction<Date | null>) {
       state.endDate = action.payload;
     },
-    setBookRegisterStartDate(state, action: PayloadAction<Date>) {
+    setBookRegisterStartDate(state, action: PayloadAction<Date | null>) {
       state.startDate = action.payload;
     },
     setBookRegisterUseValidate(state, action: PayloadAction<boolean>) {
-      state.useValidate = action.payload;
+      state.useValidation = action.payload;
     },
     setBookRegisterInitialState(state, _: PayloadAction) {
-      state = initialState;
-      return state;
+      Object.assign(state, initialState);
     },
   },
 });

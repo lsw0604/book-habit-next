@@ -48,3 +48,7 @@ interface IBottomSheetEndDate
 interface IBottomSheet {
   useValidation: boolean;
 }
+
+interface IBottomDateSelector {
+  errorMessage?: string;
+}

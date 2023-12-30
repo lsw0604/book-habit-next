@@ -1,5 +1,5 @@
 type RootBookRegisterType = {
   startDate: Date | null;
   endDate: Date | null;
-  useValidate: boolean;
+  useValidation: boolean;
 };
