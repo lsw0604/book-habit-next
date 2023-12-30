@@ -7,8 +7,8 @@ import { v4 } from 'uuid';
 
 import Observer from 'components/common/Observer';
 import SearchItem from 'components/search/SearchItem';
-// import SearchLoader from 'components/Search/SearchLoader';
-// import SearchSkeleton from 'components/Search/SearchSkeleton';
+import SearchLoader from 'components/search/SearchLoader';
+import SearchSkeleton from 'components/search/SearchSkeleton';
 import useBookSearchInfinityQuery from 'queries/book/useBookSearchInfinityQuery';
 
 const Container = styled.div`
@@ -47,21 +47,22 @@ const Page = styled.div`
 export default function SearchList() {
   const searchParams = useSearchParams();
 
+  console.log(searchParams.get('keyword'));
+
   const keyword =
     searchParams.get('keyword') !== null ? searchParams.get('keyword') : null;
 
   const lastSearchRef = useRef<HTMLDivElement>(null);
 
-  if (keyword === null) return null;
-  // <SearchSkeleton search={keyword} />;
+  if (keyword === null) return <SearchSkeleton search={keyword} />;
 
   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
     useBookSearchInfinityQuery(keyword);
 
-  // if (!data || isLoading) return <SearchLoader />;
+  if (!data || isLoading) return <SearchLoader />;
 
-  // if (data?.pages[0].documents.length === 0)
-  //   return <SearchSkeleton search={keyword} />;
+  if (data?.pages[0].documents.length === 0)
+    return <SearchSkeleton search={keyword} />;
 
   return (
     <Container>
