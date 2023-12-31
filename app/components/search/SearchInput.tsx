@@ -44,7 +44,8 @@ export default function SearchInput() {
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    router.push(`?keyword=${encodeURIComponent(keyword)}`);
+    if (keyword !== '')
+      return router.push(`?keyword=${encodeURIComponent(keyword)}`);
   };
 
   return (

@@ -45,19 +45,19 @@ const Page = styled.div`
 `;
 
 export default function SearchList() {
-  const searchParams = useSearchParams();
-
-  console.log(searchParams.get('keyword'));
-
-  const keyword =
-    searchParams.get('keyword') !== null ? searchParams.get('keyword') : null;
-
   const lastSearchRef = useRef<HTMLDivElement>(null);
 
-  if (keyword === null) return <SearchSkeleton search={keyword} />;
+  const searchParams = useSearchParams();
+
+  const keyword =
+    searchParams.get('keyword') !== null
+      ? (searchParams.get('keyword') as string)
+      : undefined;
 
   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
     useBookSearchInfinityQuery(keyword);
+
+  if (keyword === undefined) return <SearchSkeleton search={keyword} />;
 
   if (!data || isLoading) return <SearchLoader />;
 

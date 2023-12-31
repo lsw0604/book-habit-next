@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 
 interface IProps {
-  search: string | null;
+  search?: string;
 }
 
 const Container = styled.div`
@@ -23,13 +23,13 @@ const BackGround = styled.div`
   align-items: center;
 `;
 
-const Message = styled.span`
+const Message = styled.p`
   font-size: 20px;
   line-height: 24px;
   color: ${({ theme }) => theme.mode.typo_sub};
 `;
 
-const HighLight = styled.p`
+const HighLight = styled.span`
   font-size: 24px;
   line-height: 28px;
   color: ${({ theme }) => theme.colors.sub};
@@ -39,13 +39,12 @@ export default function SearchSkeleton({ search }: IProps) {
   return (
     <Container>
       <BackGround>
-        {search !== '' ? (
+        {search && (
           <Message>
-            <HighLight>{search}</HighLight>에 대한 <br /> 검색 결과가 없습니다.
+            <HighLight>{search}</HighLight>에 대한 검색 결과가 없습니다.
           </Message>
-        ) : (
-          <Message>책 제목을 검색해주세요.</Message>
         )}
+        {!search && <Message>책 제목을 검색해주세요.</Message>}
       </BackGround>
     </Container>
   );
