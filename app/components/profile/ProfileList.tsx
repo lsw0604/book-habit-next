@@ -3,11 +3,11 @@
 import { useState, memo } from 'react';
 import styled from 'styled-components';
 
-import { IconCommentDots, IconHeart } from '@style/icons';
+import { IconCommentDots, IconHeart } from 'style/icon';
 import { RadioGroupOptionType } from 'types/style';
-import RadioButton from 'components/common/Radio/RadioButton';
-import ProfileLikeList from 'components/Profile/ProfileLikeList';
-import ProfileReplyList from 'components/Profile/ProfileReplyList';
+import RadioButton from 'components/common/radio/RadioButton';
+import ProfileLikeList from 'components/profile/ProfileLikeList';
+import ProfileReplyList from 'components/profile/ProfileReplyList';
 
 const Container = styled.div`
   width: 100%;

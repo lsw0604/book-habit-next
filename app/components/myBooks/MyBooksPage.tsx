@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import MyBooksItem from 'components/myBooks/myBooksItem';
+import MyBooksItem from 'components/myBooks/MyBooksItem';
 
 interface IProps {
   page: MyBookListInfinityQueryResponseType;

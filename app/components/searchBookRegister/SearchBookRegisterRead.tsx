@@ -30,17 +30,9 @@ const Box = styled.div`
 
 export default function Read() {
   const dispatch = useAppDispatch();
-  const { endDate, startDate, useValidation } = useAppSelector(
+  const { endDate, startDate } = useAppSelector(
     (state: RootState) => state.bookRegister
   );
-
-  const onChangeStartDate = useCallback((date: Date | null) => {
-    dispatch(bookRegisterActions.setBookRegisterStartDate(date));
-  }, []);
-
-  const onChangeEndDate = useCallback((date: Date | null) => {
-    dispatch(bookRegisterActions.setBookRegisterEndDate(date));
-  }, []);
 
   useEffect(() => {
     dispatch(bookRegisterActions.setBookRegisterInitialState());
@@ -64,10 +56,10 @@ export default function Read() {
     >
       <Box>
         <Stack>
-          <StartDate isValid={!startDate} errorMessage="날짜를 입력해주세요." />
+          <StartDate errorMessage="날짜를 입력해주세요." />
         </Stack>
         <Stack>
-          <EndDate isValid={!endDate} errorMessage="날짜를 입력해주세요." />
+          <EndDate errorMessage="날짜를 입력해주세요." />
         </Stack>
       </Box>
     </Container>
