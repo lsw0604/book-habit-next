@@ -7,10 +7,7 @@ import IconButton from 'components/common/button/IconButton';
 import { customize } from 'style/colors';
 import { IconRefresh } from 'style/icon';
 import { queriesKey, queryClient } from 'queries';
-
-interface IProps {
-  refetch: () => void;
-}
+import useCommentsListQuery from '@/queries/comments/useCommentsListQuery';
 
 const Container = styled.div`
   width: 100%;
@@ -30,9 +27,11 @@ const Time = styled.p`
 
 const { useCommentsListQueryKey } = queriesKey.comments;
 
-export default function CommentsTimer({ refetch }: IProps) {
+export default function CommentsTimer() {
   const [second, setSecond] = useState<number>(59);
   const [minute, setMinute] = useState<number>(2);
+
+  const { refetch } = useCommentsListQuery();
 
   const refreshHandler = () => {
     setMinute(2);

@@ -1,6 +1,8 @@
 import { createGlobalStyle, css } from 'styled-components';
+import reset from 'styled-reset';
 
 const globalStyle = css`
+  ${reset}
   @font-face {
     font-family: 'Noto Sans KR';
     font-weight: normal;
@@ -40,7 +42,7 @@ const globalStyle = css`
   header,
   main,
   menu,
-  nav,
+  \ nav,
   section {
     margin: 0;
     padding: 0;

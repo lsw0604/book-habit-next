@@ -1,6 +1,7 @@
 'use client';
 
 import useCommentsListQuery from 'queries/comments/useCommentsListQuery';
+
 import { customize } from 'style/colors';
 import styled from 'styled-components';
 
@@ -46,7 +47,7 @@ const Tag = styled.li<{ $isOn: boolean }>`
 const hashTag: string[] = [];
 
 export default function CommentsHashTag({
-  filter = [],
+  filter,
   addFilter,
   removeFilter,
 }: IProps) {

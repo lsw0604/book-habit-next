@@ -8,7 +8,7 @@ import { queriesKey } from 'queries';
 
 const { useCommentsListQueryKey } = queriesKey.comments;
 
-export default function useCommentsListQuery(filter: string[]) {
+export default function useCommentsListQuery(filter?: string[]) {
   const { addToast } = useToastHook();
 
   const { data, isLoading, isFetching, error, isError, refetch } = useQuery<
@@ -18,7 +18,7 @@ export default function useCommentsListQuery(filter: string[]) {
     staleTime: 3 * 60 * 1000,
     cacheTime: 3 * 60 * 1000,
     select: ({ comments }) => {
-      if (filter.length === 0) return { comments };
+      if (!filter || filter.length === 0) return { comments };
 
       return {
         comments: comments.filter(

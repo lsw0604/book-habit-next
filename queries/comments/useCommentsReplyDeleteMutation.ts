@@ -72,8 +72,6 @@ export default function useCommentsReplyDeleteMutation(
             ),
           };
 
-          console.log(synthesizedCommentDetailData);
-
           queryClient.setQueryData([useCommentsDetailQueryKey, comment_id], {
             ...synthesizedCommentDetailData,
           });

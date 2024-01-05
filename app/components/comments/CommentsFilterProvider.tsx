@@ -36,29 +36,19 @@ const Header = styled.div`
 
 export default function CommentsFilterProvider({ children }: IProps) {
   const { filter, addFilter, removeFilter } = useCommentsFilterHook();
-  const { data, isFetching, isLoading } = useCommentsListQuery(filter);
-
-  if (!data) return null;
-
-  const { comments } = data;
-
-  if (comments.length === 0) return <CommentsEmpty />;
+  const { data } = useCommentsListQuery(filter);
 
   return (
     <Container>
       <Header>
         {children}
         <CommentsHashTag
+          filter={filter}
           addFilter={addFilter}
           removeFilter={removeFilter}
-          filter={filter}
         />
       </Header>
-      <CommentsList
-        isFetching={isFetching}
-        isLoading={isLoading}
-        comments={comments}
-      />
+      <CommentsList data={data} />
     </Container>
   );
 }

@@ -3,12 +3,10 @@
 import styled from 'styled-components';
 
 import CommentsItem from 'components/comments/CommentsItem';
-import CommentLoading from 'components/comments/CommentsLoading';
+import CommentsEmpty from './CommentsEmpty';
 
 interface IProps {
-  comments: CommentsListType;
-  isLoading: boolean;
-  isFetching: boolean;
+  data?: CommentsListQueryResponseType;
 }
 
 const Container = styled.ul`
@@ -22,16 +20,12 @@ const Container = styled.ul`
   scroll-snap-type: y mandatory;
 `;
 
-export default function CommentsList({
-  comments,
-  isLoading,
-  isFetching,
-}: IProps) {
-  if (isLoading || isFetching) return <CommentLoading height="100%" />;
+export default function CommentsList({ data }: IProps) {
+  if (!data) return <CommentsEmpty />;
 
   return (
     <Container>
-      {comments.map((comment) => (
+      {data?.comments.map((comment) => (
         <CommentsItem comment={comment} key={comment.comment_id} />
       ))}
     </Container>

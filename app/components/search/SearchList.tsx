@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 import { useSearchParams } from 'next/navigation';
-import { useRef } from 'react';
+import { Suspense, useRef } from 'react';
 import { v4 } from 'uuid';
 
 import Observer from 'components/common/Observer';
@@ -57,22 +57,28 @@ export default function SearchList() {
   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
     useBookSearchInfinityQuery(keyword);
 
+  if (!data) return null;
+
   if (keyword === undefined) return <SearchSkeleton search={keyword} />;
 
-  if (!data || isLoading) return <SearchLoader />;
+  if (isLoading) return <SearchLoader height="100%" />;
 
   if (data?.pages[0].documents.length === 0)
     return <SearchSkeleton search={keyword} />;
 
   return (
-    <Container>
-      {data?.pages.map((page) => (
-        <Page key={v4()}>
-          {page.documents.map((document) => (
-            <SearchItem key={document.isbn} search={keyword} item={document} />
+    <>
+      <Suspense>
+        <Container>
+          {data?.pages.map((page) => (
+            <Page key={v4()}>
+              {page.documents.map((document) => (
+                <SearchItem key={v4()} search={keyword} item={document} />
+              ))}
+            </Page>
           ))}
-        </Page>
-      ))}
+        </Container>
+      </Suspense>
       {hasNextPage ? (
         <Observer
           fetchNextPage={fetchNextPage}
@@ -81,6 +87,6 @@ export default function SearchList() {
           hasNextPage={hasNextPage}
         />
       ) : null}
-    </Container>
+    </>
   );
 }

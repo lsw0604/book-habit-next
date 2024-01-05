@@ -49,7 +49,7 @@ export default function ImageWrapper({ src, alt, height, width }: IProps) {
     <Container height={height} width={width} ref={itemRef}>
       {src ? (
         isVisible ? (
-          <Image src={src} alt={alt} height={height} width={width} />
+          <Image src={src} alt={alt} height={height} width={width} priority />
         ) : (
           <Loader />
         )

@@ -1,4 +1,4 @@
-import { queryClient } from '@/queries';
+import { queryClient } from 'queries';
 import { cache } from 'react';
 
 const getQueryClient = cache(() => queryClient);

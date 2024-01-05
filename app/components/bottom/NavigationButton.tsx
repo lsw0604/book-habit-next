@@ -66,9 +66,13 @@ export default function NavigationButton({ title, icon, url, isAuth }: IProps) {
   };
 
   return (
-    <Container onClick={() => onChangeUrl(url)}>
-      <Icon $isOn={isOn}>{icon}</Icon>
-      <Title $isOn={isOn}>{title}</Title>
-    </Container>
+    <Link href={url}>
+      <Container
+      // onClick={() => onChangeUrl(url)}
+      >
+        <Icon $isOn={isOn}>{icon}</Icon>
+        <Title $isOn={isOn}>{title}</Title>
+      </Container>
+    </Link>
   );
 }

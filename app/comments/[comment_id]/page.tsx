@@ -1,58 +1,47 @@
-'use client';
+import { dehydrate } from '@tanstack/react-query';
 
-import styled from 'styled-components';
-import { useParams } from 'next/navigation';
-
-import CommentDetailReplyList from 'components/commentDetail/CommentDetailReplyList';
-import CommentDetailReplyForm from 'components/commentDetail/CommentDetailRepyForm';
 import CommentDetail from 'components/commentDetail';
-import Link from 'next/link';
+import ReactQueryHydrate from 'lib/ReactQueryHydrate';
+import getQueryClient from 'lib/getQueryClient';
+import { queriesKey } from 'queries';
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow: scroll;
-  padding: 1rem;
-  @media screen and (min-width: 768px) {
-    padding: 1rem 15%;
-  }
-`;
+async function fetchCommentDetail({
+  comment_id,
+}: {
+  comment_id: number;
+}): Promise<CommentsDetailQueryResponseType | undefined> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER}/api/comments/detail/${comment_id}`,
+    {
+      method: 'GET',
+      headers: {
+        Accepts: 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      credentials: 'include',
+    }
+  );
 
-const ReplyContainer = styled.div`
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1rem;
-  background-color: ${({ theme }) => theme.mode.sub};
-  box-shadow: ${({ theme }) => theme.shadow.md};
-  border-radius: 1rem;
-`;
+  return await response.json();
+}
 
-const Wrapper = styled.div`
-  height: 80%;
-  position: relative;
-  width: 100%;
-  overflow: scroll;
-  margin-bottom: 1rem;
-`;
+const { useCommentsDetailQueryKey } = queriesKey.comments;
 
-export default function CommentDetailPage() {
-  const { comment_id } = useParams();
-
-  if (typeof comment_id !== 'string') return <Link href="404" />;
-
-  const COMMENT_ID = parseInt(comment_id);
+export default async function CommentDetailPage({
+  params,
+}: {
+  params: { comment_id: number };
+}) {
+  const { comment_id } = params;
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery([useCommentsDetailQueryKey, comment_id], () =>
+    fetchCommentDetail({ comment_id })
+  );
+  const dehydratedState = dehydrate(queryClient);
 
   return (
-    <Container>
-      <CommentDetail comment_id={COMMENT_ID} />
-      <ReplyContainer>
-        <Wrapper>
-          <CommentDetailReplyList comment_id={COMMENT_ID} />
-        </Wrapper>
-        <CommentDetailReplyForm comment_id={COMMENT_ID} />
-      </ReplyContainer>
-    </Container>
+    <ReactQueryHydrate state={dehydratedState}>
+      <CommentDetail comment_id={comment_id} />
+    </ReactQueryHydrate>
   );
 }

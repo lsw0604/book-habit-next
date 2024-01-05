@@ -1,7 +1,8 @@
 'use client';
 
 import styled from 'styled-components';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
 import Button from 'components/common/button';
 
 const Container = styled.div`
@@ -15,33 +16,25 @@ const Wrapper = styled.div`
   width: auto;
 `;
 
+const DROPDOWN_OPTIONS = [
+  {
+    label: '회원가입',
+    url: '/register',
+  },
+  {
+    label: '로그인',
+    url: '/login',
+  },
+];
+
 export default function HeaderAuth() {
-  const router = useRouter();
-
-  const navigateRegister = () => {
-    router.push('/register');
-  };
-
-  const navigateLogin = () => {
-    router.push('/login');
-  };
-
-  const DROPDOWN_OPTIONS = [
-    {
-      label: '회원가입',
-      onClick: navigateRegister,
-    },
-    {
-      label: '로그인',
-      onClick: navigateLogin,
-    },
-  ];
-
   return (
     <Container>
       {DROPDOWN_OPTIONS.map((option) => (
         <Wrapper key={option.label}>
-          <Button onClick={option.onClick}>{option.label}</Button>
+          <Link href={option.url}>
+            <Button>{option.label}</Button>
+          </Link>
         </Wrapper>
       ))}
     </Container>
