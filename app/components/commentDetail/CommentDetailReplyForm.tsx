@@ -1,7 +1,6 @@
 'use client';
 
 import styled from 'styled-components';
-import { useParams } from 'next/navigation';
 import {
   useCallback,
   useState,
@@ -14,6 +13,8 @@ import TextArea from 'components/common/textarea';
 import Button from 'components/common/button';
 
 import useCommentsReplyRegisterMutation from 'queries/comments/useCommentsReplyRegisterMutation';
+import { RootState, useAppSelector } from 'store';
+import useToastHook from '@/hooks/useToastHook';
 
 interface IProps {
   comment_id: number;
@@ -31,6 +32,9 @@ export default function CommentDetailReplyForm({ comment_id }: IProps) {
   const [reply, setReply] = useState<string>('');
   const [useValidation, setUseValidation] = useState<boolean>(false);
 
+  const { isLogged } = useAppSelector((state: RootState) => state.user);
+  const { addToast } = useToastHook();
+
   const { mutate } = useCommentsReplyRegisterMutation(comment_id);
 
   const replyHandler = useCallback(
@@ -40,10 +44,12 @@ export default function CommentDetailReplyForm({ comment_id }: IProps) {
     []
   );
 
-  const onSubmit = (event: FormEvent) => {
+  const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setUseValidation(true);
     if (reply === '') return null;
+    if (!isLogged)
+      return addToast({ message: '로그인이 필요합니다.', status: 'error' });
 
     mutate({
       comment_id,

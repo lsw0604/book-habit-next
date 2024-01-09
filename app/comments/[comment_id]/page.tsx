@@ -22,7 +22,9 @@ async function fetchCommentDetail({
     }
   );
 
-  return await response.json();
+  const data = await response.json();
+
+  return data;
 }
 
 const { useCommentsDetailQueryKey } = queriesKey.comments;

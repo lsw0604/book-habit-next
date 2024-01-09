@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import SearchInput from 'components/search/SearchInput';
 import SearchList from 'components/search/SearchList';
+import { Suspense } from 'react';
 
 const Container = styled.div`
   width: 100%;
@@ -31,7 +32,9 @@ export default function SearchPage() {
         <SearchInput />
       </Wrapper>
       <Contents>
-        <SearchList />
+        <Suspense>
+          <SearchList />
+        </Suspense>
       </Contents>
     </Container>
   );

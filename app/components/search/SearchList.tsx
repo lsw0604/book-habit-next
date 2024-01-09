@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useRef } from 'react';
+import { useRef } from 'react';
 import { v4 } from 'uuid';
 
 import Observer from 'components/common/Observer';
@@ -67,18 +67,14 @@ export default function SearchList() {
     return <SearchSkeleton search={keyword} />;
 
   return (
-    <>
-      <Suspense>
-        <Container>
-          {data?.pages.map((page) => (
-            <Page key={v4()}>
-              {page.documents.map((document) => (
-                <SearchItem key={v4()} search={keyword} item={document} />
-              ))}
-            </Page>
+    <Container>
+      {data?.pages.map((page) => (
+        <Page key={v4()}>
+          {page.documents.map((document) => (
+            <SearchItem key={v4()} search={keyword} item={document} />
           ))}
-        </Container>
-      </Suspense>
+        </Page>
+      ))}
       {hasNextPage ? (
         <Observer
           fetchNextPage={fetchNextPage}
@@ -87,6 +83,6 @@ export default function SearchList() {
           hasNextPage={hasNextPage}
         />
       ) : null}
-    </>
+    </Container>
   );
 }
