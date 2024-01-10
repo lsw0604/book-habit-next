@@ -16,8 +16,12 @@ export default function useCommentsReplyListQuery(
   const { data, isError, isLoading, error, refetch, isFetching } = useQuery<
     CommentsReplyListQueryResponseType,
     AxiosError<{ message: string; status: StatusType }>
-  >([useCommentsReplyListQueryKey, comment_id], () =>
-    commentsReplyListAPI(comment_id)
+  >(
+    [useCommentsReplyListQueryKey, comment_id],
+    () => commentsReplyListAPI(comment_id),
+    {
+      suspense: true,
+    }
   );
 
   useEffect(() => {

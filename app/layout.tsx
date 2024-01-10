@@ -12,6 +12,7 @@ import ReduxProvider from 'lib/ReduxProvider';
 import StyledComponentsRegistry from 'lib/StyledComponentsRegistry';
 import StyledComponentsThemeProvider from 'lib/StyledComponentsThemeProvider';
 import { queryClient } from 'queries';
+import Toast from './components/common/Toast';
 
 const LayoutCSS = css`
   padding: 4rem 0rem;
@@ -49,6 +50,7 @@ export default function RootLayout({
                 <ModalPortal>
                   <Modal />
                 </ModalPortal>
+                <Toast />
                 <div id="root-modal" />
               </StyledComponentsThemeProvider>
             </StyledComponentsRegistry>

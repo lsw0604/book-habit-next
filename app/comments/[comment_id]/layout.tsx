@@ -1,5 +1,6 @@
 'use client';
 
+import CommentDetailSkeleton from 'components/commentDetail/CommentDetailSkeleton';
 import CommentDetailReplyForm from 'components/commentDetail/CommentDetailReplyForm';
 import CommentDetailReplyList from 'components/commentDetail/CommentDetailReplyList';
 import { ReactNode, Suspense } from 'react';

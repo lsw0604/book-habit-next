@@ -31,8 +31,8 @@ axios.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    const statusCode = error.response.status;
-    const { message, strategy } = error.response.data;
+    const statusCode = error.response?.status;
+    const { message, strategy } = error.response?.data;
 
     if (statusCode === 403 && message && strategy === 'access') {
       const { access_jwt } = await refreshAPI();

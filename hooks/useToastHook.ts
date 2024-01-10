@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { v4 } from 'uuid';
 
 import { RootState, useAppDispatch, useAppSelector } from 'store';
@@ -6,17 +6,24 @@ import { toastActions } from 'store/toast';
 
 export default function useToastHook() {
   const dispatch = useAppDispatch();
-  const { toast } = useAppSelector((state: RootState) => state.toast);
+  const toast = useAppSelector((state: RootState) => state.toast);
 
-  const addToast = ({ message, status }: Omit<ToastType, 'id'>) => {
-    const newToast = { id: v4(), message, status };
+  const addToast = useCallback(
+    ({ message, status }: Omit<ToastType, 'id'>) => {
+      const newToast = { id: v4(), message, status };
 
-    dispatch(toastActions.setAddToast(newToast));
-  };
+      dispatch(toastActions.setAddToast(newToast));
+    },
+    [dispatch]
+  );
 
-  const deleteToast = ({ id }: Pick<ToastType, 'id'>) => {
-    dispatch(toastActions.setRemoveToast(id));
-  };
+  const deleteToast = useCallback(
+    ({ id }: Pick<ToastType, 'id'>) => {
+      console.log('id', id);
+      dispatch(toastActions.setRemoveToast(id));
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {

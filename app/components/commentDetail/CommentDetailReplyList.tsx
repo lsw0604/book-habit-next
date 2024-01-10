@@ -29,8 +29,26 @@ const EMPTY_MESSAGE = '아직 등록된 댓글이 없습니다.';
 const LOADING_MESSAGE = '댓글을 불러오는 중입니다.';
 const SKELETON_HEIGHT = '13rem';
 
+async function fetchCommentsList(
+  comment_id: number
+): Promise<CommentsReplyListQueryResponseType> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER}/api/comments/reply/list/${comment_id}`
+  );
+
+  const { reply_list } = await response.json();
+
+  console.log('fetch data', reply_list);
+
+  return {
+    reply_list,
+  };
+}
+
 export default function CommentDetailReplyList({ comment_id }: IProps) {
   const { data, isLoading, isFetching } = useCommentsReplyListQuery(comment_id);
+
+  // const data = fetchCommentsList(comment_id);
 
   if (!data) return null;
 

@@ -25,26 +25,6 @@ export default function useBookSearchInfinityQuery(keyword?: string) {
         staleTime: 5 * 60 * 1000,
         cacheTime: 5 * 60 * 1000,
         suspense: true,
-        select: (data) => {
-          const pageParams = data.pageParams;
-          const pages = data.pages;
-
-          const _post = pages.flatMap((data) => data.documents);
-          const _document = pages.flatMap((data) => data.meta)[
-            data.pages.length - 1
-          ];
-
-          console.log('data', data);
-          console.log('pages', pages);
-          console.log('_post', _post);
-          console.log('_document', _document);
-          console.log('pageParams', pageParams);
-
-          return {
-            pageParams,
-            pages: [{ document: _post, meta: _document }],
-          };
-        },
       }
     );
 

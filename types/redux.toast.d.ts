@@ -4,6 +4,4 @@ type ToastType = {
   status: StatusType;
 };
 
-type RootToastType = {
-  toast: ToastType[];
-};
+type RootToastType = ToastType[];
