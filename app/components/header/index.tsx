@@ -7,6 +7,7 @@ import HeaderAuth from 'components/header/HeaderAuth';
 import HeaderProfile from 'components/header/HeaderProfile';
 import { RootState, useAppSelector } from 'store';
 import { IconLeftArrow } from 'style/icon';
+import useAccessHook from '@/hooks/useAccessHook';
 
 const headerCSSHandler = (isUriProfile: boolean) => {
   return !isUriProfile
@@ -57,6 +58,7 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const { isLogged } = useAppSelector((state: RootState) => state.user);
+  useAccessHook();
 
   const logoHandler = (pathname: string) => {
     if (

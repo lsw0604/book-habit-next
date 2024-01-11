@@ -31,6 +31,7 @@ export default function useCommentsReplyRegisterMutation(
           queryClient.getQueryData<CommentsListQueryResponseType>([
             useCommentsListQueryKey,
           ]);
+
         const commentDetailData =
           queryClient.getQueryData<CommentsDetailQueryResponseType>([
             useCommentsDetailQueryKey,

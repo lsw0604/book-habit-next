@@ -12,7 +12,7 @@ import ReduxProvider from 'lib/ReduxProvider';
 import StyledComponentsRegistry from 'lib/StyledComponentsRegistry';
 import StyledComponentsThemeProvider from 'lib/StyledComponentsThemeProvider';
 import { queryClient } from 'queries';
-import Toast from './components/common/Toast';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const LayoutCSS = css`
   padding: 4rem 0rem;
@@ -36,7 +36,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-
   return (
     <html lang="ko">
       <body>
@@ -50,8 +49,8 @@ export default function RootLayout({
                 <ModalPortal>
                   <Modal />
                 </ModalPortal>
-                <Toast />
                 <div id="root-modal" />
+                <ReactQueryDevtools position="top-right" />
               </StyledComponentsThemeProvider>
             </StyledComponentsRegistry>
           </QueryClientProvider>

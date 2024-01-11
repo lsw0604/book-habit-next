@@ -28,7 +28,9 @@ export const commentsDetailAPI = async (
  * * 특정 comment_id의 가진 reply를 불러오는 API
  */
 export const commentsReplyListAPI = async (comment_id: number) => {
-  const { data } = await axios.get(`/api/comments/reply/list/${comment_id}`);
+  const { data } = await axios.get<CommentsReplyListQueryResponseType>(
+    `/api/comments/reply/list/${comment_id}`
+  );
   return data;
 };
 

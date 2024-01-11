@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 interface IProps {
   email: string;
@@ -17,8 +17,6 @@ export default function useValidateHook({
   mode,
   name,
 }: IProps) {
-  const [validate, setValidate] = useState();
-
   const isEmailValid = useMemo(
     () => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email),
     [email]
@@ -45,6 +43,7 @@ export default function useValidateHook({
 
   const validateForm = (): boolean => {
     if (!email || !password) return false;
+    if (mode === 'login' && name && password) return true;
     if (mode === 'register' && (!name || password !== check_password))
       return false;
     if (

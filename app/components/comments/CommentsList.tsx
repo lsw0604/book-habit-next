@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 
 import CommentsItem from 'components/comments/CommentsItem';
-import CommentsEmpty from './CommentsEmpty';
+import CommentsEmpty from 'components/comments/CommentsEmpty';
 
 interface IProps {
   data?: CommentsListQueryResponseType;
