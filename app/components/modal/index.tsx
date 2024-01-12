@@ -4,9 +4,8 @@ import { ReactNode, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
 import Loader from 'components/common/Loader';
-// import LoginMessage from 'components/modal/login';
 import { RootState, useAppSelector } from '@/app/store';
-// import SearchBookRegister from 'components/modal/SearchBook/SearchBookRegister';
+import SearchBookRegister from 'components/modal/searchBook/SearchBookRegister';
 
 interface IModalComponent {
   [key: string]: ReactNode;
@@ -45,7 +44,6 @@ const LoadingWrapper = styled.div`
 const LoginMessage = dynamic(() => import('components/modal/login'), {
   ssr: false,
 });
-
 const CommentModifyModal = dynamic(
   () => import('components/modal/comment/CommentModify'),
   { ssr: false }
@@ -59,33 +57,37 @@ const CommentDeleteModal = dynamic(
   { ssr: false }
 );
 const HistoryRegisterModal = dynamic(
-  () => import('components/modal/history/HistoryRegister')
+  () => import('components/modal/history/HistoryRegister'),
+  { ssr: false }
 );
-// const HistoryDeleteModal = dynamic(
-//   () => import('components/modal/history/HistoryDelete')
-// );
+const HistoryDeleteModal = dynamic(
+  () => import('components/modal/history/HistoryDelete'),
+  { ssr: false }
+);
 const ReplyDeleteModal = dynamic(
   () => import('components/modal/reply/ReplyDelete'),
   { ssr: false }
 );
-// const MyBookDeleteModal = dynamic(
-//   () => import('components/modal/myBook/MyBookDelete')
-// );
-// const ProfileModifyModal = dynamic(
-//   () => import('components/modal/profile/ProfileModify')
-// );
+const MyBookDeleteModal = dynamic(
+  () => import('components/modal/myBook/MyBookDelete'),
+  { ssr: false }
+);
+const ProfileModifyModal = dynamic(
+  () => import('components/modal/profile/ProfileModify'),
+  { ssr: false }
+);
 
 const modalComponent: IModalComponent = {
   isLogin: <LoginMessage />,
-  // registerSearchBook: <SearchBookRegister />,
+  registerSearchBook: <SearchBookRegister />,
   modifyComment: <CommentModifyModal />,
   registerComment: <CommentRegisterModal />,
   deleteComment: <CommentDeleteModal />,
   registerHistory: <HistoryRegisterModal />,
-  // deleteHistory: <HistoryDeleteModal />,
+  deleteHistory: <HistoryDeleteModal />,
   deleteReply: <ReplyDeleteModal />,
-  // deleteMyBook: <MyBookDeleteModal />,
-  // modifyProfile: <ProfileModifyModal />,
+  deleteMyBook: <MyBookDeleteModal />,
+  modifyProfile: <ProfileModifyModal />,
 };
 
 const onChangeModalComponent = (ctx?: ModalComponentType) => {
