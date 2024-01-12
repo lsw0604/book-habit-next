@@ -20,6 +20,7 @@ export default function useThemeHook() {
 
   const themeHandler = (): void => {
     const newTheme: SystemTheme = themeMode === 'light' ? 'dark' : 'light';
+
     window.localStorage.setItem('theme', newTheme);
     setThemeMode(newTheme);
   };

@@ -1,49 +1,49 @@
-import { dehydrate } from '@tanstack/react-query';
+'use client';
+
+import styled from 'styled-components';
 
 import CommentDetail from 'components/commentDetail';
-import ReactQueryHydrate from 'lib/ReactQueryHydrate';
-import getQueryClient from 'lib/getQueryClient';
-import { queriesKey } from 'queries';
+import CommentDetailReplyList from 'components/commentDetail/CommentDetailReplyList';
+import CommentDetailReplyForm from 'components/commentDetail/CommentDetailReplyForm';
 
-async function fetchCommentDetail({
-  comment_id,
-}: {
-  comment_id: number;
-}): Promise<CommentsDetailQueryResponseType | undefined> {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER}/api/comments/detail/${comment_id}`,
-    {
-      method: 'GET',
-      headers: {
-        Accepts: 'application/json',
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      credentials: 'include',
-    }
-  );
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  box-sizing: border-box;
+  overflow: scroll;
 
-  const data = await response.json();
+  @media screen and (min-width: 768px) {
+    padding: 1rem 15%;
+  }
+`;
 
-  return data;
-}
+const ReplyContainer = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: ${({ theme }) => theme.shadow.md};
+  background-color: ${({ theme }) => theme.mode.sub};
+`;
 
-const { useCommentsDetailQueryKey } = queriesKey.comments;
-
-export default async function CommentDetailPage({
+export default function CommentDetailPage({
   params,
 }: {
   params: { comment_id: number };
 }) {
   const { comment_id } = params;
-  const queryClient = getQueryClient();
-  await queryClient.prefetchQuery([useCommentsDetailQueryKey, comment_id], () =>
-    fetchCommentDetail({ comment_id })
-  );
-  const dehydratedState = dehydrate(queryClient);
 
   return (
-    <ReactQueryHydrate state={dehydratedState}>
+    <Container>
       <CommentDetail comment_id={comment_id} />
-    </ReactQueryHydrate>
+      <ReplyContainer>
+        <CommentDetailReplyList comment_id={comment_id} />
+        <CommentDetailReplyForm comment_id={comment_id} />
+      </ReplyContainer>
+    </Container>
   );
 }

@@ -84,7 +84,7 @@ export default function CommentDetailReplyItem({
   const comment_id = parseInt(commentId);
 
   const modalHandler = useCallback((type: ModalComponentType) => {
-    dispatch(modalActions.setModalType(type));
+    dispatch(modalActions.setModalState({ type }));
   }, []);
 
   const replyHandler = useCallback(() => {

@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import useToastHook from '@/hooks/useToastHook';
-import { readingBookRegisterAPI } from '@/lib/api/book';
+import { readingBookRegisterAPI } from 'lib/api/book';
 import { useAppDispatch } from 'store';
 import { modalActions } from 'store/modal';
 import { bookRegisterActions } from 'store/bookRegister';

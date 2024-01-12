@@ -3,12 +3,8 @@
 import styled from 'styled-components';
 
 import CommentsList from 'components/comments/CommentsList';
-import CommentsEmpty from 'components/comments/CommentsEmpty';
 import CommentsHashTag from 'components/comments/CommentsHashTag';
-
-import useCommentsListQuery from 'queries/comments/useCommentsListQuery';
 import useCommentsFilterHook from '@/hooks/useCommentsFilterHook';
-import { Suspense } from 'react';
 
 interface IProps {
   children: JSX.Element;
@@ -37,21 +33,18 @@ const Header = styled.div`
 
 export default function CommentsFilterProvider({ children }: IProps) {
   const { filter, addFilter, removeFilter } = useCommentsFilterHook();
-  const { data } = useCommentsListQuery(filter);
 
   return (
-    <Suspense fallback={<div>loading...</div>}>
-      <Container>
-        <Header>
-          {children}
-          <CommentsHashTag
-            filter={filter}
-            addFilter={addFilter}
-            removeFilter={removeFilter}
-          />
-        </Header>
-        <CommentsList data={data} />
-      </Container>
-    </Suspense>
+    <Container>
+      <Header>
+        {children}
+        <CommentsHashTag
+          filter={filter}
+          addFilter={addFilter}
+          removeFilter={removeFilter}
+        />
+      </Header>
+      <CommentsList filter={filter} />
+    </Container>
   );
 }

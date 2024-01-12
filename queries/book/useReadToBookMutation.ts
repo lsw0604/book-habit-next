@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
 import useToastHook from '@/hooks/useToastHook';
-import { readToBookRegisterAPI } from '@/lib/api/book';
+import { readToBookRegisterAPI } from 'lib/api/book';
 import { queriesKey, queryClient } from 'queries';
 import { useAppDispatch } from '@/app/store';
 import { modalActions } from '@/app/store/modal';

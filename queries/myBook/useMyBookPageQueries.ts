@@ -6,7 +6,7 @@ import {
   myBookHistoryAPI,
   myBookInfoAPI,
   myBookTimeRangeAPI,
-} from '@/lib/api/myBook';
+} from 'lib/api/myBook';
 import { queriesKey } from 'queries';
 
 const { info, history, time } = queriesKey.myBook.useMyBookPageQueriesKey;

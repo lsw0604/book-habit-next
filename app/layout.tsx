@@ -2,17 +2,17 @@
 
 import styled, { css } from 'styled-components';
 import { usePathname } from 'next/navigation';
-import { QueryClientProvider } from '@tanstack/react-query';
-
-import Header from 'components/header';
-import NavigationBar from 'components/bottom';
-import ModalPortal from 'components/modal/ModalPortal';
-import Modal from 'components/modal';
-import ReduxProvider from 'lib/ReduxProvider';
-import StyledComponentsRegistry from 'lib/StyledComponentsRegistry';
-import StyledComponentsThemeProvider from 'lib/StyledComponentsThemeProvider';
-import { queryClient } from 'queries';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+import Modal from 'components/modal';
+import Toast from 'components/common/Toast';
+import Header from 'components/header';
+import ModalPortal from 'components/modal/ModalPortal';
+import NavigationBar from 'components/bottom';
+
+import ReduxProvider from 'lib/ReduxProvider';
+import QueryProvider from 'lib/QueryProvider';
+import StyledComponentsRegistry from 'lib/StyledComponentsRegistry';
 
 const LayoutCSS = css`
   padding: 4rem 0rem;
@@ -40,20 +40,19 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <ReduxProvider>
-          <QueryClientProvider client={queryClient}>
+          <QueryProvider>
             <StyledComponentsRegistry>
-              <StyledComponentsThemeProvider>
-                <Header />
-                <Container $pathname={pathname}>{children}</Container>
-                <NavigationBar />
-                <ModalPortal>
-                  <Modal />
-                </ModalPortal>
-                <div id="root-modal" />
-                <ReactQueryDevtools position="top-right" />
-              </StyledComponentsThemeProvider>
+              <Header />
+              <Container $pathname={pathname}>{children}</Container>
+              <NavigationBar />
+              <ModalPortal>
+                <Modal />
+              </ModalPortal>
+              <Toast />
+              <div id="root-modal" />
+              <ReactQueryDevtools position="top-right" />
             </StyledComponentsRegistry>
-          </QueryClientProvider>
+          </QueryProvider>
         </ReduxProvider>
       </body>
     </html>

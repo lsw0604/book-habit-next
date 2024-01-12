@@ -1,11 +1,9 @@
-// 'use client';
+'use client';
 
 import styled from 'styled-components';
 
-import Loader from 'components/common/Loader';
 import CommentDetailReplyItem from 'components/commentDetail/CommentDetailReplyItem';
 import CommentDetailSkeleton from 'components/commentDetail/CommentDetailSkeleton';
-
 import useCommentsReplyListQuery from 'queries/comments/useCommentsReplyListQuery';
 
 interface IProps {
@@ -13,53 +11,39 @@ interface IProps {
 }
 
 const Container = styled.ul`
+  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 100%;
-  background-color: ${({ theme }) => theme.mode.sub};
+  overflow: scroll;
 `;
 
-// const LoaderWrapper = styled.div`
-//   width: 100%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
-
 const EMPTY_MESSAGE = '아직 등록된 댓글이 없습니다.';
-const LOADING_MESSAGE = '댓글을 불러오는 중입니다.';
-const SKELETON_HEIGHT = '13rem';
+const SKELETON_HEIGHT = '100%';
 
 export default function CommentDetailReplyList({ comment_id }: IProps) {
   const { data, isLoading, isFetching } = useCommentsReplyListQuery(comment_id);
 
-  if (!data) return null;
+  if (isLoading || isFetching)
+    return (
+      <CommentDetailSkeleton
+        isLoading
+        message={EMPTY_MESSAGE}
+        height={SKELETON_HEIGHT}
+      />
+    );
 
-  const { reply_list } = data;
-
-  // if (isLoading)
-  //   return (
-  //     <CommentDetailSkeleton
-  //       isLoading
-  //       height={SKELETON_HEIGHT}
-  //       message={LOADING_MESSAGE}
-  //     />
-  //   );
-
-  if (reply_list.length === 0)
+  if (data?.length === 0) {
     return (
       <CommentDetailSkeleton height={SKELETON_HEIGHT} message={EMPTY_MESSAGE} />
     );
+  }
 
   return (
     <Container>
-      {reply_list.map((reply) => (
+      {data?.map((reply) => (
         <CommentDetailReplyItem key={reply.reply_id} {...reply} />
       ))}
-      {/* {isFetching ? (
-        <LoaderWrapper>
-          <Loader />
-        </LoaderWrapper>
-      ) : null} */}
     </Container>
   );
 }

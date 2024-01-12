@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
 import useToastHook from '@/hooks/useToastHook';
-import { commentsListAPI } from '@/lib/api/comments';
+import { commentsListAPI } from 'lib/api/comments';
 import { queriesKey } from 'queries';
 
 const { useCommentsListQueryKey } = queriesKey.comments;
@@ -14,7 +14,7 @@ export default function useCommentsListQuery(filter?: string[]) {
   const { data, isLoading, isFetching, error, isError, refetch } = useQuery<
     CommentsListQueryResponseType,
     AxiosError<{ message: string; status: StatusType }>
-  >([useCommentsListQueryKey], () => commentsListAPI(), {
+  >([useCommentsListQueryKey], commentsListAPI, {
     staleTime: 3 * 60 * 1000,
     cacheTime: 3 * 60 * 1000,
     select: ({ comments }) => {
@@ -30,7 +30,6 @@ export default function useCommentsListQuery(filter?: string[]) {
         ),
       };
     },
-    suspense: true,
   });
 
   useEffect(() => {

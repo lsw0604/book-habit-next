@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { AxiosError } from 'axios';
 
 import useToastHook from '@/hooks/useToastHook';
-import { profileLikeListAPI } from '@/lib/api/auth';
+import { profileLikeListAPI } from 'lib/api/auth';
 import { queriesKey } from 'queries';
 
 const { useProfileLikeQueryKey } = queriesKey.profile;

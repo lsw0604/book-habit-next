@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { booksSearchAPI } from '@/lib/api/book';
+import { booksSearchAPI } from 'lib/api/book';
 import { queriesKey } from 'queries';
 
 const { useBookSearchInfinityQueryKey } = queriesKey.book;

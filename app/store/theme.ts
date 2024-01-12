@@ -4,8 +4,8 @@ import { RootThemeType } from '@/types/redux.theme';
 import { ColorType, SystemTheme } from '@/types/style';
 
 const initialState: RootThemeType = {
-  themeMode: undefined,
-  colorMode: undefined,
+  themeMode: 'light',
+  colorMode: 'cyan',
 };
 
 const theme = createSlice({

@@ -15,6 +15,7 @@ import bookRegister from './bookRegister';
 import user from './user';
 import searchBookRegister from './searchBookRegister';
 import toast from './toast';
+import reply from './reply';
 
 const rootReducer = combineReducers({
   calendar: calendar.reducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   user: user.reducer,
   searchBookRegister: searchBookRegister.reducer,
   toast: toast.reducer,
+  reply: reply.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

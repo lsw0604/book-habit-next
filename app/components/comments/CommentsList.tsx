@@ -4,9 +4,10 @@ import styled from 'styled-components';
 
 import CommentsItem from 'components/comments/CommentsItem';
 import CommentsEmpty from 'components/comments/CommentsEmpty';
+import useCommentsListQuery from '@/queries/comments/useCommentsListQuery';
 
 interface IProps {
-  data?: CommentsListQueryResponseType;
+  filter?: string[];
 }
 
 const Container = styled.ul`
@@ -20,7 +21,9 @@ const Container = styled.ul`
   scroll-snap-type: y mandatory;
 `;
 
-export default function CommentsList({ data }: IProps) {
+export default function CommentsList({ filter }: IProps) {
+  const { data } = useCommentsListQuery(filter);
+
   if (!data) return <CommentsEmpty />;
 
   return (

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { accessAPI } from '@/lib/api/auth';
+import { accessAPI } from 'lib/api/auth';
 import { useAppDispatch } from '@/app/store';
 import { userActions } from 'store/user';
 
