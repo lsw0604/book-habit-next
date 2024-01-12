@@ -40,7 +40,12 @@ const Footer = styled.div`
 export default function CommentDetail({ comment_id }: IProps) {
   const { data, isLoading } = useCommentsDetailQuery(comment_id);
 
-  if (!data) return null;
+  if (!data)
+    return (
+      <Container>
+        <CommentDetailSkeleton isLoading height="10rem" />
+      </Container>
+    );
 
   const { like_user_ids, reply_ids, comment, ...comments } = data;
 
@@ -59,7 +64,7 @@ export default function CommentDetail({ comment_id }: IProps) {
           </Footer>
         </>
       ) : (
-        <CommentDetailSkeleton />
+        <CommentDetailSkeleton isLoading height="10rem" />
       )}
     </Container>
   );

@@ -19,6 +19,7 @@ const Container = styled.ul`
 `;
 
 const EMPTY_MESSAGE = '아직 등록된 댓글이 없습니다.';
+const LOADING_MESSAGE = '로딩중입니다.';
 const SKELETON_HEIGHT = '100%';
 
 export default function CommentDetailReplyList({ comment_id }: IProps) {
@@ -28,7 +29,7 @@ export default function CommentDetailReplyList({ comment_id }: IProps) {
     return (
       <CommentDetailSkeleton
         isLoading
-        message={EMPTY_MESSAGE}
+        message={LOADING_MESSAGE}
         height={SKELETON_HEIGHT}
       />
     );

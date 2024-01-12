@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { ReactNode, lazy, Suspense } from 'react';
+import { ReactNode, Suspense } from 'react';
+import dynamic from 'next/dynamic';
 
 import Loader from 'components/common/Loader';
 // import LoginMessage from 'components/modal/login';
 import { RootState, useAppSelector } from '@/app/store';
-// import SearchBookRegister from 'components/Modals/SearchBook/SearchBookRegister';
+// import SearchBookRegister from 'components/modal/SearchBook/SearchBookRegister';
 
 interface IModalComponent {
   [key: string]: ReactNode;
@@ -41,42 +42,48 @@ const LoadingWrapper = styled.div`
   justify-content: center;
 `;
 
-const LoginMessage = lazy(() => import('components/modal/login'));
+const LoginMessage = dynamic(() => import('components/modal/login'), {
+  ssr: false,
+});
 
-// const CommentModifyModal = lazy(
-//   () => import('components/Modals/Comment/CommentModify')
+const CommentModifyModal = dynamic(
+  () => import('components/modal/comment/CommentModify'),
+  { ssr: false }
+);
+const CommentRegisterModal = dynamic(
+  () => import('components/modal/comment/CommentRegister'),
+  { ssr: false }
+);
+const CommentDeleteModal = dynamic(
+  () => import('components/modal/comment/CommentDelete'),
+  { ssr: false }
+);
+const HistoryRegisterModal = dynamic(
+  () => import('components/modal/history/HistoryRegister')
+);
+// const HistoryDeleteModal = dynamic(
+//   () => import('components/modal/history/HistoryDelete')
 // );
-// const CommentRegisterModal = lazy(
-//   () => import('components/Modals/Comment/CommentRegister')
+const ReplyDeleteModal = dynamic(
+  () => import('components/modal/reply/ReplyDelete'),
+  { ssr: false }
+);
+// const MyBookDeleteModal = dynamic(
+//   () => import('components/modal/myBook/MyBookDelete')
 // );
-// const CommentDeleteModal = lazy(
-//   () => import('components/Modals/Comment/CommentDelete')
-// );
-// const HistoryRegisterModal = lazy(
-//   () => import('components/Modals/History/HistoryRegister')
-// );
-// const HistoryDeleteModal = lazy(
-//   () => import('components/Modals/History/HistoryDelete')
-// );
-// const ReplyDeleteModal = lazy(
-//   () => import('components/Modals/Reply/ReplyDelete')
-// );
-// const MyBookDeleteModal = lazy(
-//   () => import('components/Modals/MyBook/MyBookDelete')
-// );
-// const ProfileModifyModal = lazy(
-//   () => import('components/Modals/Profile/ProfileModify')
+// const ProfileModifyModal = dynamic(
+//   () => import('components/modal/profile/ProfileModify')
 // );
 
 const modalComponent: IModalComponent = {
   isLogin: <LoginMessage />,
   // registerSearchBook: <SearchBookRegister />,
-  // modifyComment: <CommentModifyModal />,
-  // registerComment: <CommentRegisterModal />,
-  // deleteComment: <CommentDeleteModal />,
-  // registerHistory: <HistoryRegisterModal />,
+  modifyComment: <CommentModifyModal />,
+  registerComment: <CommentRegisterModal />,
+  deleteComment: <CommentDeleteModal />,
+  registerHistory: <HistoryRegisterModal />,
   // deleteHistory: <HistoryDeleteModal />,
-  // deleteReply: <ReplyDeleteModal />,
+  deleteReply: <ReplyDeleteModal />,
   // deleteMyBook: <MyBookDeleteModal />,
   // modifyProfile: <ProfileModifyModal />,
 };

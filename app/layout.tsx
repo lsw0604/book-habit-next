@@ -50,7 +50,7 @@ export default function RootLayout({
               </ModalPortal>
               <Toast />
               <div id="root-modal" />
-              <ReactQueryDevtools position="top-right" />
+              <ReactQueryDevtools position="top-right" panelPosition="top" />
             </StyledComponentsRegistry>
           </QueryProvider>
         </ReduxProvider>

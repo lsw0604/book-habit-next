@@ -21,67 +21,74 @@ export default function useCommentsLikeRegisterMutation(
     CommentsLikeMutationResponseType,
     AxiosError<{ message: string; status: StatusType }>,
     CommentsLikeMutationRequestType
-  >([useCommentsLikeRegisterMutationKey, comment_id], commentsLikeRegisterAPI, {
-    onSuccess: (response) => {
-      const commentsListData =
-        queryClient.getQueryData<CommentsListQueryResponseType>([
-          useCommentsListQueryKey,
-        ]);
+  >(
+    [useCommentsLikeRegisterMutationKey, comment_id.toString()],
+    commentsLikeRegisterAPI,
+    {
+      onSuccess: (response) => {
+        const commentsListData =
+          queryClient.getQueryData<CommentsListQueryResponseType>([
+            useCommentsListQueryKey,
+          ]);
 
-      const commentDetailData =
-        queryClient.getQueryData<CommentsDetailQueryResponseType>([
-          useCommentsDetailQueryKey,
-          comment_id,
-        ]);
+        const commentDetailData =
+          queryClient.getQueryData<CommentsDetailQueryResponseType>([
+            useCommentsDetailQueryKey,
+            comment_id.toString(),
+          ]);
 
-      if (commentsListData) {
-        const synthesizedCommentsListData = commentsListData?.comments.map(
-          (comment) => {
-            if (comment.comment_id === comment_id) {
-              const newComment: CommentsItemType = {
-                ...comment,
-                like_user_ids: [
-                  ...comment.like_user_ids,
-                  { user_id: response.user_id },
-                ],
-              };
+        if (commentsListData) {
+          const synthesizedCommentsListData = commentsListData?.comments.map(
+            (comment) => {
+              if (comment.comment_id.toString() === comment_id.toString()) {
+                const newComment: CommentsItemType = {
+                  ...comment,
+                  like_user_ids: [
+                    ...comment.like_user_ids,
+                    { user_id: response.user_id },
+                  ],
+                };
 
-              return newComment;
+                return newComment;
+              }
+              return comment;
             }
-            return comment;
-          }
-        );
-        queryClient.setQueryData([useCommentsListQueryKey], {
-          comments: synthesizedCommentsListData,
-        });
-      } else {
-        queryClient.invalidateQueries({
-          queryKey: [useCommentsListQueryKey],
-        });
-      }
+          );
+          queryClient.setQueryData([useCommentsListQueryKey], {
+            comments: synthesizedCommentsListData,
+          });
+        } else {
+          queryClient.invalidateQueries({
+            queryKey: [useCommentsListQueryKey],
+          });
+        }
 
-      if (commentDetailData) {
-        const synthesizedCommentDetailData: CommentsItemType = {
-          ...commentDetailData,
-          like_user_ids:
-            commentDetailData.like_user_ids.length !== 0
-              ? [
-                  ...commentDetailData.like_user_ids,
-                  { user_id: response.user_id },
-                ]
-              : [{ user_id: response.user_id }],
-        };
+        if (commentDetailData) {
+          const synthesizedCommentDetailData: CommentsItemType = {
+            ...commentDetailData,
+            like_user_ids:
+              commentDetailData.like_user_ids.length !== 0
+                ? [
+                    ...commentDetailData.like_user_ids,
+                    { user_id: response.user_id },
+                  ]
+                : [{ user_id: response.user_id }],
+          };
 
-        queryClient.setQueryData([useCommentsDetailQueryKey, comment_id], {
-          ...synthesizedCommentDetailData,
-        });
-      } else {
-        queryClient.invalidateQueries({
-          queryKey: [useCommentsDetailQueryKey, comment_id],
-        });
-      }
-    },
-  });
+          queryClient.setQueryData(
+            [useCommentsDetailQueryKey, comment_id.toString()],
+            {
+              ...synthesizedCommentDetailData,
+            }
+          );
+        } else {
+          queryClient.invalidateQueries({
+            queryKey: [useCommentsDetailQueryKey, comment_id.toString()],
+          });
+        }
+      },
+    }
+  );
 
   useEffect(() => {
     if (isSuccess && data) {

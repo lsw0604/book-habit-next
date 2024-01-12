@@ -24,7 +24,11 @@ export default function useCommentsReplyDeleteMutation(
     AxiosError<{ message: string; status: StatusType }>,
     CommentsReplyDeleteMutationRequestType
   >(
-    [useCommentsReplyDeleteMutationKey, comment_id, reply_id],
+    [
+      useCommentsReplyDeleteMutationKey,
+      comment_id.toString(),
+      reply_id.toString(),
+    ],
     commentsReplyDeleteAPI,
     {
       onSuccess: (response) => {
@@ -35,13 +39,13 @@ export default function useCommentsReplyDeleteMutation(
         const commentDetailData =
           queryClient.getQueryData<CommentsDetailQueryResponseType>([
             useCommentsDetailQueryKey,
-            comment_id,
+            comment_id.toString(),
           ]);
 
         if (commentsListData) {
           const synthesizedCommentsListData = commentsListData?.comments.map(
             (comment) => {
-              if (comment.comment_id === comment_id) {
+              if (comment.comment_id.toString() === comment_id.toString()) {
                 const newComment: CommentsItemType = {
                   ...comment,
                   reply_ids: comment.reply_ids.filter(
@@ -54,7 +58,6 @@ export default function useCommentsReplyDeleteMutation(
               return comment;
             }
           );
-
           queryClient.setQueryData([useCommentsListQueryKey], {
             comments: synthesizedCommentsListData,
           });
@@ -68,21 +71,23 @@ export default function useCommentsReplyDeleteMutation(
           const synthesizedCommentDetailData: CommentsItemType = {
             ...commentDetailData,
             reply_ids: commentDetailData.reply_ids.filter(
-              (reply) => reply.reply_id !== response.reply_id
+              (reply) =>
+                reply.reply_id.toString() !== response.reply_id.toString()
             ),
           };
-
-          queryClient.setQueryData([useCommentsDetailQueryKey, comment_id], {
-            ...synthesizedCommentDetailData,
-          });
+          queryClient.setQueryData(
+            [useCommentsDetailQueryKey, comment_id.toString()],
+            {
+              ...synthesizedCommentDetailData,
+            }
+          );
         } else {
           queryClient.invalidateQueries({
-            queryKey: [useCommentsDetailQueryKey, comment_id],
+            queryKey: [useCommentsDetailQueryKey, comment_id.toString()],
           });
         }
-
         queryClient.invalidateQueries({
-          queryKey: [useCommentsReplyListQueryKey, comment_id],
+          queryKey: [useCommentsReplyListQueryKey, comment_id.toString()],
         });
       },
     }

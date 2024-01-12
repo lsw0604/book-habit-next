@@ -23,7 +23,7 @@ export default function useCommentsReplyRegisterMutation(
     AxiosError<{ message: string; status: StatusType }>,
     CommentsReplyMutationRequestType
   >(
-    [useCommentsReplyRegisterMutationKey, comment_id],
+    [useCommentsReplyRegisterMutationKey, comment_id.toString()],
     commentsReplyRegisterAPI,
     {
       onSuccess: (response) => {
@@ -35,13 +35,13 @@ export default function useCommentsReplyRegisterMutation(
         const commentDetailData =
           queryClient.getQueryData<CommentsDetailQueryResponseType>([
             useCommentsDetailQueryKey,
-            comment_id,
+            comment_id.toString(),
           ]);
 
         if (commentsListData) {
           const synthesizedCommentsListData = commentsListData?.comments.map(
             (comment) => {
-              if (comment.comment_id === comment_id) {
+              if (comment.comment_id.toString() === comment_id.toString()) {
                 const newComment: CommentsItemType = {
                   ...comment,
                   reply_ids: [
@@ -77,17 +77,17 @@ export default function useCommentsReplyRegisterMutation(
           };
 
           queryClient.setQueryData(
-            [useCommentsDetailQueryKey, comment_id],
+            [useCommentsDetailQueryKey, comment_id.toString()],
             synthesizedCommentDetailData
           );
         } else {
           queryClient.invalidateQueries({
-            queryKey: [useCommentsDetailQueryKey, comment_id],
+            queryKey: [useCommentsDetailQueryKey, comment_id.toString()],
           });
         }
 
         queryClient.invalidateQueries({
-          queryKey: [useCommentsReplyListQueryKey, comment_id],
+          queryKey: [useCommentsReplyListQueryKey, comment_id.toString()],
         });
       },
     }

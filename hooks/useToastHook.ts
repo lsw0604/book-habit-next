@@ -19,7 +19,6 @@ export default function useToastHook() {
 
   const deleteToast = useCallback(
     ({ id }: Pick<ToastType, 'id'>) => {
-      console.log('id', id);
       dispatch(toastActions.setRemoveToast(id));
     },
     [dispatch]

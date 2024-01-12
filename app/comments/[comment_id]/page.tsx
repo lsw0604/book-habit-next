@@ -25,6 +25,8 @@ const ReplyContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  gap: 1rem;
+  justify-content: space-between;
   border-radius: 1rem;
   box-shadow: ${({ theme }) => theme.shadow.md};
   background-color: ${({ theme }) => theme.mode.sub};
