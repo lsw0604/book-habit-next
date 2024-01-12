@@ -1,5 +1,3 @@
-'use client';
-
 import Axios from 'axios';
 import { logoutAPI, refreshAPI } from './auth';
 

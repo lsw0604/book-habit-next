@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { AxiosError } from 'axios';
 
 import useToastHook from '@/hooks/useToastHook';
-import { profileInfoUpdateAPI } from 'lib/api/auth';
+import { profileInfoUpdateAPI } from '@/lib/api/auth';
 import { queriesKey } from 'queries';
 import { useAppDispatch } from '@/app/store';
 import { modalActions } from '@/app/store/modal';

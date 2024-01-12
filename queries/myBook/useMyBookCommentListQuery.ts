@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
-import { myBookCommentsAPI } from 'lib/api/myBook';
+import { myBookCommentsAPI } from '@/lib/api/myBook';
 import { queriesKey } from 'queries';
 
 const { useMyBookCommentListQueryKey } = queriesKey.myBook;

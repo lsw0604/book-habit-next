@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { AxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 
-import { myBookCommentDeleteAPI } from 'lib/api/myBook';
+import { myBookCommentDeleteAPI } from '@/lib/api/myBook';
 import useToastHook from '@/hooks/useToastHook';
 import { queriesKey, queryClient } from 'queries';
 

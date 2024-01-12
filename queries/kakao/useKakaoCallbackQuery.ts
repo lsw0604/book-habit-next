@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { AxiosError } from 'axios';
 
-import { kakaoCallbackAPI } from 'lib/api/auth';
+import { kakaoCallbackAPI } from '@/lib/api/auth';
 import useToastHook from '@/hooks/useToastHook';
 import { queriesKey, queryClient } from 'queries';
 import { useAppDispatch } from '@/app/store';

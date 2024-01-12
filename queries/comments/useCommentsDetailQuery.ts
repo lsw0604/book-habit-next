@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import useToastHook from '@/hooks/useToastHook';
-import { commentsDetailAPI } from 'lib/api/comments';
+import { commentsDetailAPI } from '@/lib/api/comments';
 import { queriesKey } from 'queries';
 
 const { useCommentsDetailQueryKey } = queriesKey.comments;

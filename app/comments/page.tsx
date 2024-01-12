@@ -6,22 +6,21 @@ import CommentsFilterProvider from 'components/comments/CommentsFilterProvider';
 import CommentsTimer from 'components/comments/CommentsTimer';
 import { queriesKey } from 'queries';
 
-async function fetchCommentList(): Promise<
-  CommentsListQueryResponseType | undefined
-> {
-  const response = await fetch(
+import axios from 'axios';
+
+export async function fetchCommentList() {
+  const { data } = await axios.get<CommentsListQueryResponseType>(
     `${process.env.NEXT_PUBLIC_SERVER}/api/comments/list`,
     {
-      method: 'GET',
       headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        Accepts: 'application/json',
+        Accept: 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
       },
-      credentials: 'include',
+      withCredentials: true,
     }
   );
 
-  return await response.json();
+  return data;
 }
 
 const { useCommentsListQueryKey } = queriesKey.comments;

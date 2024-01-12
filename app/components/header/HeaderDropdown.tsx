@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
 import { customize } from 'style/colors';
-import { logoutAPI } from 'lib/api/auth';
+import { logoutAPI } from '@/lib/api/auth';
 import useToastHook from '@/hooks/useToastHook';
 import { RootState, useAppDispatch, useAppSelector } from 'store';
 import { userActions } from 'store/user';

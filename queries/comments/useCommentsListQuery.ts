@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
 import useToastHook from '@/hooks/useToastHook';
-import { commentsListAPI } from 'lib/api/comments';
+import { commentsListAPI } from '@/lib/api/comments';
 import { queriesKey } from 'queries';
 
 const { useCommentsListQueryKey } = queriesKey.comments;
@@ -30,6 +30,7 @@ export default function useCommentsListQuery(filter?: string[]) {
         ),
       };
     },
+    suspense: true,
   });
 
   useEffect(() => {

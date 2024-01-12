@@ -8,6 +8,7 @@ import CommentsHashTag from 'components/comments/CommentsHashTag';
 
 import useCommentsListQuery from 'queries/comments/useCommentsListQuery';
 import useCommentsFilterHook from '@/hooks/useCommentsFilterHook';
+import { Suspense } from 'react';
 
 interface IProps {
   children: JSX.Element;
@@ -39,16 +40,18 @@ export default function CommentsFilterProvider({ children }: IProps) {
   const { data } = useCommentsListQuery(filter);
 
   return (
-    <Container>
-      <Header>
-        {children}
-        <CommentsHashTag
-          filter={filter}
-          addFilter={addFilter}
-          removeFilter={removeFilter}
-        />
-      </Header>
-      <CommentsList data={data} />
-    </Container>
+    <Suspense fallback={<div>loading...</div>}>
+      <Container>
+        <Header>
+          {children}
+          <CommentsHashTag
+            filter={filter}
+            addFilter={addFilter}
+            removeFilter={removeFilter}
+          />
+        </Header>
+        <CommentsList data={data} />
+      </Container>
+    </Suspense>
   );
 }

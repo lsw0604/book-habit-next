@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
 import useToastHook from '@/hooks/useToastHook';
-import { myBookListDeleteAPI } from 'lib/api/myBook';
+import { myBookListDeleteAPI } from '@/lib/api/myBook';
 import { queriesKey, queryClient } from 'queries';
 import useMyBookListInfinityQuery from './useMyBookListInfinityQuery';
 
