@@ -56,7 +56,7 @@ export default function ProfileDescription() {
   );
 
   const modalHandler = () => {
-    dispatch(modalActions.setModalType('modifyProfile'));
+    dispatch(modalActions.setModalState({ type: 'modifyProfile' }));
   };
 
   return (
