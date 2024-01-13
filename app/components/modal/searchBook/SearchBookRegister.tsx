@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import SearchRegisterHeader from 'components/searchBookRegister/SearchBookRegisterHeader';
+import SearchBookRegisterInfo from 'components/searchBookRegister/SearchBookRegisterInfo';
 import SearchRegister from 'components/searchBookRegister';
 import ModalHeader from 'components/modal/ModalHeader';
 import { IconBook } from 'style/icon';
@@ -25,8 +25,9 @@ export default function SearchBookRegister() {
   return (
     <Container>
       <ModalHeader {...HEADER_OPTION} />
-      <SearchRegisterHeader />
-      <SearchRegister />
+      <SearchRegister>
+        <SearchBookRegisterInfo />
+      </SearchRegister>
     </Container>
   );
 }

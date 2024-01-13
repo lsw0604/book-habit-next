@@ -61,7 +61,7 @@ const HeaderDetailDescription = styled.span`
   white-space: pre-line;
 `;
 
-export default function SearchBookRegisterHeader() {
+export default function SearchBookRegisterInfo() {
   const { url, title, thumbnail, contents } = useAppSelector(
     (state: RootState) => state.searchBookRegister
   );
