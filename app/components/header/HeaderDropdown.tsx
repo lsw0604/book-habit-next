@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 import { customize } from 'style/colors';
 import { logoutAPI } from 'lib/api/auth';

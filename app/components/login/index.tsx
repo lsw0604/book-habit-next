@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import { useState, ChangeEvent, FormEvent } from 'react';
+import Link from 'next/link';
 
 import Input from 'components/common/input';
 import Divider from 'components/common/Divider';
@@ -10,8 +11,6 @@ import KakaoButton from 'components/common/button/KakaoButton';
 import { IconClosedEye, IconOpenEye, IconMail } from 'style/icon';
 import { customize } from 'style/colors';
 import useLocalLoginMutation from 'queries/local/useLocalLoginMutation';
-import useValidateHook from '@/hooks/useValidateHook';
-import Link from 'next/link';
 import useToastHook from '@/hooks/useToastHook';
 
 const Container = styled.form`

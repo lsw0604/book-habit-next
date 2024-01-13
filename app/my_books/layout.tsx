@@ -9,6 +9,6 @@ const Container = styled.div`
   box-sizing: border-box;
 `;
 
-export default function MyBooksLayout({ children }: { children: ReactNode }) {
+export default function layout({ children }: { children: ReactNode }) {
   return <Container>{children}</Container>;
 }
