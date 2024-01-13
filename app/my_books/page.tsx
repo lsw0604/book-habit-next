@@ -1,5 +1,5 @@
-import React from 'react';
+import MyBooks from 'components/myBooks';
 
 export default function page() {
-  return <div>page</div>;
+  return <MyBooks />;
 }
