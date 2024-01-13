@@ -42,15 +42,10 @@ const Number = styled.p`
   color: ${({ theme }) => theme.colors.spinner};
 `;
 
-export default function KakaoPage() {
+export default function KakaoLogin({ code }: { code: string }) {
   const [second, setSecond] = useState<number>(3);
 
   const router = useRouter();
-
-  const code = new URLSearchParams(window.location.search).get(
-    'code'
-  ) as string;
-
   const { isLoading, isError, error, refetch } = useKakaoCallbackQuery(code);
 
   useEffect(() => {
@@ -67,7 +62,7 @@ export default function KakaoPage() {
     return () => clearInterval(timer);
   }, [second, setSecond]);
 
-  if (!code) return router.push('/404');
+  if (!code) router.push('/404');
 
   if (error) {
     return (
