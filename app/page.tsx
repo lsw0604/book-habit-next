@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/navigation';
 
 import Loader from 'components/common/Loader';
 import { LogoMain } from '@/style/icon';
@@ -43,6 +44,14 @@ const LogoWrapper = styled.div`
 `;
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    setTimeout(() => {
+      router.push('/search');
+    }, 1000);
+  }, []);
+
   return (
     <Container>
       <LogoWrapper>

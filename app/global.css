@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *,
+  ::after,
+  ::before {
+    @apply box-border;
+  }
+  html,
+  body,
+  div,
+  span,
+  h1,
+  h2,
+  h3,
+  p,
+  img,
+  i,
+  ul,
+  li,
+  form,
+  label,
+  article,
+  footer,
+  header,
+  main,
+  menu,
+  \ nav,
+  section {
+    @apply align-baseline m-0 p-0 border-0;
+  }
+  article,
+  footer,
+  header,
+  main,
+  nav,
+  section {
+    @apply block;
+  }
+  *[hidden] {
+    @apply hidden;
+  }
+  ul {
+    list-style: none;
+  }
+  a {
+    @apply no-underline;
+  }
+  ::-webkit-scrollbar {
+    @apply hidden;
+  }
+}

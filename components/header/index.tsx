@@ -8,10 +8,8 @@ import HeaderProfile from 'components/header/HeaderProfile';
 import { RootState, useAppSelector } from 'store';
 import { IconLeftArrow } from 'style/icon';
 import useAccessHook from '@/hooks/useAccessHook';
-import { useQuery } from '@tanstack/react-query';
-import { accessAPI } from '@/lib/api/auth';
 
-const headerCSSHandler = (isUriProfile?: boolean) => {
+const headerCSSHandler = (isUriProfile: boolean) => {
   return !isUriProfile
     ? css`
         background-color: ${({ theme }) => theme.mode.sub};
@@ -27,7 +25,7 @@ const headerCSSHandler = (isUriProfile?: boolean) => {
       `;
 };
 
-const Container = styled.nav<{ $isUriProfile?: boolean }>`
+const Container = styled.nav<{ $isUriProfile: boolean }>`
   position: fixed;
   height: 4rem;
   width: 100vw;
@@ -56,14 +54,9 @@ const LogoWrapper = styled.div`
   }
 `;
 
-export default async function Header() {
+export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
-
-  const { data } = useQuery<AccessResponseType>(['auth'], accessAPI, {
-    enabled: !!window.localStorage.getItem('ACCESS'),
-  });
-
   const { isLogged } = useAppSelector((state: RootState) => state.user);
   useAccessHook();
 

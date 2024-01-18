@@ -2,17 +2,21 @@
 
 import styled, { css } from 'styled-components';
 import { usePathname } from 'next/navigation';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import Modal from 'components/modal';
-import Toast from 'components/common/Toast';
-import Header from 'components/header';
-import ModalPortal from 'components/modal/ModalPortal';
-import NavigationBar from 'components/bottom';
+// import Modal from 'components/modal';
+// import Header from 'components/header';
+// import Toast from 'components/common/Toast';
+// import NavigationBar from 'components/bottom';
+// import ModalPortal from 'components/modal/ModalPortal';
 
 import ReduxProvider from 'lib/ReduxProvider';
 import QueryProvider from 'lib/QueryProvider';
-import StyledComponentsRegistry from 'lib/StyledComponentsRegistry';
+import StyledComponentsRegistry from '@/components/provider/styled-components-provider';
+
+import '@fontsource/noto-sans-kr';
+import './global.css';
+import { cn } from '@/lib/utils';
 
 const LayoutCSS = css`
   padding: 4rem 0rem;
@@ -42,15 +46,16 @@ export default function RootLayout({
         <ReduxProvider>
           <QueryProvider>
             <StyledComponentsRegistry>
-              <Header />
+              {/* <Header /> */}
               <Container $pathname={pathname}>{children}</Container>
-              <NavigationBar />
-              <ModalPortal>
+
+              {/* <NavigationBar /> */}
+              {/* <ModalPortal>
                 <Modal />
-              </ModalPortal>
-              <Toast />
-              <div id="root-modal" />
-              <ReactQueryDevtools position="top-right" panelPosition="top" />
+              </ModalPortal> */}
+              {/* <Toast /> */}
+              {/* <div id="root-modal" /> */}
+              {/* <ReactQueryDevtools position="top-right" panelPosition="top" /> */}
             </StyledComponentsRegistry>
           </QueryProvider>
         </ReduxProvider>

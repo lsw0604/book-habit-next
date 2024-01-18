@@ -3,10 +3,10 @@
 import { useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { v4 } from 'uuid';
+import { useEventListener, useIntersectionObserver } from 'usehooks-ts';
 
 import ImageWrapper from 'components/common/ImageWrapper';
 import SearchItemBody from 'components/search/SearchItemBody';
-import useObserverHook from '@/hooks/useObserverHook';
 import { useAppDispatch } from '@/app/store';
 import { modalActions } from '@/app/store/modal';
 import { searchBookRegisterActions } from '@/app/store/searchBookRegister';
@@ -35,43 +35,32 @@ const Header = styled.div`
   justify-content: center;
 `;
 
+const observerOptions = {
+  root: null,
+  rootMargin: '10px',
+  threshold: 0.1,
+};
+
 export default function SearchItem({ item, search }: IProps) {
   const dispatch = useAppDispatch();
-  const itemRef = useRef<HTMLDivElement>(null);
+  const itemRef = useRef<HTMLDivElement | null>(null);
+  const entry = useIntersectionObserver(itemRef, observerOptions);
+
+  const isVisible = entry?.isIntersecting;
   const { isbn, thumbnail, ...rest } = item;
   const ISBN = isbn.split(' ');
-  const { isVisible } = useObserverHook(itemRef);
 
-  const modalHandler = useCallback((type: ModalComponentType) => {
-    dispatch(modalActions.setModalState({ type }));
-  }, []);
-
-  const setSearchBookRegister = useCallback(() => {
+  const openRegisterSearchBookModal = () => {
+    dispatch(modalActions.setModalState({ type: 'registerSearchBook' }));
     dispatch(
       searchBookRegisterActions.setSearchBookRegister({
         ...item,
         isbn: ISBN[1],
       })
     );
-  }, []);
-
-  const openRegisterSearchBookModal = () => {
-    modalHandler('registerSearchBook');
-    setSearchBookRegister();
   };
 
-  useEffect(() => {
-    if (isVisible) {
-      itemRef.current?.addEventListener('click', openRegisterSearchBookModal);
-    }
-
-    return () => {
-      itemRef.current?.removeEventListener(
-        'click',
-        openRegisterSearchBookModal
-      );
-    };
-  }, [isVisible]);
+  useEventListener('click', openRegisterSearchBookModal, itemRef);
 
   return (
     <Container key={isbn} ref={itemRef}>

@@ -1,10 +1,10 @@
 'use client';
 
+import { Suspense } from 'react';
 import styled from 'styled-components';
 
-import SearchInput from 'components/search/SearchInput';
 import SearchList from 'components/search/SearchList';
-import { Suspense } from 'react';
+import SearchInput from 'components/search/SearchInput';
 
 const Container = styled.div`
   width: 100%;
@@ -25,7 +25,7 @@ const Contents = styled.div`
   overflow: scroll;
 `;
 
-export default function SearchPage() {
+export default async function SearchPage() {
   return (
     <Container>
       <Wrapper>

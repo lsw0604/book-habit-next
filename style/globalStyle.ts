@@ -1,17 +1,8 @@
 import { createGlobalStyle, css } from 'styled-components';
-import reset from 'styled-reset';
+
+import '@fontsource/noto-sans-kr';
 
 const globalStyle = css`
-  ${reset}
-  @font-face {
-    font-family: 'Noto Sans KR';
-    font-weight: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('/fonts/noto-sans-kr.woff') format('woff'),
-      url('/fonts/noto-sans-kr.woff2') format('woff');
-  }
-
   body {
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 400;
