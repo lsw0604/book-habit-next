@@ -46,9 +46,9 @@ const Label = styled.label`
   margin-left: 10px;
   margin-bottom: 8px;
   display: block;
-  color: ${({ theme }) => theme.mode.typo_sub};
   font-size: 14px;
   line-height: 18px;
+  color: ${({ theme }) => theme.mode.typo_sub};
 `;
 
 const Icon = styled.div`

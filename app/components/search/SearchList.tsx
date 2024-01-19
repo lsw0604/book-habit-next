@@ -40,7 +40,11 @@ const Page = styled.div`
   }
 `;
 
-export default function SearchList() {
+export default function SearchList({
+  params,
+}: {
+  params: { keyword: string };
+}) {
   const lastSearchRef = useRef<HTMLDivElement>(null);
 
   const searchParams = useSearchParams();

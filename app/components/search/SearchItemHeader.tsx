@@ -12,13 +12,13 @@ const Container = styled.div`
   width: 100%;
   font-size: 18px;
   line-height: 20px;
-  color: ${({ theme }) => theme.mode.typo_sub};
   margin-bottom: 8px;
   float: left;
   text-align: start;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  color: ${({ theme }) => theme.mode.typo_sub};
 `;
 
 const Highlighted = styled.div`

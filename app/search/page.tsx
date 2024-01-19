@@ -1,41 +1,19 @@
-'use client';
-
 import { Suspense } from 'react';
-import styled from 'styled-components';
 
-import SearchList from 'components/search/SearchList';
+import SearchList from './_components/search-list';
 import SearchInput from 'components/search/SearchInput';
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 10%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Contents = styled.div`
-  width: 100%;
-  height: 90%;
-  overflow: scroll;
-`;
 
 export default async function SearchPage() {
   return (
-    <Container>
-      <Wrapper>
+    <div className="w-full h-full">
+      <div className="w-full h-[10%] flex justify-center items-center">
         <SearchInput />
-      </Wrapper>
-      <Contents>
+      </div>
+      <div className="w-full h-[90%]">
         <Suspense>
           <SearchList />
         </Suspense>
-      </Contents>
-    </Container>
+      </div>
+    </div>
   );
 }
