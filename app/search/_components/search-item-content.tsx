@@ -1,6 +1,7 @@
 'use client';
 
 import dayjs from 'dayjs';
+import SearchItemHeader from './search-item-header';
 
 interface SearchItemContentProps {
   content: Omit<
@@ -29,6 +30,7 @@ export default function SearchItemContent({
 
   return (
     <div className="w-full h-full">
+      <SearchItemHeader title={title} search={search} />
       <div className="text-[10px] leading-3 w-full inline-flex gap-2 font-bold overflow-hidden">
         출판사{' '}
         <p className="text-[10px] leading-3 overflow-hidden">{publisher}</p>

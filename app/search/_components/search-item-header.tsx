@@ -18,7 +18,7 @@ export default function SearchItemHeader({
       <div className="w-full text-lg leading-5 float-left text-start text-ellipsis overflow-hidden whitespace-nowrap mb-2">
         {split_title.map((word, i) =>
           regExp.test(word) ? (
-            <div key={i} className="inline-flex">
+            <div key={i} className="inline-flex text-cyan-400">
               {word}
             </div>
           ) : (

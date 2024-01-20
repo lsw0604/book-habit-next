@@ -1,13 +1,16 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { v4 } from 'uuid';
+import {
+  useEffectOnce,
+  useIntersectionObserver,
+  useUpdateEffect,
+} from 'usehooks-ts';
 
 import SearchItem from './search-item';
 import useBookSearchInfinityQuery from '@/queries/book/useBookSearchInfinityQuery';
-import { v4 } from 'uuid';
-import Observer from '@/components/common/observer';
-import { useIntersectionObserver, useUpdateEffect } from 'usehooks-ts';
 
 const OBSERVER_OPTION = {
   root: null,
@@ -17,6 +20,8 @@ const OBSERVER_OPTION = {
 
 export default function SearchList() {
   const lastSearchRef = useRef<HTMLDivElement | null>(null);
+  const entry = useIntersectionObserver(lastSearchRef, OBSERVER_OPTION);
+  const isVisible = !!entry?.isIntersecting;
 
   const searchParams = useSearchParams();
 
@@ -28,19 +33,16 @@ export default function SearchList() {
   const { data, fetchNextPage, hasNextPage, isFetching } =
     useBookSearchInfinityQuery(keyword);
 
+  useUpdateEffect(() => {
+    if (isVisible && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [lastSearchRef, isFetching, hasNextPage, fetchNextPage]);
+
   if (!data) return null;
   if (keyword === undefined) return null;
 
   const _document = data.pages.flatMap((page) => page.documents);
-
-  const entry = useIntersectionObserver(lastSearchRef, OBSERVER_OPTION);
-  const isVisible = !!entry?.isIntersecting;
-
-  useUpdateEffect(() => {
-    if (isVisible) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, hasNextPage, entry, isFetching]);
 
   return (
     <div className="w-full h-full flex flex-col gap-4 overflow-scroll">

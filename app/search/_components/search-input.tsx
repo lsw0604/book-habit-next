@@ -1,24 +1,40 @@
 'use client';
 
-import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import { SearchIcon } from 'lucide-react';
 
-const Container = styled.form`
-  width: 100%;
-  display: flex;
-  padding: 0 1rem;
-  flex-direction: column;
-  position: relative;
+import { Input } from '@/components/ui/input';
 
-  .circle_btn {
-    &::placeholder {
-      line-height: 16px;
-      font-size: 14px;
-      font-weight: 700;
-      color: ${({ theme }) => theme.mode.typo_sub};
-    }
-  }
-`;
+export default function SearchInput() {
+  const router = useRouter();
+  const [keyword, setKeyword] = useState<string>('');
 
-export default function SearchInput() {}
+  const onChangeKeyword = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setKeyword(event.target.value);
+    },
+    []
+  );
+
+  const onSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (keyword !== '')
+      return router.push(`?keyword=${encodeURIComponent(keyword)}`);
+  };
+
+  return (
+    <form
+      className="w-full flex px-4 py-0 flex-col relative"
+      onSubmit={onSubmit}
+    >
+      <Input
+        value={keyword}
+        onChange={onChangeKeyword}
+        className="rounded-xl"
+        icon={<SearchIcon className="w-4 h-4" />}
+      />
+      <button hidden type="submit" />
+    </form>
+  );
+}

@@ -19,9 +19,9 @@ export default function ImageWrapper({
   return (
     <div
       className={cn(
-        'bg-[rgba(0,0,0,0.08)] flex justify-center items-center m-0 p-0 rounded-[5px] border-none',
         width && `w-[${width}px]`,
-        height && `h-[${height}px]`
+        height && `h-[${height}px]`,
+        'bg-[rgba(0,0,0,0.08)] flex justify-center items-center m-0 p-0 rounded-[5px] border-none'
       )}
     >
       {src ? (
