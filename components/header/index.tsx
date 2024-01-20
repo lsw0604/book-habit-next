@@ -1,96 +1,54 @@
-'use client';
+import { ArrowLeft } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 
-import styled, { css } from 'styled-components';
-import { useRouter, usePathname } from 'next/navigation';
+import HeaderAuth from './header-auth';
+import HeaderProfile from './header-profile';
 
-import HeaderAuth from 'components/header/HeaderAuth';
-import HeaderProfile from 'components/header/HeaderProfile';
-import { RootState, useAppSelector } from 'store';
-import { IconLeftArrow } from 'style/icon';
-import useAccessHook from '@/hooks/useAccessHook';
-
-const headerCSSHandler = (isUriProfile: boolean) => {
-  return !isUriProfile
-    ? css`
-        background-color: ${({ theme }) => theme.mode.sub};
-        box-shadow: ${({ theme }) => theme.shadow.md};
-      `
-    : css`
-        background-color: ${({ theme }) => theme.colors.spinner};
-
-        @media screen and (min-width: 1280px) {
-          background-color: ${({ theme }) => theme.mode.sub};
-          box-shadow: ${({ theme }) => theme.shadow.md};
-        }
-      `;
-};
-
-const Container = styled.nav<{ $isUriProfile: boolean }>`
-  position: fixed;
-  height: 4rem;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2rem;
-  z-index: 9998;
-  ${({ $isUriProfile }) => headerCSSHandler($isUriProfile)}
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  height: 100%;
-`;
-
-const LogoWrapper = styled.div`
-  cursor: pointer;
-  color: ${({ theme }) => theme.mode.typo_main};
-  svg {
-    width: 1rem;
-    fill: ${({ theme }) => theme.mode.typo_sub};
-  }
-`;
+import { RootState, useAppSelector } from '@/app/store';
+import { cn } from '@/lib/utils';
 
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
-  const { isLogged } = useAppSelector((state: RootState) => state.user);
-  useAccessHook();
 
-  const logoHandler = (pathname: string) => {
+  const { isLogged } = useAppSelector((state: RootState) => state.user);
+
+  const loginHandler = (pathname: string) => {
     if (
       pathname === '/search' ||
       pathname === '/register/kakao' ||
       pathname.includes('/login/kakao')
     )
-      return <LogoWrapper>책벌래</LogoWrapper>;
+      return <div className="text-slate-500 cursor-pointer">책벌래</div>;
 
     return (
-      <LogoWrapper onClick={() => router.back()}>
-        <IconLeftArrow />
-      </LogoWrapper>
+      <div
+        className="text-slate-500 cursor-pointer"
+        onClick={() => router.back()}
+      >
+        <ArrowLeft className="w-6 h-6" />
+      </div>
     );
   };
 
   return (
     <header>
-      {pathname !== '/' && (
-        <Container $isUriProfile={pathname === '/profile'}>
-          {logoHandler(pathname)}
-          <Wrapper>
-            {isLogged ? (
-              pathname === '/profile' ? null : (
-                <HeaderProfile />
-              )
-            ) : (
-              <HeaderAuth />
-            )}
-          </Wrapper>
-        </Container>
-      )}
+      <nav
+        className={cn(
+          'fixed h-16 w-screen flex items-center justify-between py-0 px-8 z-9998 bg-slate-50 shadow-md'
+        )}
+      >
+        {loginHandler(pathname)}
+        <div className="flex justify-center items-center gap-5 h-full">
+          {isLogged ? (
+            pathname === '/profile' ? null : (
+              <HeaderProfile />
+            )
+          ) : (
+            <HeaderAuth />
+          )}
+        </div>
+      </nav>
     </header>
   );
 }

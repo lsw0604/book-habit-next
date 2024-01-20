@@ -9,6 +9,8 @@ import { usePathname } from 'next/navigation';
 // import Toast from 'components/common/Toast';
 // import NavigationBar from 'components/bottom';
 // import ModalPortal from 'components/modal/ModalPortal';
+import Header from '../components/header';
+import Bottom from '../components/bottom';
 
 import ReduxProvider from 'lib/ReduxProvider';
 import QueryProvider from 'lib/QueryProvider';
@@ -46,9 +48,9 @@ export default function RootLayout({
         <ReduxProvider>
           <QueryProvider>
             <StyledComponentsRegistry>
-              {/* <Header /> */}
+              <Header />
               <Container $pathname={pathname}>{children}</Container>
-
+              <Bottom />
               {/* <NavigationBar /> */}
               {/* <ModalPortal>
                 <Modal />
