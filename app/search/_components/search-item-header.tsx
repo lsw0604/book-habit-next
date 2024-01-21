@@ -1,5 +1,3 @@
-'use client';
-
 interface SearchItemHeaderProps {
   title: string;
   search: string;

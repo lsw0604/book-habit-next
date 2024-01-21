@@ -1,5 +1,3 @@
-import { Suspense } from 'react';
-
 import SearchList from './_components/search-list';
 import SearchInput from './_components/search-input';
 
@@ -10,9 +8,7 @@ export default async function SearchPage() {
         <SearchInput />
       </div>
       <div className="w-full h-[90%]">
-        <Suspense>
-          <SearchList />
-        </Suspense>
+        <SearchList />
       </div>
     </div>
   );

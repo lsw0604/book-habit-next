@@ -19,14 +19,15 @@ export default function ImageWrapper({
   return (
     <div
       className={cn(
+        `bg-[rgba(0,0,0,0.08)]`,
         width && `w-[${width}px]`,
         height && `h-[${height}px]`,
-        'bg-[rgba(0,0,0,0.08)] flex justify-center items-center m-0 p-0 rounded-[5px] border-none'
+        `flex justify-center items-center m-0 p-0 rounded-lg border-none`
       )}
     >
       {src ? (
         <Image
-          className="w-full h-auto object-cover rounded-[5px]"
+          className="w-full h-auto object-cover rounded-lg"
           src={src}
           alt={alt}
           height={height}

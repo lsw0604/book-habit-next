@@ -4,8 +4,8 @@ import { useRef } from 'react';
 import { v4 } from 'uuid';
 import { useEventListener, useIntersectionObserver } from 'usehooks-ts';
 
-import ImageWrapper from '@/components/common/image-wrapper';
 import SearchItemContent from './search-item-content';
+import ImageWrapper from '@/components/common/image-wrapper';
 
 import { useAppDispatch } from '@/app/store';
 import { modalActions } from '@/app/store/modal';
