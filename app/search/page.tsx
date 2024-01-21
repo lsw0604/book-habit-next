@@ -1,7 +1,7 @@
 import SearchList from './_components/search-list';
 import SearchInput from './_components/search-input';
 
-export default async function SearchPage() {
+export default function SearchPage() {
   return (
     <div className="w-full h-full">
       <div className="w-full h-[10%] flex justify-center items-center">

@@ -1,13 +1,11 @@
 'use client';
 
-import styled, { css } from 'styled-components';
 import { usePathname } from 'next/navigation';
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 // import Modal from 'components/modal';
 // import Header from 'components/header';
 // import Toast from 'components/common/Toast';
-// import NavigationBar from 'components/bottom';
 // import ModalPortal from 'components/modal/ModalPortal';
 import Header from '../components/header';
 import Bottom from '../components/bottom';
@@ -19,22 +17,6 @@ import StyledComponentsRegistry from '@/components/provider/styled-components-pr
 import '@fontsource/noto-sans-kr';
 import './global.css';
 import { cn } from '@/lib/utils';
-
-const LayoutCSS = css`
-  padding: 4rem 0rem;
-  @media screen and (min-width: 768ox) {
-    padding: 4rem 10%;
-  }
-`;
-
-const Container = styled.div<{ $pathname: string }>`
-  background-color: ${({ theme }) => theme.mode.main};
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
-  box-sizing: border-box;
-  ${({ $pathname }) => $pathname !== '/' && LayoutCSS}
-`;
 
 export default function RootLayout({
   children,
@@ -49,7 +31,14 @@ export default function RootLayout({
           <QueryProvider>
             <StyledComponentsRegistry>
               <Header />
-              <Container $pathname={pathname}>{children}</Container>
+              <div
+                className={cn(
+                  'w-screen h-screen p-0 box-border',
+                  pathname !== '/' && 'py-16 px-0'
+                )}
+              >
+                {children}
+              </div>
               <Bottom />
               {/* <NavigationBar /> */}
               {/* <ModalPortal>
