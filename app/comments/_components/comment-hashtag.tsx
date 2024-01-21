@@ -1,3 +1,6 @@
+import { Skeleton } from '@/components/ui/skeleton';
+
+import { COMMENT_HASHTAG_LOADER_SIZES } from '@/utils/staticData';
 import { cn } from '@/lib/utils';
 
 interface CommentHashtagProps {
@@ -59,3 +62,15 @@ export default function CommentHashtag({
     </ul>
   );
 }
+
+CommentHashtag.Loader = function () {
+  return (
+    <ul className="w-full h-auto max-h-24 flex gap-1 flex-row px-0 py-4 flex-wrap relative mb-2">
+      {COMMENT_HASHTAG_LOADER_SIZES.map((size, index) => (
+        <li className="ml-2 rounded-full w-auto" key={index}>
+          <Skeleton className={cn('h-[20px] bg-slate-200', `w-[${size}]`)} />
+        </li>
+      ))}
+    </ul>
+  );
+};

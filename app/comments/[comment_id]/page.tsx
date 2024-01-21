@@ -1,51 +1,36 @@
-'use client';
+import { dehydrate } from '@tanstack/react-query';
 
-import styled from 'styled-components';
+import CommentDetail from './_components/comment-detail';
 
-import CommentDetail from 'components/commentDetail';
-import CommentDetailReplyList from 'components/commentDetail/CommentDetailReplyList';
-import CommentDetailReplyForm from 'components/commentDetail/CommentDetailReplyForm';
+import { queriesKey } from '@/queries';
+import getQueryClient from '@/lib/getQueryClient';
+import ReactQueryHydrate from '@/lib/ReactQueryHydrate';
+import { commentsDetailAPI } from '@/lib/api/comments';
+import CommentDetailReplyList from './_components/comment-detail-reply-list';
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  box-sizing: border-box;
-  overflow: scroll;
+const { useCommentsDetailQueryKey } = queriesKey.comments;
 
-  @media screen and (min-width: 768px) {
-    padding: 1rem 15%;
-  }
-`;
-
-const ReplyContainer = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  gap: 1rem;
-  justify-content: space-between;
-  border-radius: 1rem;
-  box-shadow: ${({ theme }) => theme.shadow.md};
-  background-color: ${({ theme }) => theme.mode.sub};
-`;
-
-export default function CommentDetailPage({
+export default async function CommentDetailPage({
   params,
 }: {
   params: { comment_id: number };
 }) {
   const { comment_id } = params;
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery(
+    [useCommentsDetailQueryKey, comment_id.toString()],
+    () => commentsDetailAPI(comment_id)
+  );
 
   return (
-    <Container>
-      <CommentDetail comment_id={comment_id} />
-      <ReplyContainer>
+    <div className="w-full h-full flex flex-col p-4 overflow-auto box-border">
+      <ReactQueryHydrate state={dehydrate(queryClient)}>
+        <CommentDetail comment_id={comment_id} />
+      </ReactQueryHydrate>
+      <div className="flex h-full flex-col justify-between p-4 rounded-lg shadow-lg">
         <CommentDetailReplyList comment_id={comment_id} />
-        <CommentDetailReplyForm comment_id={comment_id} />
-      </ReplyContainer>
-    </Container>
+        <div>form</div>
+      </div>
+    </div>
   );
 }

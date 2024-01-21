@@ -19,3 +19,18 @@ export const STATUS_OBJECT: Record<'다읽음' | '읽기전' | '읽는중', stri
   읽는중: '읽는중에 남긴',
   읽기전: '읽기전에 남긴',
 };
+
+export const COMMENT_HASHTAG_LOADER_SIZES: string[] = [
+  '2rem',
+  '6rem',
+  '4rem',
+  '8rem',
+  '4rem',
+  '6rem',
+  '8rem',
+  '2rem',
+  '6rem',
+  '8rem',
+  '2rem',
+  '4rem',
+];
