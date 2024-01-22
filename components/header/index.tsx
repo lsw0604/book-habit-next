@@ -33,22 +33,24 @@ export default function Header() {
 
   return (
     <header>
-      <nav
-        className={cn(
-          'fixed h-16 w-screen flex items-center justify-between py-0 px-8 z-9998 bg-slate-50 shadow-md'
-        )}
-      >
-        {loginHandler(pathname)}
-        <div className="flex justify-center items-center gap-5 h-full">
-          {isLogged ? (
-            pathname === '/profile' ? null : (
-              <HeaderProfile />
-            )
-          ) : (
-            <HeaderAuth />
+      {pathname === '/' ? null : (
+        <nav
+          className={cn(
+            'fixed h-16 w-screen flex items-center justify-between py-0 px-8 z-9998 bg-slate-50 shadow-md'
           )}
-        </div>
-      </nav>
+        >
+          {loginHandler(pathname)}
+          <div className="flex justify-center items-center gap-5 h-full">
+            {isLogged ? (
+              pathname === '/profile' ? null : (
+                <HeaderProfile />
+              )
+            ) : (
+              <HeaderAuth />
+            )}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

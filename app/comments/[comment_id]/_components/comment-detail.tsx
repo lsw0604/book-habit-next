@@ -1,34 +1,28 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-
 import CommentItemHeader from '../../_components/comment-item-header';
 import CommentItemContent from '../../_components/comment-item-content';
 import CommentItemHeart from '../../_components/comment-item-heart';
 import CommentItemReply from '../../_components/comment-item-reply';
+import CommentItem from '../../_components/comment-item';
 
-import { queriesKey } from '@/queries';
+import useCommentsDetailQuery from '@/queries/comments/useCommentsDetailQuery';
 
 interface CommentDetailProps {
   comment_id: number;
 }
 
-const { useCommentsDetailQueryKey } = queriesKey.comments;
-
 export default function CommentDetail({ comment_id }: CommentDetailProps) {
-  const { data } = useQuery<CommentsDetailQueryResponseType>([
-    useCommentsDetailQueryKey,
-    comment_id.toString(),
-  ]);
+  const { data, isLoading } = useCommentsDetailQuery(comment_id);
 
-  if (!data) return null;
+  if (!data || isLoading) return <CommentItem.Loader />;
 
   const { like_user_ids, reply_ids, comment: content, ...comment } = data;
 
   return (
     <div className="w-full h-auto flex p-4 relative rounded-lg flex-col shadow-lg mb-4">
       <CommentItemHeader comment={comment} />
-      <CommentItemContent content={content} detail />
+      <CommentItemContent content={content} />
       <div className="w-full inline-flex justify-start gap-4">
         <CommentItemHeart
           comment_id={comment_id}

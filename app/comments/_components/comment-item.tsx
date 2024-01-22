@@ -1,8 +1,10 @@
+import Link from 'next/link';
+
 import CommentItemHeader from './comment-item-header';
 import CommentItemContent from './comment-item-content';
 import CommentItemHeart from './comment-item-heart';
 import CommentItemReply from './comment-item-reply';
-import Link from 'next/link';
+
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface CommentItemProps {

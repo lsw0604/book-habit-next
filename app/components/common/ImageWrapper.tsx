@@ -18,11 +18,11 @@ const Container = styled.div<{ $width: number; $height: number }>`
   border-radius: 5px;
   margin: 0;
   padding: 0;
-  width: ${({ $width }) => `${$width}px`};
-  height: ${({ $height }) => `${$height}px`};
   display: flex;
   justify-content: center;
   align-items: center;
+  width: ${({ $width }) => `${$width}px`};
+  height: ${({ $height }) => `${$height}px`};
 
   img {
     border-radius: 5px;
