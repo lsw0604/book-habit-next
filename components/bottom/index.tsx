@@ -49,7 +49,7 @@ export default function Bottom() {
           <div>palette</div>
         </li>
         <li className="w-full h-full first:overflow-hidden first:rounded-[1rem_0_0_0] last:overflow-hidden last:rounded-[0_1rem_0_0]">
-          <Link href="/my_books">
+          <Link href="/my_books?category=전체보기">
             <div className="w-full h-full border-none outline-none flex flex-col justify-around items-center">
               <div>
                 <BookIcon

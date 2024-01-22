@@ -1,5 +1,11 @@
-import MyBooks from 'components/myBooks';
+import MyBookList from './_components/my-book-list';
+import MyBookSelector from './_components/my-book-selector';
 
 export default function page() {
-  return <MyBooks />;
+  return (
+    <div className="w-full h-full flex flex-col">
+      <MyBookSelector />
+      <MyBookList />
+    </div>
+  );
 }

@@ -1,71 +1,24 @@
 'use client';
 
+import Link from 'next/link';
+
 import { LogoSad } from 'style/icon';
-import { useRouter } from 'next/navigation';
-import styled from 'styled-components';
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 1rem;
-  svg {
-    width: 10rem;
-  }
-`;
-
-const Content = styled.div`
-  width: 100%;
-  padding: 1rem;
-  border-radius: 1rem;
-  display: flex;
-  background-color: ${({ theme }) => theme.mode.sub};
-  box-shadow: ${({ theme }) => theme.shadow.md};
-`;
-
-const MessageContainer = styled.div`
-  width: 100%;
-  padding: 0 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-`;
-
-const Title = styled.h1`
-  color: ${({ theme }) => theme.colors.spinner};
-  font-size: 40px;
-  line-height: 40px;
-`;
-
-const Message = styled.span`
-  color: ${({ theme }) => theme.mode.typo_sub};
-  line-height: 40px;
-  font-size: 14px;
-`;
-
-const Link = styled.p`
-  color: ${({ theme }) => theme.colors.spinner};
-`;
 
 export default function NotFound() {
-  const router = useRouter();
-
-  const navigateSearchPage = () => {
-    router.push('/search');
-  };
-
   return (
-    <Container>
-      <Content>
-        <MessageContainer>
-          <Title>404</Title>
-          <Message>해당 페이지를 찾을 수 없습니다.</Message>
-          <Link onClick={navigateSearchPage}>홈으로 가기</Link>
-        </MessageContainer>
-        <LogoSad />
-      </Content>
-    </Container>
+    <div className="w-full h-full flex flex-col items-center justify-center px-4">
+      <LogoSad className="w-[150px] h-[150px]" />
+      <div className="w-full p-4 rounded-lg flex shadow-lg">
+        <div className="w-full px-4 py-0 flex flex-col items-start justify-evenly">
+          <h1 className="text-3xl text-state-500">404</h1>
+          <span className="flex text-sm text-slate-400">
+            해당 페이지를 찾을 수 없습니다.
+          </span>
+          <p className="text-slate-300">
+            <Link href="/search">홈으로 가기</Link>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }

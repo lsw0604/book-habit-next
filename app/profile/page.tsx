@@ -50,14 +50,14 @@ const ProfileHeaderBackground = styled.div`
 export default function ProfilePage() {
   return (
     <Container>
-      <ProfileContainer>
-        <ProfileHeader />
-        <ProfileContent>
+      {/* <ProfileContainer> */}
+      {/* <ProfileHeader /> */}
+      {/* <ProfileContent>
           <ProfileDescription />
           <ProfileList />
         </ProfileContent>
-      </ProfileContainer>
-      <ProfileHeaderBackground />
+      // </ProfileContainer>
+      <ProfileHeaderBackground /> */}
     </Container>
   );
 }

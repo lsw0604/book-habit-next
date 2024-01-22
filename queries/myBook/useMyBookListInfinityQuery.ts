@@ -1,16 +1,12 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useEffect } from 'react';
 
 import { myBookListAPI } from 'lib/api/myBook';
-import useToastHook from '@/hooks/useToastHook';
 import { queriesKey } from 'queries';
 
 const { useMyBookListInfinityQueryKey } = queriesKey.myBook;
 
 export default function useMyBookListInfinityQuery(status: SelectorBookType) {
-  const { addToast } = useToastHook();
-
   const {
     data,
     fetchNextPage,
@@ -33,19 +29,14 @@ export default function useMyBookListInfinityQuery(status: SelectorBookType) {
     }
   );
 
-  useEffect(() => {
-    if (isError && error && error.response && error.response.data) {
-      const { message, status } = error.response.data;
-      addToast({ message, status });
-    }
-  }, [isError, error]);
-
   return {
+    data,
+    error,
+    refetch,
+    isError,
     isLoading,
     isFetching,
-    fetchNextPage,
     hasNextPage,
-    data,
-    refetch,
+    fetchNextPage,
   };
 }
