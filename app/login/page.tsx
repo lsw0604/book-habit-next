@@ -16,7 +16,7 @@ const Header = styled.h1`
 export default function LoginPage() {
   return (
     <>
-      <Header>로그인</Header>
+      <h1 className="text-center text-lg">로그인</h1>
       <LoginForm />
     </>
   );
