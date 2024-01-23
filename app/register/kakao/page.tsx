@@ -1,30 +1,9 @@
-'use client';
-
-import styled from 'styled-components';
-
 import KakaoRegister from 'components/register/KaKaoRegister';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 375px;
-  width: 100%;
-  height: 100%;
-  padding: 1rem;
-  justify-content: center;
-  align-items: center;
-  @media screen and (min-width: 1280px) {
-    max-width: 500px;
-    border-radius: 10px;
-  }
-`;
-
-export default function page() {
+export default function KakaoRegisterPage() {
   return (
-    <Container>
+    <div className="flex flex-col mx-auto max-w-sm w-full h-full p-4 justify-center items-center">
       <KakaoRegister />
-    </Container>
+    </div>
   );
 }

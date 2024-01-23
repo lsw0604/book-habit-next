@@ -1,8 +1,12 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { v4 } from 'uuid';
-import { useEventListener, useIntersectionObserver } from 'usehooks-ts';
+import {
+  useEventListener,
+  useIntersectionObserver,
+  useUpdateEffect,
+} from 'usehooks-ts';
 
 import SearchItemContent from './search-item-content';
 import ImageWrapper from '@/components/common/image-wrapper';
@@ -28,6 +32,8 @@ export default function SearchItem({ item, search }: SearchItemProps) {
   const entry = useIntersectionObserver(itemRef, observerOptions);
 
   const isVisible = entry?.isIntersecting;
+
+  const [isOpen, setIsOpen] = useState(false);
   const { isbn, thumbnail, ...rest } = item;
   const ISBN = isbn.split(' ');
 
@@ -43,13 +49,19 @@ export default function SearchItem({ item, search }: SearchItemProps) {
 
   useEventListener('click', openRegisterSearchBookModal, itemRef);
 
+  useUpdateEffect(() => {
+    if (isVisible) {
+      setIsOpen(true);
+    }
+  }, [isVisible]);
+
   return (
     <div
       ref={itemRef}
       key={isbn}
       className="w-full min-h-[350px] h-auto flex flex-col gap-4 p-4 rounded-2xl border-[none] shadow-lg"
     >
-      {isVisible ? (
+      {isOpen ? (
         <>
           <div className="flex justify-center">
             <ImageWrapper src={thumbnail} alt={v4()} width={120} height={174} />

@@ -44,7 +44,6 @@ export default function RootLayout({
               {/* <ModalPortal>
                 <Modal />
               </ModalPortal> */}
-              {/* <Toast /> */}
               {/* <div id="root-modal" /> */}
               {/* <ReactQueryDevtools position="top-right" panelPosition="top" /> */}
             </StyledComponentsRegistry>

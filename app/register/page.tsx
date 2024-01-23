@@ -6,7 +6,7 @@ export default function RegisterPage() {
   return (
     <>
       <h1 className="text-center text-4xl font-bold">회원가입</h1>
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center max-w-sm">
         <RegisterForm />
       </div>
     </>
