@@ -35,7 +35,7 @@ export default async function CommentDetailPage({
         <CommentDetail comment_id={comment_id} />
         <div className="flex h-full flex-col justify-between p-4 rounded-lg shadow-lg">
           <CommentDetailReplyList comment_id={comment_id} />
-          <CommentDetailReplyForm />
+          <CommentDetailReplyForm comment_id={comment_id} />
         </div>
       </ReactQueryHydrate>
     </div>

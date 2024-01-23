@@ -1,30 +1,65 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useUpdateEffect } from 'usehooks-ts';
 
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import useCommentsReplyRegisterMutation from '@/queries/comments/useCommentsReplyRegisterMutation';
 
-export default function CommentDetailReplyForm() {
-  const [value, setValue] = useState<string>('');
+interface CommentDetailReplyFormProps {
+  comment_id: number;
+}
 
-  const onChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(event.target.value);
-  }, []);
+const schema = z.object({
+  reply: z.string().min(1, {
+    message: '댓글을 입력해주세요.',
+  }),
+});
 
-  const onSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    console.log(value);
+type InputType = z.infer<typeof schema>;
+
+export default function CommentDetailReplyForm({
+  comment_id,
+}: CommentDetailReplyFormProps) {
+  const [useValidation, setUseValidation] = useState(false);
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitted, isValid },
+  } = useForm<InputType>({
+    resolver: zodResolver(schema),
+  });
+
+  const { mutate, isLoading } = useCommentsReplyRegisterMutation(comment_id);
+
+  const onSubmit = (data: InputType) => {
+    mutate({ comment_id, body: data });
   };
+
+  useUpdateEffect(() => {
+    if (isSubmitted) {
+      setUseValidation(true);
+    }
+  }, [isSubmitted]);
 
   return (
     <form
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       className="w-full flex items-center justify-center flex-col"
     >
-      <Textarea value={value} onChange={onChange} />
+      <Textarea
+        useValidation={useValidation}
+        isValid={!isValid}
+        errorMessage={errors.reply?.message}
+        {...register('reply')}
+      />
       <div className="w-full pt-4 flex justify-end">
-        <Button className="bg-slate-100 hover:bg-slate-200" variant="ghost">
+        <Button type="submit" isLoading={isLoading} variant="default">
           등록하기
         </Button>
       </div>
