@@ -45,7 +45,7 @@ export default function SearchList() {
 
   return (
     <div className="w-full h-full flex flex-col gap-4 overflow-scroll">
-      <div className="w-full p-4 flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 xl:grid xl:grid-cols-5 xl:gap-4">
+      <div className="w-full px-4 pb-4 flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 xl:grid xl:grid-cols-5 xl:gap-4">
         {_document?.map((item) => (
           <SearchItem key={v4()} item={item} search={keyword} />
         ))}
@@ -58,7 +58,7 @@ export default function SearchList() {
 SearchList.Loader = function () {
   return (
     <div className="w-full h-full flex flex-col overflow-scroll">
-      <div className='className="w-full p-4 flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 xl:grid xl:grid-cols-5 xl:gap-4'>
+      <div className='className="w-full px-4 pb-4 flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 xl:grid xl:grid-cols-5 xl:gap-4'>
         <div className="w-full min-h-[350px] h-auto flex flex-col gap-4 p-4 rounded-2xl border-[none] shadow-lg">
           <div className="flex justify-center items-center">
             <Skeleton className="w-[120px] h-[174px] bg-slate-200" />
@@ -90,7 +90,7 @@ SearchList.Loader = function () {
 
 SearchList.Empty = function ({ keyword }: { keyword?: string }) {
   return (
-    <div className="w-full h-full p-4">
+    <div className="w-full h-full px-4 pb-4">
       <div className="bg-[rgba(0,0,0,0.05)] w-full h-full rounded-lg flex justify-center items-center">
         {!keyword ? (
           <span className="flex text-lg text-slate-500">

@@ -1,5 +1,6 @@
-import KakaoLogin from '@/app/components/login/KakaoLogin';
 import React from 'react';
+
+import KakaoLogin from '@/app/components/login/KakaoLogin';
 
 export default function KakaoLoginPage({
   searchParams,

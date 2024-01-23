@@ -29,7 +29,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <>
         {label && (
-          <label className="ml-3 mb-2 block text-sm text-slate-500">
+          <label className="ml-3 mb-2 block text-sm font-bold text-slate-500">
             {label}
           </label>
         )}
@@ -37,8 +37,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <input
             type={type}
             className={cn(
-              'relative w-full h-auto px-0 py-3 rounded-1 outline-none text-sm border-slate-500 border-2',
-              icon && 'px-0 pl-3 pr-11',
+              'relative w-full h-auto px-3 py-0 rounded-lg outline-none text-sm border-slate-500 border-2',
+              icon && 'py-0 pl-3 pr-11',
               className
             )}
             ref={ref}

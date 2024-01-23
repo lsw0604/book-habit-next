@@ -11,7 +11,6 @@ import KakaoButton from 'components/common/button/KakaoButton';
 import { IconClosedEye, IconOpenEye, IconMail } from 'style/icon';
 import { customize } from 'style/colors';
 import useLocalLoginMutation from 'queries/local/useLocalLoginMutation';
-import useToastHook from '@/hooks/useToastHook';
 
 const Container = styled.form`
   display: flex;
@@ -49,7 +48,6 @@ const Footer = styled.p`
 `;
 
 export default function LoginForm() {
-  const { addToast } = useToastHook();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [useValidation, setUseValidation] = useState<boolean>(false);
@@ -72,12 +70,6 @@ export default function LoginForm() {
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUseValidation(true);
-
-    if (!email || !password)
-      return addToast({
-        message: '이메일 및 비밀번호를 입력해주세요.',
-        status: 'error',
-      });
 
     mutate({ email, password });
   };

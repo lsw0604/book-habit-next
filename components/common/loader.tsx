@@ -1,0 +1,22 @@
+'use client';
+
+import { cn } from '@/lib/utils';
+
+interface LoaderProps {
+  size?: number;
+  className?: string;
+}
+
+export default function Loader({ size, className }: LoaderProps) {
+  return (
+    <div
+      className={cn(
+        'flex relative justify-center items-center w-4 h-4',
+        size && `w-${size * 4} h-${size * 4}`,
+        className
+      )}
+    >
+      <div className="w-full h-full border-2 rounded-full border-solid animate-spin border-t-transparent border-t-2  " />
+    </div>
+  );
+}
