@@ -7,10 +7,10 @@ export const schema = z.object({
   age: z
     .string()
     .min(1, {
-      message: '숫자를 입력해주세요.',
+      message: '나이를 입력해주세요.',
     })
     .refine((value) => !isNaN(parseInt(value)), {
-      message: '숫자를 입력해주세요.',
+      message: '나이를 입력해주세요.',
     })
     .transform((value) => parseInt(value)),
   gender: z.enum(['male', 'female'], {
