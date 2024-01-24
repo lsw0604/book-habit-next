@@ -1,9 +1,12 @@
-import KakaoRegister from 'components/register/KaKaoRegister';
+import KakaoRegisterForm from './_components/kakao-register-form';
 
 export default function KakaoRegisterPage() {
   return (
-    <div className="flex flex-col mx-auto max-w-sm w-full h-full p-4 justify-center items-center">
-      <KakaoRegister />
-    </div>
+    <>
+      <h1 className="text-center text-4xl font-bold">추가정보 등록</h1>
+      <div className="w-full flex justify-center max-w-sm">
+        <KakaoRegisterForm />
+      </div>
+    </>
   );
 }

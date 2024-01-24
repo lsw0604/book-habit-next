@@ -15,7 +15,7 @@ export default function LoginKakaoButton() {
   return (
     <Button
       variant="yellow"
-      className="mt-4 bg-yellow-300"
+      className="mt-4 bg-yellow-300 hover:bg-yellow-300"
       type="button"
       onClick={kakaoPageHandler}
     >

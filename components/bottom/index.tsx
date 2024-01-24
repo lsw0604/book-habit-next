@@ -10,36 +10,48 @@ import BottomNavButton from './bottom-nav-button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
+import { useHover } from 'usehooks-ts';
+import { useRef } from 'react';
+
 export default function Bottom() {
   const pathname = usePathname();
+  const itemRef = useRef<HTMLLIElement | null>(null);
+  const isHover = useHover(itemRef);
 
   if (pathname === '/') return null;
   return (
-    <nav className="h-16 w-full flex items-center justify-center z-9998 fixed bottom-0 bg-slate-50 shadow-2xl rounded-t-xl">
+    <nav className="h-16 w-full flex items-center justify-center z-9998 fixed bottom-0 bg-slate-100 shadow-2xl rounded-t-xl">
       <ul className="flex w-full h-full cursor-pointer justify-between">
-        <li className="w-full h-full first:overflow-hidden first:rounded-[1rem_0_0_0] last:overflow-hidden last:rounded-[0_1rem_0_0]">
+        <li
+          ref={itemRef}
+          className="w-full h-full first:overflow-hidden first:rounded-[1rem_0_0_0] last:overflow-hidden last:rounded-[0_1rem_0_0]"
+        >
           <Link href="/search">
-            <div className="w-full h-full border-none outline-none flex flex-col justify-around items-center">
-              <div>
-                <SearchIcon
-                  className={cn(pathname === '/search' && 'text-cyan-300')}
-                />
+            <div
+              className={cn(
+                'w-full h-full border-none outline-none flex flex-col justify-around items-center',
+                pathname === '/search' && 'text-rose-300'
+              )}
+            >
+              <div className={cn(isHover && 'animate-bounce')}>
+                <SearchIcon />
               </div>
-              <div className={cn(pathname === '/search' && 'text-cyan-300')}>
-                검색하기
-              </div>
+              <p>검색하기</p>
             </div>
           </Link>
         </li>
-        <li className="w-full h-full first:overflow-hidden first:rounded-[1rem_0_0_0] last:overflow-hidden last:rounded-[0_1rem_0_0]">
+        <li
+          ref={itemRef}
+          className="w-full h-full first:overflow-hidden first:rounded-[1rem_0_0_0] last:overflow-hidden last:rounded-[0_1rem_0_0]"
+        >
           <Link href="/comments">
             <div className="w-full h-full border-none outline-none flex flex-col justify-around items-center">
-              <div>
+              <div className={cn(isHover && 'animate-bounce')}>
                 <MessageCircleMoreIcon
-                  className={cn(pathname === '/comments' && 'text-cyan-300')}
+                  className={cn(pathname === '/comments' && 'font-bold')}
                 />
               </div>
-              <div className={cn(pathname === '/comments' && 'text-cyan-300')}>
+              <div className={cn(pathname === '/comments' && 'font-bold')}>
                 한줄평
               </div>
             </div>

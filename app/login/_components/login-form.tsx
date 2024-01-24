@@ -50,7 +50,7 @@ export default function LoginForm() {
 
   return (
     <form
-      className="flex flex-col ml-auto marker: max-w--sm p-4 w-full rounded-lg"
+      className="flex flex-col ml-auto max-w-sm p-4 w-full rounded-lg"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="relative w-full mb-2">
@@ -96,7 +96,7 @@ export default function LoginForm() {
         하러가기
       </p>
       <Separator className="my-4" />
-      <Button isLoading={isLoading} variant="yellow" type="submit">
+      <Button isLoading={isLoading} type="submit">
         로그인하기
       </Button>
       <LoginKakaoButton />

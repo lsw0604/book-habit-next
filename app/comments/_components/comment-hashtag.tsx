@@ -53,7 +53,7 @@ export default function CommentHashtag({
           onClick={() => filterHandler(tag)}
           className={cn(
             'ml-2 text-xs rounded-full max-w-[10rem] min-w-[4rem] px-4 py-[5px] text-ellipsis whitespace-nowrap overflow-hidden cursor-pointer shadow-md snap-start',
-            isOn(tag) && 'text-cyan-300'
+            isOn(tag) && 'font-bold'
           )}
         >
           #&nbsp;{tag}
