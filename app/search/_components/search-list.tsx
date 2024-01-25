@@ -59,30 +59,16 @@ SearchList.Loader = function () {
   return (
     <div className="w-full h-full flex flex-col overflow-scroll">
       <div className='className="w-full px-4 pb-4 flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 xl:grid xl:grid-cols-5 xl:gap-4'>
-        <div className="w-full min-h-[350px] h-auto flex flex-col gap-4 p-4 rounded-2xl border-[none] shadow-lg">
-          <div className="flex justify-center items-center">
-            <Skeleton className="w-[120px] h-[174px] bg-slate-200" />
-          </div>
-          <div className="w-full h-full">
-            <Skeleton className="w-full h-[20px] bg-slate-200 mb-2" />
-            <Skeleton className="w-[300px] h-[20px] bg-slate-200 mb-2" />
-            <Skeleton className="w-[250px] h-[20px] bg-slate-200 mb-2" />
-            <Skeleton className="w-[200px] h-[20px] bg-slate-200 mb-2" />
-            <Skeleton className="w-[200px] h-[20px] bg-slate-200 mb-2" />
-          </div>
-        </div>
-        <div className="w-full min-h-[350px] h-auto flex flex-col gap-4 p-4 rounded-2xl border-[none] shadow-lg">
-          <div className="flex justify-center items-center">
-            <Skeleton className="w-[120px] h-[174px] bg-slate-200" />
-          </div>
-          <div className="w-full h-full">
-            <Skeleton className="w-full h-[20px] bg-slate-200 mb-2" />
-            <Skeleton className="w-[300px] h-[20px] bg-slate-200 mb-2" />
-            <Skeleton className="w-[250px] h-[20px] bg-slate-200 mb-2" />
-            <Skeleton className="w-[200px] h-[20px] bg-slate-200 mb-2" />
-            <Skeleton className="w-[200px] h-[20px] bg-slate-200 mb-2" />
-          </div>
-        </div>
+        <SearchItem.Loader />
+        <SearchItem.Loader />
+        <SearchItem.Loader />
+        <SearchItem.Loader />
+        <SearchItem.Loader />
+        <SearchItem.Loader />
+        <SearchItem.Loader />
+        <SearchItem.Loader />
+        <SearchItem.Loader />
+        <SearchItem.Loader />
       </div>
     </div>
   );

@@ -12,11 +12,6 @@ export const axios = Axios.create({
 
 axios.interceptors.request.use(
   async (config) => {
-    config.headers.Authorization =
-      typeof window !== 'undefined'
-        ? `bearer ${window.localStorage.getItem('ACCESS')}`
-        : null;
-    config.headers.Accept = 'application/json';
     return config;
   },
   (error) => {
@@ -33,37 +28,17 @@ axios.interceptors.response.use(
     const statusCode = error.response?.status;
     const { message, strategy } = error.response?.data;
 
-    if (
-      statusCode === 403 &&
-      message === 'No auth token' &&
-      strategy === 'access'
-    ) {
-      return Promise.reject(error);
-    }
-
-    if (
-      statusCode === 403 &&
-      message &&
-      strategy === 'access' &&
-      typeof window !== 'undefined'
-    ) {
-      const { access_jwt } = await refreshAPI();
+    if (statusCode === 403 && message && strategy === 'access') {
+      await refreshAPI();
 
       originalRequest._retry = true;
-      window.localStorage.setItem('ACCESS', access_jwt);
       return axios(originalRequest);
     }
 
-    if (
-      statusCode === 403 &&
-      message &&
-      strategy === 'refresh' &&
-      typeof window !== 'undefined'
-    ) {
+    if (statusCode === 403 && message && strategy === 'refresh') {
       await logoutAPI();
 
       originalRequest._retry = true;
-      window.localStorage.removeItem('ACCESS');
       return Promise.reject(error);
     }
 

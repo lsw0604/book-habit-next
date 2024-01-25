@@ -21,8 +21,7 @@ export default function useLocalLoginMutation() {
 
   useEffect(() => {
     if (isSuccess && data) {
-      const { message, status, access_jwt, ...rest } = data;
-      window.localStorage.setItem('ACCESS', access_jwt);
+      const { message, status, ...rest } = data;
       dispatch(userActions.setUserState({ ...rest, isLogged: true }));
 
       addToast({ message, status });

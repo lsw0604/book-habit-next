@@ -9,6 +9,7 @@ import {
 } from 'usehooks-ts';
 
 import SearchItemContent from './search-item-content';
+import { Skeleton } from '@/components/ui/skeleton';
 import ImageWrapper from '@/components/common/image-wrapper';
 
 import { useAppDispatch } from '@/app/store';
@@ -72,3 +73,20 @@ export default function SearchItem({ item, search }: SearchItemProps) {
     </div>
   );
 }
+
+SearchItem.Loader = function () {
+  return (
+    <div className="w-full min-h-[350px] h-auto flex flex-col gap-4 p-4 rounded-2xl border-[none] shadow-lg">
+      <div className="flex justify-center items-center">
+        <Skeleton className="w-[120px] h-[174px] bg-slate-200" />
+      </div>
+      <div className="w-full h-full">
+        <Skeleton className="w-full h-[20px] bg-slate-200 mb-2" />
+        <Skeleton className="w-[300px] h-[20px] bg-slate-200 mb-2" />
+        <Skeleton className="w-[250px] h-[20px] bg-slate-200 mb-2" />
+        <Skeleton className="w-[200px] h-[20px] bg-slate-200 mb-2" />
+        <Skeleton className="w-[200px] h-[20px] bg-slate-200 mb-2" />
+      </div>
+    </div>
+  );
+};

@@ -7,7 +7,6 @@ type LocalLoginMutationResponseType = {
   gender: GenderType;
   age: number;
   provider: ProviderType;
-  access_jwt: string;
   message: string;
   status: StatusType;
   profile: string;
