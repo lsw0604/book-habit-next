@@ -24,9 +24,9 @@ axios.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const originalRequest = error.config;
-    const statusCode = error.response?.status;
-    const { message, strategy } = error.response?.data;
+    const originalRequest = error?.config;
+    const statusCode = error?.response?.status;
+    const { message, strategy } = error?.response?.data;
 
     if (statusCode === 403 && message && strategy === 'access') {
       await refreshAPI();

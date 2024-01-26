@@ -12,11 +12,10 @@ import { LogoSad } from '@/style/icon';
 export default function CommentList() {
   const { filter, addFilter, removeFilter } = useCommentFilterHook();
 
-  const { data, isFetching } = useCommentsListQuery(filter);
+  const { data, isLoading } = useCommentsListQuery(filter);
 
-  if (!data) return null;
+  if (!data || isLoading) return <CommentList.Loader />;
   if (data.comments.length === 0) return <CommentList.Empty />;
-  if (isFetching) return <CommentList.Loader />;
 
   return (
     <div className="w-full h-full overflow-auto flex flex-col">

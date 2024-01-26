@@ -62,7 +62,7 @@ export default function useMyBookPageQueries(
   ] = useQueries({
     queries: [
       {
-        queryKey: [info, users_books_id],
+        queryKey: [info, users_books_id.toString()],
         queryFn: () => myBookInfoAPI(users_books_id),
         suspense: true,
       },

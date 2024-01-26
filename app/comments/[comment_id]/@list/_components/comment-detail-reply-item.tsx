@@ -28,9 +28,7 @@ export default function CommentDetailReplyItem({
         </Avatar>
         <div className="flex flex-col w-full">
           <div className="flex flex-row justify-between">
-            <p className="relative text-sm whitespace-nowrap truncate overflow-hidden">
-              {name}
-            </p>
+            <p className="relative text-sm truncate">{name}</p>
           </div>
           <p className="text-gray-400 text-xs flex items-center">
             <CalendarIcon className="w-3 h-3" />
@@ -42,11 +40,13 @@ export default function CommentDetailReplyItem({
       <p className="w-full min-h-10 text-sm h-auto flex items-center py-2 px-4 rounded-lg bg-[rgba(0,0,0,0.05)]">
         {reply}
       </p>
-      {isAuth && (
+      {isAuth ? (
         <p className="flex justify-end text-xs gap-4">
           <span>삭제</span>
           <span>수정</span>
         </p>
+      ) : (
+        <div className="h-4 w-full" />
       )}
     </li>
   );

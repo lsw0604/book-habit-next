@@ -1,10 +1,10 @@
 'use client';
 
-import CommentItemHeader from '../../_components/comment-item-header';
-import CommentItemContent from '../../_components/comment-item-content';
-import CommentItemHeart from '../../_components/comment-item-heart';
-import CommentItemReply from '../../_components/comment-item-reply';
-import CommentItem from '../../_components/comment-item';
+import CommentItemHeader from '../../../_components/comment-item-header';
+import CommentItemContent from '../../../_components/comment-item-content';
+import CommentItemHeart from '../../../_components/comment-item-heart';
+import CommentItemReply from '../../../_components/comment-item-reply';
+import CommentItem from '../../../_components/comment-item';
 
 import useCommentsDetailQuery from '@/queries/comments/useCommentsDetailQuery';
 
