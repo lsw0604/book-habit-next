@@ -1,12 +1,14 @@
 'use client';
 
-import ImageWrapper from '@/components/common/image-wrapper';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
-import { queriesKey } from '@/queries';
-import { myBookInfoAPI } from '@/lib/api/myBook';
 import { AxiosError } from 'axios';
-import { BookMarkedIcon, BookmarkIcon } from 'lucide-react';
+import { BookmarkIcon } from 'lucide-react';
+
+import ImageWrapper from '@/components/common/image-wrapper';
+import { Skeleton } from '@/components/ui/skeleton';
+
+import { myBookInfoAPI } from '@/lib/api/myBook';
+import { queriesKey } from '@/queries';
 
 interface MyBookDetailInfoProps {
   users_books_id: number;
@@ -27,7 +29,7 @@ export default function MyBookDetailInfo({
     },
   });
 
-  if (!data) return null;
+  if (!data || isLoading) return <MyBookDetailInfo.Loader />;
 
   const { authors, contents, publisher, title, url, thumbnail } = data;
 
@@ -65,3 +67,26 @@ export default function MyBookDetailInfo({
     </div>
   );
 }
+
+MyBookDetailInfo.Loader = function () {
+  return (
+    <div className="w-full h-full p-4">
+      <div className="flex flex-row w-full h-auto shadow-lg rounded-lg:">
+        <div className="flex justify-center items-center w-[40%] relative p-4">
+          <Skeleton className="w-[120px] h-[174px] rounded-lg bg-slate-200" />
+        </div>
+        <div className="w-[60%] flex flex-col h-full py-4 pr-4">
+          <div className="w-full h-full mb-2">
+            <div className="w-full flex flex-col gap-1">
+              <Skeleton className="h-2 w-[30%] text-xs bg-slate-200" />
+              <Skeleton className="h-4 w-[50%] text-lg bg-slate-200" />
+              <Skeleton className="h-2 w-[20%] text-xs bg-slate-200" />
+            </div>
+          </div>
+          <Skeleton className="h-[110px] w-full bg-slate-200 mb-2" />
+          <Skeleton className="h-2 w-8 bg-slate-200" />
+        </div>
+      </div>
+    </div>
+  );
+};

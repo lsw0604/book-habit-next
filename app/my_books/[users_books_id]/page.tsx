@@ -1,5 +1,5 @@
-import React from 'react';
 import MyBookDetailInfo from './_components/my-book-detail-info';
+import Calendar from '@/components/common/calendar';
 
 export default function MyBookDetailPage({
   params,
@@ -10,6 +10,8 @@ export default function MyBookDetailPage({
   return (
     <div>
       <MyBookDetailInfo users_books_id={users_books_id} />
+
+      <Calendar />
     </div>
   );
 }

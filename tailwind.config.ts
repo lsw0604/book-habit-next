@@ -4,6 +4,21 @@ const config = {
   darkMode: ['class'],
   content: ['./components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}'],
   prefix: '',
+  safelist: [
+    'col-start-1',
+    'col-start-2',
+    'col-start-3',
+    'col-start-4',
+    'col-start-5',
+    'col-start-6',
+    'col-start-7',
+    'grid-rows-1',
+    'grid-rows-2',
+    'grid-rows-3',
+    'grid-rows-4',
+    'grid-rows-5',
+    'grid-rows-6',
+  ],
   theme: {
     container: {
       center: true,
@@ -13,6 +28,9 @@ const config = {
       },
     },
     extend: {
+      padding: {
+        full: '100%',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
