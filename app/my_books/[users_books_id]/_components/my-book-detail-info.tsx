@@ -83,8 +83,7 @@ MyBookDetailInfo.Loader = function () {
               <Skeleton className="h-2 w-[20%] text-xs bg-slate-200" />
             </div>
           </div>
-          <Skeleton className="h-[110px] w-full bg-slate-200 mb-2" />
-          <Skeleton className="h-2 w-8 bg-slate-200" />
+          <Skeleton className="h-[125px] w-full bg-slate-200" />
         </div>
       </div>
     </div>

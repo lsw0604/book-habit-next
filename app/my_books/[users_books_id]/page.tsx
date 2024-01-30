@@ -1,5 +1,5 @@
 import MyBookDetailInfo from './_components/my-book-detail-info';
-import Calendar from '@/components/common/calendar';
+import Calendar from './_components/my-book-detail-calendar';
 
 export default function MyBookDetailPage({
   params,
