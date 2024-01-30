@@ -7,10 +7,10 @@ export default function MyBookDetailPage({
   params: { users_books_id: number };
 }) {
   const { users_books_id } = params;
+
   return (
     <div>
       <MyBookDetailInfo users_books_id={users_books_id} />
-
       <Calendar />
     </div>
   );

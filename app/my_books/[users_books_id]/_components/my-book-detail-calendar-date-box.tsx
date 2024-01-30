@@ -62,11 +62,13 @@ export default function MyBookDetailCalendarDateBox({
           {dateMapped?.map((v) => (
             <div
               className={cn(
-                'bg-rose-300 h-4 w-4 rounded-full mb-0.5',
+                'bg-rose-300 h-4 w-full rounded-full mb-0.5 text-xs truncate px-1',
                 `${STATUS_COLOR_OBJECT[v]}`
               )}
               key={v4()}
-            />
+            >
+              {v}
+            </div>
           ))}
         </div>
       )}

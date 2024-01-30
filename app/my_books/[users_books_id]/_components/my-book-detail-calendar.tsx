@@ -19,6 +19,8 @@ import { queriesKey } from '@/queries';
 import { myBookHistoryAPI, myBookTimeRangeAPI } from '@/lib/api/myBook';
 import { GRID_ROW_OBJ } from '@/utils/staticData';
 import { cn } from '@/lib/utils';
+import { useAppDispatch } from '@/app/store';
+import { modalActions } from '@/app/store/modal';
 
 type CalendarType = {
   startDate: string;
@@ -76,8 +78,13 @@ export default function MyBookDetailCalendar() {
     (calendarState.firstDOW + calendarState.lastDate) / 7
   );
 
+  const dispatch = useAppDispatch();
+
   return (
-    <div className="w-full h-auto px-4 flex flex-col">
+    <div
+      className="w-full h-auto px-4 flex flex-col"
+      onClick={() => dispatch(modalActions.setModalState({ type: 'isLogin' }))}
+    >
       <div className="w-full h-auto p-4 flex flex-col shadow-lg rounded-lg">
         <CalendarHeader
           year={calendarState.year}

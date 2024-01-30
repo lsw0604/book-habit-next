@@ -3,10 +3,10 @@
 import { usePathname } from 'next/navigation';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-// import Modal from 'components/modal';
 // import Header from 'components/header';
 // import Toast from 'components/common/Toast';
-// import ModalPortal from 'components/modal/ModalPortal';
+import ModalPortal from '../components/modal/modal-portal';
+import Modal from '../components/modal';
 import Header from '../components/header';
 import Bottom from '../components/bottom';
 
@@ -40,11 +40,10 @@ export default function RootLayout({
                 {children}
               </div>
               <Bottom />
-              {/* <NavigationBar /> */}
-              {/* <ModalPortal>
+              <ModalPortal>
                 <Modal />
-              </ModalPortal> */}
-              {/* <div id="root-modal" /> */}
+              </ModalPortal>
+              <div id="root-modal" />
               {/* <ReactQueryDevtools position="top-right" panelPosition="top" /> */}
             </StyledComponentsRegistry>
           </QueryProvider>
