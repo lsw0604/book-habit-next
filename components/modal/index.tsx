@@ -1,36 +1,38 @@
 'use client';
 
-import { RootState, useAppSelector } from '@/app/store';
 import { ReactNode, Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import { Transition } from '@headlessui/react';
 import { motion } from 'framer-motion';
 
-import modal from '@/app/store/modal';
-import ModalHeader from './modal-header';
-import { LogoMain } from '@/style/icon';
-import { BookIcon } from 'lucide-react';
-import RegisterSearchBookModal from './register-search-book-modal';
+import { RootState, useAppSelector } from '@/app/store';
+import ModalLoader from './modal-loader';
 
-// const modalComponent: {
-//   [key: ModalComponentType]: ReactNode;
-// } = {
-//   // isLogin: <LoginMessage />,
-//   // registerSearchBook: <SearchBookRegister />,
-//   // modifyComment: <CommentModifyModal />,
-//   // registerComment: <CommentRegisterModal />,
-//   // deleteComment: <CommentDeleteModal />,
-//   // registerHistory: <HistoryRegisterModal />,
-//   // deleteHistory: <HistoryDeleteModal />,
-//   // deleteReply: <ReplyDeleteModal />,
-//   // deleteMyBook: <MyBookDeleteModal />,
-//   // modifyProfile: <ProfileModifyModal />,
-// };
+const RegisterSearchBook = dynamic(
+  () => import('../modal/register-search-book-modal'),
+  {
+    ssr: false,
+  }
+);
 
-// const onChangeModalComponent = (ctx?: ModalComponentType) => {
-//   if (ctx === undefined || !modal)
+const modalComponent: {
+  [key: string]: ReactNode;
+} = {
+  isLogin: <div />,
+  registerSearchBook: <RegisterSearchBook />,
+  modifyComment: <div />,
+  registerComment: <div />,
+  deleteComment: <div />,
+  registerHistory: <div />,
+  deleteHistory: <div />,
+  deleteReply: <div />,
+  deleteMyBook: <div />,
+  modifyProfile: <div />,
+};
 
-// }
+const onChangeModalComponent = (ctx?: ModalComponentType) => {
+  if (ctx === undefined || !modalComponent[ctx]) return null;
+  return modalComponent[ctx];
+};
 
 export default function Modal() {
   const { type } = useAppSelector((state: RootState) => state.modal);
@@ -48,8 +50,8 @@ export default function Modal() {
       }}
       className="absolute z-9999 w-full h-auto min-h-[30%] bottom-0 rounded-tl-lg rounded-tr-lg p-4 grid bg-slate-100"
     >
-      <Suspense>
-        <RegisterSearchBookModal />
+      <Suspense fallback={<ModalLoader />}>
+        {onChangeModalComponent(type)}
       </Suspense>
     </motion.div>
   );

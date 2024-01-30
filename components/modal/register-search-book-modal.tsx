@@ -8,11 +8,6 @@ import ImageWrapper from '../common/image-wrapper';
 
 import { RootState, useAppSelector } from '@/app/store';
 
-const HEADER_OPTION = {
-  icon: <BookIcon />,
-  title: '내 서재에 책을 등록해요.',
-};
-
 export default function RegisterSearchBookModal() {
   const { authors, thumbnail, title, contents, url, ...rest } = useAppSelector(
     (state: RootState) => state.searchBookRegister
@@ -35,18 +30,20 @@ export default function RegisterSearchBookModal() {
   };
 
   return (
-    <div>
-      <ModalHeader {...HEADER_OPTION} />
-      <form onSubmit={onSubmit} className="relative">
-        <div className="h-[190px] w-full flex flex-row gap-4">
+    <div className="flex flex-col w-full h-full">
+      <ModalHeader icon={<BookIcon />} title="내 서재에 책을 등록해요." />
+      <form onSubmit={onSubmit} className="w-full h-full flex flex-col">
+        <div className="h-[190px] w-full flex gap-2">
           <div className="h-full w-[120px] flex justify-center items-center">
             <ImageWrapper src={thumbnail} alt={v4()} height={174} width={120} />
           </div>
           <div className="h-full w-full flex flex-col justify-between">
-            <h1 className="text-xl h-auto">{title}</h1>
-            <span className="overflow-hidden whitespace-pre-line line-clamp-5">
+            <h1 className="text-xl w-[230px] truncate overflow-hidden">
+              {title}
+            </h1>
+            <p className="overflow-auto whitespace-pre-line line-clamp-5">
               {contents}
-            </span>
+            </p>
             <a className="mb-2 text-sm" target="_blank" href={url}>
               더보기
             </a>

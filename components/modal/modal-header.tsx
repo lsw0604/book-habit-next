@@ -8,7 +8,7 @@ interface ModalHeaderProps {
 
 export default function ModalHeader({ icon, title, sub }: ModalHeaderProps) {
   return (
-    <div className="h-10 flex w-auto justify-center items-center gap-4">
+    <div className="h-10 flex w-full items-center justify-center gap-4 mb-2">
       {icon && <div className="h-full flex items-center w-8">{icon}</div>}
       <div className="flex flex-col">
         <span className="text-xl">{title}</span>
