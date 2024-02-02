@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 
 import RadioButton from 'components/common/radio/RadioButton';
-import MyBookDetailDateSelector from 'components/myBookDetail/MyBookDetailDateSelector';
+// import MyBookDetailDateSelector from 'components/myBookDetail/MyBookDetailDateSelector';
 import { RadioGroupOptionType } from 'types/style';
 import useMyBookPageQueries from 'queries/myBook/useMyBookPageQueries';
 import { RootState, useAppDispatch, useAppSelector } from '@/app/store';
@@ -62,7 +62,7 @@ export default function HistoryAddForm() {
     : null;
 
   const onChangeMyBookDate = (date: Date | null) => {
-    dispatch(myBookActions.setMyBookDate(date));
+    // dispatch(myBookActions.setMyBookDate(date));
   };
 
   const onChangeMyBookStatus = (status: string) => {
@@ -84,15 +84,15 @@ export default function HistoryAddForm() {
       </Stack>
       <Content>
         <Stack>
-          <MyBookDetailDateSelector
+          {/* <MyBookDetailDateSelector
             startDate={startDate}
             onChange={(e) => onChangeMyBookDate(e)}
-            date={date}
+            // date={date}
             endDate={endDate}
             errorMessage="날짜를 입력해주세요."
             isValid={date === null}
             useValidation={useValidation}
-          />
+          /> */}
         </Stack>
       </Content>
     </Container>

@@ -62,7 +62,7 @@ export default function HistoryAddForm() {
     : null;
 
   const onChangeMyBookDate = useCallback((date: Date | null) => {
-    dispatch(myBookActions.setMyBookDate(date));
+    // dispatch(myBookActions.setMyBookDate(date));
   }, []);
   const onChangeMyBookStatus = useCallback((status: string) => {
     dispatch(myBookActions.setMyBookStatus(status));
@@ -91,7 +91,7 @@ export default function HistoryAddForm() {
       </Stack>
       <Content>
         <Stack>
-          <MyBookDetailDateSelector
+          {/* <MyBookDetailDateSelector
             startDate={startDate}
             onChange={(e) => onChangeMyBookDate(e)}
             date={date}
@@ -99,7 +99,7 @@ export default function HistoryAddForm() {
             errorMessage="날짜를 입력해주세요."
             isValid={date === null}
             useValidation={useValidation}
-          />
+          /> */}
         </Stack>
       </Content>
     </Container>

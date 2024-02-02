@@ -105,8 +105,8 @@ export default function DateBox({
     dispatch(myBookActions.setMyBookUsersBooksId(users_books_id));
   }, []);
 
-  const onChangeMyBookDate = useCallback((date: Date | null) => {
-    dispatch(myBookActions.setMyBookDate(date));
+  const onChangeMyBookDate = useCallback((date: Date) => {
+    dispatch(myBookActions.setMyBookDate(date?.toISOString()));
   }, []);
 
   const onChangeModal = (type: ModalComponentType) => {

@@ -1,8 +1,6 @@
-import { customize } from 'style/colors';
-
 export const STATUS_COLOR_OBJECT: Record<HistoryStatusType, string> = {
   읽는중: 'bg-rose-300',
-  다읽음: 'bg-teal-300',
+  다읽음: 'bg-purple-300',
   읽기시작함: 'bg-yellow-300',
   읽고싶음: 'bg-orange-300',
 };

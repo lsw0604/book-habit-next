@@ -17,22 +17,23 @@ const OBSERVER_OPTION = {
 export default function MyBookList() {
   const searchParams = useSearchParams();
 
-  const category = searchParams.get('category') as SelectorBookType;
+  const category = searchParams.get('category');
 
   const lastPageRef = useRef<HTMLDivElement | null>(null);
   const entry = useIntersectionObserver(lastPageRef, OBSERVER_OPTION);
   const isVisible = !!entry?.isIntersecting;
 
-  const { data, fetchNextPage, isFetching, isLoading, hasNextPage } =
+  const { data, fetchNextPage, isLoading, hasNextPage } =
     useMyBookListInfinityQuery(category as SelectorBookType);
 
   useUpdateEffect(() => {
+    console.log('isVisible', isVisible, 'hasNextPage', hasNextPage, category);
     if (isVisible && hasNextPage) {
       fetchNextPage();
     }
   }, [isVisible]);
 
-  if (!data) return <MyBookList.Loader />;
+  if (!data || isLoading) return <MyBookList.Loader />;
   if (data.pages.length === 0) return <MyBookList.Empty />;
 
   const _document = data.pages.flatMap((page) => page.books);

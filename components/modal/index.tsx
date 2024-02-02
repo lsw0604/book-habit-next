@@ -13,6 +13,12 @@ const RegisterSearchBook = dynamic(
     ssr: false,
   }
 );
+const RegisterHistory = dynamic(
+  () => import('../modal/register-history-modal'),
+  {
+    ssr: false,
+  }
+);
 
 const modalComponent: {
   [key: string]: ReactNode;
@@ -22,7 +28,7 @@ const modalComponent: {
   modifyComment: <div />,
   registerComment: <div />,
   deleteComment: <div />,
-  registerHistory: <div />,
+  registerHistory: <RegisterHistory />,
   deleteHistory: <div />,
   deleteReply: <div />,
   deleteMyBook: <div />,

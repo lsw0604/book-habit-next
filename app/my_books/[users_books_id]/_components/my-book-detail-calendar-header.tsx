@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import dayjs from 'dayjs';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
@@ -19,7 +20,9 @@ export default function MyBookDetailCalendarHeader({
   const monthObj = dayjs(`${year}-${month}`).format('YYYY-MM');
 
   const startMonth = startDate ? dayjs(startDate).format('YYYY-MM') : undefined;
-  const endMonth = endDate ? dayjs(endDate).format('YYYY-MM') : undefined;
+  const endMonth = endDate
+    ? dayjs(endDate).format('YYYY-MM')
+    : dayjs().format('YYYY-MM');
 
   const prevMonthHandler = () => {
     if (monthObj !== startMonth) {
@@ -35,13 +38,13 @@ export default function MyBookDetailCalendarHeader({
 
   return (
     <div className="w-full h-10 flex justify-between items-center px-8 mb-2 border-solid border-b-2 border-slate-300">
-      <div>
+      <div className={cn(monthObj === startMonth && 'opacity-40')}>
         <ArrowLeftIcon onClick={prevMonthHandler} />
       </div>
       <div>
-        {year} {month}
+        {year}년 {month}월
       </div>
-      <div>
+      <div className={cn(monthObj === endMonth && 'opacity-40')}>
         <ArrowRightIcon onClick={nextMonthHandler} />
       </div>
     </div>

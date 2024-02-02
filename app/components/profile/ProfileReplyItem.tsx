@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
 import { customize } from 'style/colors';
-import Avatar from 'components/common/Avatar';
+// import Avatar from 'components/common/Avatar';
 import { STATUS_OBJECT } from '@/utils/staticData';
 
 const Container = styled.article`
@@ -66,7 +66,7 @@ export default function ProfileReplyItem({
   return (
     <Container>
       <AvatarWrapper>
-        <Avatar src={profile} size="25px" />
+        {/* <Avatar src={profile} size="25px" /> */}
       </AvatarWrapper>
       <Content>
         <SubHighLightWord>{name}</SubHighLightWord>님이&nbsp;

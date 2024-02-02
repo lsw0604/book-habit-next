@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: RootMyBookType = {
-  date: null,
+  date: undefined,
   status: '',
   useValidation: false,
   rating: 0,
@@ -19,7 +19,7 @@ const myBook = createSlice({
     setMyBookState(state, action: PayloadAction<RootMyBookType>) {
       Object.assign(state, action.payload);
     },
-    setMyBookDate(state, action: PayloadAction<Date | null>) {
+    setMyBookDate(state, action: PayloadAction<string>) {
       state.date = action.payload;
     },
     setMyBookStatus(state, action: PayloadAction<string>) {

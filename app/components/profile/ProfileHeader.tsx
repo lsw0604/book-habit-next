@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import Avatar from 'components/common/Avatar';
+// import Avatar from 'components/common/Avatar';
 
 import useProfileEditMutation from 'queries/profile/useProfileEditMutation';
 import { RootState, useAppSelector } from 'store';
@@ -39,12 +39,12 @@ export default function ProfileHeader() {
 
   return (
     <Container>
-      <Avatar
+      {/* <Avatar
         src={profile}
         size="140px"
         isLoading={isLoading}
         editProfile={editProfileHandler}
-      />
+      /> */}
     </Container>
   );
 }

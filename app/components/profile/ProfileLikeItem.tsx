@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 
 import { STATUS_OBJECT } from '@/utils/staticData';
-import Avatar from 'components/common/Avatar';
+// import Avatar from 'components/common/Avatar';
 import { customize } from 'style/colors';
 import { useRouter } from 'next/navigation';
 
@@ -66,7 +66,7 @@ export default function ProfileLikeItem({
   return (
     <Container>
       <AvatarWrapper>
-        <Avatar src={profile} size="25px" />
+        {/* <Avatar src={profile} size="25px" /> */}
       </AvatarWrapper>
       <Content>
         <SubHighLightWord>{name}</SubHighLightWord>님이&nbsp;

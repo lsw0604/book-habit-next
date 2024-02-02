@@ -13,7 +13,7 @@ export const myBookListAPI = async (page: number, status: SelectorBookType) => {
 };
 
 /**
- * * 내 서재에 등록된 책의 독서기록을 불러오는 API
+ * * 내 서재에 등록된 책의 독서기록 목록을 불러오는 API
  */
 export const myBookHistoryAPI = async (
   users_books_id: MyBookPageQueriesHistoryListRequestType

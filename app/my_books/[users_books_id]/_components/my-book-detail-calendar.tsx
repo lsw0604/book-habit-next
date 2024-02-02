@@ -2,11 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import {
-  getCalendarDetail,
-  getUpdatedCalendar,
-  getNewCalendar,
-} from '@/utils/calendar';
+import { getCalendarDetail, getNewCalendar } from '@/utils/calendar';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
@@ -19,8 +15,6 @@ import { queriesKey } from '@/queries';
 import { myBookHistoryAPI, myBookTimeRangeAPI } from '@/lib/api/myBook';
 import { GRID_ROW_OBJ } from '@/utils/staticData';
 import { cn } from '@/lib/utils';
-import { useAppDispatch } from '@/app/store';
-import { modalActions } from '@/app/store/modal';
 
 type CalendarType = {
   startDate: string;
@@ -35,6 +29,7 @@ const { time, history } = queriesKey.myBook.useMyBookPageQueriesKey;
 
 export default function MyBookDetailCalendar() {
   const pathname = usePathname();
+
   const [calendarState, setCalendarState] = useState<CalendarType>(
     getCalendarDetail(dayjs().format())
   );
@@ -43,32 +38,37 @@ export default function MyBookDetailCalendar() {
     pathname.split('/')[pathname.split('/').length - 1]
   );
 
-  const { data } = useQuery([time, myBookId.toString()], () =>
-    myBookTimeRangeAPI(myBookId)
-  );
+  // const { data } = useQuery([time, myBookId.toString()], () =>
+  //   myBookTimeRangeAPI(myBookId)
+  // );
 
   const { data: historyData } = useQuery([history, myBookId.toString()], () =>
     myBookHistoryAPI(myBookId)
   );
 
-  if (!data || !historyData) return <MyBookDetailCalendar.Loader />;
+  // if (!data || !historyData) return <MyBookDetailCalendar.Loader />;
+  if (!historyData) return <MyBookDetailCalendar.Loader />;
 
-  const { startDate, endDate } = data;
+  // const { startDate, endDate } = data;
+  const { books, end_date, start_date } = historyData;
 
-  const start_date = startDate
-    ? dayjs(data?.startDate).add(9, 'hour').format('YYYY-MM-DD')
-    : undefined;
+  const startDate = dayjs(start_date).add(9, 'hour').format('YYYY-MM-DD');
+  const endDate = dayjs(end_date).add(9, 'hour').format('YYYY-MM-DD');
 
-  const end_date = endDate
-    ? dayjs(data?.endDate).add(9, 'hour').format('YYYY-MM-DD')
-    : undefined;
+  // const start_date = startDate
+  //   ? dayjs(data?.startDate).add(9, 'hour').format('YYYY-MM-DD')
+  //   : undefined;
 
-  const obj: { [date: string]: HistoryStatusType[] } = {};
-  historyData.books.forEach((item) => {
-    const dateStr = dayjs(item.date).add(9, 'hour').format('YYYY-MM-DD');
-    obj[dateStr] = obj[dateStr] || [];
-    obj[dateStr].push(item.status);
-  });
+  // const end_date = endDate
+  //   ? dayjs(data?.endDate).add(9, 'hour').format('YYYY-MM-DD')
+  //   : dayjs().format('YYYY-MM-DD');
+
+  // const obj: { [date: string]: HistoryStatusType[] } = {};
+  // historyData.books.forEach((item) => {
+  //   const dateStr = dayjs(item.date).add(9, 'hour').format('YYYY-MM-DD');
+  //   obj[dateStr] = obj[dateStr] || [];
+  //   obj[dateStr].push(item.status);
+  // });
 
   const onChangeCalendarState = (update: number) => {
     setCalendarState((prev) => getNewCalendar(prev, update));
@@ -78,17 +78,15 @@ export default function MyBookDetailCalendar() {
     (calendarState.firstDOW + calendarState.lastDate) / 7
   );
 
-  const dispatch = useAppDispatch();
-
   return (
-    <div
-      className="w-full h-auto px-4 flex flex-col"
-      onClick={() => dispatch(modalActions.setModalState({ type: 'isLogin' }))}
-    >
+    <div className="w-full h-auto px-4 flex flex-col">
       <div className="w-full h-auto p-4 flex flex-col shadow-lg rounded-lg">
         <CalendarHeader
           year={calendarState.year}
           month={calendarState.month}
+          // startDate={startDate}
+          // endDate={endDate}
+
           startDate={startDate}
           endDate={endDate}
           onChange={onChangeCalendarState}
@@ -104,9 +102,11 @@ export default function MyBookDetailCalendar() {
             colStart={calendarState.firstDOW + 1}
             year={calendarState.year}
             month={calendarState.month}
-            obj={obj}
-            startDate={start_date}
-            endDate={end_date}
+            // obj={obj}
+
+            obj={books}
+            startDate={startDate}
+            endDate={endDate}
           />
           {[...Array(calendarState.lastDate)].map((_, i) =>
             i > 0 ? (
@@ -115,9 +115,12 @@ export default function MyBookDetailCalendar() {
                 date={i + 1}
                 month={calendarState.month}
                 year={calendarState.year}
-                obj={obj}
-                startDate={start_date}
-                endDate={end_date}
+                // obj={obj}
+                // startDate={start_date}
+                // endDate={end_date}
+                obj={books}
+                startDate={startDate}
+                endDate={endDate}
               />
             ) : null
           )}

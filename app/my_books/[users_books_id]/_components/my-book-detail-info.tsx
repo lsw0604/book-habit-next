@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { BookmarkIcon } from 'lucide-react';
@@ -51,17 +52,17 @@ export default function MyBookDetailInfo({
             </div>
           </div>
           {contents === '' ? (
-            <p className="w-full text-sm whitespace-pre-line line-clamp-4 overflow-hidden mb-2">
+            <p className="w-full min-h-[80px] text-sm whitespace-pre-line line-clamp-4 overflow-hidden mb-2">
               등록된 정보가 없습니다.
             </p>
           ) : (
-            <p className="w-full text-sm whitespace-pre-line line-clamp-4 overflow-hidden mb-2">
+            <p className="w-full min-h-[80px] text-sm whitespace-pre-line line-clamp-4 overflow-hidden mb-2">
               {contents}
             </p>
           )}
-          <a className="text-sm" href={url} target="_blank" rel="noreferrer">
+          <Link className="text-sm" href={url} target="_blank" rel="noreferrer">
             더보기
-          </a>
+          </Link>
         </div>
       </div>
     </div>

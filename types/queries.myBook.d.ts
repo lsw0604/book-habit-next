@@ -98,7 +98,10 @@ type MyBookPageQueriesInfoRequestType = number;
 
 // history LIST
 type MyBookPageQueriesHistoryListResponseType = {
-  books: MyBookPageQueriesHistoryListType;
+  // books: MyBookPageQueriesHistoryListType;
+  books: Record<string, MyBookPageQueriesHistoryListType>;
+  start_date: Date;
+  end_date: Date;
 };
 type MyBookPageQueriesHistoryListType = MyBookPageQueriesHistoryItemType[];
 

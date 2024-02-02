@@ -1,5 +1,5 @@
 type RootMyBookType = {
-  date: Date | null;
+  date?: string;
   status: string;
   useValidation: boolean;
   rating: number;

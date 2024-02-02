@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
-import Avatar from 'components/common/Avatar';
+// import Avatar from 'components/common/Avatar';
 import HeaderDropdown from 'components/header/HeaderDropdown';
 import { RootState, useAppSelector } from '@/app/store';
 
@@ -54,7 +54,7 @@ export default function HeaderProfile() {
           <ProfileName>{name}</ProfileName>님 환영합니다.
         </>
       ) : null}
-      <Avatar src={profile} size="3rem" />
+      {/* <Avatar src={profile} size="3rem" /> */}
       {isHamburger && <HeaderDropdown />}
     </Container>
   );
