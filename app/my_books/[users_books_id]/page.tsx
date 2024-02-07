@@ -1,5 +1,8 @@
 import MyBookDetailInfo from './_components/my-book-detail-info';
 import Calendar from './_components/my-book-detail-calendar';
+import { Suspense } from 'react';
+import MyBookDetailCalendarLoader from './_components/my-book-detail-calendar-loader';
+import MyBookDetailInfoLoader from './_components/my-book-detail-info-loader';
 
 export default function MyBookDetailPage({
   params,
@@ -10,8 +13,12 @@ export default function MyBookDetailPage({
 
   return (
     <div>
-      <MyBookDetailInfo users_books_id={users_books_id} />
-      <Calendar />
+      <Suspense fallback={<MyBookDetailInfoLoader />}>
+        <MyBookDetailInfo users_books_id={users_books_id} />
+      </Suspense>
+      <Suspense fallback={<MyBookDetailCalendarLoader />}>
+        <Calendar />
+      </Suspense>
     </div>
   );
 }

@@ -1,47 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 
-import Loader from 'components/common/Loader';
+import Loader from '@/components/common/loader';
 import { LogoMain } from '@/style/icon';
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-`;
-
-const SubTitle = styled.h2`
-  font-size: 20px;
-`;
-
-const Title = styled.h1`
-  font-size: 40px;
-  text-align: center;
-`;
-
-const LoaderWrapper = styled.div`
-  width: 100%;
-  height: 10%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const LogoWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  svg {
-    width: 10rem;
-  }
-`;
 
 export default function Home() {
   const router = useRouter();
@@ -53,15 +16,17 @@ export default function Home() {
   }, []);
 
   return (
-    <Container>
-      <LogoWrapper>
-        <LogoMain />
-      </LogoWrapper>
-      <SubTitle>부담없이 기록하는 독서기록장</SubTitle>
-      <Title>책벌래</Title>
-      <LoaderWrapper>
+    <div className="w-full h-full flex justify-center items-center gap-2 flex-col">
+      <div className="w-full flex justify-center">
+        <i className="w-40">
+          <LogoMain />
+        </i>
+      </div>
+      <h2 className="flex text-lg">부담없이 기록하는 독서기록장</h2>
+      <h1 className="text-4xl text-center">책벌래</h1>
+      <div className="w-full h-[10%] flex justify-center items-center">
         <Loader size={2} />
-      </LoaderWrapper>
-    </Container>
+      </div>
+    </div>
   );
 }

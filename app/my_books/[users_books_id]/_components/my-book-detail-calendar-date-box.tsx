@@ -4,7 +4,7 @@ import { XIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { useAppDispatch } from '@/app/store';
-import { modalActions } from '@/app/store/modal';
+import modal, { modalActions } from '@/app/store/modal';
 import { myBookActions } from '@/app/store/myBook';
 
 interface MyBookDetailCalendarDateBoxProps {
@@ -61,8 +61,8 @@ export default function MyBookDetailCalendarDateBox({
   const endDateDayjs = endDate ? dayjs(endDate) : dayjs().add(-1, 'day');
 
   const isX =
-    (startDate && dayObj.isBefore(startDateDayjs)) ||
-    (endDate && dayObj.isAfter(endDateDayjs.add(1, 'day')));
+    (startDateDayjs && dayObj.isBefore(startDateDayjs)) ||
+    (endDateDayjs && dayObj.isAfter(endDateDayjs.add(1, 'day')));
 
   const historyRegisterModalHandler = () => {
     if (!isX) {
@@ -75,7 +75,8 @@ export default function MyBookDetailCalendarDateBox({
     <div
       className={cn(
         colStart && COL_START_OBJ[colStart],
-        'relative cursor-pointer flex justify-center items-center flex-col'
+        'relative cursor-pointer flex justify-center items-center flex-col',
+        isX && 'bg-[rgba(0,0,0,0.05)]'
       )}
       onClick={historyRegisterModalHandler}
     >
@@ -88,25 +89,19 @@ export default function MyBookDetailCalendarDateBox({
       >
         {date}
       </div>
-      {isX ? (
-        <div className="h-8 w-full text-xs flex flex-col-reverse">
-          <XIcon className="opacity-40 w-4 h-4" />
-        </div>
-      ) : (
-        <div className="h-8 w-full text-xs flex flex-col-reverse">
-          {dateMapped?.map((v) => (
-            <div
-              className={cn(
-                'bg-rose-300 h-4 w-full rounded-full mb-0.5 text-xs truncate px-1',
-                `${STATUS_COLOR_OBJECT[v.status]}`
-              )}
-              key={v4()}
-            >
-              {v.status}
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="h-8 w-full text-xs flex flex-col-reverse">
+        {dateMapped?.map((v) => (
+          <div
+            className={cn(
+              'bg-rose-300 h-4 w-full rounded-full mb-0.5 text-xs truncate px-1',
+              `${STATUS_COLOR_OBJECT[v.status]}`
+            )}
+            key={v4()}
+          >
+            {v.status}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,9 +1,9 @@
 'use client';
 
-import { queriesKey, queryClient } from '@/queries';
 import { RefreshCcwIcon } from 'lucide-react';
-import { useState } from 'react';
-import { useUpdateEffect } from 'usehooks-ts';
+import { useState, useEffect } from 'react';
+
+import { queriesKey, queryClient } from '@/queries';
 
 const { useCommentsListQueryKey } = queriesKey.comments;
 
@@ -19,7 +19,7 @@ export default function CommentTimer() {
     });
   };
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     const timer = setInterval(() => {
       setSecond((prev) => prev - 1);
 
@@ -33,7 +33,7 @@ export default function CommentTimer() {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [second, setSecond]);
+  }, [second, setSecond, minute, setMinute]);
 
   return (
     <div className="w-full flex justify-end h-8">

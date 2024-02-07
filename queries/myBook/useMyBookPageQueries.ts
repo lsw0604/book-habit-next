@@ -72,10 +72,10 @@ export default function useMyBookPageQueries(
         select: ({ books }: MyBookPageQueriesHistoryListResponseType) => {
           if (!filtered) {
             return [];
-          } else if (filtered.includes('전체보기')) {
-            return books;
-          } else {
-            return books.filter((book) => filtered.includes(book.status));
+            // } else if (filtered.includes('전체보기')) {
+            //   return books;
+            // } else {
+            //   return books.filter((book) => filtered.includes(book.status));
           }
         },
         staleTime: Infinity,

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import dayjs from 'dayjs';
 import { useQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
@@ -33,10 +33,9 @@ export default function RegisterHistoryModal() {
     () => myBookHistoryAPI(myBookId),
     {
       select: (response) => {
-        const mapped = response.books[date as string];
-
-        return mapped;
+        return response.books[date as string];
       },
+      suspense: true,
     }
   );
 
@@ -45,7 +44,9 @@ export default function RegisterHistoryModal() {
   return (
     <div className="flex flex-col gap-2">
       <div className="w-full flex">
-        <RegisterHistoryModalList data={data} />
+        <Suspense fallback={<div>loading...</div>}>
+          <RegisterHistoryModalList data={data} />
+        </Suspense>
       </div>
       <div className="relative w-full">
         <RadioButton
