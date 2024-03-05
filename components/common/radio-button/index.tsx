@@ -37,8 +37,8 @@ export default function RadioButton({
           <label
             key={option.value}
             className={cn(
-              'flex items-center justify-center w-full h-full cursor-pointer rounded-lg',
-              value === option.value && 'text-rose-300'
+              'flex items-center justify-center w-full h-full cursor-pointer rounded-lg border-solid border-2 border-slate-100',
+              value === option.value && 'border-solid border-rose-300 border-2'
             )}
           >
             <input
@@ -52,14 +52,14 @@ export default function RadioButton({
             <label
               className={cn(
                 'h-auto w-full grid grid-rows-1 justify-center text-xl',
-                !!option.description && 'text-lg grid-rows-2'
+                !!option.description && 'text-base grid-rows-2'
               )}
               htmlFor={`radio-${option.value}`}
             >
               {option.icon && <i className="w-4 h-4">{option.icon}</i>}
               <div>{option.label}</div>
               {option.description && (
-                <span className="text-xs max-w-24 truncate">
+                <span className="text-xxs max-w-24 truncate">
                   {option.description}
                 </span>
               )}

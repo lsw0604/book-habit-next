@@ -88,6 +88,9 @@ const config = {
         '9999': '9999',
         '9998': '9998',
       },
+      fontSize: {
+        xxs: ['10px', '14px'],
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],
