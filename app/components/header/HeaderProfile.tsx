@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
-// import Avatar from 'components/common/Avatar';
 import HeaderDropdown from 'components/header/HeaderDropdown';
 import { RootState, useAppSelector } from '@/app/store';
 

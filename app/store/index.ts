@@ -14,6 +14,7 @@ import theme from './theme';
 import bookRegister from './bookRegister';
 import user from './user';
 import searchBookRegister from './searchBookRegister';
+import history from './historyRegister';
 import toast from './toast';
 import reply from './reply';
 
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   searchBookRegister: searchBookRegister.reducer,
   toast: toast.reducer,
   reply: reply.reducer,
+  history: history.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

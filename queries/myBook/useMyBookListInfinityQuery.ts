@@ -16,18 +16,15 @@ export default function useMyBookListInfinityQuery(status: SelectorBookType) {
     refetch,
     isError,
     error,
+    status: queryStatus,
   } = useInfiniteQuery<
     MyBookListInfinityQueryResponseType,
     AxiosError<{ message: string; status: StatusType }>
-  >(
-    [useMyBookListInfinityQueryKey, status],
-    ({ pageParam = 1 }) => myBookListAPI(pageParam, status),
-    {
-      getNextPageParam: (response) => response.nextPage,
-      staleTime: 5 * 60 * 1000,
-      cacheTime: 5 * 60 * 1000,
-    }
-  );
+  >({
+    queryKey: [useMyBookListInfinityQueryKey, status],
+    queryFn: ({ pageParam = 1 }) => myBookListAPI(pageParam, status),
+    getNextPageParam: (response) => response.nextPage,
+  });
 
   return {
     data,
@@ -38,5 +35,6 @@ export default function useMyBookListInfinityQuery(status: SelectorBookType) {
     isFetching,
     hasNextPage,
     fetchNextPage,
+    queryStatus,
   };
 }

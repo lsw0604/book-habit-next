@@ -84,6 +84,10 @@ const config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      zIndex: {
+        '9999': '9999',
+        '9998': '9998',
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],

@@ -2,20 +2,17 @@
 
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { getCalendarDetail, getNewCalendar } from '@/utils/calendar';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
 import CalendarDateBox from './my-book-detail-calendar-date-box';
 import CalendarHeader from './my-book-detail-calendar-header';
-import { Skeleton } from '@/components/ui/skeleton';
-
-import { queriesKey } from '@/queries';
-import { myBookHistoryAPI } from '@/lib/api/myBook';
-import { GRID_ROW_OBJ } from '@/utils/staticData';
-import { cn } from '@/lib/utils';
 import MyBookDetailCalendarLoader from './my-book-detail-calendar-loader';
+
+import { cn } from '@/lib/utils';
+import { getCalendarDetail, getNewCalendar } from '@/utils/calendar';
+import { myBookHistoryAPI } from '@/lib/api/myBook';
+import { queriesKey } from '@/queries';
 
 type CalendarType = {
   startDate: string;
@@ -24,6 +21,17 @@ type CalendarType = {
   monthName: string;
   month: string;
   year: string;
+};
+
+const GRID_ROW_OBJ: {
+  [key: number]: string;
+} = {
+  1: 'grid-rows-1',
+  2: 'grid-rows-2',
+  3: 'grid-rows-3',
+  4: 'grid-rows-4',
+  5: 'grid-rows-5',
+  6: 'grid-rows-6',
 };
 
 const { history } = queriesKey.myBook.useMyBookPageQueriesKey;

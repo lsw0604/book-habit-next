@@ -21,8 +21,6 @@ export default function useAccessHook() {
   };
 
   useEffect(() => {
-    if (window.localStorage.getItem('ACCESS')) {
-      fetch();
-    }
+    fetch();
   }, []);
 }

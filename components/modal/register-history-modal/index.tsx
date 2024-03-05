@@ -11,7 +11,11 @@ import { queriesKey } from '@/queries';
 import { myBookHistoryAPI } from '@/lib/api/myBook';
 
 const RADIO_BUTTON_OPTION = [
-  { label: '읽기시작함', value: '읽기시작함' },
+  {
+    label: '읽기시작함',
+    value: '읽기시작함',
+    description: '읽기시작한 책을 등록합니다.',
+  },
   { label: '읽는중', value: '읽는중' },
   { label: '다읽음', value: '다읽음' },
 ];
@@ -28,24 +32,11 @@ export default function RegisterHistoryModal() {
     pathname.split('/')[pathname.split('/').length - 1]
   );
 
-  const { data } = useQuery(
-    [history, myBookId.toString()],
-    () => myBookHistoryAPI(myBookId),
-    {
-      select: (response) => {
-        return response.books[date as string];
-      },
-      suspense: true,
-    }
-  );
-
-  if (!data) return;
-
   return (
     <div className="flex flex-col gap-2">
       <div className="w-full flex">
         <Suspense fallback={<div>loading...</div>}>
-          <RegisterHistoryModalList data={data} />
+          <RegisterHistoryModalList myBookId={myBookId} />
         </Suspense>
       </div>
       <div className="relative w-full">

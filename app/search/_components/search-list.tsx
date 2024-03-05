@@ -6,7 +6,6 @@ import { useIntersectionObserver, useUpdateEffect } from 'usehooks-ts';
 import { v4 } from 'uuid';
 
 import SearchItem from './search-item';
-import { Skeleton } from '@/components/ui/skeleton';
 import useBookSearchInfinityQuery from '@/queries/book/useBookSearchInfinityQuery';
 
 const OBSERVER_OPTION = {
@@ -29,15 +28,15 @@ export default function SearchList() {
 
   const { data, fetchNextPage, hasNextPage, isLoading } =
     useBookSearchInfinityQuery(keyword);
-
   useUpdateEffect(() => {
     if (isVisible && hasNextPage) {
       fetchNextPage();
     }
   }, [isVisible]);
 
-  if (isLoading || !data) return <SearchList.Loader />;
   if (keyword === undefined) return <SearchList.Empty keyword={keyword} />;
+
+  if (isLoading || !data) return <SearchList.Loader />;
   if (data?.pages[0].documents.length === 0)
     return <SearchList.Empty keyword={keyword} />;
 

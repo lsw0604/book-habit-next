@@ -11,27 +11,27 @@ import useMyBookListInfinityQuery from '@/queries/myBook/useMyBookListInfinityQu
 const OBSERVER_OPTION = {
   root: null,
   rootMargin: '20px',
-  threshold: 1.0,
+  threshold: 0.7,
 };
 
 export default function MyBookList() {
-  const searchParams = useSearchParams();
+  const lastPageRef = useRef<HTMLDivElement>(null);
 
-  const category = searchParams.get('category');
+  const { get } = useSearchParams();
+  const category = get('category') as SelectorBookType;
 
-  const lastPageRef = useRef<HTMLDivElement | null>(null);
   const entry = useIntersectionObserver(lastPageRef, OBSERVER_OPTION);
+
   const isVisible = !!entry?.isIntersecting;
 
   const { data, fetchNextPage, isLoading, hasNextPage } =
-    useMyBookListInfinityQuery(category as SelectorBookType);
+    useMyBookListInfinityQuery(category);
 
   useUpdateEffect(() => {
-    console.log('isVisible', isVisible, 'hasNextPage', hasNextPage, category);
-    if (isVisible && hasNextPage) {
+    if (isVisible && hasNextPage === true) {
       fetchNextPage();
     }
-  }, [isVisible]);
+  }, [isVisible, hasNextPage]);
 
   if (!data || isLoading) return <MyBookList.Loader />;
   if (data.pages.length === 0) return <MyBookList.Empty />;
@@ -45,7 +45,7 @@ export default function MyBookList() {
           <MyBookItem key={page.id} item={page} />
         ))}
       </ul>
-      <div className="mb-[20px]" ref={lastPageRef} />
+      <div className="mb-[20px]" ref={lastPageRef}></div>
     </div>
   );
 }

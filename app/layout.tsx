@@ -3,8 +3,6 @@
 import { usePathname } from 'next/navigation';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-// import Header from 'components/header';
-// import Toast from 'components/common/Toast';
 import ModalPortal from '../components/modal/modal-portal';
 import Modal from '../components/modal';
 import Header from '../components/header';
