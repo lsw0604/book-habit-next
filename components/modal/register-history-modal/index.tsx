@@ -9,12 +9,12 @@ import RegisterHistoryModalList from './register-history-modal-list';
 import { RootState, useAppSelector } from '@/app/store';
 import { queriesKey } from '@/queries';
 import { myBookHistoryAPI } from '@/lib/api/myBook';
+import Rating from '@/components/common/rating';
 
 const RADIO_BUTTON_OPTION = [
   {
     label: '읽기시작함',
     value: '읽기시작함',
-    description: '읽기시작한 책을 등록합니다.',
   },
   { label: '읽는중', value: '읽는중' },
   { label: '다읽음', value: '다읽음' },
@@ -25,6 +25,11 @@ const { history } = queriesKey.myBook.useMyBookPageQueriesKey;
 export default function RegisterHistoryModal() {
   const pathname = usePathname();
   const [value, setValue] = useState<string>('읽기시작함');
+  const [rating, setIsRating] = useState(0);
+
+  const onChangeRating = (i: number) => {
+    setIsRating(i);
+  };
 
   const { date } = useAppSelector((state: RootState) => state.myBook);
 
@@ -46,6 +51,7 @@ export default function RegisterHistoryModal() {
           onChange={setValue}
         />
       </div>
+      <Rating rating={rating} onChange={onChangeRating} />
     </div>
   );
 }
