@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react';
+import { ChangeEvent, FormEvent, Suspense, useState } from 'react';
 import dayjs from 'dayjs';
 import { useQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
@@ -13,6 +13,9 @@ import Rating from '@/components/common/rating';
 import { DatePicker } from '@/components/datepicker';
 import { Calendar } from '@/components/ui/calendar';
 import { RadioGroupOptionType } from '@/types/style';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { BookIcon } from 'lucide-react';
 
 const RADIO_BUTTON_OPTION: RadioGroupOptionType<string>[] = [
   {
@@ -36,6 +39,7 @@ export default function RegisterHistoryModal() {
   const pathname = usePathname();
 
   const [value, setValue] = useState<string>('읽기시작함');
+  const [page, setPage] = useState<number | string>(0);
   // const { date } = useAppSelector((state: RootState) => state.history);
 
   const { date } = useAppSelector((state: RootState) => state.myBook);
@@ -44,8 +48,25 @@ export default function RegisterHistoryModal() {
     pathname.split('/')[pathname.split('/').length - 1]
   );
 
+  const day = dayjs(date).format('YYYY년MM월DD일');
+
+  const onSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    console.log(day, value, page);
+  };
+
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const isValid = /^\d+$/.test(value);
+
+    if (!isValid) return setPage('');
+
+    setPage(parseInt(value, 10));
+  };
+
   return (
-    <div className="flex flex-col gap-2">
+    <form onSubmit={onSubmit} className="flex flex-col gap-2">
+      <span>{day}</span>
       <div className="relative w-full">
         <RadioButton
           options={RADIO_BUTTON_OPTION}
@@ -53,6 +74,8 @@ export default function RegisterHistoryModal() {
           onChange={setValue}
         />
       </div>
-    </div>
+      <Input type="number" value={page} onChange={onChange} />
+      <Button type="submit">등록하기</Button>
+    </form>
   );
 }
