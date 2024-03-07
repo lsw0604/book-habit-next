@@ -36,6 +36,7 @@ export const queriesKey = {
     useMyBookCommentUpdateMutationKey:
       'USE_MY_BOOK_COMMENT_UPDATE_MUTATION_KEY',
     useMyBookCommentListQueryKey: 'USE_MY_BOOK_COMMENT_LIST_QUERY_KEY',
+    useMyBookHistoryListQueryKey: 'USE_MY_BOOK_HISTORY_LIST_QUERY_KEY',
     useMyBookHistoryDeleteMutationKey:
       'USE_MY_BOOK_HISTORY_DELETE_MUTATION_KEY',
     useMyBookHistoryRegisterMutationKey:

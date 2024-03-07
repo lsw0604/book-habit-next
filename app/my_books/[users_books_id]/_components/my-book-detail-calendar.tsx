@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils';
 import { getCalendarDetail, getNewCalendar } from '@/utils/calendar';
 import { myBookHistoryAPI } from '@/lib/api/myBook';
 import { queriesKey } from '@/queries';
+import MyBookDetailHistoryList from './my-book-detail-history-list';
 
 type CalendarType = {
   startDate: string;
@@ -22,6 +23,10 @@ type CalendarType = {
   month: string;
   year: string;
 };
+
+interface MyBookDetailCalendarProps {
+  users_books_id: number;
+}
 
 const GRID_ROW_OBJ: {
   [key: number]: string;
@@ -36,7 +41,9 @@ const GRID_ROW_OBJ: {
 
 const { history } = queriesKey.myBook.useMyBookPageQueriesKey;
 
-export default function MyBookDetailCalendar() {
+export default function MyBookDetailCalendar({
+  users_books_id,
+}: MyBookDetailCalendarProps) {
   const pathname = usePathname();
 
   const [calendarState, setCalendarState] = useState<CalendarType>(
@@ -78,8 +85,8 @@ export default function MyBookDetailCalendar() {
   );
 
   return (
-    <div className="w-full h-auto px-4 flex flex-col">
-      <div className="w-full h-auto p-4 flex flex-col shadow-lg rounded-lg">
+    <div className="w-full h-auto px-4 mb-4">
+      <div className="w-full h-auto p-4 flex flex-col shadow-lg rounded-lg mb-4">
         <CalendarHeader
           year={calendarState.year}
           month={calendarState.month}
@@ -117,6 +124,7 @@ export default function MyBookDetailCalendar() {
           )}
         </div>
       </div>
+      <MyBookDetailHistoryList books={books} users_books_id={users_books_id} />
     </div>
   );
 }

@@ -35,7 +35,7 @@ export default function MyBookDetailInfo({
   const { authors, contents, publisher, title, url, thumbnail } = data;
 
   return (
-    <div className="w-full h-full p-4">
+    <div className="w-full h-auto p-4">
       <div className="flex flex-row w-full h-auto shadow-lg rounded-lg">
         <div className="flex justify-center items-center w-[40%] relative p-4">
           <ImageWrapper width={120} height={174} alt={'test'} src={thumbnail} />
