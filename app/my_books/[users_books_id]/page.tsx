@@ -9,7 +9,7 @@ export default function MyBookDetailPage({
   const { users_books_id } = params;
 
   return (
-    <div className="w-full h-full relative overflow-scroll">
+    <div className="w-full h-full overflow-scroll">
       <MyBookDetailInfo users_books_id={users_books_id} />
       <MyBookDetailCalendar users_books_id={users_books_id} />
     </div>

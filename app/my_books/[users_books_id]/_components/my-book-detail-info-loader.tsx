@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function MyBookDetailInfoLoader() {
   return (
-    <div className="w-full h-full p-4">
+    <div className="w-full h-auto p-4">
       <div className="flex flex-row w-full h-auto shadow-lg rounded-lg:">
         <div className="flex justify-center items-center w-[40%] relative p-4">
           <Skeleton className="w-[120px] h-[174px] rounded-lg bg-slate-200" />

@@ -9,17 +9,21 @@ export default function MyBookDetailHistoryList({
   users_books_id,
   books,
 }: MyBookDetailHistoryListProps) {
-  let data: MyBookPageQueriesHistoryListType = [];
+  let historyList: MyBookPageQueriesHistoryListType = [];
 
   for (let book in books) {
-    data = data.concat(books[book]);
+    historyList = historyList.concat(books[book]);
   }
 
   return (
     <div className="w-full h-40 p-4 flex flex-col shadow-lg rounded-lg">
       <ul className="w-full h-auto overflow-scroll">
-        {data.map((v) => (
-          <MyBookDetailHistoryItem data={v} myBookId={users_books_id} />
+        {historyList.map((data) => (
+          <MyBookDetailHistoryItem
+            key={data.id}
+            data={data}
+            myBookId={users_books_id}
+          />
         ))}
       </ul>
     </div>

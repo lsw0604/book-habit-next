@@ -54,9 +54,12 @@ export default function MyBookDetailCalendar({
     pathname.split('/')[pathname.split('/').length - 1]
   );
 
-  const { data: historyData, isSuccess } = useQuery(
-    [history, myBookId.toString()],
-    () => myBookHistoryAPI(myBookId)
+  const {
+    data: historyData,
+    isSuccess,
+    isLoading,
+  } = useQuery([history, myBookId.toString()], () =>
+    myBookHistoryAPI(myBookId)
   );
 
   useEffect(() => {
