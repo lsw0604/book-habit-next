@@ -9,6 +9,7 @@ import { XIcon } from 'lucide-react';
 interface RegisterHistoryModalProps {
   data: MyBookPageQueriesHistoryItemType;
   myBookId: number;
+  calendarHandler: (date: string) => void;
 }
 
 const STATUS_COLOR_OBJECT: Record<HistoryStatusType, string> = {
@@ -25,6 +26,7 @@ const { history } = useMyBookPageQueriesKey;
 export default function MyBookDetailHistoryItem({
   data,
   myBookId,
+  calendarHandler,
 }: RegisterHistoryModalProps) {
   const { created_at, date, id, page, status, updated_at } = data;
   const { mutate } = useMutation<
@@ -58,7 +60,10 @@ export default function MyBookDetailHistoryItem({
   };
 
   return (
-    <li className="inline-flex h-16 w-full snap-start">
+    <li
+      onClick={() => calendarHandler(date)}
+      className="inline-flex h-16 w-full snap-start"
+    >
       <div
         className={cn(
           'w-2 rounded-sm h-auto mr-2',

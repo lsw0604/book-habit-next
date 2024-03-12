@@ -83,6 +83,10 @@ export default function MyBookDetailCalendar({
     setCalendarState((prev) => getNewCalendar(prev, update));
   };
 
+  const calendarHandler = (date: string) => {
+    setCalendarState(getCalendarDetail(dayjs(date).format()));
+  };
+
   const gridRow = Math.ceil(
     (calendarState.firstDOW + calendarState.lastDate) / 7
   );
@@ -127,7 +131,11 @@ export default function MyBookDetailCalendar({
           )}
         </div>
       </div>
-      <MyBookDetailHistoryList books={books} users_books_id={users_books_id} />
+      <MyBookDetailHistoryList
+        calendarHandler={calendarHandler}
+        books={books}
+        users_books_id={users_books_id}
+      />
     </div>
   );
 }

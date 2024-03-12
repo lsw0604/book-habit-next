@@ -3,11 +3,13 @@ import MyBookDetailHistoryItem from './my-book-detail-history-item';
 interface MyBookDetailHistoryListProps {
   users_books_id: number;
   books: Record<string, MyBookPageQueriesHistoryListType>;
+  calendarHandler: (date: string) => void;
 }
 
 export default function MyBookDetailHistoryList({
   users_books_id,
   books,
+  calendarHandler,
 }: MyBookDetailHistoryListProps) {
   let historyList: MyBookPageQueriesHistoryListType = [];
 
@@ -23,6 +25,7 @@ export default function MyBookDetailHistoryList({
             key={data.id}
             data={data}
             myBookId={users_books_id}
+            calendarHandler={calendarHandler}
           />
         ))}
       </ul>
