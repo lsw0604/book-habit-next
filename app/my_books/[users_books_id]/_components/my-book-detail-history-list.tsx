@@ -18,8 +18,8 @@ export default function MyBookDetailHistoryList({
   }
 
   return (
-    <div className="w-full h-40 p-4 flex flex-col shadow-lg rounded-lg">
-      <ul className="w-full h-auto overflow-scroll">
+    <div className="w-full h-36 p-4 flex flex-col shadow-lg rounded-lg">
+      <ul className="w-full h-full overflow-scroll gap-0">
         {historyList.map((data) => (
           <MyBookDetailHistoryItem
             key={data.id}

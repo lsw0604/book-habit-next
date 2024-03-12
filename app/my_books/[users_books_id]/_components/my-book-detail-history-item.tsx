@@ -1,10 +1,12 @@
-import { myBookHistoryDeleteAPI } from '@/lib/api/myBook';
-import { cn } from '@/lib/utils';
-import { queriesKey, queryClient } from '@/queries';
+import { MouseEvent } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import { XIcon } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
+import { myBookHistoryDeleteAPI } from '@/lib/api/myBook';
+import { queriesKey, queryClient } from '@/queries';
 
 interface RegisterHistoryModalProps {
   data: MyBookPageQueriesHistoryItemType;
@@ -55,14 +57,15 @@ export default function MyBookDetailHistoryItem({
 
   const timeLine = dayjs(date).add(9, 'hour').format('YYYY년MM월DD일');
 
-  const deleteHistoryHandler = () => {
+  const deleteHistoryHandler = (event: MouseEvent) => {
+    event.stopPropagation();
     mutate(id);
   };
 
   return (
     <li
       onClick={() => calendarHandler(date)}
-      className="inline-flex h-16 w-full snap-start"
+      className="inline-flex h-12 w-full snap-start"
     >
       <div
         className={cn(
@@ -86,7 +89,7 @@ export default function MyBookDetailHistoryItem({
       </div>
       <div className="w-4 h-full flex justify-center items-center">
         <i className="w-8 h-4 flex justify-center items-center">
-          <XIcon onClick={deleteHistoryHandler} />
+          <XIcon onClick={(e) => deleteHistoryHandler(e)} />
         </i>
       </div>
     </li>
