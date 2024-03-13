@@ -1,38 +1,25 @@
 'use client';
 
 import Link from 'next/link';
-import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { BookmarkIcon } from 'lucide-react';
 
 import ImageWrapper from '@/components/common/image-wrapper';
 
-import { myBookInfoAPI } from '@/lib/api/myBook';
-import { queriesKey } from '@/queries';
 import MyBookDetailInfoLoader from './my-book-detail-info-loader';
+import useMyBookDetailInfoQuery from '@/queries/myBook/useMyBookDetailInfoQuery';
 
 interface MyBookDetailInfoProps {
   users_books_id: number;
 }
 
-const { info } = queriesKey.myBook.useMyBookPageQueriesKey;
-
 export default function MyBookDetailInfo({
   users_books_id,
 }: MyBookDetailInfoProps) {
-  const { data, isLoading } = useQuery<
-    MyBookPageQueriesInfoResponseType,
-    AxiosError<{ message: string; status: StatusType }>,
-    MyBookPageQueriesInfoResultType
-  >([info, users_books_id.toString()], () => myBookInfoAPI(users_books_id), {
-    select: (response) => {
-      return response.result;
-    },
-  });
+  const { data, isLoading } = useMyBookDetailInfoQuery(users_books_id);
 
   if (!data || isLoading) return <MyBookDetailInfoLoader />;
 
-  const { authors, contents, publisher, title, url, thumbnail } = data;
+  const { authors, contents, publisher, title, url, thumbnail } = data.result;
 
   return (
     <div className="w-full h-auto p-4">

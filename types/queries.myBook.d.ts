@@ -78,11 +78,22 @@ type MyBookCommentMutationRequestType = {
   users_books_id: number;
 };
 
+/**
+ * TODO: type 정리하기
+ * * MyBookPageQueriesInfoResponseType
+ * * MyBookPageQueriesInfoResultType
+ * * MyBookPageQueriesInfoRequestType
+ */
+
 // useMyBookPageQueries의 타입들
 
 // myBook INFO
 type MyBookPageQueriesInfoResponseType = {
   result: MyBookPageQueriesInfoResultType;
+};
+
+type MyBookDetailInfoQueryResponseType = {
+  result: MyBookDetailInfoResultType;
 };
 
 type MyBookPageQueriesInfoResultType = {
@@ -94,7 +105,18 @@ type MyBookPageQueriesInfoResultType = {
   authors: string;
 };
 
+type MyBookDetailInfoResultType = {
+  title: string;
+  thumbnail?: string;
+  url: string;
+  contents: string;
+  publisher: string;
+  authors: string;
+};
+
 type MyBookPageQueriesInfoRequestType = number;
+
+type MyBookDetailInfoQueryRequestType = number;
 
 // history LIST
 type MyBookPageQueriesHistoryListResponseType = {

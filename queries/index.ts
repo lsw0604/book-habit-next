@@ -48,6 +48,7 @@ export const queriesKey = {
       history: 'USE_MY_BOOK_PAGE_HISTORY_QUERIES_KEY',
       time: 'USE_MY_BOOK_PAGE_TIME_QUERIES_KEY',
     },
+    useMyBookDetailInfoQueryKey: 'USE_MY_BOOK_DETAIL_INFO_QUERY_KEY',
   },
   profile: {
     useProfileEditMutationKey: 'USE_PROFILE_EDIT_MUTATION_KEY',

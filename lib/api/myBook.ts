@@ -40,9 +40,9 @@ export const myBookCommentsAPI = async (
  * * 내 서재에 등록된 책의 정보를 불러오는 API
  */
 export const myBookInfoAPI = async (
-  users_books_id: MyBookPageQueriesInfoRequestType
+  users_books_id: MyBookDetailInfoQueryRequestType
 ) => {
-  const { data } = await axios.get<MyBookPageQueriesInfoResponseType>(
+  const { data } = await axios.get<MyBookDetailInfoQueryResponseType>(
     `/api/my_book/info/${users_books_id}`
   );
   return data;
