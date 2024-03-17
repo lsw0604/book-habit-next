@@ -39,7 +39,8 @@ export default function MyBookList() {
   const _document = data.pages.flatMap((page) => page.books);
 
   return (
-    <div className="w-full h-full flex flex-col overflow-scroll ">
+    // <div className="w-full h-full flex flex-col overflow-scroll border-2 border-black border-solid">
+    <div className="w-full h-auto">
       <ul className="w-full grid gap-4 px-4 mb-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-5 md:gap-2 2xl:grid-cols-10 2xl:gap-2 last:mb-0">
         {_document.map((page) => (
           <MyBookItem key={page.id} item={page} />

@@ -65,15 +65,10 @@ export default function MyBookDetailHistoryItem({
   return (
     <li
       onClick={() => calendarHandler(date)}
-      className="inline-flex h-12 w-full snap-start"
+      className="h-auto w-full snap-start flex"
     >
-      <div
-        className={cn(
-          'w-2 rounded-sm h-auto mr-2',
-          STATUS_COLOR_OBJECT[status]
-        )}
-      />
-      <div className="w-full flex items-start flex-col justify-center">
+      <div className={cn('w-2 h-auto mr-2', STATUS_COLOR_OBJECT[status])} />
+      <div className="w-full flex h-12 items-start flex-col justify-center">
         <p className="text-xs">
           {timeLine}&nbsp;
           <span
@@ -87,7 +82,7 @@ export default function MyBookDetailHistoryItem({
           {timeStamp}
         </div>
       </div>
-      <div className="w-4 h-full flex justify-center items-center">
+      <div className="w-8 h-auto flex justify-center items-center">
         <i className="w-8 h-4 flex justify-center items-center">
           <XIcon onClick={(e) => deleteHistoryHandler(e)} />
         </i>

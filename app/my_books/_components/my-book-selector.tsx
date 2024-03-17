@@ -25,8 +25,8 @@ export default function MyBookSelector() {
   };
 
   return (
-    <div className="p-4">
-      <div className="p-4 rounded-lg shadow-lg">
+    <div className="p-4 sticky top-0">
+      <div className="p-4 rounded-lg shadow-lg bg-white">
         <Selector
           options={SELECTOR_OPTIONS}
           value={category}

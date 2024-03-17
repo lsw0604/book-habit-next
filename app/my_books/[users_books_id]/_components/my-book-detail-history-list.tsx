@@ -18,16 +18,82 @@ export default function MyBookDetailHistoryList({
   }
 
   return (
-    <div className="w-full h-36 p-4 flex flex-col shadow-lg rounded-lg">
-      <ul className="w-full h-full overflow-scroll gap-0">
-        {historyList.map((data) => (
+    <div className="w-full max-h-32 p-4 h-auto flex shadow-lg rounded-lg">
+      <ul className="w-full h-auto overflow-scroll snap-mandatory">
+        {/* {historyList.map((data) => (
           <MyBookDetailHistoryItem
             key={data.id}
             data={data}
             myBookId={users_books_id}
             calendarHandler={calendarHandler}
           />
-        ))}
+        ))} */}
+
+        <MyBookDetailHistoryItem
+          key={1}
+          data={{
+            id: 264,
+            status: '읽기시작함',
+            date: '2022-10-17T15:00:00.000Z',
+            page: null,
+            created_at: '2023-10-27T07:28:51.000Z',
+            updated_at: null,
+          }}
+          myBookId={users_books_id}
+          calendarHandler={calendarHandler}
+        />
+        <MyBookDetailHistoryItem
+          key={1}
+          data={{
+            id: 308,
+            status: '다읽음',
+            date: '2024-01-31T15:00:00.000Z',
+            page: null,
+            created_at: '2024-01-31T21:53:56.000Z',
+            updated_at: null,
+          }}
+          myBookId={users_books_id}
+          calendarHandler={calendarHandler}
+        />
+        <MyBookDetailHistoryItem
+          key={1}
+          data={{
+            id: 308,
+            status: '다읽음',
+            date: '2024-01-31T15:00:00.000Z',
+            page: null,
+            created_at: '2024-01-31T21:53:56.000Z',
+            updated_at: null,
+          }}
+          myBookId={users_books_id}
+          calendarHandler={calendarHandler}
+        />
+        <MyBookDetailHistoryItem
+          key={1}
+          data={{
+            id: 308,
+            status: '다읽음',
+            date: '2024-01-31T15:00:00.000Z',
+            page: null,
+            created_at: '2024-01-31T21:53:56.000Z',
+            updated_at: null,
+          }}
+          myBookId={users_books_id}
+          calendarHandler={calendarHandler}
+        />
+        <MyBookDetailHistoryItem
+          key={1}
+          data={{
+            id: 308,
+            status: '다읽음',
+            date: '2024-01-31T15:00:00.000Z',
+            page: null,
+            created_at: '2024-01-31T21:53:56.000Z',
+            updated_at: null,
+          }}
+          myBookId={users_books_id}
+          calendarHandler={calendarHandler}
+        />
       </ul>
     </div>
   );
