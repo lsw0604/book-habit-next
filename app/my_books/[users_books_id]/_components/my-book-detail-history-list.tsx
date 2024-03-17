@@ -43,7 +43,7 @@ export default function MyBookDetailHistoryList({
           calendarHandler={calendarHandler}
         />
         <MyBookDetailHistoryItem
-          key={1}
+          key={2}
           data={{
             id: 308,
             status: '다읽음',
@@ -56,7 +56,7 @@ export default function MyBookDetailHistoryList({
           calendarHandler={calendarHandler}
         />
         <MyBookDetailHistoryItem
-          key={1}
+          key={3}
           data={{
             id: 308,
             status: '다읽음',
@@ -69,7 +69,7 @@ export default function MyBookDetailHistoryList({
           calendarHandler={calendarHandler}
         />
         <MyBookDetailHistoryItem
-          key={1}
+          key={4}
           data={{
             id: 308,
             status: '다읽음',
@@ -82,7 +82,7 @@ export default function MyBookDetailHistoryList({
           calendarHandler={calendarHandler}
         />
         <MyBookDetailHistoryItem
-          key={1}
+          key={5}
           data={{
             id: 308,
             status: '다읽음',
