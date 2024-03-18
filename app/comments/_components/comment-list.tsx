@@ -37,7 +37,7 @@ export default function CommentList() {
 CommentList.Empty = function () {
   const MONTH = parseInt(dayjs().format('MM'));
   return (
-    <div className="w-full h-full flex justify-center items-center p-4">
+    <div className="w-full h-full flex justify-center items-center px-4 pb-4">
       <div className="w-full h-full bg-[rgba(0,0,0,0.05)] rounded-lg p-4 flex flex-col justify-center items-center">
         <LogoSad className="w-[40%] opacity-40" />
         <p className="text-sm">{MONTH}월에 등록된 할줄평이 없습니다.</p>

@@ -1,63 +1,17 @@
-'use client';
-
-import styled from 'styled-components';
-
-import ProfileHeader from 'components/profile/ProfileHeader';
-import ProfileDescription from 'components/profile/ProfileDescription';
-import ProfileList from 'components/profile/ProfileList';
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ProfileContainer = styled.div`
-  width: 100%;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  bottom: 0;
-  border-radius: 2rem 2rem 0 0;
-  height: 90%;
-  gap: 1rem;
-  background-color: ${({ theme }) => theme.mode.sub};
-  @media screen and (min-width: 1280px) {
-    max-width: 500px;
-  }
-`;
-
-const ProfileContent = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 5rem 1rem 1rem 1rem;
-  display: flex;
-  flex-direction: column;
-`;
-
-const ProfileHeaderBackground = styled.div`
-  background-color: ${({ theme }) => theme.colors.spinner};
-  height: 100%;
-  width: 100%;
-  @media screen and (min-width: 1280px) {
-    max-width: 500px;
-  }
-`;
+import ProfileDescription from './_components/profile-description';
 
 export default function ProfilePage() {
   return (
-    <Container>
-      {/* <ProfileContainer> */}
-      {/* <ProfileHeader /> */}
-      {/* <ProfileContent>
+    <div className="w-full h-full relative flex justify-center items-center">
+      <div className="w-full absolute flex flex-col bottom-0 rounded-t-xl h-[90%] gap-4 bg-white">
+        {/* TODO: <ProfileHeader /> */}
+        <div className="w-full h-full flex flex-col px-4 pt-20 pb-4">
           <ProfileDescription />
-          <ProfileList />
-        </ProfileContent>
-      // </ProfileContainer>
-      <ProfileHeaderBackground /> */}
-    </Container>
+          {/* TODO: <ProfileDescription /> */}
+          {/* TODO: <ProfileList /> */}
+        </div>
+      </div>
+      <div className="h-full w-full bg-slate-500" />
+    </div>
   );
 }
