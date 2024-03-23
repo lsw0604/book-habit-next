@@ -4,9 +4,9 @@ import { useOnClickOutside } from 'usehooks-ts';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Skeleton } from '../ui/skeleton';
+import HeaderDropdown from './header-dropdown';
 
 import { RootState, useAppSelector } from '@/app/store';
-import HeaderDropdown from './header-dropdown';
 
 export default function HeaderProfile() {
   const { profile, name } = useAppSelector((state: RootState) => state.user);

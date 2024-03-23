@@ -68,7 +68,7 @@ export default function MyBookDetailCalendar({
     }
   }, [isSuccess, historyData]);
 
-  if (!historyData) return <MyBookDetailCalendarLoader />;
+  if (!historyData || !isLoading) return <MyBookDetailCalendarLoader />;
 
   const { books, end_date, start_date } = historyData;
 
