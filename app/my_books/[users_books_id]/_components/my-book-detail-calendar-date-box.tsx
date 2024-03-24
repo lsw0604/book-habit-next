@@ -1,10 +1,9 @@
 import dayjs from 'dayjs';
 import { v4 } from 'uuid';
-import { XIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { useAppDispatch } from '@/app/store';
-import modal, { modalActions } from '@/app/store/modal';
+import { modalActions } from '@/app/store/modal';
 import { myBookActions } from '@/app/store/myBook';
 
 interface MyBookDetailCalendarDateBoxProps {

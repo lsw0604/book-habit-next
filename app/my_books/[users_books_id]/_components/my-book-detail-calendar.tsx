@@ -7,13 +7,13 @@ import dayjs from 'dayjs';
 
 import CalendarDateBox from './my-book-detail-calendar-date-box';
 import CalendarHeader from './my-book-detail-calendar-header';
+import MyBookDetailHistoryList from './my-book-detail-history-list';
 import MyBookDetailCalendarLoader from './my-book-detail-calendar-loader';
 
 import { cn } from '@/lib/utils';
 import { getCalendarDetail, getNewCalendar } from '@/utils/calendar';
 import { myBookHistoryAPI } from '@/lib/api/myBook';
 import { queriesKey } from '@/queries';
-import MyBookDetailHistoryList from './my-book-detail-history-list';
 
 type CalendarType = {
   startDate: string;
@@ -68,7 +68,7 @@ export default function MyBookDetailCalendar({
     }
   }, [isSuccess, historyData]);
 
-  if (!historyData || !isLoading) return <MyBookDetailCalendarLoader />;
+  if (!historyData || isLoading) return <MyBookDetailCalendarLoader />;
 
   const { books, end_date, start_date } = historyData;
 
