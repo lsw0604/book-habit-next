@@ -1,6 +1,13 @@
 'use client';
 
-import { ComponentType, useCallback, useState, JSX, useMemo } from 'react';
+import {
+  ComponentType,
+  useCallback,
+  useState,
+  JSX,
+  useMemo,
+  ReactNode,
+} from 'react';
 import dayjs from 'dayjs';
 
 import CalendarHeader from './calendar-header';
@@ -18,9 +25,16 @@ type CalendarType = {
   year: string;
 };
 
-interface CalendarProps<T extends JSX.IntrinsicAttributes> {
-  component: ComponentType<T>;
-  componentProps: T;
+type DateBoxType = {
+  year: number;
+  month: number;
+  date: number;
+};
+
+interface CalendarProps {
+  startDate?: Date;
+  endDate?: Date;
+  component: ComponentType<DateBoxType>;
 }
 
 const GRID_ROW_OBJ: {
@@ -34,10 +48,11 @@ const GRID_ROW_OBJ: {
   6: 'grid-rows-6',
 };
 
-export default function Calendar<T extends JSX.IntrinsicAttributes>({
+export default function Calendar({
+  endDate,
+  startDate,
   component: Component,
-  componentProps,
-}: CalendarProps<T>) {
+}: CalendarProps) {
   const [calendarState, setCalendarState] = useState<CalendarType>(
     getCalendarDetail(dayjs().format())
   );
@@ -57,19 +72,54 @@ export default function Calendar<T extends JSX.IntrinsicAttributes>({
   return (
     <div className="w-full h-auto px-4 mb-4">
       <div className="w-full h-auto p-4 flex flex-col shadow-lg rounded-lg mb-4">
-        <CalendarHeader onChange={onChangeCalendarState} {...calendarState} />
+        <CalendarHeader
+          onChange={onChangeCalendarState}
+          startDate={startDate}
+          endDate={endDate}
+          month={calendarState.month}
+          year={calendarState.year}
+        />
         <div
           className={cn(
             GRID_ROW_OBJ[gridRow],
-            'w-full h-full grid grid-cols-7 gap-0:'
+            'w-full h-full grid grid-cols-7 gap-0'
           )}
         >
-          <CalendarDateBox />
+          <CalendarDateBox
+            colStart={calendarState.firstDOW + 1}
+            year={calendarState.year}
+            month={calendarState.month}
+            date={1}
+            endDate={endDate}
+            startDate={startDate}
+          >
+            <Component
+              key={1}
+              date={1}
+              month={parseInt(calendarState.month)}
+              year={parseInt(calendarState.year)}
+            />
+          </CalendarDateBox>
           {[...Array(calendarState.lastDate)].map((_, i) =>
-            i > 0 ? <CalendarDateBox /> : null
+            i > 0 ? (
+              <CalendarDateBox
+                key={i}
+                year={calendarState.year}
+                month={calendarState.month}
+                date={i + 1}
+                endDate={endDate}
+                startDate={startDate}
+              >
+                <Component
+                  key={i}
+                  date={i + 1}
+                  month={parseInt(calendarState.month)}
+                  year={parseInt(calendarState.year)}
+                />
+              </CalendarDateBox>
+            ) : null
           )}
         </div>
-        <Component {...componentProps} />
       </div>
     </div>
   );

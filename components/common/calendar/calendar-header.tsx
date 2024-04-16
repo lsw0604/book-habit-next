@@ -7,8 +7,8 @@ import { cn } from '@/lib/utils';
 interface CalendarHeaderProps {
   year: string;
   month: string;
-  startDate?: string;
-  endDate?: string;
+  startDate?: Date;
+  endDate?: Date;
   onChange: (update: number) => void;
 }
 
@@ -37,15 +37,13 @@ export default function CalendarHeader({
     if (monthObj !== startMonth) {
       onChange(-1);
     }
-    return;
-  }, []);
+  }, [month, year, startDate]);
 
   const nextMonthHandler = useCallback(() => {
     if (monthObj !== endMonth) {
       onChange(1);
     }
-    return;
-  }, []);
+  }, [month, year, endDate]);
 
   return (
     <div className="w-full h-10 flex justify-between items-center px-8 mb-2 border-solid border-b-2 border-slate-300">
