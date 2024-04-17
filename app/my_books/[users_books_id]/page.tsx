@@ -25,15 +25,14 @@ const TestFunction: FC<{
   );
 };
 
+type CategoryType = 'calendar' | 'list';
+
 export default function MyBookDetailPage({
   params,
 }: {
   params: { users_books_id: number };
 }) {
-  /**
-   * TODO: Selector를 만들자
-   */
-  const [] = useState();
+  const [type, setType] = useState<CategoryType>('calendar');
   const { users_books_id } = params;
 
   const { data } = useQuery(['my_book_id', users_books_id], () =>
@@ -44,14 +43,20 @@ export default function MyBookDetailPage({
 
   const { start_date, end_date } = data;
 
+  const onChange = (type: CategoryType) => {
+    setType(type);
+  };
+
   return (
     <div className="w-full h-auto">
-      {/* <MyBookDetailSelector /> */}
-      <Calendar
-        startDate={start_date}
-        endDate={end_date}
-        component={TestFunction}
-      />
+      <MyBookDetailSelector onChange={onChange} type={type} />
+      {type === 'calendar' && (
+        <Calendar
+          startDate={start_date}
+          endDate={end_date}
+          component={TestFunction}
+        />
+      )}
     </div>
   );
 }
