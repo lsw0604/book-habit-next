@@ -1,17 +1,12 @@
-import { MouseEvent } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
-import { XIcon } from 'lucide-react';
+
+import MyBookDetailHistoryItemXButton from './my-book-detail-history-item-x-button';
 
 import { cn } from '@/lib/utils';
-import { myBookHistoryDeleteAPI } from '@/lib/api/myBook';
-import { queriesKey, queryClient } from '@/queries';
 
-interface RegisterHistoryModalProps {
+interface MyBookDetailHistoryItemProps {
   data: MyBookPageQueriesHistoryItemType;
   myBookId: number;
-  calendarHandler: (date: string) => void;
 }
 
 const STATUS_COLOR_OBJECT: Record<HistoryStatusType, string> = {
@@ -21,31 +16,11 @@ const STATUS_COLOR_OBJECT: Record<HistoryStatusType, string> = {
   읽고싶음: 'bg-orange-300',
 };
 
-const { useMyBookHistoryDeleteMutationKey, useMyBookPageQueriesKey } =
-  queriesKey.myBook;
-const { history } = useMyBookPageQueriesKey;
-
 export default function MyBookDetailHistoryItem({
   data,
   myBookId,
-  calendarHandler,
-}: RegisterHistoryModalProps) {
+}: MyBookDetailHistoryItemProps) {
   const { created_at, date, id, page, status, updated_at } = data;
-  const { mutate } = useMutation<
-    MyBookHistoryDeleteMutationResponseType,
-    AxiosError<{ message: string; status: StatusType }>,
-    MyBookHistoryDeleteMutationRequestType
-  >(
-    [useMyBookHistoryDeleteMutationKey, id.toString(), myBookId.toString()],
-    myBookHistoryDeleteAPI,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: [history, myBookId.toString()],
-        });
-      },
-    }
-  );
 
   const timeStamp = updated_at
     ? `${dayjs(updated_at)
@@ -57,36 +32,29 @@ export default function MyBookDetailHistoryItem({
 
   const timeLine = dayjs(date).add(9, 'hour').format('YYYY년MM월DD일');
 
-  const deleteHistoryHandler = (event: MouseEvent) => {
-    event.stopPropagation();
-    mutate(id);
-  };
-
   return (
-    <li
-      onClick={() => calendarHandler(date)}
-      className="h-auto w-full snap-start flex"
-    >
-      <div className={cn('w-2 h-auto mr-2', STATUS_COLOR_OBJECT[status])} />
-      <div className="w-full flex h-12 items-start flex-col justify-center">
-        <p className="text-xs">
-          {timeLine}&nbsp;
-          <span
-            className={cn('px-2 rounded-sm mr-2', STATUS_COLOR_OBJECT[status])}
-          >
-            {status}
-          </span>
-          {page && <span className="">{page}쪽 읽음</span>}
-        </p>
-        <div className="text-xs text-gray-400 flex flex-col justify-center">
-          {timeStamp}
+    <li className="h-auto w-full">
+      <h1 className="font-bold">{timeLine}</h1>
+      <section className="w-full h-auto flex flex-row">
+        <div className={cn('w-2 h-auto mr-2', STATUS_COLOR_OBJECT[status])} />
+        <div className="w-full flex h-12 items-start flex-col justify-center">
+          <p className="text-xs">
+            <span
+              className={cn(
+                'px-2 rounded-sm mr-2',
+                STATUS_COLOR_OBJECT[status]
+              )}
+            >
+              {status}
+            </span>
+            {page && <span className="">{page}쪽 읽음</span>}
+          </p>
+          <div className="text-xs text-gray-400 flex flex-col justify-center">
+            {timeStamp}
+          </div>
         </div>
-      </div>
-      <div className="w-8 h-auto flex justify-center items-center">
-        <i className="w-8 h-4 flex justify-center items-center">
-          <XIcon onClick={(e) => deleteHistoryHandler(e)} />
-        </i>
-      </div>
+        <MyBookDetailHistoryItemXButton historyId={id} myBookId={myBookId} />
+      </section>
     </li>
   );
 }

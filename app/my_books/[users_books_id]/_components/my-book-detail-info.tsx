@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { BookmarkIcon } from 'lucide-react';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import ImageWrapper from '@/components/common/image-wrapper';
 
-import MyBookDetailInfoLoader from './my-book-detail-info-loader';
 import useMyBookDetailInfoQuery from '@/queries/myBook/useMyBookDetailInfoQuery';
 
 interface MyBookDetailInfoProps {
@@ -17,7 +17,7 @@ export default function MyBookDetailInfo({
 }: MyBookDetailInfoProps) {
   const { data, isLoading } = useMyBookDetailInfoQuery(users_books_id);
 
-  if (!data || isLoading) return <MyBookDetailInfoLoader />;
+  if (!data || isLoading) return <MyBookDetailInfo.Loader />;
 
   const { authors, contents, publisher, title, url, thumbnail } = data.result;
 
@@ -55,3 +55,25 @@ export default function MyBookDetailInfo({
     </div>
   );
 }
+
+MyBookDetailInfo.Loader = () => {
+  return (
+    <div className="w-full h-auto p-4">
+      <div className="flex flex-row w-full h-auto shadow-lg rounded-lg:">
+        <div className="flex justify-center items-center w-[40%] relative p-4">
+          <Skeleton className="w-[120px] h-[174px] rounded-lg bg-slate-200" />
+        </div>
+        <div className="w-[60%] flex flex-col h-full py-4 pr-4">
+          <div className="w-full h-full mb-2">
+            <div className="w-full flex flex-col gap-1">
+              <Skeleton className="h-2 w-[30%] text-xs bg-slate-200" />
+              <Skeleton className="h-4 w-[50%] text-lg bg-slate-200" />
+              <Skeleton className="h-2 w-[20%] text-xs bg-slate-200" />
+            </div>
+          </div>
+          <Skeleton className="h-[125px] w-full bg-slate-200" />
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 interface MyBookDetailSelectorProps {
   category: CategoryType;
-  onChange: (type: CategoryType) => void;
+  onClick: (type: CategoryType) => void;
 }
 
 type SelectorButtonType = {
@@ -26,7 +26,7 @@ const SelectorButtons: SelectorButtonType[] = [
 ];
 
 export default function MyBookDetailSelector({
-  onChange,
+  onClick,
   category,
 }: MyBookDetailSelectorProps) {
   return (
@@ -38,7 +38,8 @@ export default function MyBookDetailSelector({
             'w-10 h-10 flex justify-center items-center shadow-sm rounded-md',
             category === v.category && 'text-slate-400 shadow-lg'
           )}
-          onClick={() => onChange(v.category)}
+          disabled={category === v.category}
+          onClick={() => onClick(v.category)}
         >
           {v.icon}
         </button>

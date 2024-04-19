@@ -1,26 +1,15 @@
 type DateBoxType = {
-  usersBooksId: number;
-  gridColumn?: number;
-  date?: number;
-  year?: string;
-  month?: string;
-  data: { [date: string]: HistoryStatusType[] };
-  startDate?: string;
-  endDate?: string;
+  year: number;
+  month: number;
+  date: number;
+  history: MyBookPageQueriesHistoryListType;
 };
 
-type CalendarDateByDataType = {
-  [date: string]: HistoryStatusType[];
+type CalendarType = {
+  startDate: string;
+  firstDOW: number;
+  lastDate: number;
+  monthName: string;
+  month: string;
+  year: string;
 };
-
-type CalendarHeaderType = {
-  myBookHistoryData: MyBookPageQueriesHistoryListType;
-  myBookTimeData: MyBookPageQueriesTimeRangeResponseType;
-  filter: string[];
-  setFilter: Dispatch<SetStateAction<string[]>>;
-  options: string[];
-};
-
-type CalendarHeaderButtonsType = {
-  children: ReactNode;
-} & Pick<CalendarHeaderType, 'myBookHistoryData' | 'myBookTimeData'>;
