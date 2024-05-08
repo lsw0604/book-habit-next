@@ -9,7 +9,7 @@ interface CalendarHeaderProps {
   month: string;
   startDate?: Date;
   endDate?: Date;
-  onChange: (update: number) => void;
+  onChange?: (update: number) => void;
 }
 
 export default function CalendarHeader({
@@ -35,13 +35,13 @@ export default function CalendarHeader({
 
   const prevMonthHandler = useCallback(() => {
     if (monthObj !== startMonth) {
-      onChange(-1);
+      onChange && onChange(-1);
     }
   }, [month, year, startDate]);
 
   const nextMonthHandler = useCallback(() => {
     if (monthObj !== endMonth) {
-      onChange(1);
+      onChange && onChange(1);
     }
   }, [month, year, endDate]);
 

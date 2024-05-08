@@ -8,26 +8,10 @@ const { useMyBookHistoryListQueryKey } = queriesKey.myBook;
 
 export default function useMyBookHistoryListQuery(users_books_id: number) {
   const { data } = useQuery<
-    MyBookPageQueriesHistoryListResponseType,
-    AxiosError,
-    Omit<MyBookPageQueriesHistoryListResponseType, 'books'> & {
-      books: MyBookPageQueriesHistoryListType;
-    }
-  >(
-    [useMyBookHistoryListQueryKey, users_books_id.toString()],
-    () => myBookHistoryAPI(users_books_id),
-    {
-      select: (response) => {
-        const { books } = response;
-        let historyList: MyBookPageQueriesHistoryListType = [];
-
-        for (let history in books) {
-          historyList = historyList.concat(books[history]);
-        }
-
-        return { ...response, books: historyList };
-      },
-    }
+    MyBookHistoryListResponseType,
+    AxiosError<{ message: string; status: StatusType }>
+  >([useMyBookHistoryListQueryKey, users_books_id.toString()], () =>
+    myBookHistoryAPI(users_books_id)
   );
 
   return {

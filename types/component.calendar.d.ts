@@ -1,8 +1,8 @@
-type DateBoxType = {
+type DateBoxType<T> = {
   year: number;
   month: number;
   date: number;
-  history: MyBookPageQueriesHistoryListType;
+  obj: Record<string, T>;
 };
 
 type CalendarType = {

@@ -16,9 +16,9 @@ export const myBookListAPI = async (page: number, status: SelectorBookType) => {
  * * 내 서재에 등록된 책의 독서기록 목록을 불러오는 API
  */
 export const myBookHistoryAPI = async (
-  users_books_id: MyBookPageQueriesHistoryListRequestType
+  users_books_id: MyBookHistoryListRequestType
 ) => {
-  const { data } = await axios.get<MyBookPageQueriesHistoryListResponseType>(
+  const { data } = await axios.get<MyBookHistoryListResponseType>(
     `/api/my_book/history/list/${users_books_id}`
   );
   return data;

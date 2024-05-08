@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import MyBookDetailSelector from './_components/my-book-detail-selector';
 import MyBookDetailCalendar from './_components/my-book-detail-calendar';
@@ -13,24 +13,24 @@ export default function MyBookDetailPage({
 }: {
   params: { users_books_id: number };
 }) {
-  const [category, setCategory] = useState<CategoryType>('calendar');
   const { users_books_id } = params;
+  const [category, setCategory] = useState<CategoryType>('calendar');
 
   const { data } = useMyBookHistoryListQuery(users_books_id);
 
-  const onClick = (type: CategoryType) => {
+  const handleCategory = useCallback((type: CategoryType) => {
     setCategory(type);
-  };
+  }, []);
 
   return (
     <div className="w-full h-auto">
-      <MyBookDetailSelector onClick={onClick} category={category} />
+      <MyBookDetailSelector onChange={handleCategory} category={category} />
       {!data && <MyBookDetailCalendar.Loader />}
       {category === 'calendar' && data && (
         <MyBookDetailCalendar
           startDate={data.start_date}
           endDate={data.end_date}
-          history={data.books}
+          obj={data.books}
         />
       )}
       {category === 'list' && data && (

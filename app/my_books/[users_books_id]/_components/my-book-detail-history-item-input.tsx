@@ -1,5 +1,15 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-export default function MyBookDetailHistoryItemInput() {
-  return <div>MyBookDetailHistoryItemInput</div>;
+interface MyBookDetailHistoryItemInputProps {
+  children: ReactNode;
+}
+
+export default function MyBookDetailHistoryItemInput({
+  children,
+}: MyBookDetailHistoryItemInputProps) {
+  return (
+    <span className="px-2 rounded-md mr-2 bg-slate-300">
+      <button>{children}</button>
+    </span>
+  );
 }

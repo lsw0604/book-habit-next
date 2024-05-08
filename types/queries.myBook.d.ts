@@ -119,15 +119,15 @@ type MyBookPageQueriesInfoRequestType = number;
 type MyBookDetailInfoQueryRequestType = number;
 
 // history LIST
-type MyBookPageQueriesHistoryListResponseType = {
+type MyBookHistoryListResponseType = {
   // books: MyBookPageQueriesHistoryListType;
-  books: Record<string, MyBookPageQueriesHistoryListType>;
+  books: Record<string, MyBookHistoryListType>;
   start_date: Date;
   end_date: Date;
 };
-type MyBookPageQueriesHistoryListType = MyBookPageQueriesHistoryItemType[];
+type MyBookHistoryListType = MyBookHistoryItemType[];
 
-type MyBookPageQueriesHistoryItemType = {
+type MyBookHistoryItemType = {
   id: number;
   status: '읽기시작함' | '다읽음' | '읽고싶음' | '읽는중';
   date: string;
@@ -135,13 +135,4 @@ type MyBookPageQueriesHistoryItemType = {
   created_at: string;
   updated_at: string | null;
 };
-type MyBookPageQueriesHistoryListRequestType = number;
-
-// myBook TIME
-
-type MyBookPageQueriesTimeRangeResponseType = {
-  startDate?: string;
-  endDate?: string;
-};
-
-type MyBookPageQueriesTimeRangeRequestType = number;
+type MyBookHistoryListRequestType = number;
