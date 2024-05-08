@@ -1,13 +1,11 @@
 'use client';
 
-import { ComponentType, useCallback, useState, useMemo, FC } from 'react';
-import dayjs from 'dayjs';
+import { ComponentType, useMemo, FC } from 'react';
 
 import CalendarHeader from './calendar-header';
 import CalendarDateBox from './calendar-date-box';
 
 import { cn } from '@/lib/utils';
-import { getCalendarDetail, getNewCalendar } from '@/utils/calendar';
 
 interface ICalendarProps {
   calendar: CalendarType;
@@ -32,7 +30,7 @@ const GRID_ROW_OBJ: {
   6: 'grid-rows-6',
 };
 
-const Calendar: FC<CalendarProps<undefined | MyBookHistoryListType>> = ({
+const Calendar: FC<CalendarProps<MyBookHistoryListType | undefined>> = ({
   calendar,
   onChange,
   endDate,
@@ -40,22 +38,6 @@ const Calendar: FC<CalendarProps<undefined | MyBookHistoryListType>> = ({
   obj,
   component: Component,
 }) => {
-  // const [calendarState, setCalendarState] = useState<CalendarType>(
-  //   getCalendarDetail(dayjs().format())
-  // );
-
-  // const onChangeCalendarState = useCallback(
-  //   (update: number) => {
-  //     setCalendarState((prev) => getNewCalendar(prev, update));
-  //   },
-  //   [calendar]
-  // );
-
-  // const gridRow = useMemo(
-  //   () => Math.ceil((calendarState.firstDOW + calendarState.lastDate) / 7),
-  //   [calendarState]
-  // );
-
   const gridRow = useMemo(
     () => Math.ceil((calendar.firstDOW + calendar.lastDate) / 7),
     [calendar]
@@ -64,12 +46,9 @@ const Calendar: FC<CalendarProps<undefined | MyBookHistoryListType>> = ({
   return (
     <>
       <CalendarHeader
-        // onChange={onChangeCalendarState}
         onChange={onChange && onChange}
         startDate={startDate}
         endDate={endDate}
-        // month={calendarState.month}
-        // year={calendarState.year}
         month={calendar.month}
         year={calendar.year}
       />
@@ -80,9 +59,6 @@ const Calendar: FC<CalendarProps<undefined | MyBookHistoryListType>> = ({
         )}
       >
         <CalendarDateBox
-          // colStart={calendarState.firstDOW + 1}
-          // year={calendarState.year}
-          // month={calendarState.month}
           colStart={calendar.firstDOW + 1}
           year={calendar.year}
           month={calendar.month}
@@ -94,8 +70,6 @@ const Calendar: FC<CalendarProps<undefined | MyBookHistoryListType>> = ({
             <Component
               key={1}
               date={1}
-              // month={parseInt(calendarState.month)}
-              // year={parseInt(calendarState.year)}
               month={parseInt(calendar.month)}
               year={parseInt(calendar.year)}
               obj={obj}

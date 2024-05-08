@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import dayjs from 'dayjs';
 
-const MyBookDetailCalendarDateBox: FC<DateBoxType> = ({
+const MyBookDetailCalendarDateBox: FC<DateBoxType<MyBookHistoryListType>> = ({
   date,
   month,
   year,
-  history,
+  obj,
 }) => {
   const dayObj = dayjs()
     .locale('ko')
@@ -14,14 +14,13 @@ const MyBookDetailCalendarDateBox: FC<DateBoxType> = ({
     .date(date);
 
   if (history) {
-    const dataMapped =
-      history[dayObj.add(9, 'hour').toISOString().split('T')[0]];
+    const dataMapped = obj[dayObj.add(9, 'hour').toISOString().split('T')[0]];
 
     return (
       <div className="w-full h-10">
         <div className="w-full h-full">
           {dataMapped &&
-            dataMapped.map((status) => (
+            dataMapped.map((status: MyBookHistoryItemType) => (
               <div key={status.id}>{status.status}</div>
             ))}
         </div>

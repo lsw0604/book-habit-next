@@ -5,7 +5,7 @@ import MyBookDetailHistoryItemXButton from './my-book-detail-history-item-x-butt
 import { cn } from '@/lib/utils';
 
 interface MyBookDetailHistoryItemProps {
-  data: MyBookPageQueriesHistoryItemType;
+  data: MyBookHistoryItemType;
   myBookId: number;
 }
 
