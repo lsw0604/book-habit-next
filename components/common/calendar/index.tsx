@@ -38,10 +38,36 @@ const Calendar: FC<CalendarProps<MyBookHistoryListType | undefined>> = ({
   obj,
   component: Component,
 }) => {
+  const parsedMonth = parseInt(calendar.month);
+  const parsedYear = parseInt(calendar.year);
+
   const gridRow = useMemo(
     () => Math.ceil((calendar.firstDOW + calendar.lastDate) / 7),
     [calendar]
   );
+
+  const renderDateBox = (date: number) => {
+    return (
+      <CalendarDateBox
+        key={date}
+        year={calendar.year}
+        month={calendar.month}
+        date={date}
+        endDate={endDate}
+        startDate={startDate}
+      >
+        {obj && Component && (
+          <Component
+            key={date}
+            date={date}
+            month={parsedMonth}
+            year={parsedYear}
+            obj={obj}
+          />
+        )}
+      </CalendarDateBox>
+    );
+  };
 
   return (
     <>
@@ -58,7 +84,7 @@ const Calendar: FC<CalendarProps<MyBookHistoryListType | undefined>> = ({
           'w-full h-full grid grid-cols-7 gap-0'
         )}
       >
-        <CalendarDateBox
+        {/* <CalendarDateBox
           colStart={calendar.firstDOW + 1}
           year={calendar.year}
           month={calendar.month}
@@ -97,6 +123,9 @@ const Calendar: FC<CalendarProps<MyBookHistoryListType | undefined>> = ({
               )}
             </CalendarDateBox>
           ) : null
+        )} */}
+        {Array.from({ length: calendar.lastDate }, (_, i) =>
+          renderDateBox(i + 1)
         )}
       </div>
     </>
