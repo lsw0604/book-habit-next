@@ -30,7 +30,7 @@ const GRID_ROW_OBJ: {
   6: 'grid-rows-6',
 };
 
-const Calendar: FC<CalendarProps<MyBookHistoryListType | undefined>> = ({
+const Calendar: FC<CalendarProps<T>> = ({
   calendar,
   onChange,
   endDate,
@@ -45,29 +45,6 @@ const Calendar: FC<CalendarProps<MyBookHistoryListType | undefined>> = ({
     () => Math.ceil((calendar.firstDOW + calendar.lastDate) / 7),
     [calendar]
   );
-
-  const renderDateBox = (date: number) => {
-    return (
-      <CalendarDateBox
-        key={date}
-        year={calendar.year}
-        month={calendar.month}
-        date={date}
-        endDate={endDate}
-        startDate={startDate}
-      >
-        {obj && Component && (
-          <Component
-            key={date}
-            date={date}
-            month={parsedMonth}
-            year={parsedYear}
-            obj={obj}
-          />
-        )}
-      </CalendarDateBox>
-    );
-  };
 
   return (
     <>
@@ -84,49 +61,18 @@ const Calendar: FC<CalendarProps<MyBookHistoryListType | undefined>> = ({
           'w-full h-full grid grid-cols-7 gap-0'
         )}
       >
-        {/* <CalendarDateBox
-          colStart={calendar.firstDOW + 1}
-          year={calendar.year}
-          month={calendar.month}
-          date={1}
-          endDate={endDate}
-          startDate={startDate}
-        >
-          {obj && Component && (
-            <Component
-              key={1}
-              date={1}
-              month={parseInt(calendar.month)}
-              year={parseInt(calendar.year)}
-              obj={obj}
-            />
-          )}
-        </CalendarDateBox>
-        {[...Array(calendar.lastDate)].map((_, i) =>
-          i > 0 ? (
-            <CalendarDateBox
-              key={i}
-              year={calendar.year}
-              month={calendar.month}
-              date={i + 1}
-              endDate={endDate}
-              startDate={startDate}
-            >
-              {obj && Component && (
-                <Component
-                  key={i}
-                  date={i + 1}
-                  month={parseInt(calendar.month)}
-                  year={parseInt(calendar.year)}
-                  obj={obj}
-                />
-              )}
-            </CalendarDateBox>
-          ) : null
-        )} */}
-        {Array.from({ length: calendar.lastDate }, (_, i) =>
-          renderDateBox(i + 1)
-        )}
+        {Array.from({ length: calendar.lastDate }, (_, i) => (
+          <CalendarDateBox<>
+            key={i}
+            year={parsedYear}
+            month={parsedMonth}
+            date={i}
+            endDate={endDate}
+            startDate={startDate}
+            obj={obj}
+            component={Component}
+          />
+        ))}
       </div>
     </>
   );

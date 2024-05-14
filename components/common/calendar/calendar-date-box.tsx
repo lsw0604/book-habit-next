@@ -1,16 +1,16 @@
 import { cn } from '@/lib/utils';
 import dayjs from 'dayjs';
-import { ReactNode } from 'react';
-import { v4 } from 'uuid';
+import { ComponentType } from 'react';
 
-interface CalendarDateBoxProps {
+interface CalendarDateBoxProps<T> {
   colStart?: number;
   date: number;
-  year: string;
-  month: string;
+  year: number;
+  month: number;
   startDate?: Date;
   endDate?: Date;
-  children?: ReactNode;
+  obj: Record<string, T>;
+  component?: ComponentType<DateBoxType<T>>;
 }
 
 const COL_START_OBJ: {
@@ -25,19 +25,18 @@ const COL_START_OBJ: {
   7: 'col-start-7',
 };
 
-export default function CalendarDateBox({
+export default function CalendarDateBox<T>({
   colStart,
   date,
   month,
   year,
   startDate,
   endDate,
-  children,
-}: CalendarDateBoxProps) {
-  const yearInt = parseInt(year);
-  const monthInt = parseInt(month) - 1;
-
-  const dayObj = dayjs().locale('ko').year(yearInt).month(monthInt).date(date);
+  obj,
+  component: Component,
+}: CalendarDateBoxProps<T>) {
+  const dayObj = dayjs().locale('ko').year(year).month(month).date(date);
+  const day = dayObj.add(9, 'hour').format('YYYY-MM-DD');
 
   const isSaturday = dayObj.day() === 6;
   const isSunday = dayObj.day() === 0;
@@ -70,7 +69,9 @@ export default function CalendarDateBox({
       >
         {date}
       </div>
-      <div className="h-8 w-full text-xs flex flex-col-reverse">{children}</div>
+      <div className="h-8 w-full text-xs flex flex-col-reverse">
+        {Component && obj && <Component obj={obj} day={day} />}
+      </div>
     </div>
   );
 }

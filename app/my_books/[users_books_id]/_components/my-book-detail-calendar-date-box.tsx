@@ -1,20 +1,10 @@
 import { FC } from 'react';
-import dayjs from 'dayjs';
 
-const MyBookDetailCalendarDateBox: FC<DateBoxType<MyBookHistoryListType>> = ({
-  date,
-  month,
-  year,
-  obj,
-}) => {
-  const dayObj = dayjs()
-    .locale('ko')
-    .year(year)
-    .month(month - 1)
-    .date(date);
-
+const MyBookDetailCalendarDateBox: FC<
+  DateBoxType<MyBookHistoryListType | undefined>
+> = ({ day, obj }) => {
   if (history) {
-    const dataMapped = obj[dayObj.add(9, 'hour').toISOString().split('T')[0]];
+    const dataMapped = obj[day];
 
     return (
       <div className="w-full h-10">

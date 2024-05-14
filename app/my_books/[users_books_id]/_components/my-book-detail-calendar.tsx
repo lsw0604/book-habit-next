@@ -15,11 +15,7 @@ interface MyBookDetailCalendarProps {
   obj: Record<string, MyBookHistoryListType>;
 }
 
-export default function MyBookDetailCalendar({
-  startDate,
-  endDate,
-  obj,
-}: MyBookDetailCalendarProps) {
+function useCalendar() {
   const [calendar, setCalendar] = useState(getCalendarDetail(dayjs().format()));
 
   const handleCalendar = useCallback(
@@ -28,6 +24,28 @@ export default function MyBookDetailCalendar({
     },
     [calendar]
   );
+
+  return {
+    calendar,
+    handleCalendar,
+  };
+}
+
+export default function MyBookDetailCalendar({
+  startDate,
+  endDate,
+  obj,
+}: MyBookDetailCalendarProps) {
+  // const [calendar, setCalendar] = useState(getCalendarDetail(dayjs().format()));
+
+  // const handleCalendar = useCallback(
+  //   (ctx: number) => {
+  //     setCalendar((prev) => getNewCalendar(prev, ctx));
+  //   },
+  //   [calendar]
+  // );
+
+  const { calendar, handleCalendar } = useCalendar();
 
   return (
     <div className="w-full h-auto px-4 mb-4">
