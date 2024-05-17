@@ -9,8 +9,8 @@ interface CalendarDateBoxProps<T> {
   month: number;
   startDate?: Date;
   endDate?: Date;
-  obj: Record<string, T>;
-  component?: ComponentType<DateBoxType<T>>;
+  obj?: Record<string, T>;
+  component?: ComponentType<DateBoxType<T | undefined>>;
 }
 
 const COL_START_OBJ: {

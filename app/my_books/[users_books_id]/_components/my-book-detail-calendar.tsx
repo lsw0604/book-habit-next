@@ -50,7 +50,7 @@ export default function MyBookDetailCalendar({
   return (
     <div className="w-full h-auto px-4 mb-4">
       <div className="w-full h-auto p-4 flex flex-col shadow-lg rounded-lg mb-4">
-        <Calendar
+        <Calendar<MyBookHistoryListType>
           calendar={calendar}
           onChange={handleCalendar}
           endDate={endDate}

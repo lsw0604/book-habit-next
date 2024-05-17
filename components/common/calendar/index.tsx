@@ -1,6 +1,6 @@
 'use client';
 
-import { ComponentType, useMemo, FC } from 'react';
+import { ComponentType, useMemo } from 'react';
 
 import CalendarHeader from './calendar-header';
 import CalendarDateBox from './calendar-date-box';
@@ -16,7 +16,7 @@ export interface CalendarProps<T> extends ICalendarProps {
   startDate?: Date;
   endDate?: Date;
   obj?: Record<string, T>;
-  component?: ComponentType<DateBoxType<T>>;
+  component?: ComponentType<DateBoxType<T | undefined>>;
 }
 
 const GRID_ROW_OBJ: {
@@ -30,14 +30,14 @@ const GRID_ROW_OBJ: {
   6: 'grid-rows-6',
 };
 
-const Calendar: FC<CalendarProps<T>> = ({
+const Calendar = <T,>({
   calendar,
   onChange,
   endDate,
   startDate,
   obj,
   component: Component,
-}) => {
+}: CalendarProps<T>) => {
   const parsedMonth = parseInt(calendar.month);
   const parsedYear = parseInt(calendar.year);
 
@@ -52,8 +52,8 @@ const Calendar: FC<CalendarProps<T>> = ({
         onChange={onChange && onChange}
         startDate={startDate}
         endDate={endDate}
-        month={calendar.month}
-        year={calendar.year}
+        month={parsedMonth}
+        year={parsedYear}
       />
       <div
         className={cn(
@@ -62,7 +62,7 @@ const Calendar: FC<CalendarProps<T>> = ({
         )}
       >
         {Array.from({ length: calendar.lastDate }, (_, i) => (
-          <CalendarDateBox<>
+          <CalendarDateBox<T>
             key={i}
             year={parsedYear}
             month={parsedMonth}
