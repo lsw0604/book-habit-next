@@ -13,9 +13,7 @@ interface CalendarDateBoxProps<T> {
   component?: ComponentType<DateBoxType<T | undefined>>;
 }
 
-const COL_START_OBJ: {
-  [key: number]: string;
-} = {
+const COL_START_OBJ: Record<number, string> = {
   1: 'col-start-1',
   2: 'col-start-2',
   3: 'col-start-3',
@@ -35,8 +33,8 @@ export default function CalendarDateBox<T>({
   obj,
   component: Component,
 }: CalendarDateBoxProps<T>) {
-  const dayObj = dayjs().locale('ko').year(year).month(month).date(date);
-  const day = dayObj.add(9, 'hour').format('YYYY-MM-DD');
+  const dayObj = dayjs(`${year}-${month}-${date}`).locale('ko');
+  const day = dayObj.format('YYYY-MM-DD');
 
   const isSaturday = dayObj.day() === 6;
   const isSunday = dayObj.day() === 0;
@@ -49,27 +47,27 @@ export default function CalendarDateBox<T>({
     : dayjs().add(-1, 'day');
 
   const isX =
-    (startDateDayjs && dayObj.isBefore(startDateDayjs)) ||
+    (startDateDayjs && dayObj.isBefore(startDateDayjs.add(-1, 'day'))) ||
     (endDateDayjs && dayObj.isAfter(endDateDayjs.add(1, 'day')));
 
   return (
     <div
       className={cn(
         colStart && COL_START_OBJ[colStart],
-        'relative cursor-pointer flex justify-center items-center flex-col',
+        'relative cursor-pointer flex justify-center items-center flex-col h-auto',
         isX && 'bg-[rgba(0,0,0,0.05)]'
       )}
     >
       <div
         className={cn(
-          'h-4 w-full text-xs pl-2',
+          'min-h-4 h-auto w-full text-xs pl-2',
           isSaturday && 'text-blue-300',
           isSunday && 'text-rose-300'
         )}
       >
         {date}
       </div>
-      <div className="h-8 w-full text-xs flex flex-col-reverse">
+      <div className="min-h-8 h-auto w-full text-xs flex flex-col-reverse">
         {Component && obj && <Component obj={obj} day={day} />}
       </div>
     </div>

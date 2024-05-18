@@ -63,10 +63,11 @@ const Calendar = <T,>({
       >
         {Array.from({ length: calendar.lastDate }, (_, i) => (
           <CalendarDateBox<T>
-            key={i}
+            key={i + 1}
             year={parsedYear}
             month={parsedMonth}
-            date={i}
+            date={i + 1}
+            colStart={i + 1 === 1 ? calendar.firstDOW + 1 : undefined}
             endDate={endDate}
             startDate={startDate}
             obj={obj}

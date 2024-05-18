@@ -121,7 +121,7 @@ type MyBookDetailInfoQueryRequestType = number;
 // history LIST
 type MyBookHistoryListResponseType = {
   // books: MyBookPageQueriesHistoryListType;
-  books: Record<string, MyBookHistoryListType>;
+  history: Record<string, MyBookHistoryListType>;
   start_date: Date;
   end_date: Date;
 };

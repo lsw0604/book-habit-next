@@ -5,9 +5,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface CalendarHeaderProps {
-  // year: string;
   year: number;
-  // month: string;
   month: number;
   startDate?: Date;
   endDate?: Date;

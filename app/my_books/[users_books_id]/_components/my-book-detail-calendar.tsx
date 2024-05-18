@@ -36,15 +36,6 @@ export default function MyBookDetailCalendar({
   endDate,
   obj,
 }: MyBookDetailCalendarProps) {
-  // const [calendar, setCalendar] = useState(getCalendarDetail(dayjs().format()));
-
-  // const handleCalendar = useCallback(
-  //   (ctx: number) => {
-  //     setCalendar((prev) => getNewCalendar(prev, ctx));
-  //   },
-  //   [calendar]
-  // );
-
   const { calendar, handleCalendar } = useCalendar();
 
   return (

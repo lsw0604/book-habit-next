@@ -2,14 +2,14 @@ import MyBookDetailHistoryItem from './my-book-detail-history-item';
 
 interface MyBookDetailHistoryListProps {
   users_books_id: number;
-  history: Record<string, MyBookPageQueriesHistoryListType>;
+  history: Record<string, MyBookHistoryListType>;
 }
 
 export default function MyBookDetailHistoryList({
   users_books_id,
   history,
 }: MyBookDetailHistoryListProps) {
-  let arr: MyBookPageQueriesHistoryListType = [];
+  let arr: MyBookHistoryListType = [];
 
   for (let date in history) {
     arr = arr.concat(history[date]);
