@@ -16,7 +16,13 @@ export default function MyBookItem({ item }: MyBookItemProps) {
     <li className="w-full h-auto p-4 rounded-lg shadow-lg">
       <Link href={`/my_books/${id}`}>
         <div className="flex justify-center mb-2">
-          <ImageWrapper src={thumbnail} alt={isbn} width={120} height={174} />
+          <ImageWrapper
+            src={thumbnail}
+            alt={isbn}
+            width={120}
+            height={174}
+            priority
+          />
         </div>
         <div className="w-full h-auto">
           <p className="text-lg text-ellipsis overflow-hidden whitespace-nowrap">

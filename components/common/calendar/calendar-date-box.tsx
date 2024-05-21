@@ -60,7 +60,7 @@ export default function CalendarDateBox<T>({
     >
       <div
         className={cn(
-          'min-h-4 h-auto w-full text-xs pl-2',
+          'min-h-4 h-full w-full text-xs pl-2',
           isSaturday && 'text-blue-300',
           isSunday && 'text-rose-300'
         )}

@@ -8,6 +8,7 @@ interface ImageWrapperProps {
   alt: string;
   width: number;
   height: number;
+  priority?: boolean;
 }
 
 export default function ImageWrapper({
@@ -15,6 +16,7 @@ export default function ImageWrapper({
   alt,
   width,
   height,
+  priority = false,
 }: ImageWrapperProps) {
   return (
     <div
@@ -32,6 +34,7 @@ export default function ImageWrapper({
           alt={alt}
           height={height}
           width={width}
+          priority={priority}
         />
       ) : (
         <IconImage className="w-8 h-8 fill-transparent" />

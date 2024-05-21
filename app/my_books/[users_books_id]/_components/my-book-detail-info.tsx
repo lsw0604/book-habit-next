@@ -25,7 +25,13 @@ export default function MyBookDetailInfo({
     <div className="w-full h-auto p-4">
       <div className="flex flex-row w-full h-auto shadow-lg rounded-lg">
         <div className="flex justify-center items-center w-[40%] relative p-4">
-          <ImageWrapper width={120} height={174} alt={'test'} src={thumbnail} />
+          <ImageWrapper
+            width={120}
+            height={174}
+            alt={'test'}
+            src={thumbnail}
+            priority
+          />
           <div className="w-[120px] h-[174px] absolute">
             <BookmarkIcon className="absolute right-2 h-6 fill-yellow-300 stroke-yellow-300" />
           </div>

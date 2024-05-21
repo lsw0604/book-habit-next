@@ -1,13 +1,13 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 
 import Calendar from '@/components/common/calendar';
 import CalendarLoader from '@/components/common/calendar/calendar-loader';
-
 import MyBookDetailCalendarDateBox from './my-book-detail-calendar-date-box';
+
 import { getCalendarDetail, getNewCalendar } from '@/utils/calendar';
-import dayjs from 'dayjs';
 
 interface MyBookDetailCalendarProps {
   startDate?: Date;
@@ -15,7 +15,9 @@ interface MyBookDetailCalendarProps {
   obj: Record<string, MyBookHistoryListType>;
 }
 
-function useCalendar() {
+interface CalendarProps extends Omit<MyBookDetailCalendarProps, 'obj'> {}
+
+const useCalendar = ({ startDate, endDate }: CalendarProps) => {
   const [calendar, setCalendar] = useState(getCalendarDetail(dayjs().format()));
 
   const handleCalendar = useCallback(
@@ -25,18 +27,24 @@ function useCalendar() {
     [calendar]
   );
 
+  useEffect(() => {
+    if (!!endDate) {
+      setCalendar(getCalendarDetail(dayjs(endDate).format()));
+    }
+  }, [startDate, endDate]);
+
   return {
     calendar,
     handleCalendar,
   };
-}
+};
 
 export default function MyBookDetailCalendar({
   startDate,
   endDate,
   obj,
 }: MyBookDetailCalendarProps) {
-  const { calendar, handleCalendar } = useCalendar();
+  const { calendar, handleCalendar } = useCalendar({ startDate, endDate });
 
   return (
     <div className="w-full h-auto px-4 mb-4">
