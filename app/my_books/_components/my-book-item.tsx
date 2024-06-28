@@ -1,16 +1,14 @@
+import Link from 'next/link';
+
 import ImageWrapper from '@/components/common/image-wrapper';
 import { Skeleton } from '@/components/ui/skeleton';
-import dayjs from 'dayjs';
-import Link from 'next/link';
 
 interface MyBookItemProps {
   item: MyBookListInfinityQueryItemType;
 }
 
 export default function MyBookItem({ item }: MyBookItemProps) {
-  const { date, id, isbn, thumbnail, title, status } = item;
-
-  const datetime = dayjs(date).add(9, 'hour').format('YYYY MM DD');
+  const { id, isbn, thumbnail } = item;
 
   return (
     <li className="w-full h-auto p-4 rounded-lg shadow-lg">
@@ -23,13 +21,6 @@ export default function MyBookItem({ item }: MyBookItemProps) {
             height={174}
             priority
           />
-        </div>
-        <div className="w-full h-auto">
-          <p className="text-lg text-ellipsis overflow-hidden whitespace-nowrap">
-            {title}
-          </p>
-          <p className="text-sm">{status ? status : '상태 없음'}</p>
-          <p className="text-sm">📅&nbsp;{date ? datetime : '❌'}</p>
         </div>
       </Link>
     </li>
