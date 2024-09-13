@@ -1,0 +1,1 @@
+const usePublicCommentListHook = (payload: RequestGetPublicCommentList) => {};

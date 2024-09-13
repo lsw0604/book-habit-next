@@ -1,12 +1,13 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useIntersectionObserver, useUpdateEffect } from 'usehooks-ts';
 import { v4 } from 'uuid';
 
 import SearchItem from './search-item';
+import SearchListEmpty from './search-list-empty';
 import useBookSearchInfinityQuery from '@/queries/book/useBookSearchInfinityQuery';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserverHook';
 
 const OBSERVER_OPTION = {
   root: null,
@@ -15,9 +16,9 @@ const OBSERVER_OPTION = {
 };
 
 export default function SearchList() {
-  const lastSearchRef = useRef<HTMLDivElement | null>(null);
-  const entry = useIntersectionObserver(lastSearchRef, OBSERVER_OPTION);
-  const isVisible = !!entry?.isIntersecting;
+  const { ref, isIntersecting } = useIntersectionObserver({
+    ...OBSERVER_OPTION,
+  });
 
   const searchParams = useSearchParams();
 
@@ -28,17 +29,18 @@ export default function SearchList() {
 
   const { data, fetchNextPage, hasNextPage, isLoading } =
     useBookSearchInfinityQuery(keyword);
-  useUpdateEffect(() => {
-    if (isVisible && hasNextPage) {
+
+  useEffect(() => {
+    if (hasNextPage) {
       fetchNextPage();
     }
-  }, [isVisible]);
+  }, [isIntersecting, ref]);
 
-  if (keyword === undefined) return <SearchList.Empty keyword={keyword} />;
+  if (keyword === undefined) return <SearchListEmpty keyword={keyword} />;
 
   if (isLoading || !data) return <SearchList.Loader />;
   if (data?.pages[0].documents.length === 0)
-    return <SearchList.Empty keyword={keyword} />;
+    return <SearchListEmpty keyword={keyword} />;
 
   const _document = data?.pages.flatMap((page) => page.documents);
 
@@ -46,10 +48,10 @@ export default function SearchList() {
     <div className="w-full h-full flex flex-col gap-4 overflow-scroll">
       <div className="w-full px-4 pb-4 flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 xl:grid xl:grid-cols-5 xl:gap-4">
         {_document?.map((item) => (
-          <SearchItem key={v4()} item={item} search={keyword} />
+          <SearchItem key={v4()} item={item} search={keyword as string} />
         ))}
       </div>
-      <div className="mb-[20px]" ref={lastSearchRef} />
+      <div className="mb-[20px]" ref={ref} />
     </div>
   );
 }
@@ -68,25 +70,6 @@ SearchList.Loader = function () {
         <SearchItem.Loader />
         <SearchItem.Loader />
         <SearchItem.Loader />
-      </div>
-    </div>
-  );
-};
-
-SearchList.Empty = function ({ keyword }: { keyword?: string }) {
-  return (
-    <div className="w-full h-full px-4 pb-4">
-      <div className="bg-[rgba(0,0,0,0.05)] w-full h-full rounded-lg flex justify-center items-center">
-        {!keyword ? (
-          <span className="flex text-lg text-slate-500">
-            책 제목을 검색해주세요.
-          </span>
-        ) : (
-          <span className="flex text-lg text-slate-500">
-            <p className="text-lg text-cyan-300">{keyword}</p>에 대한 검색결과가
-            없습니다.
-          </span>
-        )}
       </div>
     </div>
   );

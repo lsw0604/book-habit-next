@@ -25,11 +25,11 @@ export default function CommentList() {
         addFilter={addFilter}
         removeFilter={removeFilter}
       />
-      <ul className="w-full h-full flex flex-col gap-4 p-4 overflow-auto snap-mandatory snap-y">
+      {/* <ul className="w-full h-full flex flex-col gap-4 p-4 overflow-auto snap-mandatory snap-y">
         {data.comments.map((comment) => (
           <CommentItem comment={comment} key={comment.comment_id} />
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 }

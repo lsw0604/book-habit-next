@@ -2,27 +2,16 @@
 
 import { useRouter } from 'next/navigation';
 import { SearchIcon } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input } from '@/components/ui/input';
-
-const schema = z.object({
-  search: z.string().min(1, {
-    message: '검색어를 입력해주세요.',
-  }),
-});
-
-type InputType = z.infer<typeof schema>;
+import { useSearchFormHook } from '@/hooks/search/useSearchFormHook';
+import { SearchInputType } from '../types/input';
 
 export default function SearchInput() {
   const router = useRouter();
-  const { handleSubmit, register } = useForm<InputType>({
-    resolver: zodResolver(schema),
-  });
+  const { handleSubmit, register } = useSearchFormHook();
 
-  const onSubmit = (data: InputType) => {
+  const onSubmit = (data: SearchInputType) => {
     if (data.search.length !== 0) return router.push(`?keyword=${data.search}`);
   };
 

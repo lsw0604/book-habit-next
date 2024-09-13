@@ -7,7 +7,7 @@ import { axios } from './';
  */
 export const commentsListAPI = async () => {
   const { data } = await axios.get<CommentsListQueryResponseType>(
-    `/api/comments/list`
+    `/api/public-comment`
   );
   return data;
 };

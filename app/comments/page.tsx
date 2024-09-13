@@ -1,4 +1,4 @@
-import { dehydrate } from '@tanstack/react-query';
+import { dehydrate, useQuery } from '@tanstack/react-query';
 
 import CommentTimer from './_components/comment-timer';
 import CommentsList from './_components/comment-list';
@@ -8,12 +8,22 @@ import getQueryClient from '@/lib/getQueryClient';
 import ReactQueryHydrate from '@/lib/ReactQueryHydrate';
 
 import { queriesKey } from '@/queries';
+import { getPublicCommentListAPI } from '@/src/service/public-comment';
+import { useRouter } from 'next/router';
 
 const { useCommentsListQueryKey } = queriesKey.comments;
 
 export default async function CommentsPage() {
+  // const router = useRouter();
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery([useCommentsListQueryKey], commentsListAPI);
+  // const { page, page_size, start_date, end_date } = router.query;
+
+  // const { data } = useQuery([useCommentsListQueryKey], () =>
+  //   getPublicCommentListAPI()
+  // );
+
+  // console.log(data);
 
   return (
     <ReactQueryHydrate state={dehydrate(queryClient)}>
