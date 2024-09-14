@@ -6,14 +6,10 @@ import { v4 } from 'uuid';
 
 import SearchItem from './search-item';
 import SearchListEmpty from './search-list-empty';
+import SearchListLoader from './search-list-loader';
 import useBookSearchInfinityQuery from '@/queries/book/useBookSearchInfinityQuery';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserverHook';
-
-const OBSERVER_OPTION = {
-  root: null,
-  rootMargin: '20px',
-  threshold: 1.0,
-};
+import { OBSERVER_OPTION } from '@/src/constant/observer-option';
 
 export default function SearchList() {
   const { ref, isIntersecting } = useIntersectionObserver({
@@ -38,7 +34,7 @@ export default function SearchList() {
 
   if (keyword === undefined) return <SearchListEmpty keyword={keyword} />;
 
-  if (isLoading || !data) return <SearchList.Loader />;
+  if (isLoading || !data) return <SearchListLoader />;
   if (data?.pages[0].documents.length === 0)
     return <SearchListEmpty keyword={keyword} />;
 
@@ -55,22 +51,3 @@ export default function SearchList() {
     </div>
   );
 }
-
-SearchList.Loader = function () {
-  return (
-    <div className="w-full h-full flex flex-col overflow-scroll">
-      <div className='className="w-full px-4 pb-4 flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 xl:grid xl:grid-cols-5 xl:gap-4'>
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-      </div>
-    </div>
-  );
-};

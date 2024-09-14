@@ -9,10 +9,11 @@ import { SearchInputType } from '../types/input';
 
 export default function SearchInput() {
   const router = useRouter();
-  const { handleSubmit, register } = useSearchFormHook();
+  const { handleSubmit, register, errors } = useSearchFormHook();
 
   const onSubmit = (data: SearchInputType) => {
-    if (data.search.length !== 0) return router.push(`?keyword=${data.search}`);
+    if (data.search.length === 0) return;
+    router.push(`?keyword=${data.search}`);
   };
 
   return (
@@ -24,6 +25,9 @@ export default function SearchInput() {
         {...register('search')}
         className="rounded-full"
         icon={<SearchIcon className="w-4 h-4" />}
+        errorMessage={errors.search?.message}
+        useValidation
+        isValid
       />
       <button hidden type="submit" />
     </form>
