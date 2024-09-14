@@ -1,22 +1,24 @@
-import { dehydrate, useQuery } from '@tanstack/react-query';
+// import { dehydrate, useQuery } from '@tanstack/react-query';
 
-import CommentTimer from './_components/comment-timer';
+// import CommentTimer from './_components/comment-timer';
 import CommentsList from './_components/comment-list';
 
-import { commentsListAPI } from '@/lib/api/comments';
-import getQueryClient from '@/lib/getQueryClient';
-import ReactQueryHydrate from '@/lib/ReactQueryHydrate';
+// import { commentsListAPI } from '@/lib/api/comments';
+// import getQueryClient from '@/lib/getQueryClient';
+// import ReactQueryHydrate from '@/lib/ReactQueryHydrate';
 
 import { queriesKey } from '@/queries';
-import { getPublicCommentListAPI } from '@/src/service/public-comment';
-import { useRouter } from 'next/router';
+// import { getPublicCommentListAPI } from '@/src/service/public-comment';
+// import { useRouter } from 'next/router';
 
-const { useCommentsListQueryKey } = queriesKey.comments;
+// const { useCommentsListQueryKey } = queriesKey.comments;
 
-export default async function CommentsPage() {
+// export default async function CommentsPage() {
+export default function CommentsPage() {
+  // const router;
   // const router = useRouter();
-  const queryClient = getQueryClient();
-  await queryClient.prefetchQuery([useCommentsListQueryKey], commentsListAPI);
+  // const queryClient = getQueryClient();
+  // await queryClient.prefetchQuery([useCommentsListQueryKey], commentsListAPI);
   // const { page, page_size, start_date, end_date } = router.query;
 
   // const { data } = useQuery([useCommentsListQueryKey], () =>
@@ -26,13 +28,13 @@ export default async function CommentsPage() {
   // console.log(data);
 
   return (
-    <ReactQueryHydrate state={dehydrate(queryClient)}>
-      <div className="w-full h-full relative flex flex-col">
-        <div className="px-4 py-0 flex flex-col relative my-4">
-          <CommentTimer />
-        </div>
-        <CommentsList />
+    // <ReactQueryHydrate state={dehydrate(queryClient)}>
+    <div className="w-full h-full relative flex flex-col">
+      <div className="px-4 py-0 flex flex-col relative my-4">
+        {/* <CommentTimer /> */}
       </div>
-    </ReactQueryHydrate>
+      <CommentsList />
+    </div>
+    // </ReactQueryHydrate>
   );
 }
