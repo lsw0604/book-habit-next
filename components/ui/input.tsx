@@ -35,6 +35,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         <div className="flex w-full h-10">
           <input
+            autoComplete="off"
             type={type}
             className={cn(
               'relative w-full h-auto px-3 py-0 rounded-lg outline-none text-sm border-slate-500 border-2',

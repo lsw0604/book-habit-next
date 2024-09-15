@@ -1,18 +1,18 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { v4 } from 'uuid';
 
 import SearchItem from './search-item';
 import SearchListEmpty from './search-list-empty';
 import SearchListLoader from './search-list-loader';
-import useBookSearchInfinityQuery from '@/queries/book/useBookSearchInfinityQuery';
+import { useInfiniteSearchBook } from '@/hooks/search/useInfiniteBookSearch';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserverHook';
-import { OBSERVER_OPTION } from '@/src/constant/observer-option';
+import { OBSERVER_OPTION } from '@/constant/observer-option';
 
 export default function SearchList() {
-  const { ref, isIntersecting } = useIntersectionObserver({
+  const { ref, isIntersecting, entry } = useIntersectionObserver({
     ...OBSERVER_OPTION,
   });
 
@@ -23,8 +23,10 @@ export default function SearchList() {
       ? (searchParams.get('keyword') as string)
       : undefined;
 
-  const { data, fetchNextPage, hasNextPage, isLoading } =
-    useBookSearchInfinityQuery(keyword);
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteSearchBook(
+    {}
+  );
+  const itemRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (hasNextPage) {

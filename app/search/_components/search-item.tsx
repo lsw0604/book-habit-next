@@ -10,7 +10,7 @@ import ImageWrapper from '@/components/common/image-wrapper';
 import { useAppDispatch } from '@/app/store';
 import { modalActions } from '@/app/store/modal';
 import { searchBookRegisterActions } from '@/app/store/searchBookRegister';
-import { OBSERVER_OPTION } from '@/src/constant/observer-option';
+import { OBSERVER_OPTION } from '@/constant/observer-option';
 
 interface SearchItemProps {
   item: KakaoSearchResponseDocumentType;
@@ -41,6 +41,7 @@ export default function SearchItem({ item, search }: SearchItemProps) {
     if (isIntersecting) {
       setIsOpen(true);
     }
+    console.log(isIntersecting);
   }, [isIntersecting]);
 
   return (
@@ -51,6 +52,7 @@ export default function SearchItem({ item, search }: SearchItemProps) {
     >
       {isOpen ? (
         <>
+          <h3 className="mt-4">{search}</h3>
           <div className="flex justify-center">
             <ImageWrapper src={thumbnail} alt={v4()} width={120} height={174} />
           </div>
