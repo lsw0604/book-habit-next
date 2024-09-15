@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useUpdateEffect } from 'usehooks-ts';
-import { MailIcon, UserIcon } from 'lucide-react';
+import { MailIcon, UserIcon, LockIcon } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input } from '@/components/ui/input';
@@ -26,19 +25,19 @@ export default function RegisterForm() {
     resolver: zodResolver(schema),
   });
 
-  const { mutate, isLoading } = useLocalRegisterMutation();
+  // const { mutate, isLoading } = useLocalRegisterMutation();
 
   const onSubmit = (data: InputType) => {
     const { confirm, ...rest } = data;
 
-    mutate({ ...rest });
+    // mutate({ ...rest });
   };
 
-  useUpdateEffect(() => {
-    if (isSubmitted) {
-      setIsUseValidation(true);
-    }
-  }, [isSubmitted]);
+  // useUpdateEffect(() => {
+  //   if (isSubmitted) {
+  //     setIsUseValidation(true);
+  //   }
+  // }, [isSubmitted]);
 
   return (
     <form
@@ -76,12 +75,13 @@ export default function RegisterForm() {
         />
       </div>
       <div className="w-full relative mb-2">
-        <RegisterPasswordInput
+        <Input
           label="비밀번호 확인"
+          icon={<LockIcon className="w-5 h-5" />}
           useValidation={useValidation}
           isValid={!isValid}
           errorMessage={errors.confirm?.message}
-          register={{ ...register('confirm') }}
+          {...register('confirm')}
         />
       </div>
       <div className="w-full relative mb-2">
@@ -104,9 +104,7 @@ export default function RegisterForm() {
         />
       </div>
       <Separator className="my-4" />
-      <Button isLoading={isLoading} type="submit">
-        회원가입
-      </Button>
+      <Button type="submit">회원가입</Button>
     </form>
   );
 }

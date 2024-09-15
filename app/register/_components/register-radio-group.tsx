@@ -19,9 +19,9 @@ export default function RegisterRadioGroup({
 }: RegisterRadioGroupProps) {
   return (
     <>
-      <label className="ml-3 mb-2 block text-sm font-bold text-slate-500">
+      <Label className="ml-3 mb-2 block text-sm font-bold text-slate-500">
         성별
-      </label>
+      </Label>
       <RadioGroup
         {...register}
         className="flex h-auto w-full justify-evenly min-h-10"
@@ -29,12 +29,12 @@ export default function RegisterRadioGroup({
         <div className="flex justify-center items-center gap-2" {...register}>
           <RadioGroupItem value="male" id="male" />
           <IconMale className="w-5 h-5" />
-          <label htmlFor="male">남자</label>
+          <Label htmlFor="male">남자</Label>
         </div>
         <div className="flex justify-center items-center gap-2" {...register}>
           <RadioGroupItem value="female" id="female" />
           <IconFemale className="w-5 h-5" />
-          <label htmlFor="female">여자</label>
+          <Label htmlFor="female">여자</Label>
         </div>
       </RadioGroup>
       {errorMessage && isValid && useValidation && (
