@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useOnClickOutside } from 'usehooks-ts';
+import { useEventListener, useOnClickOutside } from 'usehooks-ts';
 import Dropdown from '../dropdown';
 import { cn } from '@/lib/utils';
 
@@ -19,19 +19,26 @@ interface PopoverProps {
   className?: string;
 }
 
+interface PopoverComponentProps extends PopoverProps {
+  focusRef?: React.RefObject<HTMLElement>;
+}
+
 type PopoverChildComponent = React.FC<PopoverProps>;
 
-type PopoverComponent = React.FC<PopoverProps> & {
+type PopoverComponent = React.FC<PopoverComponentProps> & {
   Trigger: typeof PopoverTrigger;
   Content: typeof PopoverContent;
 };
 
-const Popover: PopoverComponent = ({ className, children }) => {
+const Popover: PopoverComponent = ({ className, children, focusRef }) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const triggerRef = React.useRef<HTMLDivElement | null>(null);
 
   const closeContent = React.useCallback(() => {
     setIsOpen(false);
+    if (focusRef?.current) {
+      focusRef.current.focus();
+    }
   }, [setIsOpen]);
 
   return (
@@ -84,7 +91,14 @@ const PopoverContent: PopoverChildComponent = ({ className, children }) => {
     closeContent();
   }, []);
 
+  const onPressKeydown = React.useCallback((event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      closeContent();
+    }
+  }, []);
+
   useOnClickOutside(contentRef, onClickContent);
+  useEventListener('keydown', onPressKeydown);
 
   return (
     <>
