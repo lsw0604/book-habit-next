@@ -40,14 +40,12 @@ export default function SearchList() {
   if (data?.pages[0].documents.length === 0)
     return <SearchListEmpty keyword={keyword} />;
 
-  const _document = data?.pages.flatMap((page) => page.documents);
-
   return (
     <div className="w-full h-full flex flex-col gap-4 overflow-scroll">
       <div className="w-full px-4 pb-4 flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 xl:grid xl:grid-cols-5 xl:gap-4">
-        {_document?.map((item) => (
+        {/* {_document?.map((item) => (
           <SearchItem key={v4()} item={item} search={keyword as string} />
-        ))}
+        ))} */}
       </div>
       <div className="mb-[20px]" ref={ref} />
     </div>
