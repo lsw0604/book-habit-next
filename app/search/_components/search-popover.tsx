@@ -1,6 +1,6 @@
 import { ListFilterIcon } from 'lucide-react';
+import { Control, Controller } from 'react-hook-form';
 
-import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import Popover from '@/components/common/popover';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -13,49 +13,13 @@ import {
   SelectItem,
   SelectValue,
 } from '@/components/ui/select';
+import { SearchType } from '@/schemas/search.schema';
 
 interface SearchPopoverProps {
-  size: number[];
-  setSize: Dispatch<SetStateAction<number[]>>;
-  sort: string;
-  setSort: Dispatch<SetStateAction<string>>;
-  target: string;
-  setTarget: Dispatch<SetStateAction<string>>;
+  control: Control<SearchType>;
 }
 
-/**
- * TODO search-list 연결하기
- * TODO useForm 사용가능한지 알아보기
- */
-export default function SearchPopover({
-  size,
-  setSize,
-  sort,
-  setSort,
-  target,
-  setTarget,
-}: SearchPopoverProps) {
-  const onChangeSize = useCallback(
-    (value: number[]) => {
-      setSize(value);
-    },
-    [setSize]
-  );
-
-  const onChangeSort = useCallback(
-    (value: string) => {
-      setSort(value);
-    },
-    [setSort]
-  );
-
-  const onChangeTarget = useCallback(
-    (value: string) => {
-      setTarget(value);
-    },
-    [setTarget]
-  );
-
+export default function SearchPopover({ control }: SearchPopoverProps) {
   return (
     <Popover>
       <Popover.Trigger>
@@ -65,49 +29,68 @@ export default function SearchPopover({
       </Popover.Trigger>
       <Popover.Content className="top-12 right-0 px-2 py-4">
         <div className="px-4 w-60">
-          <Label>Size : {size}</Label>
-          <div className="w-full flex justify-center">
-            <Slider
-              className="my-4"
-              defaultValue={[10]}
-              value={size}
-              step={10}
-              min={10}
-              max={50}
-              onValueChange={onChangeSize}
-            />
-          </div>
+          <Label>검색 유형</Label>
+          <Controller
+            name="target"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Select onValueChange={onChange} value={value}>
+                <SelectTrigger className="my-2">
+                  <SelectValue placeholder={value} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="title">제목</SelectItem>
+                  <SelectItem value="isbn">ISBN</SelectItem>
+                  <SelectItem value="person">작가</SelectItem>
+                  <SelectItem value="publisher">출판사</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
         </div>
-        <div className="px-4 w-60">
-          <Label>sort</Label>
-          <RadioGroup
-            className="flex gap-2 my-2"
-            value={sort}
-            onValueChange={onChangeSort}
-          >
-            <div className="w-full">
-              <RadioGroupItem className="mr-2" value="accuracy" id="accuracy" />
-              <Label htmlFor="accuracy">정확순</Label>
+        <Controller
+          name="size"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <div className="px-4 w-60">
+              <Label>페이지 크기 {value}</Label>
+              <Slider
+                className="my-4"
+                value={[value]}
+                step={10}
+                min={10}
+                max={50}
+                onValueChange={(val) => onChange(val[0])}
+              />
             </div>
-            <div className="w-full">
-              <RadioGroupItem className="mr-2" value="latest" id="latest" />
-              <Label htmlFor="latest">최신순</Label>
-            </div>
-          </RadioGroup>
-        </div>
+          )}
+        />
         <div className="px-4 w-60">
-          <Label>target</Label>
-          <Select onValueChange={onChangeTarget} value={target}>
-            <SelectTrigger className="my-2">
-              <SelectValue placeholder={target} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="title">제목</SelectItem>
-              <SelectItem value="isbn">ISBN</SelectItem>
-              <SelectItem value="person">작가</SelectItem>
-              <SelectItem value="publisher">출판사</SelectItem>
-            </SelectContent>
-          </Select>
+          <Label>정렬 유형</Label>
+          <Controller
+            name="sort"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <RadioGroup
+                className="flex gap-2 my-2"
+                value={value}
+                onValueChange={onChange}
+              >
+                <div className="w-full">
+                  <RadioGroupItem
+                    className="mr-2"
+                    value="accuracy"
+                    id="accuracy"
+                  />
+                  <Label htmlFor="accuracy">정확순</Label>
+                </div>
+                <div className="w-full">
+                  <RadioGroupItem className="mr-2" value="latest" id="latest" />
+                  <Label htmlFor="latest">최신순</Label>
+                </div>
+              </RadioGroup>
+            )}
+          />
         </div>
       </Popover.Content>
     </Popover>
