@@ -1,28 +1,30 @@
 'use client';
 
-import { RootState, useAppDispatch, useAppSelector } from '@/app/store';
-import { modalActions } from '@/app/store/modal';
-import { ReactNode, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useEffectOnce } from 'usehooks-ts';
+
+import { useAppDispatch, useAppSelector } from '@/store';
+import { modalSelector } from '@/store/features/modal/modal-selector';
+import { setModal } from '@/store/features/modal/modal-slice';
 
 export default function ModalPortal({ children }: { children: ReactNode }) {
-  const dispatch = useAppDispatch();
-
   const [mounted, setMounted] = useState<boolean>(false);
   const ref = useRef<Element | null>(null);
 
-  const { isOpen } = useAppSelector((state: RootState) => state.modal);
+  const dispatch = useAppDispatch();
+  const { isOpen } = useAppSelector(modalSelector);
 
-  const modalClose = () => dispatch(modalActions.setModalClose());
+  const modalClose = useCallback(() => {
+    dispatch(setModal({ isOpen: false }));
+  }, [dispatch]);
 
-  useEffectOnce(() => {
+  useEffect(() => {
     setMounted(true);
     const dom = document.getElementById('root-modal');
     if (dom) {
       ref.current = dom;
     }
-  });
+  }, []);
 
   if (ref.current && mounted && isOpen) {
     return createPortal(
