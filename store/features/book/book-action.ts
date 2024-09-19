@@ -1,0 +1,33 @@
+import {
+  setInitialBook,
+  setBookAuthors,
+  setBookContents,
+  setBookDatetime,
+  setBookIsbn,
+  setBookPrice,
+  setBookPublisher,
+  setBookSalePrice,
+  setBookStatus,
+  setBookThumbnail,
+  setBookTitle,
+  setBookTranslators,
+  setBookUrl,
+  setBookState,
+} from './book-slice';
+
+export const bookActions = {
+  setInitialBook,
+  setBookAuthors,
+  setBookContents,
+  setBookDatetime,
+  setBookIsbn,
+  setBookPrice,
+  setBookPublisher,
+  setBookSalePrice,
+  setBookStatus,
+  setBookThumbnail,
+  setBookTitle,
+  setBookTranslators,
+  setBookUrl,
+  setBookState,
+};

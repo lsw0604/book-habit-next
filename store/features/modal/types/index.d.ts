@@ -1,0 +1,3 @@
+type ReduxModalType = {
+  isOpen: boolean;
+};
