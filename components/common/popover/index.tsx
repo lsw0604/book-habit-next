@@ -19,26 +19,19 @@ interface PopoverProps {
   className?: string;
 }
 
-interface PopoverComponentProps extends PopoverProps {
-  focusRef?: React.RefObject<HTMLElement>;
-}
-
 type PopoverChildComponent = React.FC<PopoverProps>;
 
-type PopoverComponent = React.FC<PopoverComponentProps> & {
+type PopoverComponent = React.FC<PopoverProps> & {
   Trigger: typeof PopoverTrigger;
   Content: typeof PopoverContent;
 };
 
-const Popover: PopoverComponent = ({ className, children, focusRef }) => {
+const Popover: PopoverComponent = ({ className, children }) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const triggerRef = React.useRef<HTMLDivElement | null>(null);
 
   const closeContent = React.useCallback(() => {
     setIsOpen(false);
-    if (focusRef?.current) {
-      focusRef.current.focus();
-    }
   }, [setIsOpen]);
 
   return (
@@ -81,21 +74,28 @@ const PopoverContent: PopoverChildComponent = ({ className, children }) => {
 
   const { isOpen, closeContent, triggerRef } = context;
   const contentRef = React.useRef<HTMLDivElement | null>(null);
-  const onClickContent = React.useCallback((event: MouseEvent | TouchEvent) => {
-    if (
-      triggerRef.current &&
-      triggerRef.current.contains(event.target as Node)
-    ) {
-      return;
-    }
-    closeContent();
-  }, []);
-
-  const onPressKeydown = React.useCallback((event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
+  const onClickContent = React.useCallback(
+    (event: MouseEvent | TouchEvent) => {
+      if (
+        triggerRef.current &&
+        triggerRef.current.contains(event.target as Node)
+      ) {
+        return;
+      }
+      console.log('outside');
       closeContent();
-    }
-  }, []);
+    },
+    [closeContent, triggerRef]
+  );
+
+  const onPressKeydown = React.useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeContent();
+      }
+    },
+    [closeContent]
+  );
 
   useOnClickOutside(contentRef, onClickContent);
   useEventListener('keydown', onPressKeydown);

@@ -1,17 +1,12 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { queryKeys } from '@/constant/queries-key';
 import { bookSearchAPI } from '@/service/book';
+/**
+ * TODO useQueryKey 관리 해보기
+ */
 
 export function useInfiniteSearchBook(param: Omit<RequestBookSearch, 'page'>) {
-  const {
-    data,
-    error,
-    isError,
-    isLoading,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQuery<ResponseBookSearch>({
+  return useInfiniteQuery<ResponseBookSearch>({
     queryKey: [queryKeys.book.search(param)],
     queryFn: ({ pageParam = 1 }) =>
       bookSearchAPI({ ...param, page: pageParam as number }),
@@ -21,14 +16,4 @@ export function useInfiniteSearchBook(param: Omit<RequestBookSearch, 'page'>) {
     },
     initialPageParam: 1,
   });
-
-  return {
-    data,
-    error,
-    isError,
-    isLoading,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-  };
 }

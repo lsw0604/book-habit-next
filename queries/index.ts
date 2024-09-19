@@ -61,8 +61,8 @@ export const queriesKey = {
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 600000,
-      cacheTime: 900000,
+      gcTime: 1000 * 60 * 5,
+      staleTime: 1000 * 60 * 1,
       refetchOnMount: false,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
