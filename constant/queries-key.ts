@@ -1,11 +1,11 @@
 import { createQueryKeyStore } from '@lukemorales/query-key-factory';
-import { bookSearchAPI } from '../service/book';
+import { searchBookAPI } from '../service/search';
 
 export const queryKeys = createQueryKeyStore({
-  book: {
-    search: (params: Omit<RequestBookSearch, 'page'>) => ({
+  search: {
+    book: (params: Omit<RequestSearchBook, 'page'>) => ({
       queryKey: [params],
-      queryFn: () => bookSearchAPI(params),
+      queryFn: () => searchBookAPI(params),
     }),
   },
 });

@@ -8,9 +8,8 @@ import Modal from '../components/modal';
 import Header from '../components/header';
 import Bottom from '../components/bottom';
 
-import ReduxProvider from '@/store/redux-provider';
-import QueryProvider from 'lib/QueryProvider';
-import StyledComponentsRegistry from '@/components/provider/styled-components-provider';
+import ReduxProvider from '@/providers/redux-provider';
+import QueryProvider from '@/providers/query-provider';
 
 import '@fontsource/noto-sans-kr';
 import './global.css';
@@ -26,26 +25,24 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <ReduxProvider>
-          {/* <QueryProvider> */}
-          <>
-            {/* <StyledComponentsRegistry> */}
-            <Header />
-            <div
-              className={cn(
-                'w-screen h-screen p-0 box-border',
-                pathname !== '/' && 'py-16 px-0'
-              )}
-            >
-              {children}
-            </div>
-            <Bottom />
-            <ModalPortal>
-              <Modal />
-            </ModalPortal>
-            {/* <ReactQueryDevtools position="top-right" panelPosition="top" /> */}
-            {/* </StyledComponentsRegistry> */}
-          </>
-          {/* </QueryProvider> */}
+          <QueryProvider>
+            <>
+              <Header />
+              <div
+                className={cn(
+                  'w-screen h-screen p-0 box-border',
+                  pathname !== '/' && 'py-16 px-0'
+                )}
+              >
+                {children}
+              </div>
+              <Bottom />
+              <ModalPortal>
+                <Modal />
+              </ModalPortal>
+              <ReactQueryDevtools position="top" />
+            </>
+          </QueryProvider>
         </ReduxProvider>
         <div id="root-modal" />
       </body>
