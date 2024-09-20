@@ -12,5 +12,6 @@ export const getPublicCommentListAPI = async (
   const { data } = await apiClient.get<ResponseGetPublicCommentList>(
     `${PUBLIC_COMMENT_URL}?${params}`
   );
+
   return data;
 };
