@@ -4,11 +4,12 @@ import Image from 'next/image';
 import { Image as IconImage } from 'lucide-react';
 
 interface ImageWrapperProps {
-  src?: string;
   alt: string;
   width: number;
   height: number;
+  src?: string;
   priority?: boolean;
+  className?: string;
 }
 
 export default function ImageWrapper({
@@ -17,19 +18,20 @@ export default function ImageWrapper({
   width,
   height,
   priority = false,
+  className,
 }: ImageWrapperProps) {
   return (
     <div
       className={cn(
-        `bg-[rgba(0,0,0,0.08)]`,
+        `flex justify-center items-center m-0 p-0 overflow-hidden rounded-lg border-none bg-[rgba(0,0,0,0.08)]`,
         width && `w-[${width}px]`,
         height && `h-[${height}px]`,
-        `flex justify-center items-center m-0 p-0 rounded-lg border-none`
+        className
       )}
     >
       {src ? (
         <Image
-          className="w-full h-auto object-cover rounded-lg"
+          className="w-full h-auto"
           src={src}
           alt={alt}
           height={height}
