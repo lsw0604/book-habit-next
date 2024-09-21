@@ -15,10 +15,10 @@ const toastSlice = createSlice({
     },
     removeToast(
       state: WritableDraft<ReduxToastType>,
-      action: PayloadAction<string>
+      action: PayloadAction<Pick<ToastType, 'id'>>
     ) {
       state.filter(
-        (toast: WritableDraft<ToastType>) => action.payload !== toast.id
+        (toast: WritableDraft<ToastType>) => action.payload.id !== toast.id
       );
     },
   },

@@ -2,10 +2,9 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { queryKeys } from '@/constant/queries-key';
 import { searchBookAPI } from '@/service/search';
 
-/**
- * TODO useQueryKey 관리 해보기
- */
-export function useInfiniteSearchBook(param: Omit<RequestSearchBook, 'page'>) {
+export default function useInfiniteSearchBook(
+  param: Omit<RequestSearchBook, 'page'>
+) {
   return useInfiniteQuery<ResponseSearchBook>({
     queryKey: [queryKeys.search.book(param)],
     queryFn: ({ pageParam = 1 }) =>
