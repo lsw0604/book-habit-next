@@ -4,10 +4,10 @@ import { Controller } from 'react-hook-form';
 
 import SearchPopover from './search-popover';
 import { Input } from '@/components/ui/input';
-import { useSearchFormHook } from '@/hooks/search/useSearchFormHook';
+import { useSearchHook } from '@/hooks/search/useSearchHook';
 
 export default function SearchForm() {
-  const { handleSubmit, control, formKey, onSubmit } = useSearchFormHook();
+  const { handleSubmit, control, formKey, onSubmit } = useSearchHook();
 
   return (
     <form
@@ -23,7 +23,7 @@ export default function SearchForm() {
             <Input
               {...field}
               className="rounded-full"
-              isValid={!error}
+              isValid={!!error}
               errorMessage={error?.message}
               useValidation
             />

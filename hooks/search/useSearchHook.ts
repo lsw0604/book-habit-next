@@ -1,31 +1,29 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { SearchType } from '@/schemas/search.schema';
-import { searchRouter } from '@/domain/search/search-router';
-import { getSearchParams } from '@/domain/search/get-search-params';
+import useSearchForm from './useSearchForm';
+import { SearchSchemaType } from '@/schemas/search.schema';
+import { searchRouter } from '@/service/search/searchRouter';
+import { searchParam } from '@/service/search/searchParam';
 
-export const useSearchFormHook = () => {
+export const useSearchHook = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const [formKey, setFormKey] = useState<number>(0);
 
-  const { query, size, sort, target } = getSearchParams(searchParams);
-  const { handleSubmit, control, setValue } = useForm<SearchType>({
-    defaultValues: {
-      query,
-      size,
-      sort,
-      target,
-    },
+  const { query, size, sort, target } = searchParam(searchParams);
+  const { handleSubmit, control, setValue } = useSearchForm({
+    query,
+    size,
+    sort,
+    target,
   });
 
-  const onSubmit = (data: SearchType) => {
+  const onSubmit = (data: SearchSchemaType) => {
     try {
       searchRouter(router, data);
       setFormKey((prev) => prev + 1);

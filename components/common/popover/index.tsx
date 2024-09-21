@@ -82,7 +82,6 @@ const PopoverContent: PopoverChildComponent = ({ className, children }) => {
       ) {
         return;
       }
-      console.log('outside');
       closeContent();
     },
     [closeContent, triggerRef]
