@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import useToastHook from '@/hooks/useToastHook';
+import useToastHook from '@/hooks/toast/useToastHook';
 import { myBookInfoAPI } from '@/lib/api/myBook';
 import { queriesKey } from 'queries';
 

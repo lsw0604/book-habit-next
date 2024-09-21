@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 
 import { myBookCommentDeleteAPI } from 'lib/api/myBook';
-import useToastHook from '@/hooks/useToastHook';
+import useToastHook from '@/hooks/toast/useToastHook';
 import { queriesKey, queryClient } from 'queries';
 
 const { useMyBookCommentDeleteMutationKey, useMyBookCommentListQueryKey } =

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 
 import { signUpAPI } from 'lib/api/auth';
-import useToastHook from '@/hooks/useToastHook';
+import useToastHook from '@/hooks/toast/useToastHook';
 import { queriesKey } from 'queries';
 
 const { useLocalRegisterMutationKey } = queriesKey.local;

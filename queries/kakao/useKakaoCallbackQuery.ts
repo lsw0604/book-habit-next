@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { AxiosError } from 'axios';
 
 import { kakaoCallbackAPI } from 'lib/api/auth';
-import useToastHook from '@/hooks/useToastHook';
+import useToastHook from '@/hooks/toast/useToastHook';
 import { queriesKey, queryClient } from 'queries';
 import { useAppDispatch } from '@/app/store';
 import { userActions } from '@/app/store/user';

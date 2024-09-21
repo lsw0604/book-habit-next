@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
 import { commentsReplyRegisterAPI } from 'lib/api/comments';
-import useToastHook from '@/hooks/useToastHook';
+import useToastHook from '@/hooks/toast/useToastHook';
 import { queriesKey, queryClient } from 'queries';
 
 const {
