@@ -1,7 +1,6 @@
 'use client';
 
 import { IconKakao } from '@/style/icon';
-
 import { Button } from '@/components/ui/button';
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_REST_API;
