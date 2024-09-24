@@ -1,15 +1,13 @@
+'use client';
+
 import Axios, {
   AxiosError,
   InternalAxiosRequestConfig,
   AxiosResponse,
 } from 'axios';
+import { refreshTokenAPI, logoutAPI } from './auth';
 
-type NestServerErrorType = {
-  statusCode: number;
-  timestamp: string;
-  path: string;
-  message: string;
-};
+const MAX_RETRY_COUNT = 1;
 
 export const apiClient = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER,
@@ -22,6 +20,9 @@ export const apiClient = Axios.create({
 
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+    config.headers['Authorization'] = `Bearer ${sessionStorage.getItem(
+      'accessToken'
+    )}`;
     return config;
   },
   (error: AxiosError): Promise<Error> => {
@@ -31,9 +32,48 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response: AxiosResponse): AxiosResponse => {
+    if (
+      response.request.responseURL.includes('/api/auth/signin') ||
+      response.request.responseURL.includes('/api/auth/signup') ||
+      response.request.responseURL.includes('/api/auth/refresh')
+    ) {
+      const accessToken = response.headers['authorization'].split(' ')[1];
+      sessionStorage.setItem('accessToken', accessToken);
+    }
     return response;
   },
-  (error: AxiosError<NestServerErrorType>): Promise<Error> => {
+  async (error: AxiosError<NestServerErrorType>): Promise<any> => {
+    const originalRequest = error.config as any;
+
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      error.request &&
+      error.request.responseURL.includes('api/auth/refresh')
+    ) {
+      await logoutAPI();
+
+      return Promise.reject(error);
+    }
+
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+      originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
+
+      if (originalRequest._retryCount <= MAX_RETRY_COUNT) {
+        await refreshTokenAPI();
+
+        return apiClient(originalRequest);
+      } else {
+        await logoutAPI();
+        return Promise.reject(new Error(`Error: ${error.message}`));
+      }
+    }
+
     if (error.response) {
       const { message, path, timestamp, statusCode } = error.response.data;
       return Promise.reject(
