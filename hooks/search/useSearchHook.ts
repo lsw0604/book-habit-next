@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import useSearchForm from './useSearchForm';
 import { SearchSchemaType } from '@/schemas/search.schema';
@@ -23,14 +23,17 @@ export const useSearchHook = () => {
     target,
   });
 
-  const onSubmit = (data: SearchSchemaType) => {
-    try {
-      searchRouter(router, data);
-      setFormKey((prev) => prev + 1);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const onSubmit = useCallback(
+    (data: SearchSchemaType) => {
+      try {
+        searchRouter(router, data);
+        setFormKey((prev) => prev + 1);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [searchRouter, setFormKey]
+  );
 
   useEffect(() => {
     setValue('query', query);
