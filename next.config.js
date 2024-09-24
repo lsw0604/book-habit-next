@@ -2,9 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  compiler: {
-    styledComponents: true,
-  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/i,
@@ -14,7 +11,13 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['pic.lsw0604.store', 'search1.kakaocdn.net'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'search1.kakaocdn.net',
+        pathname: '**',
+      },
+    ],
   },
 };
 
