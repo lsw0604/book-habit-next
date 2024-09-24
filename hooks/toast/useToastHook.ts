@@ -26,12 +26,12 @@ export default function useToastHook() {
   );
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const interval = setTimeout(() => {
       if (toast.length > 0) {
         removeToast({ id: toast[0].id });
       }
     }, 1500);
-    return () => clearInterval(interval);
+    return () => clearTimeout(interval);
   }, [toast, removeToast]);
 
   return {

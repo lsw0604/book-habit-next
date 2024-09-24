@@ -17,9 +17,15 @@ const toastSlice = createSlice({
       state: WritableDraft<ReduxToastType>,
       action: PayloadAction<Pick<ToastType, 'id'>>
     ) {
-      state.filter(
-        (toast: WritableDraft<ToastType>) => action.payload.id !== toast.id
+      /**
+       * * immer가 불변성을 관리하고 있기 때문에 배열을 직접 수정하는것도 괜찮음 그래서 filter 대신 이 방법을 사용함
+       */
+      const index = state.findIndex(
+        (toast: WritableDraft<ToastType>) => action.payload.id === toast.id
       );
+      if (index !== -1) {
+        state.splice(index, 1);
+      }
     },
   },
 });

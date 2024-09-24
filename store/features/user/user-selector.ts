@@ -1,3 +1,3 @@
-import { RootState, useAppSelector } from '@/store';
+import { RootState } from '@/store';
 
-export const userSelector = useAppSelector((state: RootState) => state.user);
+export const userSelector = (state: RootState) => state.user;
