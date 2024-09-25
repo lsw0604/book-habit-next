@@ -1,6 +1,9 @@
+'use client';
+
 // import { dehydrate, useQuery } from '@tanstack/react-query';
 
 // import CommentTimer from './_components/comment-timer';
+import Toast from '@/components/toast';
 import CommentsList from './_components/comment-list';
 
 // import { commentsListAPI } from '@/lib/api/comments';
@@ -33,7 +36,8 @@ export default function CommentsPage() {
       <div className="px-4 py-0 flex flex-col relative my-4">
         {/* <CommentTimer /> */}
       </div>
-      <CommentsList />
+      {/* <CommentsList /> */}
+      <Toast id="123" message="sss" status="ERROR" />
     </div>
     // </ReactQueryHydrate>
   );
