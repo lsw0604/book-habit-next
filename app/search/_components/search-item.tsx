@@ -1,10 +1,17 @@
 import dayjs from 'dayjs';
+import { useCallback } from 'react';
+
 import ImageWrapper from '@/components/common/image-wrapper';
 import { Skeleton } from '@/components/ui/skeleton';
-import { formattedIsbn, formattedAuthor, formattedPrice } from '@/utils/book';
 import { useAppDispatch } from '@/store';
 import { setModal } from '@/store/features/modal/modal-slice';
 import { setBookState } from '@/store/features/book/book-slice';
+import {
+  formattedIsbn,
+  formattedAuthor,
+  formattedPrice,
+  isbnToArray,
+} from '@/utils/book';
 
 interface SearchItemProps {
   item: KakaoDocument;
@@ -14,15 +21,15 @@ export default function SearchItem({ item }: SearchItemProps) {
   const datetime = dayjs(item.datetime);
   const dispatch = useAppDispatch();
 
-  const onClick = () => {
+  const modalHandler = useCallback(() => {
     dispatch(setModal({ isOpen: true }));
-    dispatch(setBookState({ ...item, isbn: item.isbn.split(' ') }));
-  };
+    dispatch(setBookState({ ...item, isbn: isbnToArray(item.isbn) }));
+  }, []);
 
   return (
     <div
       className="w-full h-auto p-4 rounded-2xl border-[none] shadow-lg clear-both"
-      onClick={onClick}
+      onClick={modalHandler}
     >
       <div className="flex">
         <div className="flex w-full">

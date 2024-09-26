@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-export type SearchType = z.infer<typeof searchSchema>;
+export type SearchSchemaType = z.infer<typeof searchSchema>;
 
-export const defaultSearchValues: SearchType = {
+export const defaultSearchValues: SearchSchemaType = {
   query: '',
   size: 10,
   sort: 'accuracy',

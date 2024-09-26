@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input';
 import { useSearchHook } from '@/hooks/search/useSearchHook';
 
 export default function SearchForm() {
-  const { handleSubmit, control, formKey, onSubmit } = useSearchHook();
+  const { handleSubmit, control, formKey, onSubmit, formState } =
+    useSearchHook();
 
   return (
     <form
@@ -15,11 +16,11 @@ export default function SearchForm() {
       className="w-full flex px-4 relative gap-2"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="w-full">
-        <Controller
-          name="query"
-          control={control}
-          render={({ field, fieldState: { error } }) => (
+      <Controller
+        name="query"
+        control={control}
+        render={({ field, fieldState: { error } }) => (
+          <div className="w-full">
             <Input
               {...field}
               className="rounded-full"
@@ -27,10 +28,10 @@ export default function SearchForm() {
               errorMessage={error?.message}
               useValidation
             />
-          )}
-        />
-      </div>
-      <SearchPopover control={control} />
+          </div>
+        )}
+      />
+      <SearchPopover control={control} formState={formState} />
     </form>
   );
 }

@@ -1,5 +1,5 @@
-import { ListFilterIcon } from 'lucide-react';
-import { Control, Controller } from 'react-hook-form';
+import { DotIcon, ListFilterIcon } from 'lucide-react';
+import { Control, Controller, FormState } from 'react-hook-form';
 
 import Popover from '@/components/common/popover';
 import { Button } from '@/components/ui/button';
@@ -7,26 +7,38 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { SearchSchemaType } from '@/schemas/search.schema';
+import ErrorMessage from '@/components/common/error-message';
 
 interface SearchPopoverProps {
   control: Control<SearchSchemaType>;
+  formState: FormState<SearchSchemaType>;
 }
 
-export default function SearchPopover({ control }: SearchPopoverProps) {
+export default function SearchPopover({
+  control,
+  formState,
+}: SearchPopoverProps) {
+  const { errors } = formState;
   return (
     <Popover>
       <Popover.Trigger>
+        {(!!errors.query?.message ||
+          !!errors.size?.message ||
+          !!errors.sort?.message ||
+          !!errors.target?.message) && (
+          <DotIcon className="absolute left-[-1.25rem] top-[-1.25rem] w-12 h-12 stroke-red-500" />
+        )}
         <Button type="button" className="rounded-full" variant="ghost">
           <ListFilterIcon className="w-4 h-4" />
         </Button>
       </Popover.Trigger>
       <Popover.Content className="top-12 right-0 px-2 py-4 z-9999">
-        <div className="px-4 w-60">
-          <Label className="text-sm font-bold">검색 유형</Label>
-          <Controller
-            name="target"
-            control={control}
-            render={({ field: { onChange, value } }) => (
+        <Controller
+          name="target"
+          control={control}
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <div className="px-4 w-60">
+              <Label className="text-sm font-bold">검색 유형</Label>
               <RadioGroup
                 className="my-2 flex gap-2"
                 value={value}
@@ -46,11 +58,10 @@ export default function SearchPopover({ control }: SearchPopoverProps) {
                   <div className="w-full">
                     <RadioGroupItem
                       className="mr-2"
-                      value="author"
-                      id="author"
+                      value="person"
+                      id="person"
                     />
-
-                    <Label htmlFor="author">작가</Label>
+                    <Label htmlFor="person">작가</Label>
                   </div>
                   <div className="w-full">
                     <RadioGroupItem
@@ -62,13 +73,16 @@ export default function SearchPopover({ control }: SearchPopoverProps) {
                   </div>
                 </div>
               </RadioGroup>
-            )}
-          />
-        </div>
+              {!!error?.message && (
+                <ErrorMessage message={error.message} className="my-2" />
+              )}
+            </div>
+          )}
+        />
         <Controller
           name="size"
           control={control}
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
             <div className="px-4 w-60">
               <Label className="text-sm font-bold">
                 페이지 크기{' '}
@@ -84,15 +98,18 @@ export default function SearchPopover({ control }: SearchPopoverProps) {
                 max={50}
                 onValueChange={(val) => onChange(val[0])}
               />
+              {!!error?.message && (
+                <ErrorMessage message={error.message} className="my-2" />
+              )}
             </div>
           )}
         />
-        <div className="px-4 w-60">
-          <Label className="text-sm font-bold">정렬 유형</Label>
-          <Controller
-            name="sort"
-            control={control}
-            render={({ field: { onChange, value } }) => (
+        <Controller
+          name="sort"
+          control={control}
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <div className="px-4 w-60">
+              <Label className="text-sm font-bold">정렬 유형</Label>
               <RadioGroup
                 className="flex gap-2 my-2"
                 value={value}
@@ -111,9 +128,12 @@ export default function SearchPopover({ control }: SearchPopoverProps) {
                   <Label htmlFor="latest">최신순</Label>
                 </div>
               </RadioGroup>
-            )}
-          />
-        </div>
+              {!!error?.message && (
+                <ErrorMessage message={error.message} className="my-2" />
+              )}
+            </div>
+          )}
+        />
       </Popover.Content>
     </Popover>
   );

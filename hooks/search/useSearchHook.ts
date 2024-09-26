@@ -1,13 +1,15 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import useSearchForm from './useSearchForm';
+import useSearchForm from '@/hooks/search/useSearchForm';
 import { SearchSchemaType } from '@/schemas/search.schema';
 import { searchRouter } from '@/service/search/searchRouter';
 import { searchParam } from '@/service/search/searchParam';
+import { SEARCH_FIELDS } from '@/constant/search-filed';
+
+type SearchFieldType = (typeof SEARCH_FIELDS)[number];
 
 export const useSearchHook = () => {
   const router = useRouter();
@@ -15,13 +17,25 @@ export const useSearchHook = () => {
 
   const [formKey, setFormKey] = useState<number>(0);
 
-  const { query, size, sort, target } = searchParam(searchParams);
-  const { handleSubmit, control, setValue } = useSearchForm({
-    query,
-    size,
-    sort,
-    target,
+  const params = searchParam(searchParams);
+  const { handleSubmit, control, setValue, formState } = useSearchForm({
+    query: params.query,
+    size: params.size,
+    sort: params.sort,
+    target: params.target,
   });
+
+  const previousQuery = useRef(params.query);
+  const previousSize = useRef(params.size);
+  const previousSort = useRef(params.sort);
+  const previousTarget = useRef(params.target);
+
+  const previousParams = {
+    query: previousQuery,
+    size: previousSize,
+    sort: previousSort,
+    target: previousTarget,
+  };
 
   const onSubmit = useCallback(
     (data: SearchSchemaType) => {
@@ -36,16 +50,19 @@ export const useSearchHook = () => {
   );
 
   useEffect(() => {
-    setValue('query', query);
-    setValue('size', size);
-    setValue('target', target);
-    setValue('sort', sort);
-  }, [query, size, sort, target, setValue]);
+    SEARCH_FIELDS.forEach((field: SearchFieldType) => {
+      if (params[field] !== previousParams[field].current) {
+        setValue(field, params[field]);
+        previousParams[field].current = params[field];
+      }
+    });
+  }, [params, setValue]);
 
   return {
     handleSubmit,
     control,
     formKey,
     onSubmit,
+    formState,
   };
 };
