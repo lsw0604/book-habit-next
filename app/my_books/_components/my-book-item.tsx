@@ -3,12 +3,8 @@ import Link from 'next/link';
 import ImageWrapper from '@/components/common/image-wrapper';
 import { Skeleton } from '@/components/ui/skeleton';
 
-interface MyBookItemProps {
-  item: MyBookListInfinityQueryItemType;
-}
-
-export default function MyBookItem({ item }: MyBookItemProps) {
-  const { id, isbn, thumbnail } = item;
+export default function MyBookItem(item: ResponseGetMyBookItemType) {
+  const { id, title, thumbnail, status } = item;
 
   return (
     <li className="w-full h-auto p-4 rounded-lg shadow-lg">
@@ -16,7 +12,7 @@ export default function MyBookItem({ item }: MyBookItemProps) {
         <div className="flex justify-center mb-2">
           <ImageWrapper
             src={thumbnail}
-            alt={isbn}
+            alt={id}
             width={120}
             height={174}
             priority

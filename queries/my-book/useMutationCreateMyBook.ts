@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { registerMyBookAPI } from '@/service/my-book';
 import { queryKeys } from '@/constant/queries-key';
 
-export default function useRegisterMyBookMutation(
+export default function useMutationCreateMyBook(
   param: Pick<RequestRegisterMyBook, 'title'>
 ) {
   return useMutation<
