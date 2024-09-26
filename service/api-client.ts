@@ -76,13 +76,8 @@ apiClient.interceptors.response.use(
 
     if (error.response) {
       const { message, path, timestamp, statusCode } = error.response.data;
-      return Promise.reject(
-        new Error(`[${statusCode}][${timestamp}][${path}] : ${message}`)
-      );
-    } else if (error.request) {
-      return Promise.reject(
-        new Error('Network Error: Please check your internet connection.')
-      );
+      console.error(`[${statusCode}][${timestamp}][${path}] : ${message}`);
+      return Promise.reject(error);
     } else {
       return Promise.reject(new Error(`Error: ${error.message}`));
     }
