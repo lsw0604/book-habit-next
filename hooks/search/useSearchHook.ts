@@ -1,23 +1,19 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import useSearchForm from '@/hooks/search/useSearchForm';
+import searchParams from '@/hooks/search/searchParams';
+import useSearchRouter from '@/hooks/search/useSearchRouter';
 import { SearchSchemaType } from '@/schemas/search.schema';
-import { searchRouter } from '@/service/search/searchRouter';
-import { searchParam } from '@/service/search/searchParam';
 import { SEARCH_FIELDS } from '@/constant/search-filed';
 
 type SearchFieldType = (typeof SEARCH_FIELDS)[number];
 
 export const useSearchHook = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
   const [formKey, setFormKey] = useState<number>(0);
-
-  const params = searchParam(searchParams);
+  const params = searchParams();
+  const { pushToSearch } = useSearchRouter();
   const { handleSubmit, control, setValue, formState } = useSearchForm({
     query: params.query,
     size: params.size,
@@ -40,16 +36,16 @@ export const useSearchHook = () => {
   const onSubmit = useCallback(
     (data: SearchSchemaType) => {
       try {
-        searchRouter(router, data);
+        pushToSearch(data);
         setFormKey((prev) => prev + 1);
       } catch (err) {
         console.log(err);
       }
     },
-    [searchRouter, setFormKey]
+    [pushToSearch, setFormKey]
   );
 
-  useEffect(() => {
+  const updateFormValue = useCallback(() => {
     SEARCH_FIELDS.forEach((field: SearchFieldType) => {
       if (params[field] !== previousParams[field].current) {
         setValue(field, params[field]);
@@ -57,6 +53,10 @@ export const useSearchHook = () => {
       }
     });
   }, [params, setValue]);
+
+  useEffect(() => {
+    updateFormValue();
+  }, [params, updateFormValue]);
 
   return {
     handleSubmit,

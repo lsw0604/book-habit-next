@@ -9,9 +9,12 @@ type ResponseGetMyBookItemType = {
   title: string;
   thumbnail?: string;
   status: MyBookStatusType;
+  rating: 0;
+  hashtag: MyBookTagType[];
 };
 
 type ResponseGetMyBookList = {
   nextPage?: number;
   books: ResponseGetMyBookItemType[];
 };
+

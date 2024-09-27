@@ -6,9 +6,11 @@ import {
   MyBookListSchemaType,
 } from '@/schemas/my-book-list.schema';
 
-export default function useGetMyBookForm() {
+export default function useMyBookListForm(
+  initialPageParam?: MyBookListSchemaType
+) {
   return useForm<MyBookListSchemaType>({
-    defaultValues: defaultMyBookListValues,
+    defaultValues: initialPageParam ?? defaultMyBookListValues,
     resolver: zodResolver(myBookListSchema),
   });
 }

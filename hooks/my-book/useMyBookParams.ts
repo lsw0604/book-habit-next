@@ -1,8 +1,9 @@
+import { useSearchParams } from 'next/navigation';
 import { MyBookListSchemaType } from '@/schemas/my-book-list.schema';
 
-export const myBookParam = (
-  searchParams: URLSearchParams
-): MyBookListSchemaType => {
+export default function useMyBookParams(): MyBookListSchemaType {
+  const searchParams = useSearchParams();
+
   const order = (searchParams.get('order') as MyBookOrderType) || 'desc';
   const status = (searchParams.get('status') as MyBookStatusType) || 'ALL';
 
@@ -10,4 +11,4 @@ export const myBookParam = (
     order,
     status,
   };
-};
+}

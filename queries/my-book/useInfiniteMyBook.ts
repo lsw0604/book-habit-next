@@ -1,19 +1,22 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { queryKeys } from '@/constant/queries-key';
+import { AxiosError } from 'axios';
 import { getMyBookListAPI } from '@/service/my-book';
+import { queryKeys } from '@/constant/queries-key';
 
 export default function useInfiniteMyBook({
-  status = 'ALL',
-  order = 'desc',
+  status,
+  order,
 }: Pick<RequestGetMyBookList, 'order' | 'status'>) {
-  return useInfiniteQuery<ResponseGetMyBookList>({
+  return useInfiniteQuery<
+    ResponseGetMyBookList,
+    AxiosError<NestServerErrorType>,
+    Pick<ResponseGetMyBookList, 'books'>
+  >({
     queryKey: [queryKeys.myBook.getList({ status, order })],
     queryFn: ({ pageParam = 1 }) =>
       getMyBookListAPI({ status, order, page: pageParam as number }),
-    getNextPageParam: (response, allPage) => {
-      const nextPage = allPage.length + 1;
-      return response.nextPage ? undefined : nextPage;
-    },
+    getNextPageParam: (response) => response.nextPage ?? undefined,
     initialPageParam: 1,
+    select: (data) => ({ books: data.pages.flatMap((page) => page.books) }),
   });
 }
