@@ -27,3 +27,9 @@ export const formattedPrice = ({
 
   return `${(1 - Math.floor(sale_price / price)) * 10}%`;
 };
+
+export const isbnToArray = (isbn: string) => {
+  const [first, second] = isbn.split(' ');
+  if (first === '') return [second];
+  return [first, second];
+};
