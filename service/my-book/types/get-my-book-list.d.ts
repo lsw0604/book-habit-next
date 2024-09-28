@@ -10,7 +10,6 @@ type ResponseGetMyBookItemType = {
   thumbnail?: string;
   status: MyBookStatusType;
   rating: 0;
-  hashtag: MyBookTagType[];
 };
 
 type ResponseGetMyBookList = {
