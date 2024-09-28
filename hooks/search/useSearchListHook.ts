@@ -7,13 +7,27 @@ import useInfiniteSearchBook from '@/queries/search/useInfinitySearchBook';
 
 export const useSearchListHook = () => {
   const { query, size, sort, target } = searchParams();
-  
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching, isError, error } =
-    useInfiniteSearchBook({ query, size, sort, target });
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isFetching,
+    isError,
+    error,
+  } = useInfiniteSearchBook({ query, size, sort, target });
 
   const ref = useInfiniteScroll(fetchNextPage, hasNextPage);
 
   useErrorHandler(isError, error);
 
-  return { data, isLoading, query,isFetching, hasNextPage, ref };
+  return {
+    data,
+    isLoading,
+    query,
+    isFetching,
+    hasNextPage,
+    ref,
+  };
 };

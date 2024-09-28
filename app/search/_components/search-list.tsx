@@ -6,6 +6,7 @@ import { InfoIcon } from 'lucide-react';
 import SearchItem from './search-item';
 import Loader from '@/components/common/loader';
 import { useSearchListHook } from '@/hooks/search/useSearchListHook';
+import { cn } from '@/utils/class-name';
 
 export default function SearchList() {
   const { ref, data, query, isLoading, isFetching } = useSearchListHook();
@@ -17,12 +18,20 @@ export default function SearchList() {
   const items = data?.pages.flatMap((page) => page.documents);
 
   return (
-    <div className="w-full h-full flex flex-col gap-4 overflow-scroll">
-      <div className="w-full px-4 flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 xl:grid xl:grid-cols-5 xl:gap-4">
+    <div className="w-full h-full flex flex-col gap-4 overflow-scroll no-scrollbar">
+      <ul
+        className={cn(
+          'w-full px-4 flex flex-col gap-4', // 기본 모바일 레이아웃
+          'md:grid md:grid-cols-2 md:gap-4', // 작은 화면에서 2열로 변경
+          'lg:grid lg:grid-cols-3 lg:gap-4', // 중간 화면에서 3열로 변경
+          'xl:grid xl:grid-cols-4 xl:gap-4', // 큰 화면에서 4열로 변경
+          '2xl:grid 2xl:grid-cols-5 2xl:gap-2' // 큰 화면에서 5열로 변경
+        )}
+      >
         {items.map((item) => (
           <SearchItem key={v4()} item={item} />
         ))}
-      </div>
+      </ul>
       {isFetching ? (
         <div className="w-full justify-center flex mb-1">
           <Loader size={2} className="border-gray-800" />
@@ -38,16 +47,9 @@ SearchList.Loader = function () {
   return (
     <div className="w-full h-full flex flex-col overflow-scroll">
       <div className='className="w-full px-4 pb-4 flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 xl:grid xl:grid-cols-5 xl:gap-4'>
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
-        <SearchItem.Loader />
+        {Array.from({ length: 20 }).map((_, index) => (
+          <SearchItem.Loader key={index} />
+        ))}
       </div>
     </div>
   );

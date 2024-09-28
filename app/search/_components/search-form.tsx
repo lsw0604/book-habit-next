@@ -1,10 +1,17 @@
 'use client';
 
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 
 import SearchPopover from './search-popover';
+import ErrorMessage from '@/components/common/error-message';
 import { Input } from '@/components/ui/input';
 import { useSearchHook } from '@/hooks/search/useSearchHook';
+import { SearchSchemaType } from '@/schemas/search.schema';
+import { cn } from '@/utils/class-name';
+
+interface ControllerProps {
+  control: Control<SearchSchemaType>;
+}
 
 export default function SearchForm() {
   const { handleSubmit, control, formKey, onSubmit, formState } =
@@ -13,25 +20,33 @@ export default function SearchForm() {
   return (
     <form
       key={formKey}
-      className="w-full flex px-4 relative gap-2"
+      className={cn(
+        'w-full flex p-4 relative gap-2 min-w-[240px] max-w-96', // 기본 스타일
+        'border-gray-300 border-b shadow-sm rounded-lg' // 테두리 스타일
+      )}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Controller
-        name="query"
-        control={control}
-        render={({ field, fieldState: { error } }) => (
-          <div className="w-full">
-            <Input
-              {...field}
-              className="rounded-full"
-              isValid={!!error}
-              errorMessage={error?.message}
-              useValidation
-            />
-          </div>
-        )}
-      />
+      <SearchInputController control={control} />
       <SearchPopover control={control} formState={formState} />
     </form>
   );
 }
+
+const SearchInputController = ({ control }: ControllerProps) => {
+  return (
+    <Controller
+      name="query"
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <div className="w-full">
+          <Input
+            {...field}
+            className="rounded-full"
+            placeholder="검색어를 입력해주세요."
+          />
+          {!!error && error.message && <ErrorMessage message={error.message} />}
+        </div>
+      )}
+    />
+  );
+};

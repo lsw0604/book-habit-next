@@ -27,7 +27,7 @@ export default function SearchItem({ item }: SearchItemProps) {
   }, []);
 
   return (
-    <div
+    <li
       className="w-full h-auto p-4 rounded-2xl border-[none] shadow-lg clear-both"
       onClick={modalHandler}
     >
@@ -80,13 +80,13 @@ export default function SearchItem({ item }: SearchItemProps) {
           </div>
         </div>
       </div>
-    </div>
+    </li>
   );
 }
 
 SearchItem.Loader = function () {
   return (
-    <div className="w-full h-auto p-4 rounded-2xl border-[none] shadow-lg clear-both">
+    <li className="w-full h-auto p-4 rounded-2xl border-[none] shadow-lg clear-both">
       <div className="flex">
         <div className="flex w-full">
           <div className="relative flex-shrink-0 overflow-hidden w-[120px]">
@@ -101,6 +101,6 @@ SearchItem.Loader = function () {
           </div>
         </div>
       </div>
-    </div>
+    </li>
   );
 };

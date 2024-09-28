@@ -3,11 +3,11 @@ import SearchList from './_components/search-list';
 
 export default function SearchPage() {
   return (
-    <div className="w-full h-full">
-      <div className="w-full min-h-[10%] flex justify-center items-center">
+    <div className="w-full h-full flex flex-col">
+      <div className="w-full flex justify-center items-center p-2">
         <SearchForm />
       </div>
-      <div className="w-full h-[90%]">
+      <div className="flex-1 overflow-auto">
         <SearchList />
       </div>
     </div>
