@@ -1,7 +1,7 @@
 import { createQueryKeyStore } from '@lukemorales/query-key-factory';
 
 import { searchBookAPI } from '@/service/search';
-import { registerMyBookAPI } from '@/service/my-book';
+import { getMyBookListAPI, registerMyBookAPI } from '@/service/my-book';
 import { loginAPI } from '@/service/auth';
 
 export const queryKeys = createQueryKeyStore({
@@ -15,6 +15,10 @@ export const queryKeys = createQueryKeyStore({
     register: (params: Pick<RequestRegisterMyBook, 'title'>) => ({
       queryKey: [params],
       queryFn: registerMyBookAPI,
+    }),
+    getList: (params: Pick<RequestGetMyBookList, 'order' | 'status'>) => ({
+      queryKey: [params],
+      queryFn: () => getMyBookListAPI,
     }),
   },
   auth: {
