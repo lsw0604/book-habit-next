@@ -1,15 +1,15 @@
 import Image from 'next/image';
-import { StarIcon } from 'lucide-react';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { useIntersectionObserver } from 'usehooks-ts';
+import { StarIcon, ImageIcon } from 'lucide-react';
+
 import { Skeleton } from '@/components/ui/skeleton';
-import { IconImage } from '@/style/icon';
+import { OBSERVER_OPTION } from '@/constant/observer-option';
 import {
   MY_BOOK_ITEM_RATINGS,
   MY_BOOK_ITEM_STATUS,
 } from '@/constant/my-book-item';
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { useIntersectionObserver } from 'usehooks-ts';
-import { OBSERVER_OPTION } from '@/constant/observer-option';
 
 export default function MyBookItem(item: ResponseGetMyBookItemType) {
   const { id, title, thumbnail, status, rating } = item;
@@ -45,7 +45,7 @@ export default function MyBookItem(item: ResponseGetMyBookItemType) {
             </div>
           ) : (
             <div className="mb-2 relative w-full pt-[145%] flex items-center justify-center bg-gray-100">
-              <IconImage className="fill-gray-300 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3" />
+              <ImageIcon className="fill-gray-300 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3" />
             </div>
           )}
           <div className="flex flex-col px-2">

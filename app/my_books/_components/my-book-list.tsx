@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Loader from '@/components/common/loader';
 import MyBookItem from './my-book-item';
 import useMyBookListHook from '@/hooks/my-book/useMyBookListHook';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils/class-name';
 
 export default function MyBookList() {
   const { data, ref, isFetching, isError, error, isLoading } =
