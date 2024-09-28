@@ -22,5 +22,7 @@ export default function useMyBookListHook() {
     data,
     isLoading,
     isFetching,
+    isError,
+    error,
   };
 }

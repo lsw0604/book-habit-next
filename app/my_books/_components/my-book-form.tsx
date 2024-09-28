@@ -1,84 +1,107 @@
-import { Controller } from 'react-hook-form';
+'use client';
 
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectValue,
-} from '@/components/ui/select';
-import ErrorMessage from '@/components/common/error-message';
-import useGetMyBookHook from '@/hooks/my-book/useGetMyBookHook';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
+import { Control, Controller } from 'react-hook-form';
+import { useEffect } from 'react';
+import { ArrowDownNarrowWideIcon, ArrowUpNarrowWideIcon } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
-import { ListFilterIcon } from 'lucide-react';
-import Popover from '@/components/common/popover';
+import Select from '@/components/common/select';
+import ErrorMessage from '@/components/common/error-message';
+import useMyBookRouter from '@/hooks/my-book/useMyBookRouter';
+import useMyBookParams from '@/hooks/my-book/useMyBookParams';
+import useMyBookListForm from '@/hooks/my-book/useMyBookListForm';
+import { MyBookListSchemaType } from '@/schemas/my-book-list.schema';
+
+interface ControllerProps {
+  control: Control<MyBookListSchemaType>;
+}
+
 export default function MyBookForm() {
-  const { control } = useGetMyBookHook();
+  const myBookParams = useMyBookParams();
+  const { control, watch } = useMyBookListForm(myBookParams);
+  const { pushToMyBookList } = useMyBookRouter();
+
+  useEffect(() => {
+    const subscription = watch((data) => {
+      pushToMyBookList(data);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [pushToMyBookList, watch]);
 
   return (
-    <Popover>
-      <Popover.Trigger>
-        <Button variant="ghost" className="rounded-full">
-          <ListFilterIcon className="w-4 h-4" />
-        </Button>
-      </Popover.Trigger>
-      <Popover.Content>
-        <form className="p-4">
-          <Controller
-            name="status"
-            control={control}
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <div className="w-full">
-                <Select onValueChange={onChange} value={value}>
-                  <SelectTrigger className="focus:ring-0 ring-offset-0">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="ALL">전체보기</SelectItem>
-                      <SelectItem value="TO_READ">서재에 저장됨</SelectItem>
-                      <SelectItem value="START_READ">읽기시작함</SelectItem>
-                      <SelectItem value="READING">읽는중</SelectItem>
-                      <SelectItem value="READ">다읽음</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                {!!error && error.message && (
-                  <ErrorMessage message={error.message} />
-                )}
-              </div>
-            )}
-          />
-          <Controller
-            name="order"
-            control={control}
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <div className="w-full">
-                <RadioGroup
-                  className="flex gap-2 my-2"
-                  value={value}
-                  onValueChange={onChange}
-                >
-                  <div className="w-full">
-                    <RadioGroupItem className="mr-2" value="desc" id="desc" />
-                    <Label htmlFor="desc">최신순</Label>
-                  </div>
-                  <div className="w-full">
-                    <RadioGroupItem className="mr-2" value="asc" id="asc" />
-                    <Label htmlFor="acs">등록순</Label>
-                  </div>
-                </RadioGroup>
-                {!!error?.message && (
-                  <ErrorMessage message={error.message} className="my-2" />
-                )}
-              </div>
-            )}
-          />
-        </form>
-      </Popover.Content>
-    </Popover>
+    <form className="p-4 flex w-full max-w-96 min-w-[240px] border-1 border-gray-300 rounded-lg shadow-lg bg-popover">
+      <MyBookOrderController control={control} />
+      <MyBookStatusController control={control} />
+    </form>
   );
 }
+
+const MyBookStatusController = ({ control }: ControllerProps) => {
+  return (
+    <Controller
+      name="status"
+      control={control}
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
+        <div className="w-full">
+          <Select.ErrorBoundary>
+            <Select onChange={onChange} value={value}>
+              <Select.Trigger>
+                {value === 'ALL' && '전체보기'}
+                {value === 'TO_READ' && '서재에 저장됨'}
+                {value === 'START_READ' && '읽기시작함'}
+                {value === 'READING' && '읽는중'}
+                {value === 'READ' && '다읽음'}
+              </Select.Trigger>
+              <Select.Content>
+                <Select.Option value="ALL">전체보기</Select.Option>
+                <Select.Option value="TO_READ">서재에 저장됨</Select.Option>
+                <Select.Option value="START_READ">읽기시작함</Select.Option>
+                <Select.Option value="READING">읽는중</Select.Option>
+                <Select.Option value="READ">다읽음</Select.Option>
+              </Select.Content>
+            </Select>
+          </Select.ErrorBoundary>
+          {!!error && error.message && <ErrorMessage message={error.message} />}
+        </div>
+      )}
+    />
+  );
+};
+
+const MyBookOrderController = ({ control }: ControllerProps) => {
+  return (
+    <Controller
+      name="order"
+      control={control}
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
+        <div className="text-gray-300 mr-4">
+          {value === 'desc' ? (
+            <Button
+              value="asc"
+              onClick={() => onChange('asc')}
+              type="button"
+              className="p-0 rounded-full"
+              variant="ghost"
+            >
+              <ArrowDownNarrowWideIcon />
+            </Button>
+          ) : (
+            <Button
+              value="desc"
+              onClick={() => onChange('desc')}
+              type="button"
+              className="p-0 rounded-full"
+              variant="ghost"
+            >
+              <ArrowUpNarrowWideIcon />
+            </Button>
+          )}
+          {!!error && error.message && <ErrorMessage message={error.message} />}
+        </div>
+      )}
+    />
+  );
+};

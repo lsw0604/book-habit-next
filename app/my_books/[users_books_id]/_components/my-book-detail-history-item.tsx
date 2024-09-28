@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 import MyBookDetailHistoryItemXButton from './my-book-detail-history-item-x-button';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 
 interface MyBookDetailHistoryItemProps {
   data: MyBookHistoryItemType;

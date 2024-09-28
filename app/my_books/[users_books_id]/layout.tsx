@@ -11,7 +11,7 @@ export default function MyBookDetailLayout({
   const { users_books_id } = params;
   return (
     <div className="w-full h-full">
-      <MyBookDetailInfo users_books_id={users_books_id} />
+      {/* <MyBookDetailInfo users_books_id={users_books_id} /> */}
       {children}
     </div>
   );

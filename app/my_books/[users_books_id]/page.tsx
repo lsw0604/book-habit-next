@@ -41,12 +41,12 @@ export default function MyBookDetailPage({
   params: { users_books_id: number };
 }) {
   const { users_books_id } = params;
-  const { category, handleCategory } = useCategory('calendar');
-  const { data, calendarData, listData } = useBookHistoryData(users_books_id);
+  // const { category, handleCategory } = useCategory('calendar');
+  // const { data, calendarData, listData } = useBookHistoryData(users_books_id);
 
   return (
     <div className="w-full h-auto">
-      <MyBookDetailSelector onChange={handleCategory} category={category} />
+      {/* <MyBookDetailSelector onChange={handleCategory} category={category} />
       {!data && <MyBookDetailCalendar.Loader />}
       {category === 'calendar' && data && calendarData && (
         <MyBookDetailCalendar
@@ -60,7 +60,7 @@ export default function MyBookDetailPage({
           users_books_id={users_books_id}
           history={listData}
         />
-      )}
+      )} */}
     </div>
   );
 }
