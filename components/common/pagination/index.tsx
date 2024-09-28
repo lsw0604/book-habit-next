@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/class-name';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
 interface PaginationProps {

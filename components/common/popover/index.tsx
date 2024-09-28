@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useEventListener, useOnClickOutside } from 'usehooks-ts';
-import Dropdown from '../dropdown';
-import { cn } from '@/lib/utils';
+import Dropdown from '@/components/common/dropdown';
+import { cn } from '@/utils/class-name';
 
 type PopoverContextType = {
   isOpen: boolean;

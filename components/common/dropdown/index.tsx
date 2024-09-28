@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
 import { AllHTMLAttributes, ReactNode, forwardRef } from 'react';
+import { cn } from '@/utils/class-name';
 
 interface DropdownProps extends AllHTMLAttributes<HTMLDivElement> {
   className?: string;

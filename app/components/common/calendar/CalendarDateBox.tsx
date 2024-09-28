@@ -8,7 +8,7 @@ import { v4 } from 'uuid';
 import { STATUS_COLOR_OBJECT } from '@/utils/staticData';
 import { customize } from 'style/colors';
 import { IconClose } from 'style/icon';
-import useToastHook from '@/hooks/useToastHook';
+import useToastHook from '@/hooks/toast/useToastHook';
 import { RootState, useAppDispatch, useAppSelector } from '@/app/store';
 import { myBookActions } from '@/app/store/myBook';
 import { modalActions } from '@/app/store/modal';

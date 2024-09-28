@@ -5,16 +5,13 @@ import HeaderAuth from './header-auth';
 import HeaderProfile from './header-profile';
 
 import { RootState, useAppSelector } from '@/app/store';
-import { cn } from '@/lib/utils';
-import useAccessHook from '@/hooks/useAccessHook';
+import { cn } from '@/utils/class-name';
 
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
 
   const { isLogged } = useAppSelector((state: RootState) => state.user);
-
-  useAccessHook();
 
   const loginHandler = (pathname: string) => {
     if (

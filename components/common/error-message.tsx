@@ -1,11 +1,21 @@
 'use client';
 
+import { cn } from '@/utils/class-name';
+
 interface ErrorMessageProps {
   message: string;
+  className?: string;
 }
 
-export default function ErrorMessage({ message }: ErrorMessageProps) {
+export default function ErrorMessage({
+  message,
+  className,
+}: ErrorMessageProps) {
   return (
-    <p className="ml-0.5 text-red-300 mt-0.5 text-sm font-bold">{message}</p>
+    <p
+      className={cn('ml-0.5 text-red-300 mt-0.5 text-sm font-bold', className)}
+    >
+      {message}
+    </p>
   );
 }

@@ -2,10 +2,12 @@
 
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { motion } from 'framer-motion';
 
 import { useAppDispatch, useAppSelector } from '@/store';
 import { modalSelector } from '@/store/features/modal/modal-selector';
 import { setModal } from '@/store/features/modal/modal-slice';
+import { MODAL_VARIANT } from '@/constant/modal-variant';
 
 export default function ModalPortal({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState<boolean>(false);
@@ -33,7 +35,15 @@ export default function ModalPortal({ children }: { children: ReactNode }) {
           className="absolute w-full h-full bg-[rgba(0,0,0,0.7)]"
           onClick={modalClose}
         />
-        {children}
+        <motion.div
+          initial={MODAL_VARIANT.initial}
+          animate={MODAL_VARIANT.animate}
+          exit={MODAL_VARIANT.exit}
+          transition={MODAL_VARIANT.transition}
+          className="absolute z-9999 w-full h-auto min-h-[10%] bottom-0 rounded-tl-lg rounded-tr-lg p-4 bg-slate-100"
+        >
+          {children}
+        </motion.div>
       </div>,
       ref.current
     );

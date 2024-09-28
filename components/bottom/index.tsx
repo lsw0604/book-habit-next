@@ -25,7 +25,7 @@ const NAVIGATION_BUTTON_OPTIONS = [
     url: undefined,
   },
   {
-    url: '/my_books?category=전체보기',
+    url: '/my_books?status=ALL&order=desc',
     icon: <BookIcon />,
     title: '내 서재',
     isAuth: true,

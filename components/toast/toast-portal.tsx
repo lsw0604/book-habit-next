@@ -1,10 +1,10 @@
 'use client';
 
+import { createPortal } from 'react-dom';
 import { AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import useToastHook from '@/hooks/toast/useToastHook';
-import Toast from '.';
+import Toast from '@/components/toast';
 
 export default function ToastPortal() {
   const ref = useRef<Element | null>(null);
@@ -23,8 +23,8 @@ export default function ToastPortal() {
     return createPortal(
       <ol role="presentation" className="w-full fixed z-9999 px-2">
         <AnimatePresence>
-          {toasts.slice(0, 3).map((toast, index) => (
-            <Toast key={toast.id} {...toast} index={index} />
+          {toasts.slice(0, 3).map((toast) => (
+            <Toast key={toast.id} {...toast} />
           ))}
         </AnimatePresence>
       </ol>,

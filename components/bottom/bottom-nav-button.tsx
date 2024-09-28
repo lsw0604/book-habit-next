@@ -51,8 +51,9 @@ export default function BottomNavButton({
           )}
         >
           <div
-            className={cn()
-            // isHover && 'relative animate-bounce top-2'
+            className={
+              cn()
+              // isHover && 'relative animate-bounce top-2'
             }
           >
             {icon}

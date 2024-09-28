@@ -19,7 +19,7 @@ import { customize } from 'style/colors';
 import useLocalRegisterMutation from 'queries/local/useLocalRegisterMutation';
 import { RadioGroupOptionType } from 'types/style';
 import Link from 'next/link';
-import useToastHook from '@/hooks/useToastHook';
+import useToastHook from '@/hooks/toast/useToastHook';
 import useValidateHook from '@/hooks/useValidateHook';
 import RegisterValidate from './RegisterValidate';
 
