@@ -7,7 +7,7 @@ import { toastSelector } from '@/store/features/toast/toast-selector';
 
 export default function useToastHook() {
   const dispatch = useAppDispatch();
-  const toast = useAppSelector(toastSelector);
+  const toasts = useAppSelector(toastSelector);
 
   const addToast = useCallback(
     (payload: Omit<ToastType, 'id'>) => {
@@ -27,16 +27,35 @@ export default function useToastHook() {
 
   useEffect(() => {
     const interval = setTimeout(() => {
-      if (toast.length > 0) {
-        removeToast({ id: toast[0].id });
+      if (toasts.length > 0) {
+        removeToast({ id: toasts[0].id });
       }
     }, 1500);
     return () => clearTimeout(interval);
-  }, [toast, removeToast]);
+  }, [toasts, removeToast]);
+
+  const successToast = (message: string) => {
+    return addToast({ message, status: 'SUCCESS' });
+  };
+
+  const warningToast = (message: string) => {
+    return addToast({ message, status: 'WARNING' });
+  };
+
+  const infoToast = (message: string) => {
+    return addToast({ message, status: 'INFO' });
+  };
+
+  const errorToast = (message: string) => {
+    return addToast({ message, status: 'ERROR' });
+  };
 
   return {
-    toast,
-    addToast,
+    toasts,
+    successToast,
+    warningToast,
+    infoToast,
+    errorToast,
     removeToast,
   };
 }

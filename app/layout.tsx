@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+import ToastPortal from '@/components/toast/toast-portal';
 import ModalPortal from '@/components/modal/modal-portal';
 import Modal from '../components/modal';
 import Header from '../components/header';
@@ -13,7 +14,7 @@ import QueryProvider from '@/providers/query-provider';
 
 import '@fontsource/noto-sans-kr';
 import './global.css';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/class-name';
 
 export default function RootLayout({
   children,
@@ -24,9 +25,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
+        <div id="root-toast" />
         <ReduxProvider>
           <QueryProvider>
             <>
+              <ToastPortal />
               <Header />
               <div
                 className={cn(
