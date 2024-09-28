@@ -10,20 +10,20 @@ import { LoginSchemaType } from '@/schemas/login.schema';
 
 export default function useLoginHook() {
   const dispatch = useAppDispatch();
-  const { addToast } = useToastHook();
+  const { successToast, errorToast } = useToastHook();
   const { mutate, isSuccess, data, isError, error, isPending } =
     useMutationLogin();
 
   useEffect(() => {
     if (isSuccess && data) {
       dispatch(setUserState({ ...data, isLogged: true }));
-      addToast({ message: '로그인에 성공했습니다.', status: 'success' });
+      successToast('로그인에 성공했습니다.');
     }
   }, [isSuccess, data]);
 
   useEffect(() => {
     if (isError && error) {
-      addToast({ message: error.message, status: 'error' });
+      errorToast(error.message);
     }
   }, [isError, error]);
 
