@@ -79,10 +79,16 @@ const config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        'bounce-small': {
+          '0%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-2px)' },
+          '100%': { transform: 'translateY(0)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'bounce-small': 'bounce-small 1s ease-in-out infinite',
       },
       zIndex: {
         '9999': '9999',
