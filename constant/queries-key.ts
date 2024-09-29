@@ -2,7 +2,7 @@ import { createQueryKeyStore } from '@lukemorales/query-key-factory';
 
 import { searchBookAPI } from '@/service/search';
 import { getMyBookListAPI, registerMyBookAPI } from '@/service/my-book';
-import { loginAPI } from '@/service/auth';
+import { kakaoLoginAPI, loginAPI } from '@/service/auth';
 
 export const queryKeys = createQueryKeyStore({
   search: {
@@ -25,6 +25,10 @@ export const queryKeys = createQueryKeyStore({
     login: () => ({
       queryKey: ['login'],
       queryFn: loginAPI,
+    }),
+    kakao: (code: string) => ({
+      queryKey: ['kakao', code],
+      queryFn: kakaoLoginAPI,
     }),
   },
 });

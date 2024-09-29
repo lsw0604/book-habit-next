@@ -11,6 +11,14 @@ export const loginAPI = async (payload: RequestLogin) => {
   return data;
 };
 
+export const kakaoLoginAPI = async (code: string) => {
+  const encodedCode = encodeURIComponent(code);
+  const { data } = await apiClient.get<ResponseAuth>(
+    `${AUTH_URL}/kakao/callback?code=${encodedCode}`
+  );
+  return data;
+};
+
 export const registerAPI = async (payload: RequestSignup) => {
   const { data } = await apiClient.post<ResponseAuth>(
     `${AUTH_URL}/signup`,

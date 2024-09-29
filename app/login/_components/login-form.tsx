@@ -35,8 +35,13 @@ export default function LoginForm() {
       <LoginPasswordController control={control} />
       <p className="text-sm mt-4">
         계정이 없나요?{' '}
-        <span className="text-slate-500 font-bold">
-          <Link href="/register">회원가입</Link>
+        <span className="text-slate-300">
+          <Link
+            href="/register"
+            className="font-bold text-slate-500 hover:underline"
+          >
+            회원가입
+          </Link>
         </span>
         하러가기
       </p>
@@ -51,7 +56,7 @@ export default function LoginForm() {
         variant="yellow"
         className="mt-4 bg-yellow-300 hover:bg-yellow-300"
       >
-        <IconKakao className="w-5 h-5 mr-4" />
+        <IconKakao className="w-5 h-5 mr-4 fill-yellow-300" />
         카카오로 로그인
       </Button>
     </form>
