@@ -2,17 +2,20 @@ import { ReactNode } from 'react';
 import MyBookDetailInfo from './_components/my-book-detail-info';
 
 export default function MyBookDetailLayout({
-  children,
+  detail,
+  reply,
   params,
 }: {
-  children: ReactNode;
-  params: { users_books_id: number };
+  detail: ReactNode;
+  reply: ReactNode;
+  params: { my_book_id: number };
 }) {
-  const { users_books_id } = params;
+  const { my_book_id } = params;
   return (
     <div className="w-full h-full">
-      {/* <MyBookDetailInfo users_books_id={users_books_id} /> */}
-      {children}
+      {my_book_id}
+      {detail}
+      {reply}
     </div>
   );
 }

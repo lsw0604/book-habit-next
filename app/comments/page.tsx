@@ -11,6 +11,8 @@ import CommentsList from './_components/comment-list';
 // import ReactQueryHydrate from '@/lib/ReactQueryHydrate';
 
 import { queriesKey } from '@/queries';
+import Select from '@/components/common/select';
+import { ErrorBoundary } from 'react-error-boundary';
 // import { getPublicCommentListAPI } from '@/src/service/public-comment';
 // import { useRouter } from 'next/router';
 
@@ -37,7 +39,6 @@ export default function CommentsPage() {
         {/* <CommentTimer /> */}
       </div>
       {/* <CommentsList /> */}
-      <Toast id="123" message="sss" status="ERROR" />
     </div>
     // </ReactQueryHydrate>
   );
