@@ -22,3 +22,21 @@ export const getMyBookListAPI = async ({
 
   return data;
 };
+
+export const getMyBookDetailAPI = async (myBookId: RequestGetMyBookDetail) => {
+  const { data } = await apiClient.get<ResponseGetMyBookDetail>(
+    `${MY_BOOK_URL}/${myBookId}`
+  );
+
+  return data;
+};
+
+export const putMyBookDetailAPI = async (payload: RequestPutMyBookDetail) => {
+  const { status, rating, myBookId } = payload;
+  const { data } = await apiClient.put<ResponsePutMyBookDetail>(
+    `${MY_BOOK_URL}/${myBookId}`,
+    JSON.stringify({ status, rating })
+  );
+
+  return data;
+};
