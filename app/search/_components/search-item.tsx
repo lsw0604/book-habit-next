@@ -86,7 +86,7 @@ export default function SearchItem({ item }: SearchItemProps) {
 
 SearchItem.Loader = function () {
   return (
-    <li className="w-full h-auto p-4 rounded-2xl border-[none] shadow-lg clear-both">
+    <li className="w-full h-auto p-4 rounded-2xl shadow-lg">
       <div className="flex">
         <div className="flex w-full">
           <div className="relative flex-shrink-0 overflow-hidden w-[120px]">

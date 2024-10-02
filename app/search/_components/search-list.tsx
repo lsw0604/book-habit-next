@@ -11,9 +11,10 @@ import { cn } from '@/utils/class-name';
 export default function SearchList() {
   const { ref, data, query, isLoading, isFetching } = useSearchListHook();
 
+  if (!data) return <SearchList.Empty />;
   if (isLoading) return <SearchList.Loader />;
-  if (!data || !query || data?.pages[0].documents.length === 0)
-    return <SearchList.Empty query={query} />;
+  if (!query || data?.pages[0].documents.length === 0)
+    return <SearchList.NotFound query={query} />;
 
   const items = data?.pages.flatMap((page) => page.documents);
 
@@ -46,16 +47,24 @@ export default function SearchList() {
 SearchList.Loader = function () {
   return (
     <div className="w-full h-full flex flex-col overflow-scroll">
-      <div className='className="w-full px-4 pb-4 flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 xl:grid xl:grid-cols-5 xl:gap-4'>
+      <ul className='className="w-full px-4 pb-4 flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 xl:grid xl:grid-cols-5 xl:gap-4'>
         {Array.from({ length: 20 }).map((_, index) => (
           <SearchItem.Loader key={index} />
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
 
-SearchList.Empty = function ({ query }: { query?: string }) {
+SearchList.Empty = function () {
+  return (
+    <div className="w-full h-full px-4 pb-4">
+      <div className="bg-[rgba(0,0,0,0.05)] w-full h-full rounded-lg" />
+    </div>
+  );
+};
+
+SearchList.NotFound = function ({ query }: { query?: string }) {
   return (
     <div className="w-full h-full px-4 pb-4">
       <div className="bg-[rgba(0,0,0,0.05)] w-full h-full rounded-lg flex justify-center items-center text-slate-500 text-lg">

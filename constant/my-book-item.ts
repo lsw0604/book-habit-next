@@ -44,3 +44,10 @@ export const MY_BOOK_ITEM_STATUS: { status: MyBookStatusType; text: string }[] =
       text: '읽기 시작',
     },
   ] as const;
+
+export const MY_BOOK_STATUS: MyBookStatusType[] = [
+  'READING',
+  'READ',
+  'TO_READ',
+  'START_READ',
+] as const;

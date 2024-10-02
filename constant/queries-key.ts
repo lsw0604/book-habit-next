@@ -1,7 +1,12 @@
 import { createQueryKeyStore } from '@lukemorales/query-key-factory';
 
 import { searchBookAPI } from '@/service/search';
-import { getMyBookListAPI, registerMyBookAPI } from '@/service/my-book';
+import {
+  getMyBookDetailAPI,
+  getMyBookListAPI,
+  putMyBookDetailAPI,
+  registerMyBookAPI,
+} from '@/service/my-book';
 import { kakaoLoginAPI, loginAPI } from '@/service/auth';
 
 export const queryKeys = createQueryKeyStore({
@@ -18,7 +23,17 @@ export const queryKeys = createQueryKeyStore({
     }),
     getList: (params: Pick<RequestGetMyBookList, 'order' | 'status'>) => ({
       queryKey: [params],
-      queryFn: () => getMyBookListAPI,
+      queryFn: getMyBookListAPI,
+    }),
+  },
+  myBookDetail: {
+    getDetail: (params: RequestGetMyBookDetail) => ({
+      queryKey: [params],
+      queryFn: () => getMyBookDetailAPI(params),
+    }),
+    putDetail: (params: RequestPutMyBookDetail) => ({
+      queryKey: [params],
+      queryFn: putMyBookDetailAPI,
     }),
   },
   auth: {
