@@ -9,6 +9,8 @@ import { refreshTokenAPI, logoutAPI } from './auth';
 
 const MAX_RETRY_COUNT = 1;
 
+const isClient = typeof window !== 'undefined';
+
 export const apiClient = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER,
   headers: {
@@ -20,9 +22,13 @@ export const apiClient = Axios.create({
 
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-    config.headers['Authorization'] = `Bearer ${sessionStorage.getItem(
-      'accessToken'
-    )}`;
+    if (isClient) {
+      const accessToken = sessionStorage.getItem('accessToken');
+      if (accessToken) {
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
+      }
+    }
+
     return config;
   },
   (error: AxiosError): Promise<Error> => {
@@ -32,45 +38,51 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response: AxiosResponse): AxiosResponse => {
-    if (
-      response.request.responseURL.includes('/api/auth/signin') ||
-      response.request.responseURL.includes('/api/auth/signup') ||
-      response.request.responseURL.includes('/api/auth/refresh')
-    ) {
-      const accessToken = response.headers['authorization'].split(' ')[1];
-      sessionStorage.setItem('accessToken', accessToken);
+    if (isClient) {
+      if (
+        response.request.responseURL.includes('/api/auth/signin') ||
+        response.request.responseURL.includes('/api/auth/signup') ||
+        response.request.responseURL.includes('/api/auth/refresh')
+      ) {
+        const accessToken = response.headers['authorization'].split(' ')[1];
+        if (accessToken) {
+          sessionStorage.setItem('accessToken', accessToken);
+        }
+      }
     }
     return response;
   },
   async (error: AxiosError<NestServerErrorType>): Promise<any> => {
     const originalRequest = error.config as any;
 
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      error.request &&
-      error.request.responseURL.includes('api/auth/refresh')
-    ) {
-      await logoutAPI();
-
-      return Promise.reject(error);
-    }
-
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
-      originalRequest._retry = true;
-      originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
-
-      if (originalRequest._retryCount <= MAX_RETRY_COUNT) {
-        await refreshTokenAPI();
-
-        return apiClient(originalRequest);
-      } else {
+    if (isClient) {
+      if (
+        error.response &&
+        error.response.status === 401 &&
+        error.request &&
+        error.request.responseURL.includes('api/auth/refresh')
+      ) {
         await logoutAPI();
-        return Promise.reject(new Error(`Error: ${error.message}`));
+
+        return Promise.reject(error);
+      }
+
+      if (
+        error.response &&
+        error.response.status === 401 &&
+        !originalRequest._retry
+      ) {
+        originalRequest._retry = true;
+        originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
+
+        if (originalRequest._retryCount <= MAX_RETRY_COUNT) {
+          await refreshTokenAPI();
+
+          return apiClient(originalRequest);
+        } else {
+          await logoutAPI();
+          return Promise.reject(new Error(`Error: ${error.message}`));
+        }
       }
     }
 

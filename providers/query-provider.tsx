@@ -1,5 +1,5 @@
 import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from 'queries';
+import { queryClient } from '@/queries';
 
 interface QueryProviderProps {
   children: JSX.Element;
