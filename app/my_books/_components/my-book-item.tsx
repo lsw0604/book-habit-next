@@ -38,7 +38,7 @@ export default function MyBookItem(item: ResponseGetMyBookItemType) {
                 src={thumbnail}
                 alt={id.toString()}
                 fill
-                priority
+                loading="lazy"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover"
               />
@@ -66,7 +66,7 @@ export default function MyBookItem(item: ResponseGetMyBookItemType) {
 
 MyBookItem.Loader = function () {
   return (
-    <li className="w-auto h-auto clear-both p-1">
+    <li className="w-auto h-auto p-1">
       <Skeleton className="w-full relative mb-2 pt-[145%] h-4 rounded-lg overflow-hidden bg-gray-200" />
       <div className="flex flex-col px-2">
         <Skeleton className="w-full h-4 mb-1 bg-gray-200" />

@@ -10,9 +10,10 @@ export default function MyBookList() {
   const { data, ref, isFetching, isError, error, isLoading } =
     useMyBookListHook();
 
+  if (!data) return <MyBookList.Empty />;
   if (isLoading) return <MyBookList.Loader />;
   if (isError && error?.status === 401) return <MyBookList.LoginError />;
-  if (data?.books.length === 0) return <MyBookList.Empty />;
+  if (data?.books.length === 0) return <MyBookList.NotFound />;
 
   return (
     <div className={cn('w-full h-full overflow-scroll no-scrollbar')}>
@@ -63,6 +64,14 @@ MyBookList.Loader = function () {
 };
 
 MyBookList.Empty = function () {
+  return (
+    <div className="w-full h-full px-4 pb-4">
+      <div className="flex justify-center items-center w-full h-full bg-[rgba(0,0,0,0.05)] rounded-lg" />
+    </div>
+  );
+};
+
+MyBookList.NotFound = function () {
   return (
     <div className="w-full h-full px-4 pb-4">
       <div className="flex justify-center items-center w-full h-full bg-[rgba(0,0,0,0.05)] rounded-lg">
