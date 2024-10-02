@@ -1,54 +1,74 @@
 'use client';
 
+import { MouseEvent, useCallback } from 'react';
 import { motion } from 'framer-motion';
 
-import Star from './star';
-import ErrorMessage from '../error-message';
+import useStarHook from '@/hooks/useStarHook';
+import { IconStar } from '@/style/icon';
+import { cn } from '@/utils/class-name';
 
 interface RatingProps {
   rating: number;
   onChange: (value: number) => void;
-  label?: string;
-  isValid?: boolean;
-  errorMessage?: string;
-  useValidation?: boolean;
+  className?: string;
 }
 
-export default function Rating({
-  rating,
-  onChange,
-  label,
-  errorMessage,
-  isValid,
-  useValidation,
-}: RatingProps) {
-  const isClickHandler = (i: number) => {
-    if (i === rating) {
-      onChange(rating - 1);
-    } else {
-      onChange(i);
-    }
-  };
+interface StarProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'> {
+  index: number;
+  isClicked: boolean;
+  onClick: (event: MouseEvent<HTMLDivElement>, index: number) => void;
+}
+
+const STAR_SIZE = 5;
+
+export default function Rating({ rating, onChange, className }: RatingProps) {
+  const handleStar = useCallback(
+    (event: MouseEvent<HTMLDivElement>, index: number) => {
+      event.stopPropagation();
+      onChange(index === rating ? rating - 1 : index);
+    },
+    [rating, onChange]
+  );
 
   return (
-    <>
-      {label && <label></label>}
-      <div className="w-full h-[40px]">
-        <div className="w-full h-full grid grid-cols-[repeat(5,_1fr)] text-[1rem]">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <motion.div
-              className="relative w-auto flex justify-center items-center cursor-pointer"
-              key={i}
-              onClick={() => isClickHandler(i)}
-            >
-              <Star i={i} isClicked={rating >= i} />
-            </motion.div>
-          ))}
-        </div>
+    <div className={cn('w-full h-[40px]', className)}>
+      <div className="w-full h-full grid grid-cols-5 text-[1rem]">
+        {[...Array(STAR_SIZE)].map((_, index) => (
+          <Star
+            key={index + 1}
+            index={index + 1}
+            isClicked={rating >= index + 1}
+            onClick={handleStar}
+          />
+        ))}
       </div>
-      {errorMessage && isValid && useValidation && (
-        <ErrorMessage message={errorMessage} />
-      )}
-    </>
+    </div>
   );
 }
+
+const Star = ({ index, isClicked, onClick }: StarProps) => {
+  const { STAR_VARIANTS, animation } = useStarHook({ isClicked });
+
+  return (
+    <motion.div
+      className={cn(
+        'relative w-auto flex justify-center items-center cursor-pointer'
+      )}
+      key={index}
+      onClick={(event) => onClick(event, index)}
+    >
+      <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-gray-300 cursor-pointer" />
+
+      <motion.i
+        variants={STAR_VARIANTS}
+        animate={animation}
+        custom={index}
+        initial="initial"
+        className="relative z-10 cursor-pointer w-auto text-yellow-300"
+      >
+        <IconStar className="h-8 w-8 fill-yellow-300" />
+      </motion.i>
+    </motion.div>
+  );
+};
