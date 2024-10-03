@@ -12,10 +12,10 @@ import { AxiosError } from 'axios';
  * - 오래된 데이터를 봐도 문제가 없지만, 너무 오래되면 안 됩니다.
  * - 서버에 자주 요청을 보내지 않도록 합니다.
  */
-export default function useQueryMyBookDetail(payload: RequestGetMyBookDetail) {
+export default function useMyBookDetailQuery(myBookId: RequestGetMyBookDetail) {
   return useQuery<ResponseGetMyBookDetail, AxiosError<NestServerErrorType>>({
-    queryKey: [queryKeys.myBookDetail.getDetail(payload)],
-    queryFn: () => getMyBookDetailAPI(payload),
+    queryKey: [queryKeys.myBook.getDetail(myBookId)],
+    queryFn: () => getMyBookDetailAPI(myBookId),
     gcTime: 30 * 60 * 1000, // 30분
     staleTime: 10 * 60 * 1000, // 10분
   });

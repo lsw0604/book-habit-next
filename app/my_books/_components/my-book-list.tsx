@@ -5,10 +5,15 @@ import Loader from '@/components/common/loader';
 import MyBookItem from './my-book-item';
 import useMyBookListHook from '@/hooks/my-book/useMyBookListHook';
 import { cn } from '@/utils/class-name';
+import { useEffect } from 'react';
 
 export default function MyBookList() {
-  const { data, ref, isFetching, isError, error, isLoading } =
+  const { data, ref, isFetching, isError, error, isLoading, refetch } =
     useMyBookListHook();
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   if (!data) return <MyBookList.Empty />;
   if (isLoading) return <MyBookList.Loader />;

@@ -1,6 +1,6 @@
 'use client';
 
-import useQueryMyBookDetail from '@/queries/my-book-detail/useQueryMyBookDetail';
+import useMyBookDetailQuery from '@/queries/my-book/useMyBookDetailQuery';
 import MyBookInfo from './_components/my-book-info';
 import MyBookStatus from './_components/my-book-status';
 import MyBookRating from './_components/my-book-rating';
@@ -10,7 +10,7 @@ export default function MyBookDetailPage({
 }: {
   params: { my_book_id: number };
 }) {
-  const { data, isLoading } = useQueryMyBookDetail(params.my_book_id);
+  const { data, isLoading } = useMyBookDetailQuery(params.my_book_id);
 
   if (!data || isLoading) return <div>Loading...</div>;
 

@@ -7,14 +7,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { RootState, useAppSelector } from 'store';
-import useProfileEditMutation from '@/queries/profile/useProfileEditMutation';
 
 export default function ProfileHeader() {
   const { profile } = useAppSelector((state: RootState) => state.user);
 
   const formData = new FormData();
-
-  const { mutate, isLoading } = useProfileEditMutation();
 
   const editProfileHandler = useCallback(() => {
     const inputElement: HTMLInputElement = document.createElement('input');
@@ -25,13 +22,10 @@ export default function ProfileHeader() {
       const { files } = event.target as HTMLInputElement;
       if (files && files.length > 0) {
         formData.append('profile', files[0]);
-        mutate(formData);
       }
     };
     inputElement.click();
   }, []);
-
-  if (isLoading) return <ProfileHeader.Loader />;
 
   return (
     <div className="w-full absolute -top-16 flex justify-center items-center">

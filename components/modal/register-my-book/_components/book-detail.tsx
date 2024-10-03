@@ -3,12 +3,16 @@ import dayjs from 'dayjs';
 import Tag from '@/components/common/tag';
 import ImageWrapper from '@/components/common/image-wrapper';
 import { formattedIsbn, formattedPrice } from '@/utils/book';
+import { FieldErrors } from 'react-hook-form';
+import { MyBookSchemaType } from '@/schemas/my-book.schema';
+import ErrorMessage from '@/components/common/error-message';
 
 interface BookDetailProps {
   detail: ReduxBookType;
+  errors: FieldErrors<MyBookSchemaType>;
 }
 
-export default function BookDetail({ detail }: BookDetailProps) {
+export default function BookDetail({ detail, errors }: BookDetailProps) {
   const time = dayjs(detail.datetime);
   return (
     <>
@@ -22,6 +26,9 @@ export default function BookDetail({ detail }: BookDetailProps) {
               height={174}
               priority
             />
+            {errors.thumbnail?.message && (
+              <ErrorMessage message={errors.thumbnail.message} />
+            )}
           </div>
           <div className="ml-4 flex flex-col grow">
             <span className="font-bold line-clamp-2 text-foreground text-base mt-1 hover:underline">
@@ -55,7 +62,6 @@ export default function BookDetail({ detail }: BookDetailProps) {
           </div>
         </div>
       </div>
-
       <div className="flex gap-1 flex-wrap w-full mt-2">
         {detail.status ? <Tag>{detail.status}</Tag> : null}
         {detail.authors.map((author) => (

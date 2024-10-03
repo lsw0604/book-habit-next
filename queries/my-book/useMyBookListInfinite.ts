@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { getMyBookListAPI } from '@/service/my-book';
 import { queryKeys } from '@/constant/queries-key';
 
-export default function useInfiniteMyBook({
+export default function useMyBookListInfinite({
   status,
   order,
 }: Pick<RequestGetMyBookList, 'order' | 'status'>) {
@@ -18,5 +18,7 @@ export default function useInfiniteMyBook({
     getNextPageParam: (response) => response.nextPage ?? undefined,
     initialPageParam: 1,
     select: (data) => ({ books: data.pages.flatMap((page) => page.books) }),
+    gcTime: 5 * 60 * 1000,
+    staleTime: 1 * 60 * 1000,
   });
 }

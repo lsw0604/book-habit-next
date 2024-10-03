@@ -1,19 +1,20 @@
 import useMyBookParams from '@/hooks/my-book/useMyBookParams';
 import useErrorHandler from '@/hooks/error/useErrorHandler';
 import useInfiniteScroll from '@/hooks/infinite-scroll/useInfiniteScroll';
-import useInfiniteMyBook from '@/queries/my-book/useInfiniteMyBook';
+import useMyBookListInfinite from '@/queries/my-book/useMyBookListInfinite';
 
 export default function useMyBookListHook() {
   const { order, status } = useMyBookParams();
   const {
     data,
+    refetch,
     fetchNextPage,
     hasNextPage,
     isLoading,
     isFetching,
     isError,
     error,
-  } = useInfiniteMyBook({ order, status });
+  } = useMyBookListInfinite({ order, status });
   const ref = useInfiniteScroll(fetchNextPage, hasNextPage);
   useErrorHandler(isError, error);
 
@@ -24,5 +25,6 @@ export default function useMyBookListHook() {
     isFetching,
     isError,
     error,
+    refetch,
   };
 }

@@ -6,7 +6,7 @@ import {
   MyBookSchemaType,
 } from '@/schemas/my-book.schema';
 
-export default function useCreateMyBookForm() {
+export default function useMyBookForm() {
   return useForm<MyBookSchemaType>({
     defaultValues: defaultMyBookValues,
     resolver: zodResolver(myBookSchema),

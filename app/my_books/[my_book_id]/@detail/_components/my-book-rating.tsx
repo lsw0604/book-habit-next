@@ -3,7 +3,7 @@ import { Controller } from 'react-hook-form';
 import Rating from '@/components/common/rating';
 import ErrorMessage from '@/components/common/error-message';
 import usePutMyBookForm from '@/hooks/my-book-detail/usePutMyBookForm';
-import useMutationPutMyBookDetail from '@/queries/my-book-detail/useMutationPutMyBookDetail';
+import useMyBookMutation from '@/queries/my-book/useMyBookMutation';
 import { MyBookUpdateSchemaType } from '@/schemas/my-book-update-schema';
 import { useDebounceCallback } from 'usehooks-ts';
 import { useEffect } from 'react';
@@ -18,10 +18,8 @@ interface MyBookRatingProps {
 
 export default function MyBookRating({ myBookId, rating }: MyBookRatingProps) {
   const { control, watch } = usePutMyBookForm({ rating });
-  const { mutate, isSuccess } = useMutationPutMyBookDetail({
-    myBookId,
-    rating,
-  });
+  const { updateMyBook } = useMyBookMutation();
+  const { mutate, isSuccess } = updateMyBook();
   const { successToast } = useToastHook();
 
   const onSubmit = useDebounceCallback(
@@ -44,7 +42,6 @@ export default function MyBookRating({ myBookId, rating }: MyBookRatingProps) {
   useEffect(() => {
     if (isSuccess) {
       successToast('Rating 업데이트 성공');
-      queryClient.invalidateQueries({ queryKey: [queryKeys.myBook.getList] });
     }
   }, [isSuccess]);
 

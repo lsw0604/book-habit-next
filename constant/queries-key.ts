@@ -17,23 +17,13 @@ export const queryKeys = createQueryKeyStore({
     }),
   },
   myBook: {
-    register: (params: Pick<RequestRegisterMyBook, 'title'>) => ({
-      queryKey: [params],
-      queryFn: registerMyBookAPI,
-    }),
     getList: (params: Pick<RequestGetMyBookList, 'order' | 'status'>) => ({
       queryKey: [params],
       queryFn: getMyBookListAPI,
     }),
-  },
-  myBookDetail: {
     getDetail: (params: RequestGetMyBookDetail) => ({
       queryKey: [params],
       queryFn: () => getMyBookDetailAPI(params),
-    }),
-    putDetail: (params: RequestPutMyBookDetail) => ({
-      queryKey: [params],
-      queryFn: putMyBookDetailAPI,
     }),
   },
   auth: {

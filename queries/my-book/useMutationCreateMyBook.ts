@@ -2,17 +2,13 @@ import { AxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 
 import { registerMyBookAPI } from '@/service/my-book';
-import { queryKeys } from '@/constant/queries-key';
 
-export default function useMutationCreateMyBook(
-  param: Pick<RequestRegisterMyBook, 'title'>
-) {
+export default function useMutationCreateMyBook() {
   return useMutation<
     ResponseRegisterMyBook,
     AxiosError<NestServerErrorType>,
     RequestRegisterMyBook
   >({
     mutationFn: (payload: RequestRegisterMyBook) => registerMyBookAPI(payload),
-    mutationKey: [queryKeys.myBook.register(param)],
   });
 }

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import BookDetail from './_components/book-detail';
-import useCreateMyBookHook from '@/hooks/my-book/useCreateMyBookHook';
+import useMyBookCreate from '@/hooks/my-book/useMyBookCreate';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { bookSelector } from '@/store/features/book/book-selector';
 import { modalActions } from '@/store/features/modal/modal-action';
@@ -14,11 +14,16 @@ export default function RegisterMyBookModal() {
     dispatch(modalActions.setModal({ isOpen: false }));
   }, []);
 
-  const { onSubmit, handleSubmit, isPending } = useCreateMyBookHook(book);
+  const {
+    onSubmit,
+    handleSubmit,
+    isPending,
+    formState: { errors },
+  } = useMyBookCreate(book);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} key={book.isbn[0]}>
-      <BookDetail detail={book} />
+      <BookDetail detail={book} errors={errors} />
       <div className="w-full flex flex-shrink-0 mt-2 gap-2">
         <Button className="w-full" isLoading={isPending} type="submit">
           등록하기
