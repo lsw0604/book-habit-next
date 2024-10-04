@@ -4,7 +4,7 @@ import { useDebounceCallback } from 'usehooks-ts';
 
 import Rating from '@/components/common/rating';
 import Select from '@/components/common/select';
-import ErrorMessage from '@/components/common/error-message';
+import { ErrorMessage } from '@/components/common/error-message';
 
 import useToastHook from '@/hooks/toast/useToastHook';
 import useMyBookUpdateForm from '@/hooks/my-book/useMyBookUpdateForm';
@@ -68,7 +68,7 @@ const MyBookRatingController = ({ control }: MyBookControllerProps) => {
         <>
           <Rating rating={value as number} onChange={onChange} />
           {!!errors?.rating?.message && (
-            <ErrorMessage message={errors.rating.message} />
+            <ErrorMessage>{errors.rating.message}</ErrorMessage>
           )}
         </>
       )}
@@ -81,7 +81,7 @@ const MyBookStatusController = ({ control }: MyBookControllerProps) => {
     <Controller
       control={control}
       name="myBookStatus"
-      render={({ field: { value, onChange } }) => (
+      render={({ field: { value, onChange }, formState: { errors } }) => (
         <>
           <Select.ErrorBoundary>
             <Select value={value as MyBookStatusType} onChange={onChange}>
@@ -100,9 +100,11 @@ const MyBookStatusController = ({ control }: MyBookControllerProps) => {
               </Select.Content>
             </Select>
           </Select.ErrorBoundary>
+          {!!errors?.myBookStatus?.message && (
+            <ErrorMessage>{errors.myBookStatus.message}</ErrorMessage>
+          )}
         </>
       )}
     />
   );
 };
-

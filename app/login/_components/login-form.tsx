@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import ErrorMessage from '@/components/common/error-message';
+import { ErrorMessage } from '@/components/common/error-message';
 import { IconKakao } from '@/style/icon';
 
 import useLoginHook from '@/hooks/auth/useLoginHook';
@@ -77,7 +77,9 @@ const LoginEmailController = ({ control }: ControllerProps) => {
             icon={<MailIcon className="w-5 h-5" />}
             autoComplete="off"
           />
-          {!!error && error.message && <ErrorMessage message={error.message} />}
+          {!!error && error.message && (
+            <ErrorMessage>{error.message}</ErrorMessage>
+          )}
         </div>
       )}
     />
@@ -108,7 +110,9 @@ const LoginPasswordController = ({ control }: ControllerProps) => {
             }
             autoComplete="off"
           />
-          {!!error && error.message && <ErrorMessage message={error.message} />}
+          {!!error && error.message && (
+            <ErrorMessage>{error.message}</ErrorMessage>
+          )}
         </div>
       )}
     />

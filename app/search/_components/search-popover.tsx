@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import ErrorMessage from '@/components/common/error-message';
+import { ErrorMessage } from '@/components/common/error-message';
 import { SearchSchemaType } from '@/schemas/search.schema';
 
 interface SearchPopoverProps {
@@ -71,7 +71,7 @@ const SearchPopoverTargetController = ({ control }: ControllerProps) => {
             </Select>
           </Select.ErrorBoundary>
           {!!error?.message && (
-            <ErrorMessage message={error.message} className="my-2" />
+            <ErrorMessage className="my-2">{error.message}</ErrorMessage>
           )}
         </div>
       )}
@@ -99,7 +99,7 @@ const SearchPopoverSizeController = ({ control }: ControllerProps) => {
             onValueChange={(val) => onChange(val[0])}
           />
           {!!error?.message && (
-            <ErrorMessage message={error.message} className="my-2" />
+            <ErrorMessage className="my-2">{error.message}</ErrorMessage>
           )}
         </div>
       )}
@@ -130,7 +130,7 @@ const SearchPopoverSortController = ({ control }: ControllerProps) => {
             </div>
           </RadioGroup>
           {!!error?.message && (
-            <ErrorMessage message={error.message} className="my-2" />
+            <ErrorMessage className="my-2">{error.message}</ErrorMessage>
           )}
         </div>
       )}

@@ -1,8 +1,9 @@
-import ErrorMessage from '@/components/common/error-message';
+import { UseFormRegisterReturn } from 'react-hook-form';
+
 import { Label } from '@/components/ui/label';
+import { ErrorMessage } from '@/components/common/error-message';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { IconFemale, IconMale } from '@/style/icon';
-import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface RegisterRadioGroupProps {
   register: UseFormRegisterReturn;
@@ -38,7 +39,7 @@ export default function RegisterRadioGroup({
         </div>
       </RadioGroup>
       {errorMessage && isValid && useValidation && (
-        <ErrorMessage message={errorMessage} />
+        <ErrorMessage>{errorMessage}</ErrorMessage>
       )}
     </>
   );

@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
+import { FieldErrors } from 'react-hook-form';
 
 import Tag from '@/components/common/tag';
+import { ErrorMessage } from '@/components/common/error-message';
 import ImageWrapper from '@/components/common/image-wrapper';
-import { formattedIsbn, formattedPrice } from '@/utils/book';
-import { FieldErrors } from 'react-hook-form';
 import { MyBookSchemaType } from '@/schemas/my-book.schema';
-import ErrorMessage from '@/components/common/error-message';
+import { formattedIsbn, formattedPrice } from '@/utils/book';
 
 interface BookDetailProps {
   detail: ReduxBookType;
@@ -27,7 +27,7 @@ export default function BookDetail({ detail, errors }: BookDetailProps) {
               priority
             />
             {errors.thumbnail?.message && (
-              <ErrorMessage message={errors.thumbnail.message} />
+              <ErrorMessage>{errors.thumbnail.message}</ErrorMessage>
             )}
           </div>
           <div className="ml-4 flex flex-col grow">

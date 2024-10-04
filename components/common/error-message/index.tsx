@@ -3,19 +3,19 @@
 import { cn } from '@/utils/class-name';
 
 interface ErrorMessageProps {
-  message: string;
+  children: React.ReactNode;
   className?: string;
 }
 
-export default function ErrorMessage({
-  message,
+export const ErrorMessage: React.FC<ErrorMessageProps> = ({
+  children,
   className,
-}: ErrorMessageProps) {
+}) => {
   return (
     <p
       className={cn('ml-0.5 text-red-300 mt-0.5 text-sm font-bold', className)}
     >
-      {message}
+      {children}
     </p>
   );
-}
+};

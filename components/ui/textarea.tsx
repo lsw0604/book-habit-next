@@ -1,18 +1,11 @@
 import * as React from 'react';
-
 import { cn } from '@/utils/class-name';
 
-import ErrorMessage from '../common/error-message';
-
 export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  errorMessage?: string;
-  isValid?: boolean;
-  useValidation?: boolean;
-}
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, isValid, errorMessage, useValidation, ...props }, ref) => {
+  ({ className, ...props }, ref) => {
     return (
       <>
         <textarea
@@ -23,9 +16,6 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           {...props}
         />
-        {errorMessage && isValid && useValidation && (
-          <ErrorMessage message={errorMessage} />
-        )}
       </>
     );
   }

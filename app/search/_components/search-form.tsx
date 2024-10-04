@@ -3,7 +3,7 @@
 import { Control, Controller } from 'react-hook-form';
 
 import SearchPopover from './search-popover';
-import ErrorMessage from '@/components/common/error-message';
+import { ErrorMessage } from '@/components/common/error-message';
 import { Input } from '@/components/ui/input';
 import { useSearchHook } from '@/hooks/search/useSearchHook';
 import { SearchSchemaType } from '@/schemas/search.schema';
@@ -45,7 +45,9 @@ const SearchInputController = ({ control }: ControllerProps) => {
             placeholder="검색어를 입력해주세요."
             autoComplete="off"
           />
-          {!!error && error.message && <ErrorMessage message={error.message} />}
+          {!!error && error.message && (
+            <ErrorMessage>{error.message}</ErrorMessage>
+          )}
         </div>
       )}
     />

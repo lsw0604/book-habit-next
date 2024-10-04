@@ -6,7 +6,7 @@ import { ArrowDownNarrowWideIcon, ArrowUpNarrowWideIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import Select from '@/components/common/select';
-import ErrorMessage from '@/components/common/error-message';
+import { ErrorMessage } from '@/components/common/error-message';
 import useMyBookRouter from '@/hooks/my-book/useMyBookRouter';
 import useMyBookParams from '@/hooks/my-book/useMyBookParams';
 import useMyBookListForm from '@/hooks/my-book/useMyBookListForm';
@@ -64,7 +64,9 @@ const MyBookStatusController = ({ control }: ControllerProps) => {
               </Select.Content>
             </Select>
           </Select.ErrorBoundary>
-          {!!error && error.message && <ErrorMessage message={error.message} />}
+          {!!error && error.message && (
+            <ErrorMessage>{error.message}</ErrorMessage>
+          )}
         </div>
       )}
     />
@@ -99,7 +101,9 @@ const MyBookOrderController = ({ control }: ControllerProps) => {
               <ArrowUpNarrowWideIcon />
             </Button>
           )}
-          {!!error && error.message && <ErrorMessage message={error.message} />}
+          {!!error && error.message && (
+            <ErrorMessage>{error.message}</ErrorMessage>
+          )}
         </div>
       )}
     />
