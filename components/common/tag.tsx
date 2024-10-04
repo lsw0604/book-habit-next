@@ -12,7 +12,7 @@ export default function Tag({ className, children, ...props }: TagProps) {
     <span
       {...props}
       className={cn(
-        'rounded-lg outline-none bg-slate-200 text-black px-2 py-1 text-center text-xs',
+        'rounded-lg outline-none bg-slate-200 text-black px-2 py-1 text-center text-xs cursor-pointer',
         className
       )}
     >

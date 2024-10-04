@@ -43,6 +43,7 @@ const SearchInputController = ({ control }: ControllerProps) => {
             {...field}
             className="rounded-full"
             placeholder="검색어를 입력해주세요."
+            autoComplete="off"
           />
           {!!error && error.message && <ErrorMessage message={error.message} />}
         </div>

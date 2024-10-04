@@ -11,12 +11,9 @@ import { cn } from '@/utils/class-name';
 export default function SearchList() {
   const { ref, data, query, isLoading, isFetching } = useSearchListHook();
 
-  if (!data) return <SearchList.Empty />;
   if (isLoading) return <SearchList.Loader />;
-  if (!query || data?.pages[0].documents.length === 0)
+  if (!data || !query || data.length === 0)
     return <SearchList.NotFound query={query} />;
-
-  const items = data?.pages.flatMap((page) => page.documents);
 
   return (
     <div className="w-full h-full flex flex-col gap-4 overflow-scroll no-scrollbar">
@@ -29,7 +26,7 @@ export default function SearchList() {
           '2xl:grid 2xl:grid-cols-5 2xl:gap-2' // 큰 화면에서 5열로 변경
         )}
       >
-        {items.map((item) => (
+        {data.map((item: KakaoDocument) => (
           <SearchItem key={v4()} item={item} />
         ))}
       </ul>

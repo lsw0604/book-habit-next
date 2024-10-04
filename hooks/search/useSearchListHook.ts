@@ -3,7 +3,7 @@
 import searchParams from '@/hooks/search/searchParams';
 import useInfiniteScroll from '@/hooks/infinite-scroll/useInfiniteScroll';
 import useErrorHandler from '@/hooks/error/useErrorHandler';
-import useInfiniteSearchBook from '@/queries/search/useInfinitySearchBook';
+import useSearchInfiniteQuery from '@/queries/search/useSearchInfiniteQuery';
 
 export const useSearchListHook = () => {
   const { query, size, sort, target } = searchParams();
@@ -16,7 +16,7 @@ export const useSearchListHook = () => {
     isFetching,
     isError,
     error,
-  } = useInfiniteSearchBook({ query, size, sort, target });
+  } = useSearchInfiniteQuery({ query, size, sort, target });
 
   const ref = useInfiniteScroll(fetchNextPage, hasNextPage);
 
