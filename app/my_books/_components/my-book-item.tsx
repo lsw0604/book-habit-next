@@ -5,7 +5,7 @@ import { useIntersectionObserver } from 'usehooks-ts';
 import { StarIcon, ImageIcon } from 'lucide-react';
 
 import { Skeleton } from '@/components/ui/skeleton';
-import { OBSERVER_OPTION } from '@/constant/observer-option';
+import { observerOption } from '@/utils/observer-option';
 import {
   MY_BOOK_ITEM_RATINGS,
   MY_BOOK_ITEM_STATUS,
@@ -14,7 +14,9 @@ import {
 export default function MyBookItem(item: ResponseGetMyBookItemType) {
   const { id, title, thumbnail, status, rating } = item;
   const [isLoading, setIsLoading] = useState(true);
-  const { ref, isIntersecting } = useIntersectionObserver(OBSERVER_OPTION);
+  const { ref, isIntersecting } = useIntersectionObserver(
+    observerOption({ threshold: 0.5 })
+  );
 
   useEffect(() => {
     if (isIntersecting) {
@@ -28,9 +30,7 @@ export default function MyBookItem(item: ResponseGetMyBookItemType) {
       href={`/my_books/${id}`}
       className="w-auto h-auto clear-both"
     >
-      {isLoading ? (
-        <MyBookItem.Loader />
-      ) : (
+      {isLoading ? null : (
         <>
           {thumbnail ? (
             <div className="mb-2 relative w-full pt-[145%] rounded-lg overflow-hidden">
@@ -55,7 +55,7 @@ export default function MyBookItem(item: ResponseGetMyBookItemType) {
               {MY_BOOK_ITEM_RATINGS[rating].text}
             </p>
             <p className="text-sm text-gray-500 line-clamp-1">
-              {MY_BOOK_ITEM_STATUS.find((item) => item.status === status)?.text}
+              {MY_BOOK_ITEM_STATUS.find((item) => item.status === status)?.label}
             </p>
           </div>
         </>

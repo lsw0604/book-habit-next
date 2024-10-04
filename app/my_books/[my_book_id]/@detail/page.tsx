@@ -1,30 +1,38 @@
 'use client';
 
-import useMyBookDetailQuery from '@/queries/my-book/useMyBookDetailQuery';
+import useMyBookQuery from '@/queries/my-book/useMyBookQuery';
 import MyBookInfo from './_components/my-book-info';
-import MyBookStatus from './_components/my-book-status';
-import MyBookRating from './_components/my-book-rating';
+import MyBookForm from './_components/my-book-form';
+import MyBookDate from './_components/my-book-date';
+import MyBookTag from './_components/my-book-tag';
 
 export default function MyBookDetailPage({
   params,
 }: {
   params: { my_book_id: number };
 }) {
-  const { data, isLoading } = useMyBookDetailQuery(params.my_book_id);
+  const { data, isLoading } = useMyBookQuery(params.my_book_id);
 
-  if (!data || isLoading) return <div>Loading...</div>;
+  if (!data || isLoading) return <MyBookDetailPage.Loader />;
 
   return (
     <div className="w-full h-auto border border-gray-300 rounded-lg shadow-lg bg-transparent p-2">
       <MyBookInfo info={data.book} />
-      <MyBookStatus status={data.status} />
-      <MyBookRating rating={data.rating} myBookId={params.my_book_id} />
-      {data.tag.map((tag) => (
-        <div key={tag.id}>{tag.tag}</div>
-      ))}
-
-      {data.createdAt}
-      {data.updatedAt}
+      <MyBookForm
+        myBookId={params.my_book_id}
+        myBookStatus={data.status}
+        rating={data.rating}
+      />
+      <MyBookTag myBookId={params.my_book_id} tags={data.tag} />
+      <MyBookDate createdAt={data.createdAt} updatedAt={data.updatedAt} />
     </div>
   );
 }
+
+MyBookDetailPage.Loader = function () {
+  return (
+    <div className="w-full h-auto border border-gray-300 rounded-lg shadow-lg bg-transparent p-2">
+      <MyBookInfo.Loader />
+    </div>
+  );
+};

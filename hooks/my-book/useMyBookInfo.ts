@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
-export default function useBookInfo() {
+export default function useMyBookInfo() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

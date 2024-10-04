@@ -25,25 +25,32 @@ export const MY_BOOK_ITEM_RATINGS = [
   },
 ] as const;
 
-export const MY_BOOK_ITEM_STATUS: { status: MyBookStatusType; text: string }[] =
-  [
-    {
-      status: 'TO_READ',
-      text: '읽을 예정',
-    },
-    {
-      status: 'READING',
-      text: '읽는 중',
-    },
-    {
-      status: 'READ',
-      text: '다 읽음',
-    },
-    {
-      status: 'START_READ',
-      text: '읽기 시작',
-    },
-  ] as const;
+export const MY_BOOK_ITEM_STATUS: {
+  status: MyBookStatusType;
+  value: MyBookStatusType;
+  label: string;
+}[] = [
+  {
+    status: 'TO_READ',
+    value: 'TO_READ',
+    label: '아직 읽기전이에요.',
+  },
+  {
+    status: 'START_READ',
+    value: 'START_READ',
+    label: '읽기 시작했어요.',
+  },
+  {
+    status: 'READING',
+    value: 'READING',
+    label: '아직 읽는 중이에요.',
+  },
+  {
+    status: 'READ',
+    value: 'READ',
+    label: '다 읽었어요.',
+  },
+] as const;
 
 export const MY_BOOK_STATUS: MyBookStatusType[] = [
   'READING',
@@ -51,3 +58,4 @@ export const MY_BOOK_STATUS: MyBookStatusType[] = [
   'TO_READ',
   'START_READ',
 ] as const;
+

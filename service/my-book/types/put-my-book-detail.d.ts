@@ -1,5 +1,5 @@
 type RequestPutMyBookDetail = {
-  status?: MyBookStatusType;
+  myBookStatus?: MyBookStatusType;
   rating?: number;
   myBookId: number;
 };

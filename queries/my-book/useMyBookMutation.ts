@@ -1,8 +1,13 @@
-import { putMyBookDetailAPI, registerMyBookAPI } from '@/service/my-book';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { putMyBookDetailAPI, registerMyBookAPI } from '@/service/my-book';
+import { useMyBookInvalidateCache } from '@/hooks/my-book/useMyBookInvalidateCache';
+import { useMyBookUpdateCache } from '@/hooks/my-book/useMyBookUpdateCache';
 
 export default function useMyBookMutation() {
+  const { invalidateList } = useMyBookInvalidateCache();
+  const { updateMyBookQueryData } = useMyBookUpdateCache();
+
   const addMyBook = () => {
     return useMutation<
       ResponseRegisterMyBook,
@@ -11,6 +16,9 @@ export default function useMyBookMutation() {
     >({
       mutationFn: (payload: RequestRegisterMyBook) =>
         registerMyBookAPI(payload),
+      onSuccess: () => {
+        invalidateList();
+      },
     });
   };
 
@@ -23,6 +31,10 @@ export default function useMyBookMutation() {
       RequestPutMyBookDetail
     >({
       mutationFn: putMyBookDetailAPI,
+      onSuccess: (response) => {
+        invalidateList();
+        updateMyBookQueryData(response);
+      },
     });
   };
 

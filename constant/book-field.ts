@@ -1,3 +1,5 @@
+export type BookFieldType = (typeof BOOK_FIELDS)[number];
+
 export const BOOK_FIELDS: Array<keyof ReduxBookType> = [
   'authors',
   'contents',

@@ -32,10 +32,10 @@ export const getMyBookDetailAPI = async (myBookId: RequestGetMyBookDetail) => {
 };
 
 export const putMyBookDetailAPI = async (payload: RequestPutMyBookDetail) => {
-  const { status, rating, myBookId } = payload;
+  const { myBookStatus, rating, myBookId } = payload;
   const { data } = await apiClient.put<ResponsePutMyBookDetail>(
     `${MY_BOOK_URL}/${myBookId}`,
-    JSON.stringify({ status, rating })
+    JSON.stringify({ myBookStatus, rating })
   );
 
   return data;

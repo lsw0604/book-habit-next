@@ -1,12 +1,7 @@
 import { createQueryKeyStore } from '@lukemorales/query-key-factory';
 
 import { searchBookAPI } from '@/service/search';
-import {
-  getMyBookDetailAPI,
-  getMyBookListAPI,
-  putMyBookDetailAPI,
-  registerMyBookAPI,
-} from '@/service/my-book';
+import { getMyBookDetailAPI, getMyBookListAPI } from '@/service/my-book';
 import { kakaoLoginAPI, loginAPI } from '@/service/auth';
 
 export const queryKeys = createQueryKeyStore({
@@ -22,8 +17,8 @@ export const queryKeys = createQueryKeyStore({
       queryFn: getMyBookListAPI,
     }),
     getDetail: (params: RequestGetMyBookDetail) => ({
-      queryKey: [params],
-      queryFn: () => getMyBookDetailAPI(params),
+      queryKey: [params.toString()],
+      queryFn: getMyBookDetailAPI,
     }),
   },
   auth: {

@@ -2,12 +2,10 @@ import { useCallback, useEffect } from 'react';
 
 import useMyBookForm from '@/hooks/my-book/useMyBookForm';
 import useToastHook from '@/hooks/toast/useToastHook';
+import useErrorHandler from '@/hooks/error/useErrorHandler';
 import { MyBookSchemaType } from '@/schemas/my-book.schema';
 import useMyBookMutation from '@/queries/my-book/useMyBookMutation';
-import { BOOK_FIELDS } from '@/constant/book-field';
-import useErrorHandler from '../error/useErrorHandler';
-
-type BookFieldType = (typeof BOOK_FIELDS)[number];
+import { BOOK_FIELDS, BookFieldType } from '@/constant/book-field';
 
 export default function useMyBookCreate(book: ReduxBookType) {
   const { successToast } = useToastHook();

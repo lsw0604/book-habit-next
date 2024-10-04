@@ -1,18 +1,22 @@
 import { queryKeys } from '@/constant/queries-key';
 import { useQueryClient } from '@tanstack/react-query';
+import { MY_BOOK_ORDER, MY_BOOK_STATUS } from '@/constant/my-book-field';
 
-export const useInvalidateMyBookCache = () => {
+export const useMyBookInvalidateCache = () => {
   const queryClient = useQueryClient();
 
   const invalidateList = () => {
-    return queryClient.invalidateQueries({
-      queryKey: [queryKeys.myBook.getList],
-      exact: false,
-    });
+    for (const order of MY_BOOK_ORDER) {
+      for (const status of MY_BOOK_STATUS) {
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.myBook.getList({ order, status })],
+        });
+      }
+    }
   };
 
   const invalidateListSpecific = (
-    params: Pick<RequestGetMyBookList, 'status' | 'order'>
+    params: Pick<RequestGetMyBookList, 'order' | 'status'>
   ) => {
     return queryClient.invalidateQueries({
       queryKey: [queryKeys.myBook.getList(params)],

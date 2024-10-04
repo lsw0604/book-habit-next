@@ -1,16 +1,19 @@
 import { ReactNode } from 'react';
+import MyBookDetailPage from './@detail/page';
 
 export default function MyBookDetailLayout({
-  detail,
-  reply,
+  params,
+  history,
 }: {
-  detail: ReactNode;
-  reply: ReactNode;
+  params: { my_book_id: number };
+  history: ReactNode;
 }) {
   return (
     <div className="w-full h-full">
-      <section className="w-full h-auto p-2">{detail}</section>
-      <section className="w-full h-auto p-2">{reply}</section>
+      <section className="w-full h-auto p-2">
+        <MyBookDetailPage params={params} />
+      </section>
+      <section className="w-full h-auto p-2">{history}</section>
     </div>
   );
 }

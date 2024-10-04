@@ -4,8 +4,8 @@ import { MY_BOOK_STATUS } from '@/constant/my-book-item';
 export type MyBookUpdateSchemaType = z.infer<typeof myBookUpdateSchema>;
 
 export const defaultMyBookUpdateValues: MyBookUpdateSchemaType = {
-  rating: 0,
-  myBookStatus: '',
+  rating: undefined,
+  myBookStatus: undefined as MyBookStatusType | undefined,
 };
 
 export const myBookUpdateSchema = z.object({
@@ -16,9 +16,10 @@ export const myBookUpdateSchema = z.object({
     })
     .max(5, {
       message: 'Rating은 0과 5 사이의 숫자로 입력해주세요.',
-    }),
+    })
+    .optional(),
   myBookStatus: z
-    .enum(MY_BOOK_STATUS as [string, ...string[]], {
+    .enum(MY_BOOK_STATUS as [MyBookStatusType, ...MyBookStatusType[]], {
       message: 'MyBookStatus는 올바른 값으로 입력해주세요.',
     })
     .optional(),

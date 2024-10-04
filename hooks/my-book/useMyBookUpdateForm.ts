@@ -12,8 +12,8 @@ interface UsePutMyBookFormProps {
   myBookStatus?: MyBookStatusType;
 }
 
-export default function usePutMyBookForm({
-  rating = 0,
+export default function useMyBookUpdateForm({
+  rating,
   myBookStatus,
 }: UsePutMyBookFormProps) {
   return useForm<MyBookUpdateSchemaType>({
