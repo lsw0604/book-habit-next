@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import ImageWrapper from '@/components/common/image-wrapper';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAppDispatch } from '@/store';
-import { setModal } from '@/store/features/modal/modal-slice';
+import { setModalState } from '@/store/features/modal/modal-slice';
 import { setBookState } from '@/store/features/book/book-slice';
 import {
   formattedIsbn,
@@ -22,7 +22,7 @@ export default function SearchItem({ item }: SearchItemProps) {
   const dispatch = useAppDispatch();
 
   const modalHandler = useCallback(() => {
-    dispatch(setModal({ isOpen: true }));
+    dispatch(setModalState({ isOpen: true, type: 'register-my-book' }));
     dispatch(setBookState({ ...item, isbn: isbnToArray(item.isbn) }));
   }, []);
 

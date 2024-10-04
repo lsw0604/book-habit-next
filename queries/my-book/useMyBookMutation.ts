@@ -1,11 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { putMyBookDetailAPI, registerMyBookAPI } from '@/service/my-book';
+import {
+  deleteMyBookAPI,
+  putMyBookDetailAPI,
+  registerMyBookAPI,
+} from '@/service/my-book';
 import { useMyBookInvalidateCache } from '@/hooks/my-book/useMyBookInvalidateCache';
 import { useMyBookUpdateCache } from '@/hooks/my-book/useMyBookUpdateCache';
 
 export default function useMyBookMutation() {
-  const { invalidateList } = useMyBookInvalidateCache();
+  const { invalidateList, invalidateDetail } = useMyBookInvalidateCache();
   const { updateMyBookQueryData } = useMyBookUpdateCache();
 
   const addMyBook = () => {
@@ -22,7 +26,21 @@ export default function useMyBookMutation() {
     });
   };
 
-  const removeMyBook = () => {};
+  const removeMyBook = () => {
+    return useMutation<
+      ResponseDeleteMyBook,
+      AxiosError<NestServerErrorType>,
+      RequestDeleteMyBook
+    >({
+      mutationFn: deleteMyBookAPI,
+      onMutate: (payload) => {
+        invalidateDetail(payload.myBookId);
+      },
+      onSuccess: () => {
+        invalidateList();
+      },
+    });
+  };
 
   const updateMyBook = () => {
     return useMutation<

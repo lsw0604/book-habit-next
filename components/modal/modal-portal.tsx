@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 import { useAppDispatch, useAppSelector } from '@/store';
 import { modalSelector } from '@/store/features/modal/modal-selector';
-import { setModal } from '@/store/features/modal/modal-slice';
+import { setModalState } from '@/store/features/modal/modal-slice';
 import { MODAL_VARIANT } from '@/constant/modal-variant';
 
 export default function ModalPortal({ children }: { children: ReactNode }) {
@@ -17,7 +17,7 @@ export default function ModalPortal({ children }: { children: ReactNode }) {
   const { isOpen } = useAppSelector(modalSelector);
 
   const modalClose = useCallback(() => {
-    dispatch(setModal({ isOpen: false }));
+    dispatch(setModalState({ isOpen: false, type: undefined }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function ModalPortal({ children }: { children: ReactNode }) {
     return createPortal(
       <div className="w-full h-full flex justify-center items-center fixed top-0 left-0 z-9998">
         <div
-          className="absolute w-full h-full bg-[rgba(0,0,0,0.7)]"
+          className="absolute w-full h-full bg-black opacity-60"
           onClick={modalClose}
         />
         <motion.div

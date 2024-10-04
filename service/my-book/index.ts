@@ -40,3 +40,11 @@ export const putMyBookDetailAPI = async (payload: RequestPutMyBookDetail) => {
 
   return data;
 };
+
+export const deleteMyBookAPI = async (payload: RequestDeleteMyBook) => {
+  const { data } = await apiClient.delete<ResponseDeleteMyBook>(
+    `${MY_BOOK_URL}/${payload.myBookId}`
+  );
+
+  return data;
+};
