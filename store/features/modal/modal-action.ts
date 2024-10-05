@@ -1,3 +1,3 @@
-import { setModal } from './modal-slice';
+import { setModal, setModalState, setModalType } from './modal-slice';
 
-export const modalActions = { setModal };
+export const modalActions = { setModal, setModalState, setModalType };
