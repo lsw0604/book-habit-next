@@ -14,16 +14,17 @@ export default function MyBookDetailPage({
   const { data, isLoading } = useMyBookQuery(params.my_book_id);
 
   if (!data || isLoading) return <MyBookDetailPage.Loader />;
+  console.log(data.tag);
 
   return (
-    <div className="w-full h-auto border border-gray-300 rounded-lg shadow-lg bg-transparent p-2">
+    <div className="w-full h-auto border border-gray-300 rounded-lg shadow-lg bg-transparent px-2 py-4">
       <MyBookInfo info={data.book} />
+      <MyBookTag tags={data.tag} />
       <MyBookForm
         myBookId={params.my_book_id}
         myBookStatus={data.status}
         rating={data.rating}
       />
-      <MyBookTag myBookId={params.my_book_id} tags={data.tag} />
       <MyBookDate createdAt={data.createdAt} updatedAt={data.updatedAt} />
     </div>
   );

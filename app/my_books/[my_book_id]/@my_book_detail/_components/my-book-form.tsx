@@ -52,7 +52,7 @@ export default function MyBookForm({
   }, [isSuccess]);
 
   return (
-    <form>
+    <form className="flex gap-2 w-full">
       <MyBookStatusController control={control} />
       <MyBookRatingController control={control} />
     </form>
@@ -86,10 +86,12 @@ const MyBookStatusController = ({ control }: MyBookControllerProps) => {
           <Select.ErrorBoundary>
             <Select value={value as MyBookStatusType} onChange={onChange}>
               <Select.Trigger>
-                {
-                  MY_BOOK_ITEM_STATUS.find((status) => status.value === value)
-                    ?.label
-                }
+                <span className="line-clamp-1">
+                  {
+                    MY_BOOK_ITEM_STATUS.find((status) => status.value === value)
+                      ?.label
+                  }
+                </span>
               </Select.Trigger>
               <Select.Content>
                 {MY_BOOK_ITEM_STATUS.map((status) => (
