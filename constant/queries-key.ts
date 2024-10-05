@@ -3,6 +3,7 @@ import { createQueryKeyStore } from '@lukemorales/query-key-factory';
 import { searchBookAPI } from '@/service/search';
 import { getMyBookDetailAPI, getMyBookListAPI } from '@/service/my-book';
 import { kakaoLoginAPI, loginAPI } from '@/service/auth';
+import { getMyBookCommentListAPI } from '@/service/my-book-comment';
 
 export const queryKeys = createQueryKeyStore({
   search: {
@@ -19,6 +20,12 @@ export const queryKeys = createQueryKeyStore({
     getDetail: (params: RequestGetMyBookDetail) => ({
       queryKey: [params.toString()],
       queryFn: getMyBookDetailAPI,
+    }),
+  },
+  myBookComment: {
+    getList: (params: RequestMyBookCommentList) => ({
+      queryKey: [params],
+      queryFn: getMyBookCommentListAPI,
     }),
   },
   auth: {

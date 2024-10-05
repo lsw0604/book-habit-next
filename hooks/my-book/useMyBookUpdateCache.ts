@@ -21,7 +21,49 @@ export const useMyBookUpdateCache = () => {
     );
   };
 
+  const addMyBookTagQueryData = (response: ResponseRegisterMyBookTag) => {
+    const previousMyBookData =
+      queryClient.getQueryData<ResponseGetMyBookDetail>([
+        queryKeys.myBook.getDetail(response.myBookId),
+      ]);
+
+    if (previousMyBookData) {
+      const newMyBookTagData = {
+        ...previousMyBookData,
+        tag: [...(previousMyBookData.tag || []), response],
+      };
+
+      return queryClient.setQueryData<ResponseGetMyBookDetail>(
+        [queryKeys.myBook.getDetail(response.myBookId)],
+        newMyBookTagData
+      );
+    }
+  };
+
+  const removeMyBookTagQueryData = (response: ResponseDeleteMyBookTag) => {
+    const previousMyBookData =
+      queryClient.getQueryData<ResponseGetMyBookDetail>([
+        queryKeys.myBook.getDetail(response.myBookId),
+      ]);
+
+    if (previousMyBookData) {
+      const newMyBookTagData = {
+        ...previousMyBookData,
+        tag: previousMyBookData.tag?.filter(
+          (tag) => tag.myBookTagId !== response.myBookTagId
+        ),
+      };
+
+      return queryClient.setQueryData<ResponseGetMyBookDetail>(
+        [queryKeys.myBook.getDetail(response.myBookId)],
+        newMyBookTagData
+      );
+    }
+  };
+
   return {
     updateMyBookQueryData,
+    addMyBookTagQueryData,
+    removeMyBookTagQueryData
   };
 };
