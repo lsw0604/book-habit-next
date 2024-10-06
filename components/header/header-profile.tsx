@@ -4,12 +4,12 @@ import { useOnClickOutside } from 'usehooks-ts';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Skeleton } from '../ui/skeleton';
-import HeaderDropdown from './header-dropdown';
 
-import { RootState, useAppSelector } from '@/app/store';
+import { useAppSelector } from '@/store';
+import { userSelector } from '@/store/features/user/user-selector';
 
 export default function HeaderProfile() {
-  const { profile, name } = useAppSelector((state: RootState) => state.user);
+  const { profile, name } = useAppSelector(userSelector);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -31,7 +31,7 @@ export default function HeaderProfile() {
           <Skeleton className="w-full h-full bg-slate-200" />
         </AvatarFallback>
       </Avatar>
-      {isOpen && <HeaderDropdown />}
+      {/* {isOpen && <HeaderDropdown />} */}
     </div>
   );
 }

@@ -1,7 +1,3 @@
-import { RootState, useAppDispatch, useAppSelector } from '@/app/store';
-import { modalActions } from '@/app/store/modal';
-import { userActions } from '@/app/store/user';
-import { logoutAPI } from '@/lib/api/auth';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 

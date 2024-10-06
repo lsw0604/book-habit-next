@@ -4,14 +4,14 @@ import { usePathname, useRouter } from 'next/navigation';
 import HeaderAuth from './header-auth';
 import HeaderProfile from './header-profile';
 
-import { RootState, useAppSelector } from '@/app/store';
+import { useAppSelector } from '@/store';
+import { userSelector } from '@/store/features/user/user-selector';
 import { cn } from '@/utils/class-name';
 
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
-
-  const { isLogged } = useAppSelector((state: RootState) => state.user);
+  const { isLogged } = useAppSelector(userSelector);
 
   const loginHandler = (pathname: string) => {
     if (
