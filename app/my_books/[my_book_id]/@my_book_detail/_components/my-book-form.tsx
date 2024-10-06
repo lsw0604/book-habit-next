@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
 import { Control, Controller } from 'react-hook-form';
-import { useDebounceCallback } from 'usehooks-ts';
 
 import Rating from '@/components/common/rating';
 import Select from '@/components/common/select';
 import { ErrorMessage } from '@/components/common/error-message';
 
-import useToastHook from '@/hooks/toast/useToastHook';
+import useMyBookUpdateFormSubmit from '@/hooks/my-book/useMyBookUpdateFormSubmit';
 import useMyBookUpdateForm from '@/hooks/my-book/useMyBookUpdateForm';
-import useMyBookMutation from '@/queries/my-book/useMyBookMutation';
 import { MyBookUpdateSchemaType } from '@/schemas/my-book-update-schema';
 import { MY_BOOK_ITEM_STATUS } from '@/constant/my-book-item';
 
@@ -28,28 +26,16 @@ export default function MyBookForm({
   rating,
 }: MyBookFormProps) {
   const { control, watch } = useMyBookUpdateForm({ myBookStatus, rating });
-  const { updateMyBook } = useMyBookMutation();
-  const { mutate, isSuccess } = updateMyBook();
-  const { successToast } = useToastHook();
-
-  const onSubmit = useDebounceCallback((data: MyBookUpdateSchemaType) => {
-    mutate({ myBookId, myBookStatus: data.myBookStatus, rating: data.rating });
-  }, 300);
+  const { onSubmit } = useMyBookUpdateFormSubmit();
 
   useEffect(() => {
     const subscription = watch((data) => {
-      onSubmit(data);
+      onSubmit({ data, myBookId });
     });
     return () => {
       subscription.unsubscribe();
     };
-  }, [watch, onSubmit]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      successToast('MyBook 업데이트 성공');
-    }
-  }, [isSuccess]);
+  }, [watch, myBookId, myBookStatus, rating]);
 
   return (
     <form className="flex gap-2 w-full">

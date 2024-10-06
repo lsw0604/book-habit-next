@@ -1,24 +1,48 @@
 'use client';
 
-import Tag from '@/components/common/tag';
+import { motion } from 'framer-motion';
+
 import { Separator } from '@/components/ui/separator';
-import ImageWrapper from '@/components/common/image-wrapper';
 import { Skeleton } from '@/components/ui/skeleton';
+import ImageWrapper from '@/components/common/image-wrapper';
+import MyBookTag from './my-book-tag';
+import MyBookInfoTag from './my-book-info-tag';
+import MyBookTagForm from './my-book-tag-form';
+import MyBookTagToggle from './my-book-tag-toggle';
+import MyBookTagButtons from './my-book-tag-buttons';
 
 import useMyBookInfo from '@/hooks/my-book/useMyBookInfo';
+import { createMarkUp } from '@/utils/create-mark-up';
 import { cn } from '@/utils/class-name';
 
-export default function MyBookInfo({ info }: { info: MyBookDetailType }) {
-  const { isOpen, openHandler, createMarkup, onClickTag } = useMyBookInfo();
+export default function MyBookInfo({
+  payload,
+}: {
+  payload: Pick<ResponseGetMyBookDetail, 'book' | 'tag'>;
+}) {
+  const {
+    openContent,
+    openTag,
+    editTag,
+    openForm,
+    handlers,
+    navigateToTagSearch,
+  } = useMyBookInfo();
+  const { book, tag } = payload;
 
   return (
-    <div className="flex flex-col">
+    <motion.div
+      className="flex flex-col"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="flex">
         <div className="flex w-full">
           <div className="relative flex-shrink-0 overflow-hidden w-[120px]">
             <ImageWrapper
-              src={info.thumbnail}
-              alt={info.thumbnail}
+              src={book.thumbnail}
+              alt={book.thumbnail}
               width={120}
               height={174}
               priority
@@ -26,63 +50,52 @@ export default function MyBookInfo({ info }: { info: MyBookDetailType }) {
           </div>
           <div className="ml-4 flex flex-col grow">
             <a
-              href={info.url}
+              href={book.url}
               target="_blank"
               className="font-bold line-clamp-2 text-foreground text-base mt-1 hover:underline flex items-center"
             >
-              {info.title}
+              {book.title}
             </a>
             <div
-              onClick={openHandler}
+              onClick={handlers.openContentHandler}
               className={cn(
                 'text-sm font-normal text-gray-800 cursor-pointer mt-2',
-                !isOpen ? 'line-clamp-6' : 'h-auto'
+                !openContent ? 'line-clamp-6' : 'h-auto'
               )}
             >
-              {info.contents === '' ? (
+              {book.contents === '' ? (
                 '해당 책의 정보가 등록되지 않았습니다.'
               ) : (
-                <p dangerouslySetInnerHTML={createMarkup(info.contents)} />
+                <p dangerouslySetInnerHTML={createMarkUp(book.contents)} />
               )}
             </div>
           </div>
         </div>
       </div>
       <Separator className="mt-2" />
-      <div className="flex w-full overflow-x-auto pb-2">
-        <div className="overflow-auto flex gap-1 flex-nowrap w-max mt-2 no-scrollbar">
-          {info.authors.map((author) => (
-            <Tag
-              className="whitespace-nowrap"
-              key={author}
-              onClick={() => onClickTag(author, 'person')}
-            >
-              <span className="font-bold">지은이</span> {author}
-            </Tag>
+      <div className="relative flex my-2">
+        <div
+          className={cn(
+            'relative flex overflow-hidden',
+            openTag ? 'flex-wrap' : 'flex-nowrap'
+          )}
+        >
+          <MyBookInfoTag
+            book={book}
+            navigationToTagSearch={navigateToTagSearch}
+          />
+          {tag.map((tag) => (
+            <MyBookTag tagProps={tag} key={tag.myBookTagId} editTag={editTag} />
           ))}
-          <Tag
-            className="whitespace-nowrap"
-            onClick={() => onClickTag(info.publisher, 'publisher')}
-          >
-            <span className="font-bold">출판사</span> {info.publisher}
-          </Tag>
-          {info.translators.map((translator) => (
-            <Tag className="whitespace-nowrap" key={translator}>
-              <span className="font-bold">번역가</span> {translator}
-            </Tag>
-          ))}
-          {info.isbn.map((isbn) => (
-            <Tag
-              className="whitespace-nowrap"
-              key={isbn}
-              onClick={() => onClickTag(isbn, 'isbn')}
-            >
-              <span className="font-bold">ISBN</span> {isbn}
-            </Tag>
-          ))}
+          <MyBookTagButtons tags={tag} handlers={handlers} />
         </div>
+        <MyBookTagToggle
+          openTag={openTag}
+          openTagHandler={handlers.openTagHandler}
+        />
       </div>
-    </div>
+      {openForm && <MyBookTagForm />}
+    </motion.div>
   );
 }
 
