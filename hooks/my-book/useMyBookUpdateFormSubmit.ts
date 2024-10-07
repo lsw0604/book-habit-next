@@ -1,8 +1,5 @@
-import { useEffect } from 'react';
 import { useDebounceCallback } from 'usehooks-ts';
-import useErrorHandler from '@/hooks/error/useErrorHandler';
 import useMyBookMutation from '@/queries/my-book/useMyBookMutation';
-import useToastHook from '@/hooks/toast/useToastHook';
 import { MyBookUpdateSchemaType } from '@/schemas/my-book-update-schema';
 
 interface MyBookUpdateFormSubmitProps {
@@ -12,12 +9,10 @@ interface MyBookUpdateFormSubmitProps {
 
 export default function useMyBookUpdateFormSubmit() {
   const { updateMyBook } = useMyBookMutation();
-  const { mutate, isSuccess, isError, error, isPending } = updateMyBook();
-  const { successToast } = useToastHook();
+  const { mutate, isSuccess, isError, error } = updateMyBook();
 
   const onSubmit = useDebounceCallback(
     ({ data, myBookId }: MyBookUpdateFormSubmitProps) => {
-      console.log(data);
       mutate({
         myBookId,
         myBookStatus: data.myBookStatus,
@@ -27,16 +22,10 @@ export default function useMyBookUpdateFormSubmit() {
     300
   );
 
-  useEffect(() => {
-    if (isSuccess) {
-      successToast('MyBook 업데이트 성공');
-    }
-  }, [isSuccess]);
-
-  useErrorHandler(isError, error);
-
   return {
     onSubmit,
-    isPending,
+    isSuccess,
+    isError,
+    error,
   };
 }

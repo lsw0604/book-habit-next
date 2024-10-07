@@ -1,41 +1,39 @@
-import { useEffect } from 'react';
+import { useParams } from 'next/navigation';
 import { Control, Controller } from 'react-hook-form';
 
 import Rating from '@/components/common/rating';
 import Select from '@/components/common/select';
 import { ErrorMessage } from '@/components/common/error-message';
 
-import useMyBookUpdateFormSubmit from '@/hooks/my-book/useMyBookUpdateFormSubmit';
+import useAutoSubmit from '@/hooks/useAutoSubmit';
+import useErrorHandler from '@/hooks/error/useErrorHandler';
+import useSuccessHandler from '@/hooks/success/useSuccessHandler';
 import useMyBookUpdateForm from '@/hooks/my-book/useMyBookUpdateForm';
+import useMyBookUpdateFormSubmit from '@/hooks/my-book/useMyBookUpdateFormSubmit';
 import { MyBookUpdateSchemaType } from '@/schemas/my-book-update-schema';
 import { MY_BOOK_ITEM_STATUS } from '@/constant/my-book-item';
 
 interface MyBookFormProps {
-  myBookId: number;
   myBookStatus: MyBookStatusType;
   rating: number;
 }
 
-interface MyBookControllerProps {
-  control: Control<MyBookUpdateSchemaType>;
-}
+export default function MyBookForm({ myBookStatus, rating }: MyBookFormProps) {
+  const { my_book_id } = useParams();
+  const myBookId = Number(my_book_id);
 
-export default function MyBookForm({
-  myBookId,
-  myBookStatus,
-  rating,
-}: MyBookFormProps) {
   const { control, watch } = useMyBookUpdateForm({ myBookStatus, rating });
-  const { onSubmit } = useMyBookUpdateFormSubmit();
+  const { onSubmit, isSuccess, isError, error } = useMyBookUpdateFormSubmit();
 
-  useEffect(() => {
-    const subscription = watch((data) => {
+  useErrorHandler(isError, error);
+  useSuccessHandler({ isSuccess, message: 'MyBook 업데이트 성공' });
+  useAutoSubmit<MyBookUpdateSchemaType>({
+    watch,
+    onSubmit: (data) => {
       onSubmit({ data, myBookId });
-    });
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [watch, myBookId, myBookStatus, rating]);
+    },
+    dependencies: [myBookId, myBookStatus, rating],
+  });
 
   return (
     <form className="flex gap-2 w-full">
@@ -43,6 +41,10 @@ export default function MyBookForm({
       <MyBookRatingController control={control} />
     </form>
   );
+}
+
+interface MyBookControllerProps {
+  control: Control<MyBookUpdateSchemaType>;
 }
 
 const MyBookRatingController = ({ control }: MyBookControllerProps) => {

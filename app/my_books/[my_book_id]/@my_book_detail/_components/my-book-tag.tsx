@@ -19,7 +19,7 @@ export default function MyBookTag({ tagProps, editTag }: MyBookTagProps) {
           editTag && 'animate-pulse'
         )}
       >
-        <span>#</span> {tagProps.tag}
+        <span className="font-bold">#</span> {tagProps.tag}
         {editTag && (
           <button
             type="button"

@@ -1,35 +1,29 @@
 'use client';
 
 import { Control, Controller } from 'react-hook-form';
-import { useEffect } from 'react';
 import { ArrowDownNarrowWideIcon, ArrowUpNarrowWideIcon } from 'lucide-react';
 
+import { ErrorMessage } from '@/components/common/error-message';
 import { Button } from '@/components/ui/button';
 import Select from '@/components/common/select';
-import { ErrorMessage } from '@/components/common/error-message';
+import useAutoSubmit from '@/hooks/useAutoSubmit';
 import useMyBookRouter from '@/hooks/my-book/useMyBookRouter';
 import useMyBookParams from '@/hooks/my-book/useMyBookParams';
 import useMyBookListForm from '@/hooks/my-book/useMyBookListForm';
 import { MyBookListSchemaType } from '@/schemas/my-book-list.schema';
-
-interface ControllerProps {
-  control: Control<MyBookListSchemaType>;
-}
 
 export default function MyBookForm() {
   const myBookParams = useMyBookParams();
   const { control, watch } = useMyBookListForm(myBookParams);
   const { pushToMyBookList } = useMyBookRouter();
 
-  useEffect(() => {
-    const subscription = watch((data) => {
+  useAutoSubmit<MyBookListSchemaType>({
+    watch,
+    onSubmit: (data) => {
       pushToMyBookList(data);
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [pushToMyBookList, watch]);
+    },
+    dependencies: [watch, pushToMyBookList],
+  });
 
   return (
     <form className="p-4 flex w-full max-w-96 min-w-[240px] border-1 border-gray-300 rounded-lg shadow-lg bg-popover">
@@ -37,6 +31,10 @@ export default function MyBookForm() {
       <MyBookStatusController control={control} />
     </form>
   );
+}
+
+interface ControllerProps {
+  control: Control<MyBookListSchemaType>;
 }
 
 const MyBookStatusController = ({ control }: ControllerProps) => {

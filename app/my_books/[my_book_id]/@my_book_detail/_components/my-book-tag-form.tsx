@@ -1,19 +1,33 @@
 'use client';
 
 import { Controller } from 'react-hook-form';
+import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import useMyBookTagForm from '@/hooks/my-book-tag/useMyBookTagForm';
+import useErrorHandler from '@/hooks/error/useErrorHandler';
+import useSuccessHandler from '@/hooks/success/useSuccessHandler';
 import useMyBookTagFormSubmit from '@/hooks/my-book-tag/useMyBookTagFormSubmit';
 
 export default function MyBookTagForm() {
+  const params = useParams();
+  const { my_book_id } = params;
+  const myBookId = Number(my_book_id);
+
   const {
     reset,
     control,
     handleSubmit,
     formState: { isSubmitting },
   } = useMyBookTagForm();
-  const { onSubmit, isPending } = useMyBookTagFormSubmit(reset);
+  const { onSubmit, isPending, isSuccess, isError, error } =
+    useMyBookTagFormSubmit({
+      reset,
+      myBookId,
+    });
+
+  useErrorHandler(isError, error);
+  useSuccessHandler({ isSuccess, message: '태그가 추가되었습니다.' });
 
   return (
     <form className="flex gap-2" onSubmit={handleSubmit(onSubmit)}>
