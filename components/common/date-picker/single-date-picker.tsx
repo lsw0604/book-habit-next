@@ -57,21 +57,31 @@ export default function SingleDatePicker({
         className={cn('w-auto relative', classNames?.trigger?.content)}
       >
         <Button
+          type="button"
           variant="outline"
           className={cn(
-            'relative w-full',
+            'w-full flex-1 flex items-center px-0',
             classNames?.trigger?.button?.content
           )}
         >
-          <span className={cn('text-sm', classNames?.trigger?.button?.label)}>
-            {date
-              ? dayjs(date).format('YYYY년 MM월 DD일')
-              : '날짜를 선택해 주세요.'}
-          </span>
+          <div className="p-2">
+            <CalendarIcon className="w-4 h-4" />
+          </div>
+          <div
+            className={cn(
+              'text-sm flex w-full justify-center p-2',
+              classNames?.trigger?.button?.label
+            )}
+          >
+            <span>
+              {date
+                ? dayjs(date).format('YYYY년 MM월 DD일')
+                : '날짜를 선택해 주세요.'}
+            </span>
+          </div>
         </Button>
-        <CalendarIcon className="w-4 h-4 absolute left-2 top-1/2 -translate-y-1/2" />
       </Popover.Trigger>
-      <Popover.Content className={cn('p-0', classNames?.content)}>
+      <Popover.Content className={cn('p-0 z-9999', classNames?.content)}>
         <Calendar
           locale={ko}
           mode="single"
