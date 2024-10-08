@@ -2,10 +2,8 @@
 
 import dayjs from 'dayjs';
 import { ko } from 'date-fns/locale';
-import {
+import React, {
   ChangeEvent,
-  Dispatch,
-  SetStateAction,
   useCallback,
   useEffect,
   useRef,
@@ -13,16 +11,37 @@ import {
 } from 'react';
 import { CalendarIcon } from 'lucide-react';
 import { useEventListener } from 'usehooks-ts';
+import { SelectSingleEventHandler } from 'react-day-picker';
 
+import Popover from '@/components/common/popover';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import Popover from '@/components/common/popover';
 import { ErrorMessage } from '@/components/common/error-message';
+import { cn } from '@/utils/class-name';
 import { isValidNumericString } from '@/utils/validation';
 
 interface InputDatePickerProps {
   value: Date | undefined;
-  onChange: Dispatch<SetStateAction<Date | undefined>>;
+  onChange: SelectSingleEventHandler;
+  className?: string;
+  classNames?: {
+    popover?: {
+      wrapper?: string;
+      trigger?: string;
+      content?: string;
+      button?: string;
+    };
+    content?: {
+      wrapper?: string;
+      span?: string;
+    };
+    input?: {
+      container?: string;
+      year?: string;
+      month?: string;
+      day?: string;
+    };
+  };
 }
 
 interface DateState {
@@ -37,6 +56,8 @@ const MAX_MONTH_DAY_LENGTH = 2;
 export default function InputDatePicker({
   onChange,
   value,
+  className,
+  classNames,
 }: InputDatePickerProps) {
   const [date, setDate] = useState<DateState>({
     year: '',
@@ -84,15 +105,39 @@ export default function InputDatePicker({
 
       const dateString = `${year}-${month}-${day}`;
       if (dayjs(dateString).isValid()) {
-        onChange(dayjs(dateString).toDate());
+        onChange(
+          dayjs(dateString).toDate(),
+          new Date(),
+          {},
+          new MouseEvent('click') as unknown as React.MouseEvent<
+            Element,
+            MouseEvent
+          >
+        );
         return;
       }
     }
-    onChange(undefined);
+    onChange(
+      undefined,
+      new Date(),
+      {},
+      new MouseEvent('click') as unknown as React.MouseEvent<
+        Element,
+        MouseEvent
+      >
+    );
   }, [date.year, date.month, date.day, onChange]);
 
   const handleEditClick = useCallback(() => {
-    onChange(undefined);
+    onChange(
+      undefined,
+      new Date(),
+      {},
+      new MouseEvent('click') as unknown as React.MouseEvent<
+        Element,
+        MouseEvent
+      >
+    );
     setDate((prev) => ({
       ...prev,
       year: '',
@@ -151,15 +196,26 @@ export default function InputDatePicker({
 
   return (
     <>
-      <div className="flex w-full h-10 text-sm border border-input rounded-md justify-center items-center">
+      <div
+        className={cn(
+          'flex w-full h-10 text-sm border border-input rounded-md justify-center items-center',
+          className
+        )}
+      >
         <div className="flex-1 flex items-center">
-          <Popover>
-            <Popover.Trigger>
-              <Button type="button" variant="ghost" className="p-2">
+          <Popover className={cn(classNames?.popover?.wrapper)}>
+            <Popover.Trigger className={cn(classNames?.popover?.trigger)}>
+              <Button
+                type="button"
+                variant="ghost"
+                className={cn('p-2', classNames?.popover?.button)}
+              >
                 <CalendarIcon className="w-4 h-4" />
               </Button>
             </Popover.Trigger>
-            <Popover.Content className="p-0 z-9999">
+            <Popover.Content
+              className={cn('p-0 z-9999', classNames?.popover?.content)}
+            >
               <Calendar
                 defaultMonth={value || dayjs().toDate()}
                 initialFocus
@@ -173,14 +229,22 @@ export default function InputDatePicker({
           {value ? (
             <div
               onClick={handleEditClick}
-              className="relative flex w-full h-10 p-2 text-sm justify-center"
+              className={cn(
+                'relative flex w-full h-10 p-2 text-sm justify-center',
+                classNames?.content?.wrapper
+              )}
             >
-              <span>
+              <span className={cn(classNames?.content?.span)}>
                 {value ? dayjs(value).format('YYYY년 MM월 DD일') : null}
               </span>
             </div>
           ) : (
-            <div className="inline-flex justify-center items-center">
+            <div
+              className={cn(
+                'inline-flex justify-center items-center',
+                classNames?.input?.container
+              )}
+            >
               <input
                 id="year"
                 type="number"
@@ -189,9 +253,12 @@ export default function InputDatePicker({
                 onChange={handleInputChange}
                 placeholder="YYYY"
                 maxLength={4}
-                className="border-none focus:outline-none py-2 w-1/6 box-border text-center h-full"
+                className={cn(
+                  'border-none focus:outline-none py-2 w-1/6 box-border text-center h-full',
+                  classNames?.input?.year
+                )}
               />
-              <span className="text-gray-400">-</span> 
+              <span className="text-gray-400">-</span>
               <input
                 id="month"
                 type="number"
@@ -200,7 +267,10 @@ export default function InputDatePicker({
                 onChange={handleInputChange}
                 placeholder="MM"
                 maxLength={2}
-                className="border-none focus:outline-none py-2 w-1/6 box-border text-center h-full"
+                className={cn(
+                  'border-none focus:outline-none py-2 w-1/6 box-border text-center h-full',
+                  classNames?.input?.month
+                )}
               />
               <span className="text-gray-400">-</span>
               <input
@@ -211,7 +281,10 @@ export default function InputDatePicker({
                 onChange={handleInputChange}
                 placeholder="DD"
                 maxLength={2}
-                className="border-none focus:outline-none py-2 w-1/6 box-border text-center h-full"
+                className={cn(
+                  'border-none focus:outline-none py-2 w-1/6 box-border text-center h-full',
+                  classNames?.input?.day
+                )}
               />
             </div>
           )}
