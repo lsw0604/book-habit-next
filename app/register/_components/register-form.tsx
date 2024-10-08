@@ -1,110 +1,198 @@
 'use client';
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { MailIcon, UserIcon, LockIcon } from 'lucide-react';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useCallback, useState } from 'react';
+import { Control, Controller } from 'react-hook-form';
+import {
+  MailIcon,
+  UserIcon,
+  LockIcon,
+  EyeIcon,
+  EyeOffIcon,
+} from 'lucide-react';
 
+import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import RegisterRadioGroup from './register-radio-group';
-import RegisterPasswordInput from './register-password-input';
+import { ErrorMessage } from '@/components/common/error-message';
+import { InputDatePicker } from '@/components/common/date-picker';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
-import { schema, InputType } from './type';
-import useLocalRegisterMutation from '@/queries/local/useLocalRegisterMutation';
+import useLoginRouter from '@/hooks/auth/useLoginRouter';
+import { useRegisterForm } from '@/hooks/auth/useRegisterForm';
+import useRegisterFormSubmit from '@/hooks/auth/useRegisterFormSubmit';
+import { RegisterSchemaType } from '@/schemas/register.schema';
+import { IconFemale, IconMale } from '@/style/icon';
 
 export default function RegisterForm() {
-  const [useValidation, setIsUseValidation] = useState<boolean>(false);
-
-  const {
-    register,
-    formState: { errors, isSubmitted, isValid },
-    handleSubmit,
-  } = useForm<InputType>({
-    resolver: zodResolver(schema),
-  });
-
-  // const { mutate, isLoading } = useLocalRegisterMutation();
-
-  const onSubmit = (data: InputType) => {
-    const { confirm, ...rest } = data;
-
-    // mutate({ ...rest });
-  };
-
-  // useUpdateEffect(() => {
-  //   if (isSubmitted) {
-  //     setIsUseValidation(true);
-  //   }
-  // }, [isSubmitted]);
+  const { onSuccessCallback } = useLoginRouter();
+  const { control, handleSubmit } = useRegisterForm();
+  const { onSubmit, isPending } = useRegisterFormSubmit({ onSuccessCallback });
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col ml-auto max-w-sm p-4 w-full rounded-lg"
+      onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="w-full relative mb-2">
-        <Input
-          label="아이디"
-          icon={<MailIcon className="w-5 h-5" />}
-          useValidation={useValidation}
-          isValid={!isValid}
-          errorMessage={errors.email?.message}
-          {...register('email')}
-        />
-      </div>
-      <div className="w-full relative mb-2">
-        <Input
-          label="이름"
-          type="text"
-          icon={<UserIcon className="w-5 h-5" />}
-          useValidation={useValidation}
-          isValid={!isValid}
-          errorMessage={errors.name?.message}
-          {...register('name')}
-        />
-      </div>
-      <div className="w-full relative mb-2">
-        <RegisterPasswordInput
-          label="비밀번호"
-          useValidation={useValidation}
-          isValid={!isValid}
-          errorMessage={errors.password?.message}
-          register={{ ...register('password') }}
-        />
-      </div>
-      <div className="w-full relative mb-2">
-        <Input
-          label="비밀번호 확인"
-          icon={<LockIcon className="w-5 h-5" />}
-          useValidation={useValidation}
-          isValid={!isValid}
-          errorMessage={errors.confirm?.message}
-          {...register('confirm')}
-        />
-      </div>
-      <div className="w-full relative mb-2">
-        <Input
-          type="number"
-          autoComplete="off"
-          useValidation={useValidation}
-          label="나이"
-          isValid={!isValid}
-          {...register('age')}
-          errorMessage={errors.age?.message}
-        />
-      </div>
-      <div className="w-full relative mb-2 h-auto">
-        <RegisterRadioGroup
-          errorMessage={errors.gender?.message}
-          isValid={!isValid}
-          useValidation={useValidation}
-          register={{ ...register('gender') }}
-        />
-      </div>
+      <EmailController control={control} />
+      <NameController control={control} />
+      <BirthdayController control={control} />
+      <PasswordController control={control} />
+      <CheckPasswordController control={control} />
+      <GenderController control={control} />
       <Separator className="my-4" />
-      <Button type="submit">회원가입</Button>
+      <Button isLoading={isPending} type="submit">
+        회원가입
+      </Button>
     </form>
   );
 }
+
+interface ControllerProps {
+  control: Control<RegisterSchemaType>;
+}
+
+const EmailController: React.FC<ControllerProps> = ({ control }) => {
+  return (
+    <Controller
+      name="email"
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <div className="w-full relative mb-2">
+          <Label>이메일</Label>
+          <Input
+            {...field}
+            autoComplete="off"
+            icon={<MailIcon className="w-5 h-5" />}
+          />
+          {error?.message && <ErrorMessage>{error.message}</ErrorMessage>}
+        </div>
+      )}
+    />
+  );
+};
+
+const NameController: React.FC<ControllerProps> = ({ control }) => {
+  return (
+    <Controller
+      name="name"
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <div className="w-full relative mb-2">
+          <Label>이름</Label>
+          <Input
+            {...field}
+            autoComplete="off"
+            icon={<UserIcon className="w-5 h-5" />}
+          />
+          {error?.message && <ErrorMessage>{error.message}</ErrorMessage>}
+        </div>
+      )}
+    />
+  );
+};
+
+const PasswordController: React.FC<ControllerProps> = ({ control }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const passwordHandler = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
+  return (
+    <Controller
+      name="password"
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <div className="w-full relative mb-2">
+          <Label>비밀번호</Label>
+          <Input
+            {...field}
+            autoComplete="off"
+            type={isOpen ? 'text' : 'password'}
+            icon={
+              isOpen ? (
+                <EyeIcon className="w-5 h-5" onClick={passwordHandler} />
+              ) : (
+                <EyeOffIcon className="w-5 h-5" onClick={passwordHandler} />
+              )
+            }
+          />
+          {error?.message && <ErrorMessage>{error.message}</ErrorMessage>}
+        </div>
+      )}
+    />
+  );
+};
+
+const CheckPasswordController: React.FC<ControllerProps> = ({ control }) => {
+  return (
+    <Controller
+      name="checkPassword"
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <div className="w-full relative mb-2">
+          <Label>비밀번호 확인</Label>
+          <Input
+            {...field}
+            autoComplete="off"
+            icon={<LockIcon className="w-5 h-5" />}
+          />
+          {error?.message && <ErrorMessage>{error.message}</ErrorMessage>}
+        </div>
+      )}
+    />
+  );
+};
+
+const GenderController: React.FC<ControllerProps> = ({ control }) => {
+  return (
+    <Controller
+      name="gender"
+      control={control}
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
+        <div className="w-full relative mb-2">
+          <Label>성별</Label>
+          <RadioGroup
+            className="flex gap-2 my-2"
+            value={value}
+            onValueChange={onChange}
+          >
+            <div className="w-full flex gap-2 justify-center">
+              <RadioGroupItem className="mr-2" value="MALE" id="MALE" />
+              <IconMale className="w-5 h-5" />
+              <Label htmlFor="MALE">남성</Label>
+            </div>
+            <div className="w-full flex gap-2 justify-center">
+              <RadioGroupItem className="mr-2" value="FEMALE" id="FEMALE" />
+              <IconFemale className="w-5 h-5" />
+              <Label htmlFor="FEMALE">여성</Label>
+            </div>
+          </RadioGroup>
+          {error?.message && <ErrorMessage>{error.message}</ErrorMessage>}
+        </div>
+      )}
+    />
+  );
+};
+
+const BirthdayController: React.FC<ControllerProps> = ({ control }) => {
+  return (
+    <Controller
+      name="birthday"
+      control={control}
+      render={({ field: { value, onChange }, fieldState: { error } }) => {
+        return (
+          <div className="w-full relative mb-2">
+            <Label>생년월일</Label>
+            <InputDatePicker
+              className='border-slate-500 border-2'
+              value={value}
+              onChange={onChange}
+            />
+            {error?.message && <ErrorMessage>{error.message}</ErrorMessage>}
+          </div>
+        );
+      }}
+    />
+  );
+};

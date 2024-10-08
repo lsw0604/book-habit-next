@@ -19,7 +19,7 @@ export const kakaoLoginAPI = async (code: string) => {
   return data;
 };
 
-export const registerAPI = async (payload: RequestSignup) => {
+export const registerAPI = async (payload: RequestRegister) => {
   const { data } = await apiClient.post<ResponseAuth>(
     `${AUTH_URL}/signup`,
     JSON.stringify(payload)
