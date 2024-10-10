@@ -7,21 +7,22 @@ import Loader from '@/components/common/loader';
 import { Button } from '@/components/ui/button';
 import { LogoMain, LogoSad } from '@/style/icon';
 import useKakaoHook from '@/hooks/auth/useKakaoHook';
+import useLoginRouter from '@/hooks/auth/useLoginRouter';
 
 export default function KakaoLoginPage({
   searchParams: { code },
 }: {
   searchParams: { code: string };
 }) {
+  const { onSuccessCallback } = useLoginRouter();
   if (!code) {
     throw new Error('code가 없습니다.');
   }
 
-  const { isLoading, isError, refetch } = useKakaoHook(code);
-
-  const handleClick = () => {
-    refetch();
-  };
+  const { isLoading, isError, onRefetch } = useKakaoHook({
+    code,
+    onSuccessCallback,
+  });
 
   return (
     <section className="w-full h-screen px-4 flex justify-center items-center">
@@ -51,7 +52,7 @@ export default function KakaoLoginPage({
               >
                 로그인 페이지로 가기
               </Link>
-              <Button type="button" onClick={handleClick}>
+              <Button type="button" onClick={onRefetch}>
                 다시 시도하기
               </Button>
             </div>

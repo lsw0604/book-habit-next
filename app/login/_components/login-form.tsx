@@ -1,8 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useCallback, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
-import Link from 'next/link';
 import { EyeIcon, EyeOffIcon, MailIcon } from 'lucide-react';
 
 import { Label } from '@/components/ui/label';
@@ -12,7 +12,8 @@ import { Separator } from '@/components/ui/separator';
 import { ErrorMessage } from '@/components/common/error-message';
 import { IconKakao } from '@/style/icon';
 
-import useLoginHook from '@/hooks/auth/useLoginHook';
+import useLoginFormSubmit from '@/hooks/auth/useLoginFormSubmit';
+import useLoginRouter from '@/hooks/auth/useLoginRouter';
 import useKakaoRouter from '@/hooks/auth/useKakaoRouter';
 import { useLoginForm } from '@/hooks/auth/useLoginForm';
 import { LoginSchemaType } from '@/schemas/login.schema';
@@ -22,9 +23,16 @@ interface ControllerProps {
 }
 
 export default function LoginForm() {
+  const { onSuccessCallback } = useLoginRouter();
   const { pushToKakaoLogin } = useKakaoRouter();
-  const { onSubmit, isPending } = useLoginHook();
-  const { control, handleSubmit } = useLoginForm();
+  const { onSubmit, isPending } = useLoginFormSubmit({
+    onSuccessCallback,
+  });
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useLoginForm();
 
   return (
     <form
@@ -46,7 +54,12 @@ export default function LoginForm() {
         하러가기
       </p>
       <Separator className="my-4" />
-      <Button role="primary" isLoading={isPending} type="submit">
+      <Button
+        type="submit"
+        role="primary"
+        isLoading={isPending}
+        disabled={isSubmitting}
+      >
         로그인하기
       </Button>
       <Button

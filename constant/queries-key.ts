@@ -29,10 +29,6 @@ export const queryKeys = createQueryKeyStore({
     }),
   },
   auth: {
-    login: () => ({
-      queryKey: ['login'],
-      queryFn: loginAPI,
-    }),
     kakao: (code: string) => ({
       queryKey: ['kakao', code],
       queryFn: kakaoLoginAPI,
