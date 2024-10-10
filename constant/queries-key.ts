@@ -1,15 +1,27 @@
 import { createQueryKeyStore } from '@lukemorales/query-key-factory';
 
+import { kakaoLoginAPI } from '@/service/auth';
 import { searchBookAPI } from '@/service/search';
 import { getMyBookDetailAPI, getMyBookListAPI } from '@/service/my-book';
-import { kakaoLoginAPI, loginAPI } from '@/service/auth';
 import { getMyBookCommentListAPI } from '@/service/my-book-comment';
+import { getPublicCommentListAPI } from '@/service/public-comment';
 
 export const queryKeys = createQueryKeyStore({
   search: {
     book: (params: Omit<RequestSearchBook, 'page'>) => ({
       queryKey: [params],
       queryFn: () => searchBookAPI(params),
+    }),
+  },
+  public: {
+    getList: (
+      params: Pick<
+        RequestGetPublicCommentList,
+        'start_date' | 'end_date' | 'page_size'
+      >
+    ) => ({
+      queryKey: [params],
+      queryFn: getPublicCommentListAPI,
     }),
   },
   myBook: {

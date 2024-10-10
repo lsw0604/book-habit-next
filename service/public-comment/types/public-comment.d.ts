@@ -1,13 +1,19 @@
 type PublicCommentItem = {
-  id: number;
-  comment?: string;
-  'myBook.book.title'?: string;
-  'myBook.user.id': number;
-  'myBook.user.name': string;
-  'myBook.user.email': string;
-  'myBook.user.gender': 'MALE' | 'FEMALE';
-  commentLike: { userId: number }[];
-  '_count.commentReply': number;
+  commentId: number;
+  comment: string;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    gender: 'MALE' | 'FEMALE';
+  };
+  book: {
+    title: string;
+  };
+  commentLikes: { userId: number }[];
+  commentReplyCount: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 type ResponseGetPublicCommentList = {
@@ -16,8 +22,8 @@ type ResponseGetPublicCommentList = {
 };
 
 type RequestGetPublicCommentList = {
-  page?: string;
-  page_size?: string;
+  page?: number;
+  page_size?: number;
   start_date?: string;
   end_date?: string;
 };
