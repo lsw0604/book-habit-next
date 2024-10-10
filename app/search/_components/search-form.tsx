@@ -1,10 +1,12 @@
 'use client';
 
 import { Control, Controller } from 'react-hook-form';
+import { useCallback, useState } from 'react';
 
 import SearchPopover from './search-popover';
-import { ErrorMessage } from '@/components/common/error-message';
 import { Input } from '@/components/ui/input';
+import { ErrorMessage } from '@/components/common/error-message';
+import useSearchFormSubmit from '@/hooks/search/useSearchFormSubmit';
 import { useSearchHook } from '@/hooks/search/useSearchHook';
 import { SearchSchemaType } from '@/schemas/search.schema';
 import { cn } from '@/utils/class-name';
@@ -14,8 +16,14 @@ interface ControllerProps {
 }
 
 export default function SearchForm() {
-  const { handleSubmit, control, formKey, onSubmit, formState } =
-    useSearchHook();
+  const [formKey, setFormKey] = useState<number>(0);
+  const { handleSubmit, control, formState } = useSearchHook();
+
+  const onFormSubmit = useCallback(() => {
+    setFormKey((prev) => prev++);
+  }, []);
+
+  const { onSubmit } = useSearchFormSubmit(onFormSubmit);
 
   return (
     <form

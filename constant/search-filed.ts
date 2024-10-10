@@ -6,3 +6,15 @@ export const SEARCH_FIELDS: Array<keyof SearchSchemaType> = [
   'sort',
   'target',
 ] as const;
+
+export const SEARCH_SORT_FIELDS: SearchSchemaType['sort'][] = [
+  'accuracy',
+  'latest',
+] as const;
+
+export const SEARCH_TARGET_FIELDS: SearchSchemaType['target'][] = [
+  'isbn',
+  'person',
+  'publisher',
+  'title',
+] as const;
