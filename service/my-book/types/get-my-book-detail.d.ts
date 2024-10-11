@@ -12,12 +12,12 @@ type ResponseGetMyBookDetail = {
 
 type MyBookDetailType = {
   isbn: string[];
-  authors: string[];
+  authors: MyBookAuthorType[];
   contents: string;
   datetime: string;
   publisher: string;
   thumbnail: string;
   title: string;
-  translators: string[];
+  translators: MyBookTranslatorType[];
   url: string;
 };
