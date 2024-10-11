@@ -1,9 +1,9 @@
 'use client';
 
-import { MouseEvent, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { MouseEvent, useCallback, useEffect } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 
-import useStarHook from '@/hooks/useStarHook';
+import { STAR_VARIANTS } from '@/constant/star-variant';
 import { IconStar } from '@/style/icon';
 import { cn } from '@/utils/class-name';
 
@@ -48,7 +48,11 @@ export default function Rating({ rating, onChange, className }: RatingProps) {
 }
 
 const Star = ({ index, isClicked, onClick }: StarProps) => {
-  const { STAR_VARIANTS, animation } = useStarHook({ isClicked });
+  const animation = useAnimation();
+
+  useEffect(() => {
+    animation.start(isClicked ? 'animate' : 'exit');
+  }, [animation, isClicked]);
 
   return (
     <motion.div
