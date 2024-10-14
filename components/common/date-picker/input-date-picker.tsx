@@ -247,7 +247,7 @@ export default function InputDatePicker({
             >
               <input
                 id="year"
-                type="number"
+                type="text"
                 ref={yearRef}
                 value={date.year || ''}
                 onChange={handleInputChange}
@@ -261,7 +261,7 @@ export default function InputDatePicker({
               <span className="text-gray-400">-</span>
               <input
                 id="month"
-                type="number"
+                type="text"
                 ref={monthRef}
                 value={date.month || ''}
                 onChange={handleInputChange}
@@ -275,7 +275,7 @@ export default function InputDatePicker({
               <span className="text-gray-400">-</span>
               <input
                 id="day"
-                type="number"
+                type="text"
                 ref={dayRef}
                 value={date.day || ''}
                 onChange={handleInputChange}

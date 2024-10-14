@@ -5,7 +5,7 @@ import {
   defaultMyBookUpdateValues,
   myBookUpdateSchema,
   MyBookUpdateSchemaType,
-} from '@/schemas/my-book-update-schema';
+} from '@/schemas/my-book-update.schema';
 
 interface UsePutMyBookFormProps {
   rating?: number;

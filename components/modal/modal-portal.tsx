@@ -1,15 +1,16 @@
 'use client';
 
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 
+import Modal from '@/components/modal';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { modalSelector } from '@/store/features/modal/modal-selector';
 import { setModalState } from '@/store/features/modal/modal-slice';
 import { MODAL_VARIANT } from '@/constant/modal-variant';
 
-export default function ModalPortal({ children }: { children: ReactNode }) {
+export default function ModalPortal() {
   const [mounted, setMounted] = useState<boolean>(false);
   const ref = useRef<Element | null>(null);
 
@@ -42,7 +43,7 @@ export default function ModalPortal({ children }: { children: ReactNode }) {
           transition={MODAL_VARIANT.transition}
           className="absolute z-9999 w-full h-auto min-h-[10%] bottom-0 rounded-tl-lg rounded-tr-lg p-4 bg-slate-100"
         >
-          {children}
+          <Modal />
         </motion.div>
       </div>,
       ref.current

@@ -5,6 +5,7 @@ import { modalSelector } from '@/store/features/modal/modal-selector';
 
 import RegisterTagModal from './register-tag-modal';
 import RegisterMyBookModal from './register-my-book-modal';
+import RegisterMyBookCommentModal from './register-my-book-comment';
 import DeleteMyBookModal from './delete-my-book-modal';
 
 export default function Modal() {
@@ -12,8 +13,9 @@ export default function Modal() {
   return (
     <>
       {type === 'register-my-book' && <RegisterMyBookModal />}
-      {type === 'delete-my-book' && <DeleteMyBookModal />}
       {type === 'register-tag' && <RegisterTagModal />}
+      {type === 'register-my-book-comment' && <RegisterMyBookCommentModal />}
+      {type === 'delete-my-book' && <DeleteMyBookModal />}
     </>
   );
 }
