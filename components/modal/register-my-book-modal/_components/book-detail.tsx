@@ -48,11 +48,11 @@ export default function BookDetail({ detail, errors }: BookDetailProps) {
                 <span className="font-medium">{detail.price}</span>
                 <span className="font-light">원</span>
               </span>
-              {detail.sale_price > 0 ?? (
+              {detail.sale_price > 0 ? (
                 <span className="text-xs font-medium line-block items-center uppercase text-gray-800">
                   ({detail.sale_price})
                 </span>
-              )}
+              ) : null}
             </div>
             <p className="text-sm font-normal text-gray-800">
               {detail.contents === ''

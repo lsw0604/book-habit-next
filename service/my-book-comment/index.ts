@@ -16,7 +16,8 @@ export const registerMyBookCommentAPI = async (
   payload: RequestRegisterMyBookComment
 ) => {
   const { data } = await apiClient.post<ResponseRegisterMyBookComment>(
-    `${MY_BOOK_COMMENT_URL}/${payload.myBookId}`
+    `${MY_BOOK_COMMENT_URL}/${payload.myBookId}`,
+    JSON.stringify({ comment: payload.comment, isPublic: payload.isPublic })
   );
 
   return data;

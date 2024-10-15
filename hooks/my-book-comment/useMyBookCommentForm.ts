@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 export default function useMyBookCommentForm(
-  initialPageParam: Pick<MyBookCommentSchemaType, 'myBookId'>
+  initialPageParam?: MyBookCommentSchemaType
 ) {
   return useForm<MyBookCommentSchemaType>({
     defaultValues: initialPageParam ?? defaultMyBookCommentValues,
