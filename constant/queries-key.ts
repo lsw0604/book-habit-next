@@ -36,7 +36,7 @@ export const queryKeys = createQueryKeyStore({
   },
   myBookComment: {
     getList: (params: RequestMyBookCommentList) => ({
-      queryKey: [params],
+      queryKey: [params.myBookId.toString()],
       queryFn: getMyBookCommentListAPI,
     }),
   },

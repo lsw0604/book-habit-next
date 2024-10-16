@@ -5,73 +5,55 @@ export const useMyBookCommentUpdateCache = () => {
   const queryClient = useQueryClient();
 
   const updateMyBookCommentQueryData = (response: MyBookCommentItemType) => {
-    const previousMyBookCommentData =
-      queryClient.getQueryData<ResponseGetMyBookCommentList>([
-        queryKeys.myBookComment.getList({ myBookId: response.myBookId }),
-      ]);
+    const previousMyBookCommentData = queryClient.getQueryData<
+      MyBookCommentItemType[]
+    >([queryKeys.myBookComment.getList({ myBookId: response.myBookId })]);
 
     if (previousMyBookCommentData) {
-      const updatedComments = previousMyBookCommentData.myBookCommentList.map(
-        (comment) => (comment.id === response.id ? { ...response } : comment)
-      );
+      const updatedComments: MyBookCommentItemType[] =
+        previousMyBookCommentData.map((comment) =>
+          comment.id === response.id ? { ...response } : comment
+        );
 
-      const updatedMyBookCommentData = {
-        ...previousMyBookCommentData,
-        myBookCommentList: updatedComments,
-      };
-
-      queryClient.setQueryData<ResponseGetMyBookCommentList>(
+      queryClient.setQueryData<MyBookCommentItemType[]>(
         [queryKeys.myBookComment.getList({ myBookId: response.myBookId })],
-        updatedMyBookCommentData
+        updatedComments
       );
     }
   };
 
   const addMyBookCommentQueryData = (response: MyBookCommentItemType) => {
-    const previousMyBookCommentData =
-      queryClient.getQueryData<ResponseGetMyBookCommentList>([
-        queryKeys.myBookComment.getList({ myBookId: response.myBookId }),
-      ]);
+    const previousMyBookCommentData = queryClient.getQueryData<
+      MyBookCommentItemType[]
+    >([queryKeys.myBookComment.getList({ myBookId: response.myBookId })]);
 
     if (previousMyBookCommentData) {
-      const updatedComments = [
-        ...previousMyBookCommentData.myBookCommentList,
+      const updatedComments: MyBookCommentItemType[] = [
+        ...previousMyBookCommentData,
         response,
       ];
 
-      const updatedMyBookCommentData = {
-        ...previousMyBookCommentData,
-        myBookCommentList: updatedComments,
-      };
-
-      queryClient.setQueryData<ResponseGetMyBookCommentList>(
+      queryClient.setQueryData<MyBookCommentItemType[]>(
         [queryKeys.myBookComment.getList({ myBookId: response.myBookId })],
-        updatedMyBookCommentData
+        updatedComments
       );
     }
   };
 
   const removeMyBookCommentQueryData = (response: MyBookCommentItemType) => {
-    const previousMyBookCommentData =
-      queryClient.getQueryData<ResponseGetMyBookCommentList>([
-        queryKeys.myBookComment.getList({ myBookId: response.myBookId }),
-      ]);
+    const previousMyBookCommentData = queryClient.getQueryData<
+      MyBookCommentItemType[]
+    >([queryKeys.myBookComment.getList({ myBookId: response.myBookId })]);
 
     if (previousMyBookCommentData) {
-      const updatedComments = [
-        ...previousMyBookCommentData.myBookCommentList.filter(
-          (comment) => comment.id !== response.id
-        ),
-      ];
+      const updatedComments: MyBookCommentItemType[] =
+        previousMyBookCommentData.filter(
+          (comment: MyBookCommentItemType) => comment.id !== response.id
+        );
 
-      const updatedMyBookCommentData = {
-        ...previousMyBookCommentData,
-        myBookCommentList: updatedComments,
-      };
-
-      return queryClient.setQueryData<ResponseGetMyBookCommentList>(
+      queryClient.setQueryData<MyBookCommentItemType[]>(
         [queryKeys.myBookComment.getList({ myBookId: response.myBookId })],
-        updatedMyBookCommentData
+        updatedComments
       );
     }
   };
