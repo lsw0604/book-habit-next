@@ -64,6 +64,6 @@ export const useMyBookUpdateCache = () => {
   return {
     updateMyBookQueryData,
     addMyBookTagQueryData,
-    removeMyBookTagQueryData
+    removeMyBookTagQueryData,
   };
 };

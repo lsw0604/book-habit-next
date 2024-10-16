@@ -4,11 +4,4 @@ type RequestRegisterMyBookComment = {
   isPublic: boolean;
 };
 
-type ResponseRegisterMyBookComment = {
-  id: number;
-  myBookId: number;
-  comment: string;
-  isPublic: boolean;
-  createdAt: string;
-  updatedAt: string;
-};
+type ResponseRegisterMyBookComment = MyBookCommentItemType;

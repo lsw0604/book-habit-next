@@ -22,3 +22,23 @@ export const registerMyBookCommentAPI = async (
 
   return data;
 };
+
+export const updateMyBookCommentAPI = async (
+  payload: RequestUpdateMyBookComment
+) => {
+  const { data } = await apiClient.put<ResponseUpdateMyBookComment>(
+    `${MY_BOOK_COMMENT_URL}/${payload.myBookId}`,
+    JSON.stringify({ comment: payload.comment, isPublic: payload.isPublic })
+  );
+
+  return data;
+};
+
+export const deleteMyBookCommentAPI = async (
+  payload: RequestDeleteMyBookComment
+) => {
+  const { data } = await apiClient.delete<ResponseDeleteMyBookComment>(
+    `${MY_BOOK_COMMENT_URL}/${payload}`
+  );
+  return data;
+};
