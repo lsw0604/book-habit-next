@@ -1,35 +1,37 @@
-'use client';
+// import useMyBookCommentQuery from '@/queries/my-book-comment/useMyBookCommentQuery';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { queryKeys } from '@/constant/queries-key';
+import { getQueryClient } from '@/providers/get-query';
+import { getMyBookCommentListAPI } from '@/service/my-book-comment';
+import HydrationProvider from '@/providers/hydration-provider';
+import MyBookCommentList from './_components/my_book_comment_list';
 
-import useMyBookCommentQuery from '@/queries/my-book-comment/useMyBookCommentQuery';
-import MyBookCommentItem from './_components/my_book_comment_item';
-import { motion } from 'framer-motion';
-export default function MyBookCommentPage({
+export default async function MyBookCommentPage({
   params,
 }: {
   params: { my_book_id: number };
 }) {
-  const { data } = useMyBookCommentQuery({ myBookId: params.my_book_id });
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: [
+      queryKeys.myBookComment.getList({ myBookId: params.my_book_id }),
+    ],
+    queryFn: () => getMyBookCommentListAPI({ myBookId: params.my_book_id }),
+  });
+  const dehydrateState = dehydrate(queryClient);
+  // const { data, isError, error, isLoading } = useMyBookCommentQuery({
+  //   myBookId: params.my_book_id,
+  // });
 
-  if (!data) return <div>Not Found</div>;
+  // if (isLoading || !data) return <div>loading...</div>;
 
   return (
-    <motion.div
-      className="w-full h-auto border-gray-300 shadow-md p-2 bg-transparent rounded-lg"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">한줄평</h2>
-      {data.map((comment, index) => (
-        <motion.div
-          key={comment.commentId}
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: index * 0.1 }}
-        >
-          <MyBookCommentItem comment={comment} />
-        </motion.div>
-      ))}
-    </motion.div>
+    <HydrationProvider>
+      <div className="h-full flex-1 overflow-auto scroll">
+        <HydrationBoundary state={dehydrateState}>
+          <MyBookCommentList my_book_id={params.my_book_id} />
+        </HydrationBoundary>
+      </div>
+    </HydrationProvider>
   );
 }

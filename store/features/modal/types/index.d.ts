@@ -3,4 +3,8 @@ type ReduxModalType = {
   type?: ModalType;
 };
 
-type ModalType = 'register-my-book' | 'delete-my-book' | 'register-tag';
+type ModalType =
+  | 'register-tag'
+  | 'register-my-book'
+  | 'register-my-book-comment'
+  | 'delete-my-book';

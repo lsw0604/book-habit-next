@@ -9,13 +9,10 @@ export default function useMyBookCommentQuery(
 ) {
   return useQuery<
     ResponseGetMyBookCommentList,
-    AxiosError<NestServerErrorType>,
-    MyBookCommentItemType[]
+    AxiosError<NestServerErrorType>
   >({
     queryKey: [queryKeys.myBookComment.getList(payload)],
     queryFn: () => getMyBookCommentListAPI(payload),
-    select: (data: ResponseGetMyBookCommentList): MyBookCommentItemType[] =>
-      data.myBookCommentList,
     gcTime: 30 * 60 * 1000, // 30분
     staleTime: 10 * 60 * 1000, // 10분
   });
