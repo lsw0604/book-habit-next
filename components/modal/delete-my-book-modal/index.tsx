@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
@@ -19,22 +18,23 @@ export default function DeleteMyBookModal() {
 
   const { removeMyBook } = useMyBookMutation();
   const { successToast } = useToastHook();
-  const { data, mutate, isSuccess, isError, error } = removeMyBook();
+  const { mutate, isError, error } = removeMyBook();
 
   const onClickDelete = () => {
-    mutate({ myBookId: Number(my_book_id) });
+    mutate(
+      { myBookId: Number(my_book_id) },
+      {
+        onSuccess: (response) => {
+          dispatch(setModalState({ isOpen: false, type: undefined }));
+          router.push('/my_books');
+          successToast(response.message);
+        },
+      }
+    );
   };
   const onClickCancel = () => {
     dispatch(setModalState({ isOpen: false, type: undefined }));
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(setModalState({ isOpen: false, type: undefined }));
-      router.push('/my_books');
-      successToast(data.message);
-    }
-  }, [isSuccess]);
 
   useErrorHandler(isError, error);
 

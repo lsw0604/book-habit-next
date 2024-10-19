@@ -19,18 +19,19 @@ export default function MyBookInfoTag({
   return (
     <>
       {authors.map((author) => (
-        <div className="py-1 pr-2" key={author}>
+        <div className="py-1 pr-2" key={author.id}>
           <Tag
+            key={author.id}
             className="whitespace-nowrap"
-            key={author}
-            onClick={() => navigationToTagSearch(author, 'person')}
+            onClick={() => navigationToTagSearch(author.name, 'person')}
           >
-            <span className="font-bold">지은이</span> {author}
+            <span className="font-bold">지은이</span> {author.name}
           </Tag>
         </div>
       ))}
       <div className="py-1 pr-2" key={publisher}>
         <Tag
+          key={publisher}
           className="whitespace-nowrap"
           onClick={() => navigationToTagSearch(publisher, 'publisher')}
         >
@@ -38,15 +39,16 @@ export default function MyBookInfoTag({
         </Tag>
       </div>
       {translators.map((translator) => (
-        <div className="py-1 pr-2" key={translator}>
-          <Tag className="whitespace-nowrap">
-            <span className="font-bold">번역가</span> {translator}
+        <div className="py-1 pr-2" key={translator.id}>
+          <Tag className="whitespace-nowrap" key={translator.id}>
+            <span className="font-bold">번역가</span> {translator.name}
           </Tag>
         </div>
       ))}
       {isbn.map((isbn) => (
         <div className="py-1 pr-2" key={isbn}>
           <Tag
+            key={isbn}
             className="whitespace-nowrap"
             onClick={() => navigationToTagSearch(isbn, 'isbn')}
           >

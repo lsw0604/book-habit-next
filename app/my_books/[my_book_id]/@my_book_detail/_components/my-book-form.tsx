@@ -10,7 +10,7 @@ import useErrorHandler from '@/hooks/error/useErrorHandler';
 import useSuccessHandler from '@/hooks/success/useSuccessHandler';
 import useMyBookUpdateForm from '@/hooks/my-book/useMyBookUpdateForm';
 import useMyBookUpdateFormSubmit from '@/hooks/my-book/useMyBookUpdateFormSubmit';
-import { MyBookUpdateSchemaType } from '@/schemas/my-book-update-schema';
+import { MyBookUpdateSchemaType } from '@/schemas/my-book-update.schema';
 import { MY_BOOK_ITEM_STATUS } from '@/constant/my-book-item';
 
 interface MyBookFormProps {

@@ -1,24 +1,70 @@
+import { HTMLAttributes, ReactNode } from 'react';
+
+import { cn } from '@/utils/class-name';
 import { getTimeDescription } from '@/utils/date';
+import { createMarkUp } from '@/utils/create-mark-up';
+
+interface MyBookCommentItemProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, 'id'>,
+    MyBookCommentItemType {
+  classNames?: {
+    header?: {
+      container?: string;
+      status?: string;
+      time?: string;
+    };
+    content?: {
+      container?: string;
+      comment?: string;
+    };
+  };
+  children?: ReactNode;
+}
 
 export default function MyBookCommentItem({
+  id,
+  myBookId,
   comment,
   createdAt,
   updatedAt,
   isPublic,
-}: MyBookCommentItemType) {
+  className,
+  classNames,
+  children,
+  ...props
+}: MyBookCommentItemProps) {
   return (
-    <button className="flex flex-col gap-2 p-2 border-2 transition-all text-left text-sm w-full mb-1 rounded-md">
-      <div className="flex w-full">
-        <span className="text-sm font-semibold">
+    <div
+      {...props}
+      className={cn(
+        'flex flex-col gap-2 p-2 border-2 transition-all text-left text-sm w-full mb-1 rounded-md',
+        className
+      )}
+    >
+      <div className={cn('flex w-full', classNames?.header?.container)}>
+        <span
+          className={cn('text-sm font-semibold', classNames?.header?.status)}
+        >
           {isPublic ? '공개' : '비공개'}
         </span>
-        <span className="ml-auto text-xs opacity-50">
+        <span
+          className={cn('ml-auto text-xs opacity-50', classNames?.header?.time)}
+        >
           {getTimeDescription(createdAt, updatedAt)}
         </span>
       </div>
-      <div className="text-sm font-normal text-gray-800 cursor-pointer line-clamp-2">
-        {comment}
+      <div
+        className={cn(
+          'text-sm font-normal text-gray-800 cursor-pointer min-h-10',
+          classNames?.content?.container
+        )}
+      >
+        <p
+          className={cn(classNames?.content?.comment)}
+          dangerouslySetInnerHTML={createMarkUp(comment)}
+        />
       </div>
-    </button>
+      {children}
+    </div>
   );
 }

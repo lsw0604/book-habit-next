@@ -7,4 +7,6 @@ type ModalType =
   | 'register-tag'
   | 'register-my-book'
   | 'register-my-book-comment'
-  | 'delete-my-book';
+  | 'delete-my-book'
+  | 'delete-my-book-comment'
+  | 'update-my-book-comment';

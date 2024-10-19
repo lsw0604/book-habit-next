@@ -1,7 +1,7 @@
 import React from 'react';
 import { Globe2Icon } from 'lucide-react';
 import { Control, Controller } from 'react-hook-form';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
@@ -40,7 +40,7 @@ export default function RegisterMyBookCommentModal() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <IsPublicController control={control} />
       <CommentController control={control} />
-      <Button className="w-full" type="submit">
+      <Button className="w-full" type="submit" isLoading={isPending}>
         등록하기
       </Button>
     </form>

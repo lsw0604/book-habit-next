@@ -1,7 +1,7 @@
 type RequestUpdateMyBookComment = {
-  myBookId: number;
+  id: number;
   isPublic?: boolean;
-  comment?: boolean;
+  comment?: string;
 };
 
 type ResponseUpdateMyBookComment = MyBookCommentItemType;
