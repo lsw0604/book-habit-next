@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Control, Controller } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
@@ -38,6 +38,7 @@ export default function MyBookCommentItemEdit() {
   };
 
   const onSubmit = (data: MyBookCommentUpdateSchemaType) => {
+    console.log(data);
     mutate(
       { ...data },
       {
@@ -101,6 +102,14 @@ const MyBookCommentIsPublicController: React.FC<ControllerProps> = ({
 const MyBookCommentCommentController: React.FC<ControllerProps> = ({
   control,
 }) => {
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  React.useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, []);
+
   return (
     <Controller
       name="comment"
@@ -108,7 +117,7 @@ const MyBookCommentCommentController: React.FC<ControllerProps> = ({
       render={({ field, fieldState: { error } }) => (
         <>
           <div className="text-sm font-normal text-gray-800 cursor-pointer min-h-10">
-            <Textarea {...field} className="p-0" />
+            <Textarea {...field} ref={textareaRef} className="p-0" />
           </div>
           {error?.message && <ErrorMessage>{error.message}</ErrorMessage>}
         </>

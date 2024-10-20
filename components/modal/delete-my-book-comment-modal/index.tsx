@@ -19,7 +19,6 @@ export default function DeleteMyBookCommentModal() {
 
   const cancelHandler = () => {
     dispatch(modalActions.setModalState({ isOpen: false, type: undefined }));
-    dispatch(myBookCommentActions.clearMyBookComment());
   };
 
   const deleteHandler = () => {
@@ -27,7 +26,10 @@ export default function DeleteMyBookCommentModal() {
       mutate(selectedComment.id, {
         onSuccess: () => {
           successToast('한줄평 삭제에 성공했습니다.');
-          cancelHandler();
+          dispatch(
+            modalActions.setModalState({ isOpen: false, type: undefined })
+          );
+          dispatch(myBookCommentActions.clearMyBookComment());
         },
       });
     }

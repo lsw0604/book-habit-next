@@ -11,7 +11,7 @@ export default function MyBookTagToggle({
   openTagHandler,
 }: MyBookTagToggleProps) {
   return (
-    <div className="flex">
+    <div className="flex ml-auto">
       <div
         className={cn(
           'flex h-full bg-popover opacity-50',

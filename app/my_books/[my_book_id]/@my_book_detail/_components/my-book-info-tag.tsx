@@ -19,9 +19,8 @@ export default function MyBookInfoTag({
   return (
     <>
       {authors.map((author) => (
-        <div className="py-1 pr-2" key={author.id}>
+        <div className="py-1 pr-2" key={author.name}>
           <Tag
-            key={author.id}
             className="whitespace-nowrap"
             onClick={() => navigationToTagSearch(author.name, 'person')}
           >
@@ -39,8 +38,8 @@ export default function MyBookInfoTag({
         </Tag>
       </div>
       {translators.map((translator) => (
-        <div className="py-1 pr-2" key={translator.id}>
-          <Tag className="whitespace-nowrap" key={translator.id}>
+        <div className="py-1 pr-2" key={translator.name}>
+          <Tag className="whitespace-nowrap">
             <span className="font-bold">번역가</span> {translator.name}
           </Tag>
         </div>

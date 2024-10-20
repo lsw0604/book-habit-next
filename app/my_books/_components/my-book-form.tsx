@@ -11,6 +11,7 @@ import useMyBookRouter from '@/hooks/my-book/useMyBookRouter';
 import useMyBookParams from '@/hooks/my-book/useMyBookParams';
 import useMyBookListForm from '@/hooks/my-book/useMyBookListForm';
 import { MyBookListSchemaType } from '@/schemas/my-book-list.schema';
+import { useDebounceCallback } from 'usehooks-ts';
 
 export default function MyBookForm() {
   const myBookParams = useMyBookParams();
@@ -19,9 +20,9 @@ export default function MyBookForm() {
 
   useAutoSubmit<MyBookListSchemaType>({
     watch,
-    onSubmit: (data) => {
+    onSubmit: useDebounceCallback((data) => {
       pushToMyBookList(data);
-    },
+    }, 500),
     dependencies: [watch, pushToMyBookList],
   });
 

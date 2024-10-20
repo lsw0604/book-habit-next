@@ -1,34 +1,27 @@
-'use client';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import MyBookDetail from './_components/my-book-detail';
+import { getQueryClient } from '@/providers/get-query';
+import { queryKeys } from '@/constant/queries-key';
+import { getMyBookDetailAPI } from '@/service/my-book';
 
-import useMyBookQuery from '@/queries/my-book/useMyBookQuery';
-import MyBookInfo from './_components/my-book-info';
-import MyBookForm from './_components/my-book-form';
-import MyBookDate from './_components/my-book-date';
-
-export default function MyBookDetailPage({
+export default async function MyBookDetailPage({
   params,
 }: {
-  params: { my_book_id: number };
+  params: { my_book_id: string };
 }) {
   const { my_book_id } = params;
-  const myBookId = Number(my_book_id);
-  const { data, isLoading } = useMyBookQuery(myBookId);
+  const myBookId = parseInt(my_book_id, 10);
 
-  if (!data || isLoading) return <MyBookDetailPage.Loader />;
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: [queryKeys.myBook.getDetail(myBookId)],
+    queryFn: () => getMyBookDetailAPI(myBookId),
+  });
+  const dehydrateState = dehydrate(queryClient);
 
   return (
-    <div className="w-full h-auto border border-gray-300 rounded-lg shadow-lg bg-transparent px-2 py-4">
-      <MyBookInfo payload={data} />
-      <MyBookForm myBookStatus={data.status} rating={data.rating} />
-      <MyBookDate createdAt={data.createdAt} updatedAt={data.updatedAt} />
-    </div>
+    <HydrationBoundary state={dehydrateState}>
+      <MyBookDetail myBookId={myBookId} />
+    </HydrationBoundary>
   );
 }
-
-MyBookDetailPage.Loader = function () {
-  return (
-    <div className="w-full h-auto border border-gray-300 rounded-lg shadow-lg bg-transparent p-2">
-      <MyBookInfo.Loader />
-    </div>
-  );
-};

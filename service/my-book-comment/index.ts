@@ -27,7 +27,7 @@ export const updateMyBookCommentAPI = async (
   payload: RequestUpdateMyBookComment
 ) => {
   const { data } = await apiClient.put<ResponseUpdateMyBookComment>(
-    `${MY_BOOK_COMMENT_URL}/${payload.myBookId}`,
+    `${MY_BOOK_COMMENT_URL}/${payload.id}`,
     JSON.stringify({ comment: payload.comment, isPublic: payload.isPublic })
   );
 

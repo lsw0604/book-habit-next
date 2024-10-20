@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import MyBookCommentItem from './my_book_comment_item';
 import MyBookCommentItemAdd from './my_book_comment_item_add';
 import MyBookCommentListLoader from './my_book_comment_list_loader';
@@ -34,7 +33,10 @@ export default function MyBookCommentList({
             key={selectedComment.id}
             {...selectedComment}
           />
-          <button onClick={listHandler} className="ml-auto mt-2 text-blue-500">
+          <button
+            onClick={listHandler}
+            className="ml-auto mt-2 text-xs text-blue-500"
+          >
             목록으로 돌아가기
           </button>
         </>

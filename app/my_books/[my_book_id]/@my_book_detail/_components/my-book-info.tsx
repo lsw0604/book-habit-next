@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 
 import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
 import ImageWrapper from '@/components/common/image-wrapper';
 import MyBookTag from './my-book-tag';
 import MyBookInfoTag from './my-book-info-tag';
@@ -98,30 +97,3 @@ export default function MyBookInfo({
     </motion.div>
   );
 }
-
-MyBookInfo.Loader = function () {
-  return (
-    <div className="flex flex-col">
-      <div className="flex">
-        <div className="flex w-full">
-          <Skeleton className="w-[120px] h-[174px]" />
-          <div className="ml-4 flex flex-col grow">
-            <Skeleton className="h-6 w-3/4 mt-1" />
-            <Skeleton className="h-4 w-full mt-2" />
-            <Skeleton className="h-4 w-full mt-1" />
-            <Skeleton className="h-4 w-3/4 mt-1" />
-          </div>
-        </div>
-      </div>
-      <Separator className="mt-2" />
-      <div className="flex w-full overflow-x-auto pb-2">
-        <div className="overflow-auto flex gap-1 flex-nowrap w-max mt-2 no-scrollbar">
-          <Skeleton className="h-6 w-20" />
-          <Skeleton className="h-6 w-24" />
-          <Skeleton className="h-6 w-28" />
-          <Skeleton className="h-6 w-32" />
-        </div>
-      </div>
-    </div>
-  );
-};

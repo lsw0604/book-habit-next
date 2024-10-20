@@ -8,5 +8,4 @@ type ModalType =
   | 'register-my-book'
   | 'register-my-book-comment'
   | 'delete-my-book'
-  | 'delete-my-book-comment'
-  | 'update-my-book-comment';
+  | 'delete-my-book-comment';
