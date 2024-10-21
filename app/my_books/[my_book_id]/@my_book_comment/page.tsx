@@ -19,10 +19,8 @@ export default async function MyBookCommentPage({
   const dehydrateState = dehydrate(queryClient);
 
   return (
-    <div className="h-full overflow-auto scrollbar-none">
-      <HydrationBoundary state={dehydrateState}>
-        <MyBookCommentList my_book_id={params.my_book_id} />
-      </HydrationBoundary>
-    </div>
+    <HydrationBoundary state={dehydrateState}>
+      <MyBookCommentList my_book_id={params.my_book_id} />
+    </HydrationBoundary>
   );
 }

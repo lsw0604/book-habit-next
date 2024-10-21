@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, forwardRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import MyBookCommentItem from './my_book_comment_item';
@@ -8,9 +8,10 @@ import MyBookCommentItemEdit from './my_book_comment_item_edit';
 import { myBookCommentActions } from '@/store/features/my-book-comment/my-book-comment-action';
 import { myBookCommentSelector } from '@/store/features/my-book-comment/my-book-comment-selector';
 
-export default function MyBookCommentItemDetail({
-  ...props
-}: MyBookCommentItemType) {
+const MyBookCommentItemDetail = forwardRef<
+  HTMLDivElement,
+  MyBookCommentItemType
+>((props, ref) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { isEdit } = useAppSelector(myBookCommentSelector);
 
@@ -28,12 +29,6 @@ export default function MyBookCommentItemDetail({
 
   const updateHandler = (event: MouseEvent) => {
     event.stopPropagation();
-    // dispatch(
-    //   modalActions.setModalState({
-    //     isOpen: true,
-    //     type: 'update-my-book-comment',
-    //   })
-    // );
     dispatch(myBookCommentActions.setMyBookCommentEdit(true));
   };
 
@@ -42,7 +37,7 @@ export default function MyBookCommentItemDetail({
   };
 
   return (
-    <div className="w-full h-auto">
+    <div className="w-full h-auto" ref={ref}>
       {!isEdit ? (
         <MyBookCommentItem
           {...props}
@@ -78,4 +73,6 @@ export default function MyBookCommentItemDetail({
       )}
     </div>
   );
-}
+});
+
+export default MyBookCommentItemDetail;
