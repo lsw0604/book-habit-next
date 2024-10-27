@@ -1,6 +1,9 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { myBookQueryOptions } from './myBookQuery';
 import { AxiosError } from 'axios';
+import { useInfiniteQuery, useQuery, useMutation } from '@tanstack/react-query';
+import MyBookService from '@/service/my-book/MyBookService';
+import { useMyBookInvalidateCache } from '@/hooks/my-book/useMyBookInvalidateCache';
+import { useMyBookUpdateCache } from '@/hooks/my-book/useMyBookUpdateCache';
+import { queryKeys } from '@/queries/query-key';
 
 export function useMyBooks(
   params: Pick<RequestGetMyBookList, 'order' | 'status'>
@@ -10,39 +13,70 @@ export function useMyBooks(
     AxiosError<NestServerErrorType>,
     Pick<ResponseGetMyBookList, 'books'>
   >({
-    queryKey: myBookQueryOptions.all(params).queryKey,
+    queryKey: queryKeys.myBook.all(params).queryKey,
     queryFn: ({ pageParam = 1 }) =>
-      myBookQueryOptions
-        .all({ ...params, page: pageParam as number })
-        .queryFn(),
+      MyBookService.all({ ...params, page: pageParam as number }),
     getNextPageParam: (response) => response.nextPage ?? undefined,
     initialPageParam: 1,
     select: (data) => ({ books: data.pages.flatMap((page) => page.books) }),
-    gcTime: 5 * 60 * 1000,
-    staleTime: 1 * 60 * 1000,
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
+    gcTime: 5 * 60 * 1000, // 5분
+    staleTime: 1 * 60 * 1000, // 1분
   });
 }
 
-// export const myBookQueryOptions = {
-//   all: (params: RequestGetMyBookList) => ({
-//     queryKey: [myBookQueryKeys.all(params)],
-//     queryFn: () => MyBookService.all(params),
-//   }),
-//   detail: (params: RequestGetMyBookDetail) => ({
-//     queryKey: [myBookQueryKeys.detail(params)],
-//     queryFn: () => MyBookService.detail(params),
-//   }),
-// };
+export function useMyBook(myBookId: RequestGetMyBookDetail) {
+  return useQuery<ResponseGetMyBookDetail, AxiosError<NestServerErrorType>>({
+    queryKey: queryKeys.myBook.detail(myBookId).queryKey,
+    queryFn: () => MyBookService.detail(myBookId),
+    gcTime: 30 * 60 * 1000, // 30분
+    staleTime: 10 * 60 * 1000, // 10분
+  });
+}
 
-// export const myBookQueryKeys = createQueryKeys('myBook', {
-//   all: (params: RequestGetMyBookList) => ({
-//     queryKey: [params],
-//     queryFn: () => MyBookService.all({ ...params }),
-//   }),
-//   detail: (params: RequestGetMyBookDetail) => ({
-//     queryKey: [params.toString()],
-//     queryFn: () => MyBookService.detail(params),
-//   }),
-// });
+export function useMyBookMutation() {
+  const { invalidateList, invalidateDetail } = useMyBookInvalidateCache();
+  const { updateMyBookQueryData } = useMyBookUpdateCache();
+
+  const addMyBook = useMutation<
+    ResponseRegisterMyBook,
+    AxiosError<NestServerErrorType>,
+    RequestRegisterMyBook
+  >({
+    mutationFn: (payload: RequestRegisterMyBook) => MyBookService.add(payload),
+    onSuccess: () => {
+      invalidateList();
+    },
+  });
+
+  const updateMyBook = useMutation<
+    ResponsePutMyBook,
+    AxiosError<NestServerErrorType>,
+    RequestPutMyBook
+  >({
+    mutationFn: (payload: RequestPutMyBook) => MyBookService.update(payload),
+    onSuccess: (response) => {
+      invalidateList();
+      updateMyBookQueryData(response);
+    },
+  });
+
+  const removeMyBook = useMutation<
+    ResponseDeleteMyBook,
+    AxiosError<NestServerErrorType>,
+    RequestDeleteMyBook
+  >({
+    mutationFn: (payload: RequestDeleteMyBook) => MyBookService.remove(payload),
+    onMutate: (payload) => {
+      invalidateDetail(payload);
+    },
+    onSuccess: () => {
+      invalidateList();
+    },
+  });
+
+  return {
+    addMyBook,
+    removeMyBook,
+    updateMyBook,
+  };
+}

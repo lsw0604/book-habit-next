@@ -104,30 +104,37 @@ export class HTTPService {
     );
   }
 
-  public get<T>(url: string, config?: InternalAxiosRequestConfig): Promise<T> {
-    return this.apiClient.get<T>(url, config).then((res) => res.data);
+  public async get<T>(
+    url: string,
+    config?: InternalAxiosRequestConfig
+  ): Promise<T> {
+    return await this.apiClient.get<T>(url, config).then((res) => res.data);
   }
 
-  public post<T>(
+  public async post<T>(
     url: string,
     data?: unknown,
     config?: InternalAxiosRequestConfig
   ): Promise<T> {
-    return this.apiClient.post<T>(url, data, config).then((res) => res.data);
+    return await this.apiClient
+      .post<T>(url, data, config)
+      .then((res) => res.data);
   }
 
-  public put<T>(
+  public async put<T>(
     url: string,
     data?: unknown,
     config?: InternalAxiosRequestConfig
   ): Promise<T> {
-    return this.apiClient.put<T>(url, data, config).then((res) => res.data);
+    return await this.apiClient
+      .put<T>(url, data, config)
+      .then((res) => res.data);
   }
 
-  public delete<T>(
+  public async delete<T>(
     url: string,
     config?: InternalAxiosRequestConfig
   ): Promise<T> {
-    return this.apiClient.delete<T>(url, config).then((res) => res.data);
+    return await this.apiClient.delete<T>(url, config).then((res) => res.data);
   }
 }
