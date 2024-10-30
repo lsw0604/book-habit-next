@@ -1,4 +1,2 @@
 type ResponseGetMyBookCommentList = MyBookCommentItemType[];
-type RequestMyBookCommentList = {
-  myBookId: number;
-};
+type RequestGetMyBookCommentList = number;

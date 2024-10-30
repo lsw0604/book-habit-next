@@ -3,19 +3,19 @@ import { apiClient } from '../api-client';
 const MY_BOOK_COMMENT_URL = '/api/my-book-comment';
 
 export const getMyBookCommentListAPI = async (
-  payload: RequestMyBookCommentList
+  myBookId: RequestGetMyBookCommentList
 ) => {
   const { data } = await apiClient.get<ResponseGetMyBookCommentList>(
-    `${MY_BOOK_COMMENT_URL}/${payload.myBookId}`
+    `${MY_BOOK_COMMENT_URL}/${myBookId}`
   );
 
   return data;
 };
 
 export const registerMyBookCommentAPI = async (
-  payload: RequestRegisterMyBookComment
+  payload: RequestPostMyBookComment
 ) => {
-  const { data } = await apiClient.post<ResponseRegisterMyBookComment>(
+  const { data } = await apiClient.post<ResponsePostMyBookComment>(
     `${MY_BOOK_COMMENT_URL}/${payload.myBookId}`,
     JSON.stringify({ comment: payload.comment, isPublic: payload.isPublic })
   );

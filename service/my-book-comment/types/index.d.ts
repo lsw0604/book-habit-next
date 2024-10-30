@@ -5,4 +5,8 @@ type MyBookCommentItemType = {
   isPublic: boolean;
   createdAt: string;
   updatedAt: string;
+  _count: {
+    commentLike: number;
+    commentReply: number;
+  };
 };
