@@ -3,6 +3,7 @@ import { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/utils/class-name';
 import { getTimeDescription } from '@/utils/date';
 import { createMarkUp } from '@/utils/create-mark-up';
+import { IconCommentDots, IconHeart } from '@/style/icon';
 
 interface MyBookCommentItemProps
   extends Omit<HTMLAttributes<HTMLDivElement>, 'id'>,
@@ -30,6 +31,7 @@ export default function MyBookCommentItem({
   isPublic,
   className,
   classNames,
+  _count,
   children,
   ...props
 }: MyBookCommentItemProps) {
@@ -55,7 +57,7 @@ export default function MyBookCommentItem({
       </div>
       <div
         className={cn(
-          'text-sm font-normal text-gray-800 cursor-pointer min-h-10',
+          'text-sm font-normal text-gray-800 cursor-pointer min-h-40',
           classNames?.content?.container
         )}
       >
@@ -65,6 +67,14 @@ export default function MyBookCommentItem({
         />
       </div>
       {children}
+      <div className="w-full">
+        <div className="ml-auto flex gap-2 items-center font-semibold">
+          <IconHeart className="w-4 h-4" />
+          <span className="text-base">{_count.commentLike}</span>
+          <IconCommentDots className="w-4 h-4" />
+          <span className="text-base">{_count.commentReply}</span>
+        </div>
+      </div>
     </div>
   );
 }

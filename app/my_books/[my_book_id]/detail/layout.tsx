@@ -10,7 +10,7 @@ export default async function MyBookDetailLayout({
   my_book_history: ReactNode;
 }) {
   return (
-    <div className="w-full h-full flex flex-col p-2 overflow-auto">
+    <div className="w-full h-full p-2 overflow-scroll scrollbar-none">
       {my_book_detail}
       {my_book_comment}
       {my_book_history}

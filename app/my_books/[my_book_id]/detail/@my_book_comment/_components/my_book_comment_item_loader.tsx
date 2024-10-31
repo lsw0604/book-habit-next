@@ -7,8 +7,14 @@ export default function MyBookCommentItemLoader() {
         <Skeleton className="h-full w-12" />
         <Skeleton className="ml-auto h-full w-28" />
       </div>
-      <div className="w-full h-10">
+      <div className="w-full h-40">
         <Skeleton className="w-full h-full" />
+      </div>
+      <div className="w-full">
+        <div className="ml-auto flex gap-2 items-center">
+          <Skeleton className="w-16 h-4" />
+          <Skeleton className="w-16 h-4" />
+        </div>
       </div>
     </div>
   );
