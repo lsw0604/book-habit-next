@@ -14,15 +14,17 @@ export default function MyBookCommentList({ myBookId }: ListProps) {
   if (isLoading || !data) return <MyBookCommentListLoader />;
 
   return (
-    <ul className="max-h-96 my-2 relative overflow-auto scrollbar-none">
-      {data?.map((item) => (
-        <li className="w-full h-auto p-0" key={item.id}>
-          <MyBookCommentItem
-            {...item}
-            classNames={{ content: { comment: 'line-clamp-2' } }}
-          />
-        </li>
-      ))}
-    </ul>
+    <div className="w-full relative h-auto">
+      <ul className="max-h-96 my-2 relative overflow-x-scroll scrollbar-none snap-mandatory">
+        {data?.map((item: MyBookCommentItemType) => (
+          <li className="w-full h-auto p-0" key={item.id}>
+            <MyBookCommentItem
+              {...item}
+              classNames={{ content: { comment: 'line-clamp-2' } }}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

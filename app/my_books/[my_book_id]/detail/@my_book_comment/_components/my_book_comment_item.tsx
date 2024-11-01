@@ -4,10 +4,12 @@ import { cn } from '@/utils/class-name';
 import { getTimeDescription } from '@/utils/date';
 import { createMarkUp } from '@/utils/create-mark-up';
 import { IconCommentDots, IconHeart } from '@/style/icon';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface MyBookCommentItemProps
   extends Omit<HTMLAttributes<HTMLDivElement>, 'id'>,
-    MyBookCommentItemType {
+    Omit<MyBookCommentItemType, 'id' | 'myBookId'> {
   classNames?: {
     header?: {
       container?: string;
@@ -23,8 +25,6 @@ interface MyBookCommentItemProps
 }
 
 export default function MyBookCommentItem({
-  id,
-  myBookId,
   comment,
   createdAt,
   updatedAt,
@@ -32,6 +32,7 @@ export default function MyBookCommentItem({
   className,
   classNames,
   _count,
+  user,
   children,
   ...props
 }: MyBookCommentItemProps) {
@@ -44,16 +45,33 @@ export default function MyBookCommentItem({
       )}
     >
       <div className={cn('flex w-full', classNames?.header?.container)}>
-        <span
-          className={cn('text-sm font-semibold', classNames?.header?.status)}
+        <Avatar>
+          <AvatarImage src={user.profile} alt={user.name} />
+          <AvatarFallback>
+            <Skeleton className="w-full h-full bg-slate-200" />
+          </AvatarFallback>
+        </Avatar>
+        <div
+          className={cn(
+            'text-sm ml-4 flex items-center',
+            classNames?.header?.status
+          )}
         >
-          {isPublic ? '공개' : '비공개'}
-        </span>
-        <span
-          className={cn('ml-auto text-xs opacity-50', classNames?.header?.time)}
+          <span className="text-center font-semibold">{user.name}</span>
+        </div>
+        <div
+          className={cn(
+            'ml-auto opacity-50 flex flex-col gap-2 text-xs',
+            classNames?.header?.time
+          )}
         >
-          {getTimeDescription(createdAt, updatedAt)}
-        </span>
+          <span className="h-auto">
+            {getTimeDescription(createdAt, updatedAt)}
+          </span>
+          <span className="h-auto w-auto ml-auto">
+            {isPublic ? '공개' : '비공개'}
+          </span>
+        </div>
       </div>
       <div
         className={cn(
