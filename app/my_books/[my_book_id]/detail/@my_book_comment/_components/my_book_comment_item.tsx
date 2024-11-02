@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 interface MyBookCommentItemProps
   extends Omit<HTMLAttributes<HTMLDivElement>, 'id'>,
-    Omit<MyBookCommentItemType, 'id' | 'myBookId'> {
+    Omit<MyBookCommentItemType, 'id'> {
   classNames?: {
     header?: {
       container?: string;
@@ -25,6 +25,7 @@ interface MyBookCommentItemProps
 }
 
 export default function MyBookCommentItem({
+  myBookId,
   comment,
   createdAt,
   updatedAt,
@@ -36,6 +37,7 @@ export default function MyBookCommentItem({
   children,
   ...props
 }: MyBookCommentItemProps) {
+  const _ = myBookId;
   return (
     <div
       {...props}

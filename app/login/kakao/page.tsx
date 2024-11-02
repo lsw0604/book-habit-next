@@ -1,28 +1,38 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 
 import Alert from '@/components/common/alert';
 import Loader from '@/components/common/loader';
 import { Button } from '@/components/ui/button';
-import { LogoMain, LogoSad } from '@/style/icon';
-import useKakaoHook from '@/hooks/auth/useKakaoHook';
+import { useAppDispatch } from '@/store';
+import { userActions } from '@/store/features/user/user-action';
+import { useKakao } from '@/service/auth/useAuthService';
 import useLoginRouter from '@/hooks/auth/useLoginRouter';
+import useErrorHandler from '@/hooks/error/useErrorHandler';
+import { LogoMain, LogoSad } from '@/style/icon';
 
 export default function KakaoLoginPage({
   searchParams: { code },
 }: {
   searchParams: { code: string };
 }) {
+  const dispatch = useAppDispatch();
   const { onSuccessCallback } = useLoginRouter();
   if (!code) {
     throw new Error('code가 없습니다.');
   }
+  const { data, isSuccess, isLoading, refetch, isError, error } =
+    useKakao(code);
 
-  const { isLoading, isError, onRefetch } = useKakaoHook({
-    code,
-    onSuccessCallback,
-  });
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(userActions.setUserState({ ...data, isLogged: true }));
+      onSuccessCallback();
+    }
+  }, [isSuccess, data, dispatch]);
+  useErrorHandler(isError, error);
 
   return (
     <section className="w-full h-screen px-4 flex justify-center items-center">
@@ -52,7 +62,7 @@ export default function KakaoLoginPage({
               >
                 로그인 페이지로 가기
               </Link>
-              <Button type="button" onClick={onRefetch}>
+              <Button type="button" onClick={() => refetch()}>
                 다시 시도하기
               </Button>
             </div>

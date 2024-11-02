@@ -5,25 +5,26 @@ import { useParams } from 'next/navigation';
 
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
 import Textarea from '@/components/common/textarea';
 import { ErrorMessage } from '@/components/common/error-message';
 import { useAppDispatch } from '@/store';
 import { modalActions } from '@/store/features/modal/modal-action';
-import useMyBookCommentForm from '@/hooks/my-book-comment/useMyBookCommentForm';
-import useMyBookCommentMutation from '@/queries/my-book-comment/useMyBookCommentMutation';
-import { MyBookCommentSchemaType } from '@/schemas/my-book-comment.schema';
-import { Button } from '@/components/ui/button';
+import { MyBookCommentRegistrationSchemaType } from '@/hooks/form/my-book-comment/schema/registration.schema';
+import useMyBookCommentRegistrationForm from '@/hooks/form/my-book-comment/useMyBookCommentRegistrationForm';
+import { useMyBookCommentMutation } from '@/service/my-book-comment/useMyBookCommentService';
 
 export default function RegisterMyBookCommentModal() {
   const params = useParams();
   const dispatch = useAppDispatch();
   const { my_book_id } = params;
 
-  const { addMyBookComment } = useMyBookCommentMutation();
-  const { mutate, isPending } = addMyBookComment();
-  const { handleSubmit, control } = useMyBookCommentForm();
+  const {
+    addMyBookComment: { mutate, isPending },
+  } = useMyBookCommentMutation();
+  const { handleSubmit, control } = useMyBookCommentRegistrationForm();
 
-  const onSubmit = (data: MyBookCommentSchemaType) => {
+  const onSubmit = (data: MyBookCommentRegistrationSchemaType) => {
     mutate(
       { myBookId: parseInt(my_book_id as string, 10), ...data },
       {
@@ -48,7 +49,7 @@ export default function RegisterMyBookCommentModal() {
 }
 
 interface ControllerProps {
-  control: Control<MyBookCommentSchemaType>;
+  control: Control<MyBookCommentRegistrationSchemaType>;
 }
 
 const IsPublicController: React.FC<ControllerProps> = ({ control }) => {
@@ -81,7 +82,8 @@ const CommentController: React.FC<ControllerProps> = ({ control }) => {
         <div className="relative mb-2 w-full">
           <Textarea
             {...field}
-            className="min-h-[40vh]"
+            maxLength={199}
+            className="min-h-[30vh]"
             placeholder="책을 읽고 느낀점을 한줄평으로 남겨주세요."
           />
           {error?.message && <ErrorMessage>{error.message}</ErrorMessage>}

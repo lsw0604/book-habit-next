@@ -4,9 +4,9 @@ import { useAppDispatch, useAppSelector } from '@/store';
 import { myBookCommentActions } from '@/store/features/my-book-comment/my-book-comment-action';
 import { myBookCommentSelector } from '@/store/features/my-book-comment/my-book-comment-selector';
 import { useRef } from 'react';
-import MyBookCommentItemDetail from '../detail/@my_book_comment/_components/my_book_comment_item_detail';
+// import MyBookCommentItemDetail from '../detail/@my_book_comment/_components/my_book_comment_item_detail';
 import MyBookCommentItem from '../detail/@my_book_comment/_components/my_book_comment_item';
-import MyBookCommentItemAdd from '../detail/@my_book_comment/_components/my_book_comment_item_add';
+// import MyBookCommentItemAdd from '../detail/@my_book_comment/_components/my_book_comment_item_add';
 import { useMyBookComment } from '@/service/my-book-comment/useMyBookCommentService';
 
 export default function CommentPage({
@@ -40,11 +40,11 @@ export default function CommentPage({
       <ul className="max-h-96 my-2 relative overflow-auto scrollbar-none">
         {selectedComment ? (
           <>
-            <MyBookCommentItemDetail
+            {/* <MyBookCommentItemDetail
               ref={selectedRef}
               key={selectedComment.id}
               {...selectedComment}
-            />
+            /> */}
             <button
               onClick={listHandler}
               className="ml-auto mt-2 text-xs text-blue-500"
@@ -54,7 +54,7 @@ export default function CommentPage({
           </>
         ) : (
           <>
-            <MyBookCommentItemAdd />
+            {/* <MyBookCommentItemAdd /> */}
             {data?.map((item) => (
               <li className="w-full h-auto p-0" key={item.id}>
                 <MyBookCommentItem

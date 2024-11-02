@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 import { useAppDispatch } from '@/store';
 import { setModalState } from '@/store/features/modal/modal-slice';
-import useMyBookMutation from '@/queries/my-book/useMyBookMutation';
+import { useMyBookMutation } from '@/service/my-book/useMyBookService';
 import useToastHook from '@/hooks/toast/useToastHook';
 import useErrorHandler from '@/hooks/error/useErrorHandler';
 
@@ -16,22 +16,21 @@ export default function DeleteMyBookModal() {
   const dispatch = useAppDispatch();
   const { my_book_id } = params;
 
-  const { removeMyBook } = useMyBookMutation();
+  const {
+    removeMyBook: { mutate, isError, error },
+  } = useMyBookMutation();
   const { successToast } = useToastHook();
-  const { mutate, isError, error } = removeMyBook();
 
   const onClickDelete = () => {
-    mutate(
-      { myBookId: Number(my_book_id) },
-      {
-        onSuccess: (response) => {
-          dispatch(setModalState({ isOpen: false, type: undefined }));
-          router.push('/my_books');
-          successToast(response.message);
-        },
-      }
-    );
+    mutate(Number(my_book_id), {
+      onSuccess: (response) => {
+        dispatch(setModalState({ isOpen: false, type: undefined }));
+        router.push('/my_books');
+        successToast('나의 책 삭제에 성공했습니다.');
+      },
+    });
   };
+
   const onClickCancel = () => {
     dispatch(setModalState({ isOpen: false, type: undefined }));
   };

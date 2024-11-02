@@ -1,6 +1,6 @@
-import { SearchSchemaType } from '@/schemas/search.schema';
 import { useCallback } from 'react';
-import useSearchRouter from '@/hooks/search/useSearchRouter';
+import { SearchSchemaType } from '../form/search/schema/params.schema';
+import useSearchRouter from './useSearchRouter';
 
 export default function useSearchFormSubmit(onFormSubmit: () => void) {
   const { pushToSearch } = useSearchRouter();

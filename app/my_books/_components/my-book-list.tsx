@@ -3,20 +3,31 @@
 import Link from 'next/link';
 import Loader from '@/components/common/loader';
 import MyBookItem from './my-book-item';
-import useMyBookListHook from '@/hooks/my-book/useMyBookListHook';
+import MyBookListLoader from './my-book-list-loader';
+import { useMyBooks } from '@/service/my-book/useMyBookService';
+import useMyBookParams from '@/hooks/my-book/useMyBookParams';
+import useInfiniteScroll from '@/hooks/infinite-scroll/useInfiniteScroll';
 import { cn } from '@/utils/class-name';
 
 export default function MyBookList() {
-  const { data, ref, isFetching, isError, error, isLoading } =
-    useMyBookListHook();
+  const { order, status } = useMyBookParams();
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isFetching,
+    isError,
+    error,
+  } = useMyBooks({ order, status });
+  const ref = useInfiniteScroll(fetchNextPage, hasNextPage);
 
-  if (!data) return <MyBookList.Empty />;
-  if (isLoading) return <MyBookList.Loader />;
+  if (data === undefined || isLoading) return <MyBookListLoader />;
   if (isError && error?.status === 401) return <MyBookList.LoginError />;
-  if (data?.books.length === 0) return <MyBookList.NotFound />;
+  if (data.books.length === 0) return <MyBookList.NotFound />;
 
   return (
-    <div className={cn('w-full h-full overflow-scroll no-scrollbar')}>
+    <div className={cn('w-full h-full overflow-scroll scrollbar-none')}>
       <ul
         className={cn(
           'w-full grid px-2 grid-cols-3 flex-col', // 기본 모바일 레이아웃
@@ -27,7 +38,7 @@ export default function MyBookList() {
           '2xl:grid-cols-10 2xl:gap-2' // 큰 화면에서 10열로 변경
         )}
       >
-        {data?.books.map((item) => (
+        {data.books.map((item) => (
           <MyBookItem key={item.thumbnail} {...item} />
         ))}
       </ul>
@@ -41,27 +52,6 @@ export default function MyBookList() {
     </div>
   );
 }
-
-MyBookList.Loader = function () {
-  return (
-    <div className={cn('w-full h-full overflow-scroll no-scrollbar')}>
-      <ul
-        className={cn(
-          'w-full grid px-2 grid-cols-3 flex-col', // 기본 모바일 레이아웃
-          'sm:grid-cols-4 sm:gap-2', // 작은 화면에서 4열로 변경
-          'md:grid-cols-5 md:gap-2', // 중간 화면에서 5열로 변경
-          'lg:grid-cols-6 lg:gap-2', // 큰 화면에서 6열로 변경
-          'xl:grid-cols-7 xl:gap-2', // 큰 화면에서 7열로 변경
-          '2xl:grid-cols-10 2xl:gap-2' // 큰 화면에서 10열로 변경
-        )}
-      >
-        {Array.from({ length: 30 }).map((_, index) => (
-          <MyBookItem.Loader key={index} />
-        ))}
-      </ul>
-    </div>
-  );
-};
 
 MyBookList.Empty = function () {
   return (

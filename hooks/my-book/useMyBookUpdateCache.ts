@@ -1,14 +1,14 @@
-import { queryKeys } from '@/constant/queries-key';
 import { useQueryClient } from '@tanstack/react-query';
+import { queryKeys } from '@/queries/query-key';
 
 export const useMyBookUpdateCache = () => {
   const queryClient = useQueryClient();
 
   const updateMyBookQueryData = (response: ResponsePutMyBookDetail) => {
     const previousMyBookData =
-      queryClient.getQueryData<ResponseGetMyBookDetail>([
-        queryKeys.myBook.getDetail(response.id),
-      ]);
+      queryClient.getQueryData<ResponseGetMyBookDetail>(
+        queryKeys.myBook.detail(response.id).queryKey
+      );
     const newMyBookData = {
       ...previousMyBookData,
       ...response,
@@ -16,16 +16,16 @@ export const useMyBookUpdateCache = () => {
       status: response.status ?? previousMyBookData?.status,
     };
     return queryClient.setQueryData<ResponseGetMyBookDetail>(
-      [queryKeys.myBook.getDetail(response.id)],
+      queryKeys.myBook.detail(response.id).queryKey,
       newMyBookData
     );
   };
 
   const addMyBookTagQueryData = (response: ResponseRegisterMyBookTag) => {
     const previousMyBookData =
-      queryClient.getQueryData<ResponseGetMyBookDetail>([
-        queryKeys.myBook.getDetail(response.myBookId),
-      ]);
+      queryClient.getQueryData<ResponseGetMyBookDetail>(
+        queryKeys.myBook.detail(response.myBookId).queryKey
+      );
 
     if (previousMyBookData) {
       const newMyBookTagData = {
@@ -34,7 +34,7 @@ export const useMyBookUpdateCache = () => {
       };
 
       return queryClient.setQueryData<ResponseGetMyBookDetail>(
-        [queryKeys.myBook.getDetail(response.myBookId)],
+        queryKeys.myBook.detail(response.myBookId).queryKey,
         newMyBookTagData
       );
     }
@@ -42,9 +42,9 @@ export const useMyBookUpdateCache = () => {
 
   const removeMyBookTagQueryData = (response: ResponseDeleteMyBookTag) => {
     const previousMyBookData =
-      queryClient.getQueryData<ResponseGetMyBookDetail>([
-        queryKeys.myBook.getDetail(response.myBookId),
-      ]);
+      queryClient.getQueryData<ResponseGetMyBookDetail>(
+        queryKeys.myBook.detail(response.myBookId).queryKey
+      );
 
     if (previousMyBookData) {
       const newMyBookTagData = {
@@ -55,7 +55,7 @@ export const useMyBookUpdateCache = () => {
       };
 
       return queryClient.setQueryData<ResponseGetMyBookDetail>(
-        [queryKeys.myBook.getDetail(response.myBookId)],
+        queryKeys.myBook.detail(response.myBookId).queryKey,
         newMyBookTagData
       );
     }

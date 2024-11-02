@@ -19,15 +19,40 @@ import { InputDatePicker } from '@/components/common/date-picker';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 import useLoginRouter from '@/hooks/auth/useLoginRouter';
-import { useRegisterForm } from '@/hooks/auth/useRegisterForm';
-import useRegisterFormSubmit from '@/hooks/auth/useRegisterFormSubmit';
-import { RegisterSchemaType } from '@/schemas/register.schema';
+import { useRegisterForm } from '@/hooks/form/useFormWithSchema';
+import { RegisterSchemaType } from '@/hooks/form/schema/register.schema';
 import { IconFemale, IconMale } from '@/style/icon';
+import { useAppDispatch } from '@/store';
+import { useAuthMutation } from '@/service/auth/useAuthService';
+import useSuccessHandler from '@/hooks/success/useSuccessHandler';
+import useErrorHandler from '@/hooks/error/useErrorHandler';
+import { userActions } from '@/store/features/user/user-action';
 
 export default function RegisterForm() {
+  const dispatch = useAppDispatch();
   const { onSuccessCallback } = useLoginRouter();
   const { control, handleSubmit } = useRegisterForm();
-  const { onSubmit, isPending } = useRegisterFormSubmit({ onSuccessCallback });
+  const {
+    register: { mutate, isSuccess, error, isPending, isError },
+  } = useAuthMutation();
+
+  const handleSuccess = (response: ResponseAuth) => {
+    dispatch(userActions.setUserState({ ...response, isLogged: true }));
+    onSuccessCallback();
+  };
+
+  useSuccessHandler({ isSuccess, message: '회원가입에 성공했습니다.' });
+  useErrorHandler(isError, error);
+
+  const onSubmit = (data: RegisterSchemaType) => {
+    const { checkPassword: _, ...rest } = data;
+    mutate(
+      { ...rest },
+      {
+        onSuccess: handleSuccess,
+      }
+    );
+  };
 
   return (
     <form
@@ -185,7 +210,7 @@ const BirthdayController: React.FC<ControllerProps> = ({ control }) => {
           <div className="w-full relative mb-2">
             <Label>생년월일</Label>
             <InputDatePicker
-              className='border-slate-500 border-2'
+              className="border-slate-500 border-2"
               value={value}
               onChange={onChange}
             />

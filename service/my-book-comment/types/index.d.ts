@@ -9,4 +9,8 @@ type MyBookCommentItemType = {
     commentLike: number;
     commentReply: number;
   };
+  user: {
+    name: string;
+    profile: string;
+  };
 };

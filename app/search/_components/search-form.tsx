@@ -7,7 +7,7 @@ import SearchPopover from './search-popover';
 import { Input } from '@/components/ui/input';
 import { ErrorMessage } from '@/components/common/error-message';
 import useSearchFormSubmit from '@/hooks/search/useSearchFormSubmit';
-import { useSearchHook } from '@/hooks/search/useSearchHook';
+import { useSearchFormHandler } from '@/hooks/search/useSearchFormHandler';
 import { SearchSchemaType } from '@/schemas/search.schema';
 import { cn } from '@/utils/class-name';
 
@@ -17,7 +17,7 @@ interface ControllerProps {
 
 export default function SearchForm() {
   const [formKey, setFormKey] = useState<number>(0);
-  const { handleSubmit, control, formState } = useSearchHook();
+  const { handleSubmit, control, formState } = useSearchFormHandler();
 
   const onFormSubmit = useCallback(() => {
     setFormKey((prev) => prev++);

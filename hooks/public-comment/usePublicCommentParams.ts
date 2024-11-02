@@ -1,30 +1,28 @@
 import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
-import {
-  defaultPublicCommentValues,
-  PublicCommentSchemaType,
-} from '@/schemas/public-comment.schema';
+import { publicCommentParamsSchemaType } from '../form/public-comment/schema/params.schema';
+import { defaultPublicCommentValue } from '../form/public-comment/default/params';
 import { parseParam } from '@/utils/params';
 
 const MAX_SIZE = 50;
 const MIN_SIZE = 10;
 
-export default function usePublicCommentParams(): PublicCommentSchemaType {
+export default function usePublicCommentParams(): publicCommentParamsSchemaType {
   const searchParams = useSearchParams();
 
   const sizeParser = (size: string) => {
     const num = parseInt(size, 10);
-    if (isNaN(num)) return defaultPublicCommentValues.pageSize;
+    if (isNaN(num)) return defaultPublicCommentValue.pageSize;
     return num >= MIN_SIZE && num <= MAX_SIZE
       ? num
-      : defaultPublicCommentValues.pageSize;
+      : defaultPublicCommentValue.pageSize;
   };
 
   const dateParser = (date: string, type: 'startDate' | 'endDate') => {
     const parsedDate = dayjs(date, 'YYYYMMDD', true);
     return parsedDate.isValid()
       ? parsedDate.toDate()
-      : defaultPublicCommentValues[type];
+      : defaultPublicCommentValue[type];
   };
 
   return {
@@ -32,19 +30,19 @@ export default function usePublicCommentParams(): PublicCommentSchemaType {
       searchParams,
       'pageSize',
       sizeParser,
-      defaultPublicCommentValues.pageSize
+      defaultPublicCommentValue.pageSize
     ),
     startDate: parseParam(
       searchParams,
       'start_date',
       (date) => dateParser(date, 'startDate'),
-      defaultPublicCommentValues.startDate
+      defaultPublicCommentValue.startDate
     ),
     endDate: parseParam(
       searchParams,
       'end_date',
       (date) => dateParser(date, 'endDate'),
-      defaultPublicCommentValues.endDate
+      defaultPublicCommentValue.endDate
     ),
   };
 }

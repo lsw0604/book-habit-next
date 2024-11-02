@@ -1,10 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 import { StarIcon, ImageIcon } from 'lucide-react';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import { observerOption } from '@/utils/observer-option';
 import {
   MY_BOOK_ITEM_RATINGS,
@@ -27,25 +26,25 @@ export default function MyBookItem(item: ResponseGetMyBookItemType) {
   return (
     <Link
       ref={ref}
-      href={`/my_books/${id}`}
+      href={`/my_books/${id}/detail`}
       className="w-auto h-auto clear-both"
     >
       {isLoading ? null : (
-        <>
+        <React.Fragment>
           {thumbnail ? (
             <div className="mb-2 relative w-full pt-[145%] rounded-lg overflow-hidden">
               <Image
                 src={thumbnail}
-                alt={id.toString()}
+                alt={thumbnail}
                 fill
-                loading="lazy"
+                priority
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover"
               />
             </div>
           ) : (
             <div className="mb-2 relative w-full pt-[145%] flex items-center justify-center bg-gray-100">
-              <ImageIcon className="fill-gray-300 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3" />
+              <ImageIcon className="opacity-50 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3" />
             </div>
           )}
           <div className="flex flex-col px-2">
@@ -55,24 +54,14 @@ export default function MyBookItem(item: ResponseGetMyBookItemType) {
               {MY_BOOK_ITEM_RATINGS[rating].text}
             </p>
             <p className="text-sm text-gray-500 line-clamp-1">
-              {MY_BOOK_ITEM_STATUS.find((item) => item.status === status)?.label}
+              {
+                MY_BOOK_ITEM_STATUS.find((item) => item.status === status)
+                  ?.label
+              }
             </p>
           </div>
-        </>
+        </React.Fragment>
       )}
     </Link>
   );
 }
-
-MyBookItem.Loader = function () {
-  return (
-    <li className="w-auto h-auto p-1">
-      <Skeleton className="w-full relative mb-2 pt-[145%] h-4 rounded-lg overflow-hidden bg-gray-200" />
-      <div className="flex flex-col px-2">
-        <Skeleton className="w-full h-4 mb-1 bg-gray-200" />
-        <Skeleton className="w-2/3 h-4 mb-1 bg-gray-200" />
-        <Skeleton className="w-1/2 h-4 bg-gray-200" />
-      </div>
-    </li>
-  );
-};

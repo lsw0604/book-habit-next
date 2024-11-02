@@ -1,11 +1,11 @@
-import { PublicCommentSchemaType } from '@/schemas/public-comment.schema';
-import { createPublicCommentUrl } from '@/utils/url';
 import { useRouter } from 'next/navigation';
+import { createPublicCommentUrl } from '@/utils/url';
+import { publicCommentParamsSchemaType } from '../form/public-comment/schema/params.schema';
 
 export default function usePublicCommentRouter() {
   const router = useRouter();
 
-  const pushToPublicComment = (params: PublicCommentSchemaType) => {
+  const pushToPublicComment = (params: publicCommentParamsSchemaType) => {
     const url = createPublicCommentUrl(params);
     router.push(url);
   };

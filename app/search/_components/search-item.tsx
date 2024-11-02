@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import { useCallback } from 'react';
 
 import ImageWrapper from '@/components/common/image-wrapper';
-import { Skeleton } from '@/components/ui/skeleton';
 import { useAppDispatch } from '@/store';
 import { setModalState } from '@/store/features/modal/modal-slice';
 import { setBookState } from '@/store/features/book/book-slice';
@@ -63,11 +62,11 @@ export default function SearchItem({ item }: SearchItemProps) {
                 <span className="font-medium">{item.price}</span>
                 <span className="font-light">원</span>
               </span>
-              {item.sale_price > 0 ?? (
+              {item.sale_price > 0 ? (
                 <span className="text-xs font-medium line-block items-center uppercase text-gray-800">
                   ({item.sale_price})
                 </span>
-              )}
+              ) : null}
             </div>
             <p className="text-sm font-normal text-gray-800 break-all line-clamp-2">
               {item.contents === ''
@@ -83,24 +82,3 @@ export default function SearchItem({ item }: SearchItemProps) {
     </li>
   );
 }
-
-SearchItem.Loader = function () {
-  return (
-    <li className="w-full h-auto p-4 rounded-2xl shadow-lg">
-      <div className="flex">
-        <div className="flex w-full">
-          <div className="relative flex-shrink-0 overflow-hidden w-[120px]">
-            <Skeleton className="w-[120px] h-[174px] bg-slate-200" />
-          </div>
-          <div className="ml-4 flex flex-col grow w-full">
-            <Skeleton className="w-[60%] h-7 bg-slate-200 mb-2 mt-1" />
-            <Skeleton className="w-[70%] h-3 bg-slate-200 mb-2" />
-            <Skeleton className="w-[80%] h-5 bg-slate-200 mb-2" />
-            <Skeleton className="w-full h-16 bg-slate-200 my-1" />
-            <Skeleton className="mt-auto w-14 h-3 bg-slate-200" />
-          </div>
-        </div>
-      </div>
-    </li>
-  );
-};

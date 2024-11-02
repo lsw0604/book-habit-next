@@ -1,4 +1,4 @@
-import { SearchSchemaType } from '@/schemas/search.schema';
+import { SearchSchemaType } from '@/hooks/form/search/schema/params.schema';
 
 export const SEARCH_FIELDS: Array<keyof SearchSchemaType> = [
   'query',

@@ -2,23 +2,23 @@
 
 import { Control, Controller } from 'react-hook-form';
 import { ArrowDownNarrowWideIcon, ArrowUpNarrowWideIcon } from 'lucide-react';
+import { useDebounceCallback } from 'usehooks-ts';
 
 import { ErrorMessage } from '@/components/common/error-message';
 import { Button } from '@/components/ui/button';
 import Select from '@/components/common/select';
-import useAutoSubmit from '@/hooks/useAutoSubmit';
+import useAutoSubmit from '@/hooks/form/useAutoSubmit';
 import useMyBookRouter from '@/hooks/my-book/useMyBookRouter';
 import useMyBookParams from '@/hooks/my-book/useMyBookParams';
-import useMyBookListForm from '@/hooks/my-book/useMyBookListForm';
-import { MyBookListSchemaType } from '@/schemas/my-book-list.schema';
-import { useDebounceCallback } from 'usehooks-ts';
+import useMyBookParamsForm from '@/hooks/form/my-book/useMyBookParamsForm';
+import { MyBookParamsSchemaType } from '@/hooks/form/my-book/schema/params.schema';
 
 export default function MyBookForm() {
-  const myBookParams = useMyBookParams();
-  const { control, watch } = useMyBookListForm(myBookParams);
+  const { order, status } = useMyBookParams();
+  const { control, watch } = useMyBookParamsForm({ order, status });
   const { pushToMyBookList } = useMyBookRouter();
 
-  useAutoSubmit<MyBookListSchemaType>({
+  useAutoSubmit<MyBookParamsSchemaType>({
     watch,
     onSubmit: useDebounceCallback((data) => {
       pushToMyBookList(data);
@@ -35,7 +35,7 @@ export default function MyBookForm() {
 }
 
 interface ControllerProps {
-  control: Control<MyBookListSchemaType>;
+  control: Control<MyBookParamsSchemaType>;
 }
 
 const MyBookStatusController = ({ control }: ControllerProps) => {

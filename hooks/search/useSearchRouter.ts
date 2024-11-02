@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import { SearchSchemaType } from '@/schemas/search.schema';
+import { SearchSchemaType } from '../form/search/schema/params.schema';
 import { createSearchUrl } from '@/utils/url';
 
 export default function useSearchRouter() {

@@ -8,14 +8,15 @@ import { useAppDispatch, useAppSelector } from '@/store';
 import { modalActions } from '@/store/features/modal/modal-action';
 import { myBookCommentActions } from '@/store/features/my-book-comment/my-book-comment-action';
 import { myBookCommentSelector } from '@/store/features/my-book-comment/my-book-comment-selector';
-import useMyBookCommentMutation from '@/queries/my-book-comment/useMyBookCommentMutation';
+import { useMyBookCommentMutation } from '@/service/my-book-comment/useMyBookCommentService';
 
 export default function DeleteMyBookCommentModal() {
   const dispatch = useAppDispatch();
   const { successToast } = useToastHook();
   const { selectedComment } = useAppSelector(myBookCommentSelector);
-  const { removeMyBookComment } = useMyBookCommentMutation();
-  const { mutate, isError, error } = removeMyBookComment();
+  const {
+    removeMyBookComment: { mutate, isError, error },
+  } = useMyBookCommentMutation();
 
   const cancelHandler = () => {
     dispatch(modalActions.setModalState({ isOpen: false, type: undefined }));

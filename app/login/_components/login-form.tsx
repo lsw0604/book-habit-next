@@ -10,24 +10,49 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ErrorMessage } from '@/components/common/error-message';
-import { IconKakao } from '@/style/icon';
-
-import useLoginFormSubmit from '@/hooks/auth/useLoginFormSubmit';
+import { useAppDispatch } from '@/store';
+import { userActions } from '@/store/features/user/user-action';
+import { useAuthMutation } from '@/service/auth/useAuthService';
 import useLoginRouter from '@/hooks/auth/useLoginRouter';
 import useKakaoRouter from '@/hooks/auth/useKakaoRouter';
-import { useLoginForm } from '@/hooks/auth/useLoginForm';
-import { LoginSchemaType } from '@/schemas/login.schema';
+import useLoginForm from '@/hooks/form/auth/useLoginForm';
+import useSuccessHandler from '@/hooks/success/useSuccessHandler';
+import useErrorHandler from '@/hooks/error/useErrorHandler';
+import { LoginSchemaType } from '@/hooks/form/auth/schema/login.schema';
+import { IconKakao } from '@/style/icon';
 
 interface ControllerProps {
   control: Control<LoginSchemaType>;
 }
 
 export default function LoginForm() {
+  const dispatch = useAppDispatch();
   const { onSuccessCallback } = useLoginRouter();
   const { pushToKakaoLogin } = useKakaoRouter();
-  const { onSubmit, isPending } = useLoginFormSubmit({
-    onSuccessCallback,
-  });
+  const {
+    login: { mutate, isSuccess, isError, error, isPending },
+  } = useAuthMutation();
+
+  const handleSuccess = (response: ResponseAuth) => {
+    dispatch(userActions.setUserState({ ...response, isLogged: true }));
+    onSuccessCallback();
+  };
+
+  const onSubmit = useCallback(
+    (data: LoginSchemaType) => {
+      mutate(
+        { ...data },
+        {
+          onSuccess: handleSuccess,
+        }
+      );
+    },
+    [handleSuccess, mutate]
+  );
+
+  useSuccessHandler({ isSuccess, message: '로그인에 성공했습니다.' });
+  useErrorHandler(isError, error);
+
   const {
     control,
     handleSubmit,
