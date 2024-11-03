@@ -3,15 +3,15 @@
 import dayjs from 'dayjs';
 import Tag from '@/components/common/tag';
 import usePublicCommentParams from '@/hooks/public-comment/usePublicCommentParams';
-import { defaultPublicCommentValues } from '@/schemas/public-comment.schema';
+import { defaultPublicCommentValue } from '@/hooks/form/public-comment/default/params';
 
 export default function CommentTag() {
   const { endDate, pageSize, startDate } = usePublicCommentParams();
   const endDayjs = dayjs(endDate);
   const startDayjs = dayjs(startDate);
 
-  const isEndDate = endDate !== defaultPublicCommentValues.endDate;
-  const isStartDate = startDate !== defaultPublicCommentValues.startDate;
+  const isEndDate = endDate !== defaultPublicCommentValue.endDate;
+  const isStartDate = startDate !== defaultPublicCommentValue.startDate;
   const isSameDate =
     isEndDate &&
     isStartDate &&

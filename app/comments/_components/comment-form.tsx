@@ -8,19 +8,19 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { ErrorMessage } from '@/components/common/error-message';
 import { RangeDatePicker } from '@/components/common/date-picker';
-import useAutoSubmit from '@/hooks/useAutoSubmit';
-import usePublicCommentForm from '@/hooks/public-comment/usePublicCommentForm';
+import useAutoSubmit from '@/hooks/form/useAutoSubmit';
+import usePublicCommentParamsForm from '@/hooks/form/public-comment/usePublicCommentParamsForm';
 import usePublicCommentRouter from '@/hooks/public-comment/usePublicCommentRouter';
 import usePublicCommentParams from '@/hooks/public-comment/usePublicCommentParams';
-import { PublicCommentSchemaType } from '@/schemas/public-comment.schema';
+import { publicCommentParamsSchemaType } from '@/hooks/form/public-comment/schema/params.schema';
 import { cn } from '@/utils/class-name';
 
 export default function CommentForm() {
   const publicCommentParams = usePublicCommentParams();
-  const { control, watch } = usePublicCommentForm(publicCommentParams);
+  const { control, watch } = usePublicCommentParamsForm(publicCommentParams);
   const { pushToPublicComment } = usePublicCommentRouter();
 
-  useAutoSubmit<PublicCommentSchemaType>({
+  useAutoSubmit<publicCommentParamsSchemaType>({
     watch,
     onSubmit: useDebounceCallback((data) => {
       pushToPublicComment(data);
@@ -42,7 +42,7 @@ export default function CommentForm() {
 }
 
 interface ControllerProps {
-  control: Control<PublicCommentSchemaType>;
+  control: Control<publicCommentParamsSchemaType>;
 }
 
 const SizeController: React.FC<ControllerProps> = ({ control }) => {
