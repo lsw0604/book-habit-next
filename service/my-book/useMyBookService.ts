@@ -13,7 +13,7 @@ export function useMyBooks(
     AxiosError<NestServerErrorType>,
     Pick<ResponseGetMyBookList, 'books'>
   >({
-    queryKey: queryKeys.myBook.all(params).queryKey,
+    queryKey: queryKeys.myBook.list(params).queryKey,
     queryFn: ({ pageParam = 1 }) =>
       MyBookService.all({ ...params, page: pageParam as number }),
     getNextPageParam: (response) => response.nextPage ?? undefined,
@@ -43,9 +43,7 @@ export function useMyBookMutation() {
     RequestRegisterMyBook
   >({
     mutationFn: (payload: RequestRegisterMyBook) => MyBookService.add(payload),
-    onSuccess: () => {
-      invalidateList();
-    },
+    onSuccess: invalidateList,
   });
 
   const updateMyBook = useMutation<
@@ -66,12 +64,8 @@ export function useMyBookMutation() {
     RequestDeleteMyBook
   >({
     mutationFn: (payload: RequestDeleteMyBook) => MyBookService.remove(payload),
-    onMutate: (payload) => {
-      invalidateDetail(payload);
-    },
-    onSuccess: () => {
-      invalidateList();
-    },
+    onMutate: invalidateDetail,
+    onSuccess: invalidateList,
   });
 
   return {

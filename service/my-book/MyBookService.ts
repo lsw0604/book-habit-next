@@ -23,7 +23,10 @@ class MyBookService extends HTTPService {
   update(payload: RequestPutMyBook) {
     return this.put<ResponsePutMyBook>(
       `${this.url}/${payload.myBookId}`,
-      JSON.stringify({ status: payload.myBookStatus, rating: payload.rating })
+      JSON.stringify({
+        myBookStatus: payload.myBookStatus,
+        rating: payload.rating,
+      })
     );
   }
 
