@@ -13,7 +13,7 @@ export const myBookUpdateSchema = z.object({
       message: 'Rating은 0과 5 사이의 숫자로 입력해주세요.',
     })
     .optional(),
-  myBookStatus: z
+  status: z
     .enum(MY_BOOK_STATUS as [MyBookStatusType, ...MyBookStatusType[]], {
       message: 'MyBookStatus는 올바른 값으로 입력해주세요.',
     })

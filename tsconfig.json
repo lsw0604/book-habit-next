@@ -20,15 +20,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
-      "store/*": ["./app/store/*"],
-      "store": ["./app/store/index.ts"],
-      "lib/*": ["./lib/*"],
-      "components/*": ["./app/components/*"],
-      "types/*": ["./types/*"],
-      "style/*": ["./style/*"],
-      "queries/*": ["./queries/*"],
-      "queries": ["./queries/index.ts"]
+      "@/*": ["./*"]
     }
   },
   "include": [

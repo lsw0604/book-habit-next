@@ -1,23 +1,11 @@
-import { useAppDispatch } from '@/store';
-import { modalActions } from '@/store/features/modal/modal-action';
-
 export default function MyBookCommentEmpty() {
-  const dispatch = useAppDispatch();
-  const onClick = () => {
-    dispatch(
-      modalActions.setModalState({
-        isOpen: true,
-        type: 'register-my-book-comment',
-      })
-    );
-  };
   return (
-    <div
-      onClick={onClick}
-      className="flex flex-col h-full gap-2 p-2 border-2 transition-all text-left text-sm w-full mb-1 rounded-md"
-    >
-      {' '}
-      저장된 Comment가 없습니다.
-    </div>
+    <li className="snap-start h-[264px] transition-all">
+      <div className="flex w-full rounded-md h-full items-center justify-center bg-[rgba(0,0,0,0.05)]">
+        <span className="text-slate-600 font-bold text-lg">
+          저장된 Comment가 없습니다.
+        </span>
+      </div>
+    </li>
   );
 }

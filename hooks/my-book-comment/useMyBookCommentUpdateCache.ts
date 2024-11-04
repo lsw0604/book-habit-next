@@ -7,19 +7,20 @@ export const useMyBookCommentUpdateCache = () => {
   const queryClient = useQueryClient();
 
   const updateMyBookCommentQueryData = (response: MyBookCommentItemType) => {
-    const previousMyBookCommentData = queryClient.getQueryData<
-      MyBookCommentItemType[]
-    >(queryKeys.myBookComment.all(response.myBookId).queryKey);
+    const previousMyBookCommentData =
+      queryClient.getQueryData<ResponseGetMyBookCommentList>(
+        queryKeys.myBookComment.all(response.myBookId).queryKey
+      );
 
     if (previousMyBookCommentData) {
       const updatedComments: MyBookCommentItemType[] =
-        previousMyBookCommentData.map((comment) =>
+        previousMyBookCommentData.myBookComment.map((comment) =>
           comment.id === response.id ? { ...response } : comment
         );
 
-      queryClient.setQueryData<MyBookCommentItemType[]>(
+      queryClient.setQueryData<ResponseGetMyBookCommentList>(
         queryKeys.myBookComment.all(response.myBookId).queryKey,
-        updatedComments
+        { myBookComment: updatedComments }
       );
     } else {
       useMyBookCommentInvalidateCache(response.myBookId);
@@ -27,19 +28,20 @@ export const useMyBookCommentUpdateCache = () => {
   };
 
   const addMyBookCommentQueryData = (response: MyBookCommentItemType) => {
-    const previousMyBookCommentData = queryClient.getQueryData<
-      MyBookCommentItemType[]
-    >(queryKeys.myBookComment.all(response.myBookId).queryKey);
+    const previousMyBookCommentData =
+      queryClient.getQueryData<ResponseGetMyBookCommentList>(
+        queryKeys.myBookComment.all(response.myBookId).queryKey
+      );
 
     if (previousMyBookCommentData) {
       const updatedComments: MyBookCommentItemType[] = [
-        ...previousMyBookCommentData,
+        ...previousMyBookCommentData.myBookComment,
         response,
       ];
 
-      queryClient.setQueryData<MyBookCommentItemType[]>(
+      queryClient.setQueryData<ResponseGetMyBookCommentList>(
         queryKeys.myBookComment.all(response.myBookId).queryKey,
-        updatedComments
+        { myBookComment: updatedComments }
       );
     } else {
       useMyBookCommentInvalidateCache(response.myBookId);
@@ -47,19 +49,20 @@ export const useMyBookCommentUpdateCache = () => {
   };
 
   const removeMyBookCommentQueryData = (response: MyBookCommentItemType) => {
-    const previousMyBookCommentData = queryClient.getQueryData<
-      MyBookCommentItemType[]
-    >(queryKeys.myBookComment.all(response.myBookId).queryKey);
+    const previousMyBookCommentData =
+      queryClient.getQueryData<ResponseGetMyBookCommentList>(
+        queryKeys.myBookComment.all(response.myBookId).queryKey
+      );
 
     if (previousMyBookCommentData) {
       const updatedComments: MyBookCommentItemType[] =
-        previousMyBookCommentData.filter(
+        previousMyBookCommentData.myBookComment.filter(
           (comment: MyBookCommentItemType) => comment.id !== response.id
         );
 
-      queryClient.setQueryData<MyBookCommentItemType[]>(
+      queryClient.setQueryData<ResponseGetMyBookCommentList>(
         queryKeys.myBookComment.all(response.myBookId).queryKey,
-        updatedComments
+        { myBookComment: updatedComments }
       );
     } else {
       useMyBookCommentInvalidateCache(response.myBookId);

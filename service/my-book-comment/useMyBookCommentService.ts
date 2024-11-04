@@ -14,6 +14,7 @@ export function useMyBookComment(myBookId: RequestGetMyBookCommentList) {
     queryFn: () => MyBookCommentService.all(myBookId),
     gcTime: 30 * 60 * 1000,
     staleTime: 10 * 60 * 1000,
+    retry: 1,
   });
 }
 
