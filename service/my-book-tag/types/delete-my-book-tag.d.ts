@@ -1,7 +1,4 @@
-type RequestDeleteMyBookTag = {
-  myBookTagId: number;
-};
-
+type RequestDeleteMyBookTag = number;
 type ResponseDeleteMyBookTag = {
   myBookTagId: number;
   myBookId: number;

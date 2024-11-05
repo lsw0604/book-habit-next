@@ -4,9 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ErrorMessage } from '@/components/common/error-message';
 
-import { MyBookTagSchemaType } from '@/schemas/my-book-tag.schema';
-import useMyBookTagForm from '@/hooks/my-book-tag/useMyBookTagForm';
-import useMyBookTagMutation from '@/queries/my-book-tag/useMyBookTagMutation';
+import { MyBookTagRegistrationSchemaType } from '@/hooks/form/my-book-tag/schema/registration.schema';
+import useMyBookTagRegistrationForm from '@/hooks/form/my-book-tag/useMyBookTagRegistrationForm';
+import { useMyBookTagMutation } from '@/service/my-book-tag/useMyBookTagService';
 
 export default function TagForm() {
   const params = useParams();
@@ -16,11 +16,12 @@ export default function TagForm() {
     control,
     reset,
     formState: { isSubmitting },
-  } = useMyBookTagForm();
-  const { addMyBookTag } = useMyBookTagMutation();
-  const { mutate, isPending } = addMyBookTag();
+  } = useMyBookTagRegistrationForm();
+  const {
+    addMyBookTag: { mutate, isPending },
+  } = useMyBookTagMutation();
 
-  const onSubmit = (data: MyBookTagSchemaType) => {
+  const onSubmit = (data: MyBookTagRegistrationSchemaType) => {
     mutate(
       { tag: data.tag, myBookId: Number(my_book_id) },
       {

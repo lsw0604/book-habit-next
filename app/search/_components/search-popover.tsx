@@ -8,15 +8,15 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { ErrorMessage } from '@/components/common/error-message';
-import { SearchSchemaType } from '@/schemas/search.schema';
+import { SearchParamsSchemaType } from '@/hooks/form/search/schema/params.schema';
 
 interface SearchPopoverProps {
-  control: Control<SearchSchemaType>;
-  formState: FormState<SearchSchemaType>;
+  control: Control<SearchParamsSchemaType>;
+  formState: FormState<SearchParamsSchemaType>;
 }
 
 interface ControllerProps {
-  control: Control<SearchSchemaType>;
+  control: Control<SearchParamsSchemaType>;
 }
 
 export default function SearchPopover({

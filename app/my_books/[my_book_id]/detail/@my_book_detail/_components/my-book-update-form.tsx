@@ -1,39 +1,46 @@
-import { useParams } from 'next/navigation';
+import { useDebounceCallback } from 'usehooks-ts';
 import { Control, Controller } from 'react-hook-form';
 
 import Rating from '@/components/common/rating';
 import Select from '@/components/common/select';
 import { ErrorMessage } from '@/components/common/error-message';
 
-import useAutoSubmit from '@/hooks/useAutoSubmit';
+import { useMyBookMutation } from '@/service/my-book/useMyBookService';
+import useAutoSubmit from '@/hooks/form/useAutoSubmit';
 import useErrorHandler from '@/hooks/error/useErrorHandler';
 import useSuccessHandler from '@/hooks/success/useSuccessHandler';
-import useMyBookUpdateForm from '@/hooks/my-book/useMyBookUpdateForm';
-import useMyBookUpdateFormSubmit from '@/hooks/my-book/useMyBookUpdateFormSubmit';
-import { MyBookUpdateSchemaType } from '@/schemas/my-book-update.schema';
+import useMyBookUpdateForm from '@/hooks/form/my-book/useMyBookUpdateForm';
+import { MyBookUpdateSchemaType } from '@/hooks/form/my-book/schema/update.schema';
 import { MY_BOOK_ITEM_STATUS } from '@/constant/my-book-item';
 
 interface MyBookFormProps {
-  myBookStatus: MyBookStatusType;
-  rating: number;
+  data: Pick<ResponseGetMyBookDetail, 'status' | 'rating'>;
+  myBookId: number;
 }
 
-export default function MyBookForm({ myBookStatus, rating }: MyBookFormProps) {
-  const { my_book_id } = useParams();
-  const myBookId = Number(my_book_id);
+interface SchemaProps extends MyBookUpdateSchemaType {
+  myBookId: number;
+}
 
-  const { control, watch } = useMyBookUpdateForm({ myBookStatus, rating });
-  const { onSubmit, isSuccess, isError, error } = useMyBookUpdateFormSubmit();
+export default function MyBookUpdateForm({ data, myBookId }: MyBookFormProps) {
+  const { control, watch } = useMyBookUpdateForm(data);
+  const {
+    updateMyBook: { mutate, isSuccess, isError, error },
+  } = useMyBookMutation();
 
-  useErrorHandler(isError, error);
-  useSuccessHandler({ isSuccess, message: 'MyBook 업데이트 성공' });
+  const onSubmit = useDebounceCallback((payload: SchemaProps) => {
+    mutate(payload);
+  }, 300);
+
   useAutoSubmit<MyBookUpdateSchemaType>({
     watch,
     onSubmit: (data) => {
-      onSubmit({ data, myBookId });
+      onSubmit({ ...data, myBookId });
     },
-    dependencies: [myBookId, myBookStatus, rating],
+    dependencies: [myBookId, data],
   });
+  useErrorHandler(isError, error);
+  useSuccessHandler({ isSuccess, message: 'MyBook 업데이트 성공' });
 
   return (
     <form className="flex gap-2 w-full">
@@ -68,7 +75,7 @@ const MyBookStatusController = ({ control }: MyBookControllerProps) => {
   return (
     <Controller
       control={control}
-      name="myBookStatus"
+      name="status"
       render={({ field: { value, onChange }, formState: { errors } }) => (
         <>
           <Select.ErrorBoundary>
@@ -90,8 +97,8 @@ const MyBookStatusController = ({ control }: MyBookControllerProps) => {
               </Select.Content>
             </Select>
           </Select.ErrorBoundary>
-          {!!errors?.myBookStatus?.message && (
-            <ErrorMessage>{errors.myBookStatus.message}</ErrorMessage>
+          {!!errors?.status?.message && (
+            <ErrorMessage>{errors.status.message}</ErrorMessage>
           )}
         </>
       )}

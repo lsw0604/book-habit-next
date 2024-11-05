@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-export type SearchSchemaType = z.infer<typeof searchSchema>;
+export type SearchParamsSchemaType = z.infer<typeof searchParamsSchema>;
 
-export const searchSchema = z.object({
+export const searchParamsSchema = z.object({
   query: z.string().min(1, {
     message: '검색어를 입력해주세요.',
   }),

@@ -1,8 +1,11 @@
 import useFormWithSchema from '../useFormWithSchema';
 import { defaultSearchValue } from './default/params';
-import { SearchSchemaType, searchSchema } from './schema/params.schema';
+import {
+  SearchParamsSchemaType,
+  searchParamsSchema,
+} from './schema/params.schema';
 
-const useSearchForm = (initialValue?: SearchSchemaType) =>
-  useFormWithSchema(searchSchema, initialValue ?? defaultSearchValue);
+const useSearchForm = (initialValue?: SearchParamsSchemaType) =>
+  useFormWithSchema(searchParamsSchema, initialValue ?? defaultSearchValue);
 
 export default useSearchForm;

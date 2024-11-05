@@ -2,7 +2,6 @@
 
 import { Control, Controller } from 'react-hook-form';
 import { ArrowDownNarrowWideIcon, ArrowUpNarrowWideIcon } from 'lucide-react';
-import { useDebounceCallback } from 'usehooks-ts';
 
 import { ErrorMessage } from '@/components/common/error-message';
 import { Button } from '@/components/ui/button';
@@ -20,9 +19,7 @@ export default function MyBookForm() {
 
   useAutoSubmit<MyBookParamsSchemaType>({
     watch,
-    onSubmit: useDebounceCallback((data) => {
-      pushToMyBookList(data);
-    }, 500),
+    onSubmit: pushToMyBookList,
     dependencies: [watch, pushToMyBookList],
   });
 

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export type publicCommentParamsSchemaType = z.infer<
+export type PublicCommentParamsSchemaType = z.infer<
   typeof publicCommentParamsSchema
 >;
 

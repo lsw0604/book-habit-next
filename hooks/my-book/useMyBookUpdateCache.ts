@@ -9,7 +9,7 @@ export const useMyBookUpdateCache = () => {
       queryClient.getQueryData<ResponseGetMyBookDetail>(
         queryKeys.myBook.detail(response.id).queryKey
       );
-    console.log(previousMyBookData);
+
     const newMyBookData = {
       ...previousMyBookData,
       ...response,

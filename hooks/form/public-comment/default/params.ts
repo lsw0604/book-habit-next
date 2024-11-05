@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import { publicCommentParamsSchemaType } from '../schema/params.schema';
+import { PublicCommentParamsSchemaType } from '../schema/params.schema';
 
-export const defaultPublicCommentValue: publicCommentParamsSchemaType = {
+export const defaultPublicCommentValue: PublicCommentParamsSchemaType = {
   pageSize: 10,
   startDate: dayjs().startOf('month').toDate(),
   endDate: dayjs().endOf('month').toDate(),

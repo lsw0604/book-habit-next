@@ -8,11 +8,11 @@ import { Input } from '@/components/ui/input';
 import { ErrorMessage } from '@/components/common/error-message';
 import useSearchFormSubmit from '@/hooks/search/useSearchFormSubmit';
 import { useSearchFormHandler } from '@/hooks/search/useSearchFormHandler';
-import { SearchSchemaType } from '@/schemas/search.schema';
+import { SearchParamsSchemaType } from '@/hooks/form/search/schema/params.schema';
 import { cn } from '@/utils/class-name';
 
 interface ControllerProps {
-  control: Control<SearchSchemaType>;
+  control: Control<SearchParamsSchemaType>;
 }
 
 export default function SearchForm() {

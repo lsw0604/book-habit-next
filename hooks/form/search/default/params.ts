@@ -1,6 +1,6 @@
-import { SearchSchemaType } from '../schema/params.schema';
+import { SearchParamsSchemaType } from '../schema/params.schema';
 
-export const defaultSearchValue: SearchSchemaType = {
+export const defaultSearchValue: SearchParamsSchemaType = {
   query: '',
   size: 10,
   sort: 'accuracy',

@@ -1,14 +1,14 @@
 import { useSearchParams } from 'next/navigation';
 import { parseParam } from '@/utils/params';
 import { defaultSearchValue } from '../form/search/default/params';
-import { SearchSchemaType } from '../form/search/schema/params.schema';
+import { SearchParamsSchemaType } from '../form/search/schema/params.schema';
 
 const ALLOWED_SORT_VALUES = ['accuracy', 'latest'] as const;
 const ALLOWED_TARGET_VALUES = ['title', 'isbn', 'publisher', 'person'] as const;
 const MIN_SIZE = 10;
 const MAX_SIZE = 50;
 
-export default function useParsedSearchParams(): SearchSchemaType {
+export default function useParsedSearchParams(): SearchParamsSchemaType {
   const searchParams = useSearchParams();
 
   const sizeParser = (size: string): number => {
@@ -21,15 +21,17 @@ export default function useParsedSearchParams(): SearchSchemaType {
     return query || defaultSearchValue.query;
   };
 
-  const sortParser = (sort: string): SearchSchemaType['sort'] => {
-    return ALLOWED_SORT_VALUES.includes(sort as SearchSchemaType['sort'])
-      ? (sort as SearchSchemaType['sort'])
+  const sortParser = (sort: string): SearchParamsSchemaType['sort'] => {
+    return ALLOWED_SORT_VALUES.includes(sort as SearchParamsSchemaType['sort'])
+      ? (sort as SearchParamsSchemaType['sort'])
       : defaultSearchValue.sort;
   };
 
-  const targetParser = (target: string): SearchSchemaType['target'] => {
-    return ALLOWED_TARGET_VALUES.includes(target as SearchSchemaType['target'])
-      ? (target as SearchSchemaType['target'])
+  const targetParser = (target: string): SearchParamsSchemaType['target'] => {
+    return ALLOWED_TARGET_VALUES.includes(
+      target as SearchParamsSchemaType['target']
+    )
+      ? (target as SearchParamsSchemaType['target'])
       : defaultSearchValue.target;
   };
 

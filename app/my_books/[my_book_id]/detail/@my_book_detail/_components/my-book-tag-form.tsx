@@ -4,7 +4,7 @@ import { Controller } from 'react-hook-form';
 import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import useMyBookTagForm from '@/hooks/my-book-tag/useMyBookTagForm';
+import useMyBookTagRegistrationForm from '@/hooks/form/my-book-tag/useMyBookTagRegistrationForm';
 import useErrorHandler from '@/hooks/error/useErrorHandler';
 import useSuccessHandler from '@/hooks/success/useSuccessHandler';
 import useMyBookTagFormSubmit from '@/hooks/my-book-tag/useMyBookTagFormSubmit';
@@ -19,7 +19,8 @@ export default function MyBookTagForm() {
     control,
     handleSubmit,
     formState: { isSubmitting },
-  } = useMyBookTagForm();
+  } = useMyBookTagRegistrationForm();
+
   const { onSubmit, isPending, isSuccess, isError, error } =
     useMyBookTagFormSubmit({
       reset,
