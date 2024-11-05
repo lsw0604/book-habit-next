@@ -1,2 +1,4 @@
 type RequestGetMyBookHistory = number;
-type ResponseGetMyBookHistory = MyBookHistoryItemType[];
+type ResponseGetMyBookHistory = {
+  myBookHistory: MyBookHistoryItemType[];
+};
