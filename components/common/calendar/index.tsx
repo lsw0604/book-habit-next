@@ -1,82 +1,67 @@
-'use client';
+import { ReactNode } from 'react';
+import dayjs from 'dayjs';
+import { eachDayOfInterval, endOfMonth, startOfMonth } from 'date-fns';
+import { cn } from '@/utils/class-name';
+import { COL_START_OBJ, DAY_OF_WEEK } from '@/constant/calendar';
 
-import { ComponentType, useMemo } from 'react';
-
-import CalendarHeader from './calendar-header';
-import CalendarDateBox from './calendar-date-box';
-
-import { cn } from '@/lib/utils';
-
-interface ICalendarProps {
-  calendar: CalendarType;
-  onChange?: (ctx: number) => void;
-}
-
-export interface CalendarProps<T> extends ICalendarProps {
-  startDate?: Date;
-  endDate?: Date;
-  obj?: Record<string, T>;
-  component?: ComponentType<DateBoxType<T | undefined>>;
-}
-
-const GRID_ROW_OBJ: {
-  [key: number]: string;
-} = {
-  1: 'grid-rows-1',
-  2: 'grid-rows-2',
-  3: 'grid-rows-3',
-  4: 'grid-rows-4',
-  5: 'grid-rows-5',
-  6: 'grid-rows-6',
+const DayOfWeek = ({ children }: { children: ReactNode }) => {
+  return (
+    <div className="mb-3 text-center before:box-border after:box-border">
+      {children}
+    </div>
+  );
 };
 
-const Calendar = <T,>({
-  calendar,
-  onChange,
-  endDate,
-  startDate,
-  obj,
-  component: Component,
-}: CalendarProps<T>) => {
-  const parsedMonth = parseInt(calendar.month);
-  const parsedYear = parseInt(calendar.year);
-
-  const gridRow = useMemo(
-    () => Math.ceil((calendar.firstDOW + calendar.lastDate) / 7),
-    [calendar]
-  );
+const CustomCalendar = () => {
+  const start = startOfMonth(new Date());
+  const end = endOfMonth(new Date());
+  const day = eachDayOfInterval({ start, end });
+  const firstDow = Number(dayjs(start).format('d'));
+  const today = dayjs().format('YYYY-MM-DD');
 
   return (
-    <>
-      <CalendarHeader
-        onChange={onChange && onChange}
-        startDate={startDate}
-        endDate={endDate}
-        month={parsedMonth}
-        year={parsedYear}
-      />
-      <div
-        className={cn(
-          GRID_ROW_OBJ[gridRow],
-          'w-full h-full grid grid-cols-7 gap-0'
-        )}
-      >
-        {Array.from({ length: calendar.lastDate }, (_, i) => (
-          <CalendarDateBox<T>
-            key={i + 1}
-            year={parsedYear}
-            month={parsedMonth}
-            date={i + 1}
-            colStart={i + 1 === 1 ? calendar.firstDOW + 1 : undefined}
-            endDate={endDate}
-            startDate={startDate}
-            obj={obj}
-            component={Component}
-          />
-        ))}
-      </div>
-    </>
+    <div className={cn('w-full grid grid-cols-7 gap-0 overflow-hidden')}>
+      {DAY_OF_WEEK.map((day) => (
+        <DayOfWeek key={day}>{day}</DayOfWeek>
+      ))}
+      {day.map((date, i) => {
+        const formattedDate = dayjs(date).format('YYYY-MM-DD');
+        const isToday = formattedDate === today;
+        const isSunday = dayjs(date).day() === 0;
+        const isSaturday = dayjs(date).day() === 6;
+
+        return (
+          <div
+            key={formattedDate}
+            className={cn(
+              i + 1 === 1 ? COL_START_OBJ[firstDow + 1] : undefined,
+              'relative w-full pt-full'
+            )}
+          >
+            <div
+              className={cn(
+                'absolute top-0 left-0 m-1 z-10',
+                isToday ? 'text-blue-900' : '',
+                isSunday ? 'text-rose-300' : '',
+                isSaturday ? 'text-blue-300' : ''
+              )}
+            >
+              {dayjs(date).format('D')}
+            </div>
+            <div
+              className={cn(
+                'h-full w-full absolute top-0 left-0',
+                isToday ? 'bg-blue-200' : '',
+                isSunday ? 'bg-gray-100' : '',
+                isSaturday ? 'bg-gray-100' : '',
+                'hover:bg-gray-200 cursor-pointer'
+              )}
+            />
+          </div>
+        );
+      })}
+    </div>
   );
 };
 
-export default Calendar;
+export default CustomCalendar;
