@@ -1,8 +1,19 @@
-import { ReactNode } from 'react';
+import React, { ComponentType, ReactNode } from 'react';
 import dayjs from 'dayjs';
-import { eachDayOfInterval, endOfMonth, startOfMonth } from 'date-fns';
 import { cn } from '@/utils/class-name';
-import { COL_START_OBJ, DAY_OF_WEEK } from '@/constant/calendar';
+import CalendarDateBox from './calendar-date-box';
+
+const COL_START_OBJ: Record<number, string> = {
+  1: 'col-start-1',
+  2: 'col-start-2',
+  3: 'col-start-3',
+  4: 'col-start-4',
+  5: 'col-start-5',
+  6: 'col-start-6',
+  7: 'col-start-7',
+};
+
+const DAY_OF_WEEK: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 
 const DayOfWeek = ({ children }: { children: ReactNode }) => {
   return (
@@ -12,11 +23,17 @@ const DayOfWeek = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const CustomCalendar = () => {
-  const start = startOfMonth(new Date());
-  const end = endOfMonth(new Date());
-  const day = eachDayOfInterval({ start, end });
-  const firstDow = Number(dayjs(start).format('d'));
+interface CustomCalendarProps<T> {
+  calendar: CalendarDetailType;
+  data?: Record<string, T[]>;
+  Component?: ComponentType<{ data: T[] }>;
+}
+
+export default function CustomCalendar<T>({
+  data,
+  calendar,
+  Component,
+}: CustomCalendarProps<T>) {
   const today = dayjs().format('YYYY-MM-DD');
 
   return (
@@ -24,44 +41,34 @@ const CustomCalendar = () => {
       {DAY_OF_WEEK.map((day) => (
         <DayOfWeek key={day}>{day}</DayOfWeek>
       ))}
-      {day.map((date, i) => {
+      {calendar.dayArr.map((date, i) => {
         const formattedDate = dayjs(date).format('YYYY-MM-DD');
         const isToday = formattedDate === today;
         const isSunday = dayjs(date).day() === 0;
         const isSaturday = dayjs(date).day() === 6;
+        const day = dayjs(date).format('D');
 
         return (
           <div
             key={formattedDate}
             className={cn(
-              i + 1 === 1 ? COL_START_OBJ[firstDow + 1] : undefined,
+              i + 1 === 1 ? COL_START_OBJ[calendar.firstDOW + 1] : undefined,
               'relative w-full pt-full'
             )}
           >
-            <div
-              className={cn(
-                'absolute top-0 left-0 m-1 z-10',
-                isToday ? 'text-blue-900' : '',
-                isSunday ? 'text-rose-300' : '',
-                isSaturday ? 'text-blue-300' : ''
-              )}
+            <CalendarDateBox
+              isSaturday={isSaturday}
+              isSunday={isSunday}
+              isToday={isToday}
+              day={day}
             >
-              {dayjs(date).format('D')}
-            </div>
-            <div
-              className={cn(
-                'h-full w-full absolute top-0 left-0',
-                isToday ? 'bg-blue-200' : '',
-                isSunday ? 'bg-gray-100' : '',
-                isSaturday ? 'bg-gray-100' : '',
-                'hover:bg-gray-200 cursor-pointer'
+              {data && data[formattedDate] && Component && (
+                <Component data={data[formattedDate]} />
               )}
-            />
+            </CalendarDateBox>
           </div>
         );
       })}
     </div>
   );
-};
-
-export default CustomCalendar;
+}

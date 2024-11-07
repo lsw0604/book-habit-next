@@ -1,21 +1,26 @@
+import { eachDayOfInterval, endOfMonth, startOfMonth } from 'date-fns';
 import dayjs from 'dayjs';
 
 export function getUpdatedCalendar(
   monthYear: CalendarDetailType,
   monthIncrement: number
 ): string {
-  return dayjs(monthYear.startDate).add(monthIncrement, 'months').format();
+  return monthYear.date.add(monthIncrement, 'months').format();
 }
 
 export function getCalendarDetail(initialDate: string): CalendarDetailType {
-  const month = dayjs(initialDate).format('MM');
   const year = dayjs(initialDate).format('YYYY');
+  const month = dayjs(initialDate).format('MM');
 
-  const startDate = dayjs(`${year}${month}01`).format();
-  const firstDOW = Number(dayjs(startDate).format('d'));
-  const lastDate = Number(dayjs(startDate).endOf('month').format('DD'));
+  const date = dayjs(`${year}${month}01`);
 
-  return { startDate, firstDOW, lastDate, month, year };
+  const start = startOfMonth(date.toDate());
+  const end = endOfMonth(date.toDate());
+  const dayArr = eachDayOfInterval({ start, end });
+
+  const firstDOW = Number(dayjs(start).format('d'));
+
+  return { year, month, date, dayArr, firstDOW };
 }
 
 export function getNewCalendar(
