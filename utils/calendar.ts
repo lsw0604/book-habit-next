@@ -1,7 +1,7 @@
 import { eachDayOfInterval, endOfMonth, startOfMonth } from 'date-fns';
 import dayjs from 'dayjs';
 
-export function getUpdatedCalendar(
+function getUpdatedCalendar(
   monthYear: CalendarDetailType,
   monthIncrement: number
 ): string {
