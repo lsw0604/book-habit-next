@@ -10,6 +10,7 @@ import userSlice from './features/user/user-slice';
 import bookSlice from './features/book/book-slice';
 import modalSlice from './features/modal/modal-slice';
 import myBookCommentSlice from './features/my-book-comment/my-book-comment-slice';
+import myBookHistorySlice from './features/my-book-history/my-book-history-slice';
 
 const rootReducer = combineReducers({
   toast: toastSlice,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   book: bookSlice,
   modal: modalSlice,
   myBookComment: myBookCommentSlice,
+  myBookHistory: myBookHistorySlice,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
