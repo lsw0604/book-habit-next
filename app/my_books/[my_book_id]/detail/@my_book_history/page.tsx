@@ -1,12 +1,41 @@
-import MyBookHistoryList from './_components/my-book-history-list';
+'use client';
 
-export default async function MyBookHistoryPage({
+import { useState } from 'react';
+import dayjs from 'dayjs';
+
+import CustomCalendar from '@/components/common/calendar';
+import MyBookHistoryDateBox from './_components/my-book-history-date-box';
+import MyBookHistoryLoader from './_components/my-book-history-loader';
+import MyBookHistoryHeader from './_components/my-book-history-header';
+
+import { useMyBookHistory } from '@/service/my-book-history/useMyBookHistoryService';
+import { getCalendarDetail } from '@/utils/calendar';
+
+/**
+ * TODO : CalendarLoader & ErrorBoundary
+ */
+export default function MyBookHistoryPage({
   params,
 }: {
-  params: { my_book_id: string };
+  params: { my_book_id: number };
 }) {
-  const { my_book_id } = params;
-  const myBookId = parseInt(my_book_id, 10);
+  const [calendar, setCalendar] = useState(
+    getCalendarDetail(dayjs().format('YYYY-MM-DD'))
+  );
 
-  return <MyBookHistoryList myBookId={myBookId} />;
+  const { data, isFetching, isLoading } = useMyBookHistory(params.my_book_id);
+
+  if (!data || isLoading || isFetching) return <MyBookHistoryLoader />;
+
+  return (
+    <section className="my-3 px-2">
+      <MyBookHistoryHeader myBookId={params.my_book_id} history={data} />
+      <CustomCalendar
+        data={data}
+        calendar={calendar}
+        Component={MyBookHistoryDateBox}
+        setCalendar={setCalendar}
+      />
+    </section>
+  );
 }
