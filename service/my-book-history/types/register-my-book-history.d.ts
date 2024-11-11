@@ -1,7 +1,7 @@
 type RequestRegisterMyBookHistory = {
   myBookId: number;
   date: Date;
-  page?: number;
+  page: number;
   memo?: string;
 };
 

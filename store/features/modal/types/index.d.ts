@@ -1,7 +1,6 @@
 type ReduxModalType = {
   isOpen: boolean;
   type?: ModalType;
-  onClose?: () => void;
 };
 
 type ModalType =

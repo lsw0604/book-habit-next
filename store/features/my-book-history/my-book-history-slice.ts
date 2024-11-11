@@ -7,9 +7,15 @@ const myBookHistorySlice = createSlice({
   name: 'my-book-history',
   initialState,
   reducers: {
+    setMyBookHistoryState: (
+      state: WritableDraft<ReduxMyBookHistoryType>,
+      action: PayloadAction<ReduxMyBookHistoryType>
+    ) => {
+      return { ...state, ...action.payload };
+    },
     setSelectedMyBookHistory: (
       state: WritableDraft<ReduxMyBookHistoryType>,
-      action: PayloadAction<MyBookHistoryItemType>
+      action: PayloadAction<MyBookHistoryItemType[] | undefined>
     ) => {
       state.selectedHistory = action.payload;
     },
@@ -29,6 +35,7 @@ const myBookHistorySlice = createSlice({
 export const {
   setSelectedMyBookHistory,
   setCreateMyBookHistory,
+  setMyBookHistoryState,
   clearMyBookHistory,
 } = myBookHistorySlice.actions;
 

@@ -1,10 +1,10 @@
 type ReduxMyBookHistoryType = {
-  selectedHistory?: MyBookHistoryItemType;
+  selectedHistory?: MyBookHistoryItemType[];
   createHistory?: ReduxCreateHistoryType;
 };
 
 type ReduxCreateHistoryType = {
-  date: Date;
+  date: string;
   page: number;
-  memo?: string;
+  memo: string;
 };
