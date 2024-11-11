@@ -1,23 +1,45 @@
 import { cn } from '@/utils/class-name';
+import dayjs from 'dayjs';
 import { ReactNode } from 'react';
 
 interface CalendarDateBoxProps {
-  isToday: boolean;
-  isSaturday: boolean;
-  isSunday: boolean;
-  day: string;
+  date: Date;
+  index: number;
+  firstDow: number;
   children?: ReactNode;
 }
 
+const COL_START_OBJ: Record<number, string> = {
+  1: 'col-start-1',
+  2: 'col-start-2',
+  3: 'col-start-3',
+  4: 'col-start-4',
+  5: 'col-start-5',
+  6: 'col-start-6',
+  7: 'col-start-7',
+};
+
 export default function CalendarDateBox({
-  day,
-  isToday,
-  isSaturday,
-  isSunday,
+  index,
+  date,
   children,
+  firstDow,
 }: CalendarDateBoxProps) {
+  const today = dayjs().format('YYYY-MM-DD');
+  const formattedDate = dayjs(date).format('YYYY-MM-DD');
+
+  const isToday = formattedDate === today;
+  const isSunday = dayjs(date).day() === 0;
+  const isSaturday = dayjs(date).day() === 6;
+  const day = dayjs(date).format('D');
+
   return (
-    <>
+    <div
+      className={cn(
+        index + 1 === 1 ? COL_START_OBJ[firstDow + 1] : undefined,
+        'relative w-full pt-full cursor-pointer hover:bg-gray-200'
+      )}
+    >
       <div
         className={cn(
           'absolute top-0 left-0 m-1 z-10',
@@ -26,17 +48,17 @@ export default function CalendarDateBox({
           isSaturday ? 'text-blue-300' : ''
         )}
       >
-        {children ? children : day}
+        {day}
       </div>
       <div
         className={cn(
           'h-full w-full absolute top-0 left-0',
           isToday ? 'bg-blue-200' : '',
           isSunday ? 'bg-gray-100' : '',
-          isSaturday ? 'bg-gray-100' : '',
-          'hover:bg-gray-200 cursor-pointer'
+          isSaturday ? 'bg-gray-100' : ''
         )}
       />
-    </>
+      {children}
+    </div>
   );
 }

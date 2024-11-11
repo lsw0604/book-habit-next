@@ -1,10 +1,13 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
+/**
+ * TODO : 정리하기
+ */
 export default function CalendarLoader() {
   return (
-    <>
-      <div className="w-full h-10 flex justify-between items-center px-8 mb-2 border-solid border-b-2 border-slate-300">
+    <div className="w-full">
+      <div className="w-full h-10 flex justify-between items-center px-8 mb-2 ">
         <div>
           <ArrowLeftIcon />
         </div>
@@ -20,6 +23,6 @@ export default function CalendarLoader() {
           <Skeleton className="w-full h-full bg-slate-100 rounded-lg" key={i} />
         ))}
       </div>
-    </>
+    </div>
   );
 }
