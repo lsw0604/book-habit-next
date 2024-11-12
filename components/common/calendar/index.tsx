@@ -1,25 +1,11 @@
-import React, {
-  ComponentType,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-} from 'react';
+import { ComponentType, Dispatch, SetStateAction } from 'react';
 import dayjs from 'dayjs';
 
 import CalendarDateBox from './calendar-date-box';
 import CalendarHeader from './calendar-header';
 
 import { cn } from '@/utils/class-name';
-
-const DAY_OF_WEEK: string[] = ['일', '월', '화', '수', '목', '금', '토'];
-
-const DayOfWeek = ({ children }: { children: ReactNode }) => {
-  return (
-    <div className="mb-3 text-center before:box-border after:box-border">
-      {children}
-    </div>
-  );
-};
+import { DAY_OF_WEEK } from '@/constant/calendar';
 
 interface CustomCalendarProps<T> {
   calendar: CalendarDetailType;
@@ -39,7 +25,12 @@ export default function CustomCalendar<T>({
       <CalendarHeader calendar={calendar} setCalendar={setCalendar} />
       <div className={cn('w-full grid grid-cols-7 gap-0 overflow-hidden')}>
         {DAY_OF_WEEK.map((day) => (
-          <DayOfWeek key={day}>{day}</DayOfWeek>
+          <div
+            key={day}
+            className="mb-3 text-center before:box-border after:box-border"
+          >
+            {day}
+          </div>
         ))}
         {calendar.dayArr.map((date, index) => {
           const formattedDate = dayjs(date).format('YYYY-MM-DD');

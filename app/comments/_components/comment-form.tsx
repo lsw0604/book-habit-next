@@ -12,7 +12,7 @@ import useAutoSubmit from '@/hooks/form/useAutoSubmit';
 import usePublicCommentParamsForm from '@/hooks/form/public-comment/usePublicCommentParamsForm';
 import usePublicCommentRouter from '@/hooks/public-comment/usePublicCommentRouter';
 import usePublicCommentParams from '@/hooks/public-comment/usePublicCommentParams';
-import { publicCommentParamsSchemaType } from '@/hooks/form/public-comment/schema/params.schema';
+import { PublicCommentParamsSchemaType } from '@/hooks/form/public-comment/schema/params.schema';
 import { cn } from '@/utils/class-name';
 
 export default function CommentForm() {
@@ -20,7 +20,7 @@ export default function CommentForm() {
   const { control, watch } = usePublicCommentParamsForm(publicCommentParams);
   const { pushToPublicComment } = usePublicCommentRouter();
 
-  useAutoSubmit<publicCommentParamsSchemaType>({
+  useAutoSubmit<PublicCommentParamsSchemaType>({
     watch,
     onSubmit: useDebounceCallback((data) => {
       pushToPublicComment(data);
@@ -42,7 +42,7 @@ export default function CommentForm() {
 }
 
 interface ControllerProps {
-  control: Control<publicCommentParamsSchemaType>;
+  control: Control<PublicCommentParamsSchemaType>;
 }
 
 const SizeController: React.FC<ControllerProps> = ({ control }) => {

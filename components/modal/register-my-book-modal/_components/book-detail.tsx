@@ -4,12 +4,12 @@ import { FieldErrors } from 'react-hook-form';
 import Tag from '@/components/common/tag';
 import { ErrorMessage } from '@/components/common/error-message';
 import ImageWrapper from '@/components/common/image-wrapper';
-import { MyBookSchemaType } from '@/schemas/my-book.schema';
+import { MyBookRegistrationSchemaType } from '@/hooks/form/my-book/schema/registration.schema';
 import { formattedIsbn, formattedPrice } from '@/utils/book';
 
 interface BookDetailProps {
   detail: ReduxBookType;
-  errors: FieldErrors<MyBookSchemaType>;
+  errors: FieldErrors<MyBookRegistrationSchemaType>;
 }
 
 export default function BookDetail({ detail, errors }: BookDetailProps) {

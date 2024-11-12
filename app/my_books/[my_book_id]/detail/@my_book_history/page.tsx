@@ -1,8 +1,10 @@
 'use client';
 
+import { ErrorBoundary } from 'react-error-boundary';
 import { useState } from 'react';
 import dayjs from 'dayjs';
 
+import Alert from '@/components/common/alert';
 import CustomCalendar from '@/components/common/calendar';
 import MyBookHistoryDateBox from './_components/my-book-history-date-box';
 import MyBookHistoryLoader from './_components/my-book-history-loader';
@@ -12,7 +14,7 @@ import { useMyBookHistory } from '@/service/my-book-history/useMyBookHistoryServ
 import { getCalendarDetail } from '@/utils/calendar';
 
 /**
- * TODO : CalendarLoader & ErrorBoundary
+ * TODO HistoryList 작성
  */
 export default function MyBookHistoryPage({
   params,
@@ -29,7 +31,13 @@ export default function MyBookHistoryPage({
 
   return (
     <section className="my-3 px-2">
-      <MyBookHistoryHeader myBookId={params.my_book_id} history={data} />
+      <ErrorBoundary
+        FallbackComponent={(response) => (
+          <Alert message={response.error.message} status="ERROR" />
+        )}
+      >
+        <MyBookHistoryHeader myBookId={params.my_book_id} history={data} />
+      </ErrorBoundary>
       <CustomCalendar
         data={data}
         calendar={calendar}

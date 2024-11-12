@@ -5,7 +5,7 @@ import { modalSelector } from '@/store/features/modal/modal-selector';
 
 import RegisterTagModal from './register-tag-modal';
 import RegisterMyBookModal from './register-my-book-modal';
-import RegisterMyBookCommentModal from './register-my-book-comment';
+import RegisterMyBookCommentModal from './register-my-book-comment-modal';
 import DeleteMyBookModal from './delete-my-book-modal';
 import DeleteMyBookCommentModal from './delete-my-book-comment-modal';
 
