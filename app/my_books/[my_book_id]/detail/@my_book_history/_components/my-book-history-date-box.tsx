@@ -11,21 +11,19 @@ interface MyBookHistoryDateBoxProps {
 
 const BG_COLOR = ['bg-slate-700', 'bg-slate-500', 'bg-slate-300'];
 
-/**
- * TODO : data ErrorBoundary
- */
 export default function MyBookHistoryDateBox({
   data,
   date,
 }: MyBookHistoryDateBoxProps) {
   const dispatch = useAppDispatch();
-  const formattedDate = dayjs(date.toISOString()).format('YYYY-MM-DD');
+  const formattedDate = dayjs(date).toISOString();
+
   const onClickDateBox = () => {
     dispatch(
       myBookHistoryActions.setMyBookHistoryState({
         createHistory: {
           date: formattedDate,
-          page: 0,
+          page: 1,
           memo: '',
         },
         selectedHistory: data,
@@ -57,7 +55,7 @@ export default function MyBookHistoryDateBox({
           ))}
         </div>
         <div className="w-full flex">
-          <span className="ml-auto text-xs mb-2 mr-2 font-bold">+ {count}</span>
+          <span className="ml-auto text-xs mb-2 mr-2 font-bold">{count}</span>
         </div>
       </div>
     );

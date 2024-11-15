@@ -1,17 +1,69 @@
-'use client';
-
-import CustomCalendar from '@/components/common/calendar';
-// import useMyBookHistoryQuery from '@/queries/my-book-history/useMyBookHistoryQuery';
+import { useMemo, useState } from 'react';
 
 interface MyBookHistoryListProps {
-  myBookId: number;
+  data: ResponseGetMyBookHistory;
+  calendar: CalendarDetailType;
 }
 
 export default function MyBookHistoryList({
-  myBookId,
+  data,
+  calendar,
 }: MyBookHistoryListProps) {
-  // const { data, isLoading } = useMyBookHistoryQuery(myBookId);
+  const [page, setPage] = useState<number>(1);
+  const useGroupedByMonth = (data: ResponseGetMyBookHistory) => {
+    const groupedByMonth = useMemo(() => {
+      const result: Record<string, MyBookHistoryItemType[]> = {};
 
-  // if (!data || isLoading) return <div>loading...</div>;
-  return <div className="w-full h-auto">{/* <CustomCalendar /> */}</div>;
+      Object.entries(data).forEach(([date, items]) => {
+        const month = date.substring(0, 7);
+        if (!result[month]) {
+          result[month] = [];
+        }
+        result[month].push(...items);
+      });
+
+      return result;
+    }, [data]);
+
+    return groupedByMonth;
+  };
+
+  const currentMonthData =
+    useGroupedByMonth(data)[`${calendar.year}-${calendar.month}`] || [];
+  const totalPages = Math.ceil(currentMonthData.length / 3);
+  const paginatedData = currentMonthData.slice((page - 1) * 3, page * 3);
+  const handlePageChange = (newPage: number) => {
+    if (newPage < 1 || newPage > totalPages) return;
+    setPage(newPage);
+  };
+
+  return (
+    <>
+      <ul className="w-full h-auto grid">
+        {paginatedData.map((element) => (
+          <li key={element.id}>{element.page}</li>
+        ))}
+      </ul>
+      <div className="flex justify-center mt-4">
+        {' '}
+        <button
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1}
+        >
+          {' '}
+          이전{' '}
+        </button>{' '}
+        <span>
+          {page} / {totalPages}
+        </span>{' '}
+        <button
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page === totalPages}
+        >
+          {' '}
+          다음{' '}
+        </button>
+      </div>
+    </>
+  );
 }

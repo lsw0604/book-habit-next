@@ -19,8 +19,8 @@ import { InputDatePicker } from '@/components/common/date-picker';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 import useLoginRouter from '@/hooks/auth/useLoginRouter';
-import { useRegisterForm } from '@/hooks/form/useFormWithSchema';
-import { RegisterSchemaType } from '@/hooks/form/schema/register.schema';
+import useRegisterForm from '@/hooks/form/auth/useRegisterForm';
+import { RegisterSchemaType } from '@/hooks/form/auth/schema/register.schema';
 import { IconFemale, IconMale } from '@/style/icon';
 import { useAppDispatch } from '@/store';
 import { useAuthMutation } from '@/service/auth/useAuthService';

@@ -1,9 +1,8 @@
-import dayjs from 'dayjs';
 import { MyBookHistoryRegistrationSchemaType } from '../schema/registration.schema';
 
 export const defaultMyBookHistoryRegistrationValue: MyBookHistoryRegistrationSchemaType =
   {
-    date: dayjs().toDate(),
+    date: new Date(),
     memo: '',
     page: 1,
   };

@@ -5,7 +5,11 @@ export type MyBookHistoryRegistrationSchemaType = z.infer<
 >;
 
 export const myBookHistoryRegistrationSchema = z.object({
-  date: z.date({ required_error: '날짜 값이 없습니다.' }),
+  date: z
+    .date({ required_error: '날짜 값이 없습니다.' })
+    .refine((date) => date instanceof Date && !isNaN(date.getTime()), {
+      message: '유효한 날짜가 아닙니다.',
+    }),
   page: z.number().min(1, { message: '페이지 번호는 1 이상이어야 합니다.' }),
   memo: z.string().max(300, { message: '최대 300글자 이하 입력해주세요.' }),
 });

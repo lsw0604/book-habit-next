@@ -1,12 +1,12 @@
+import React from 'react';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
 import { Skeleton } from '@/components/ui/skeleton';
-
 import { DAY_OF_WEEK } from '@/constant/calendar';
 
 export default function CalendarLoader() {
   return (
-    <>
+    <React.Fragment>
       <div className="w-full">
         <div className="w-full h-auto flex justify-between p-2">
           <div className="h-10 inline-flex items-center justify-center">
@@ -29,14 +29,14 @@ export default function CalendarLoader() {
           </div>
         ))}
         {[...Array(35)].map((_, idx) => (
-          <div className="w-full pt-full relative">
-            <Skeleton
-              key={idx}
-              className="w-full h-full rounded-lg absolute top-0 left-0"
-            />
+          <div
+            key={`calendar-loader-${idx}`}
+            className="w-full pt-full relative"
+          >
+            <Skeleton className="w-full h-full rounded-lg absolute top-0 left-0" />
           </div>
         ))}
       </div>
-    </>
+    </React.Fragment>
   );
 }
