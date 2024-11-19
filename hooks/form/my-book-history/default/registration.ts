@@ -4,5 +4,5 @@ export const defaultMyBookHistoryRegistrationValue: MyBookHistoryRegistrationSch
   {
     date: new Date(),
     memo: '',
-    page: 1,
+    page: 0,
   };
