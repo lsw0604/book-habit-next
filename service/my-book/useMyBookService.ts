@@ -1,13 +1,17 @@
 import { AxiosError } from 'axios';
 import { useInfiniteQuery, useQuery, useMutation } from '@tanstack/react-query';
-import MyBookService from '@/service/my-book/MyBookService';
+
+import { useMyBookService } from '@/service/my-book/MyBookService';
 import { useMyBookInvalidateCache } from '@/hooks/my-book/useMyBookInvalidateCache';
 import { useMyBookUpdateCache } from '@/hooks/my-book/useMyBookUpdateCache';
+import useServiceInstance from '@/hooks/useServiceInstance';
 import { queryKeys } from '@/queries/query-key';
 
 export function useMyBooks(
   params: Pick<RequestGetMyBookList, 'order' | 'status'>
 ) {
+  const MyBookService = useServiceInstance(useMyBookService);
+
   return useInfiniteQuery<
     ResponseGetMyBookList,
     AxiosError<NestServerErrorType>,
@@ -15,7 +19,10 @@ export function useMyBooks(
   >({
     queryKey: queryKeys.myBook.list(params).queryKey,
     queryFn: ({ pageParam = 1 }) =>
-      MyBookService.all({ ...params, page: pageParam as number }),
+      MyBookService.all({
+        ...params,
+        page: pageParam as number,
+      }),
     getNextPageParam: (response) => response.nextPage ?? undefined,
     initialPageParam: 1,
     select: (data) => ({ books: data.pages.flatMap((page) => page.books) }),
@@ -25,6 +32,8 @@ export function useMyBooks(
 }
 
 export function useMyBook(myBookId: RequestGetMyBookDetail) {
+  const MyBookService = useServiceInstance(useMyBookService);
+
   return useQuery<ResponseGetMyBookDetail, AxiosError<NestServerErrorType>>({
     queryKey: queryKeys.myBook.detail(myBookId).queryKey,
     queryFn: () => MyBookService.detail(myBookId),
@@ -36,6 +45,7 @@ export function useMyBook(myBookId: RequestGetMyBookDetail) {
 export function useMyBookMutation() {
   const { invalidateList, invalidateDetail } = useMyBookInvalidateCache();
   const { updateMyBookQueryData } = useMyBookUpdateCache();
+  const MyBookService = useServiceInstance(useMyBookService);
 
   const addMyBook = useMutation<
     ResponseRegisterMyBook,

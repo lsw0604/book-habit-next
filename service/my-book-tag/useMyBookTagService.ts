@@ -1,11 +1,14 @@
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import MyBookTagService from './MyBookTagService';
+
+import { useMyBookTagService } from '@/service/my-book-tag/MyBookTagService';
 import { useMyBookUpdateCache } from '@/hooks/my-book/useMyBookUpdateCache';
+import useServiceInstance from '@/hooks/useServiceInstance';
 
 export function useMyBookTagMutation() {
   const { addMyBookTagQueryData, removeMyBookTagQueryData } =
     useMyBookUpdateCache();
+  const MyBookTagService = useServiceInstance(useMyBookTagService);
 
   const addMyBookTag = useMutation<
     ResponseRegisterMyBookTag,

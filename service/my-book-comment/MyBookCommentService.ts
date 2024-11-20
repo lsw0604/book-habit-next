@@ -2,6 +2,21 @@ import { HTTPService } from '../http-service';
 
 class MyBookCommentService extends HTTPService {
   private readonly url = 'api/my-book-comment';
+  private static instance: MyBookCommentService;
+
+  private constructor(router?: any) {
+    super(router);
+  }
+
+  public static getInstance(router?: any) {
+    if (MyBookCommentService.instance) {
+      MyBookCommentService.instance = new MyBookCommentService(router);
+    } else if (router) {
+      MyBookCommentService.instance = new MyBookCommentService(router);
+    }
+
+    return MyBookCommentService.instance;
+  }
 
   all(myBookId: RequestGetMyBookCommentList) {
     return this.get<ResponseGetMyBookCommentList>(`${this.url}/${myBookId}`);
@@ -28,4 +43,6 @@ class MyBookCommentService extends HTTPService {
   }
 }
 
-export default new MyBookCommentService();
+export const myBookCommentService = MyBookCommentService.getInstance();
+export const useMyBookCommentService = (router?: any) =>
+  MyBookCommentService.getInstance(router);

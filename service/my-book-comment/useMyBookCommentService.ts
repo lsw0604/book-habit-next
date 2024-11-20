@@ -1,11 +1,13 @@
 import { AxiosError } from 'axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { queryKeys } from '@/queries/query-key';
-import MyBookCommentService from './MyBookCommentService';
+import { useMyBookCommentService } from '@/service/my-book-comment/MyBookCommentService';
 import { useMyBookCommentUpdateCache } from '@/hooks/my-book-comment/useMyBookCommentUpdateCache';
+import useServiceInstance from '@/hooks/useServiceInstance';
+import { queryKeys } from '@/queries/query-key';
 
 export function useMyBookComment(myBookId: RequestGetMyBookCommentList) {
+  const MyBookCommentService = useServiceInstance(useMyBookCommentService);
   return useQuery<
     ResponseGetMyBookCommentList,
     AxiosError<NestServerErrorType>
@@ -24,6 +26,7 @@ export function useMyBookCommentMutation() {
     updateMyBookCommentQueryData,
     removeMyBookCommentQueryData,
   } = useMyBookCommentUpdateCache();
+  const MyBookCommentService = useServiceInstance(useMyBookCommentService);
 
   const addMyBookComment = useMutation<
     ResponsePostMyBookComment,

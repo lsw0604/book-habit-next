@@ -2,6 +2,21 @@ import { HTTPService } from '../http-service';
 
 class AuthService extends HTTPService {
   private readonly url = '/api/auth';
+  private static instance: AuthService;
+
+  private constructor(router?: any) {
+    super(router);
+  }
+
+  public static getInstance(router?: any) {
+    if (AuthService.instance) {
+      AuthService.instance = new AuthService(router);
+    } else if (router) {
+      AuthService.instance = new AuthService(router);
+    }
+
+    return AuthService.instance;
+  }
 
   login(payload: RequestLogin) {
     return this.post<ResponseAuth>(
@@ -32,4 +47,5 @@ class AuthService extends HTTPService {
   }
 }
 
-export default new AuthService();
+export const authService = AuthService.getInstance();
+export const useAuthService = (router?: any) => AuthService.getInstance(router);

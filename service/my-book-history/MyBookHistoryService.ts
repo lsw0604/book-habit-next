@@ -2,6 +2,21 @@ import { HTTPService } from '../http-service';
 
 class MyBookHistoryService extends HTTPService {
   private readonly url = 'api/my-book-history';
+  private static instance: MyBookHistoryService;
+
+  private constructor(router?: any) {
+    super(router);
+  }
+
+  public static getInstance(router?: any) {
+    if (MyBookHistoryService.instance) {
+      MyBookHistoryService.instance = new MyBookHistoryService(router);
+    } else if (router) {
+      MyBookHistoryService.instance = new MyBookHistoryService(router);
+    }
+
+    return MyBookHistoryService.instance;
+  }
 
   all(myBookId: RequestGetMyBookHistory) {
     return this.get<ResponseGetMyBookHistory>(`${this.url}/${myBookId}`);
@@ -36,4 +51,6 @@ class MyBookHistoryService extends HTTPService {
   }
 }
 
-export default new MyBookHistoryService();
+export const myBookHistoryService = MyBookHistoryService.getInstance();
+export const useMyBookHistoryService = (router?: any) =>
+  MyBookHistoryService.getInstance(router);

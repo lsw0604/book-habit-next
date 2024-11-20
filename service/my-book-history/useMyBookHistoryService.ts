@@ -1,11 +1,13 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import MyBookHistoryService from './MyBookHistoryService';
-import { queryKeys } from '@/queries/query-key';
+import { useMyBookHistoryService } from '@/service/my-book-history/MyBookHistoryService';
 import useMyBookHistoryUpdateCache from '@/hooks/my-book-history/useMyBookHistoryUpdateCache';
+import useServiceInstance from '@/hooks/useServiceInstance';
+import { queryKeys } from '@/queries/query-key';
 
 export function useMyBookHistory(myBookId: RequestGetMyBookHistory) {
+  const MyBookHistoryService = useServiceInstance(useMyBookHistoryService);
   return useQuery<ResponseGetMyBookHistory, AxiosError<NestServerErrorType>>({
     queryKey: queryKeys.myBookHistory.list(myBookId).queryKey,
     queryFn: () => MyBookHistoryService.all(myBookId),
@@ -21,6 +23,8 @@ export default function useMyBookHistoryMutation() {
     removeMyBookHistoryQueryData,
     updateMyBookHistoryQueryData,
   } = useMyBookHistoryUpdateCache();
+  const MyBookHistoryService = useServiceInstance(useMyBookHistoryService);
+
   const addMyBookHistory = useMutation<
     ResponseRegisterMyBookHistory,
     AxiosError<NestServerErrorType>,

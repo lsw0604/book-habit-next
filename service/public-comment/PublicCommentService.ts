@@ -2,6 +2,21 @@ import { HTTPService } from '../http-service';
 
 class PublicCommentService extends HTTPService {
   private readonly url = 'api/public-comment';
+  private static instance: PublicCommentService;
+
+  private constructor(router?: any) {
+    super(router);
+  }
+
+  public static getInstance(router?: any) {
+    if (PublicCommentService.instance) {
+      PublicCommentService.instance = new PublicCommentService(router);
+    } else if (router) {
+      PublicCommentService.instance = new PublicCommentService(router);
+    }
+
+    return PublicCommentService.instance;
+  }
 
   private validatePayload(payload: RequestGetPublicCommentList) {
     const { page, page_size, start_date, end_date } = payload;
@@ -33,4 +48,6 @@ class PublicCommentService extends HTTPService {
   }
 }
 
-export default new PublicCommentService();
+export const publicCommentService = PublicCommentService.getInstance();
+export const usePublicCommentService = (router?: any) =>
+  PublicCommentService.getInstance(router);

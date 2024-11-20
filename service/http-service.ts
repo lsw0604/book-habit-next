@@ -11,8 +11,9 @@ const isClient = typeof window !== 'undefined';
 
 export class HTTPService {
   private apiClient: AxiosInstance;
+  private router: any;
 
-  constructor() {
+  constructor(router?: any) {
     this.apiClient = Axios.create({
       baseURL: process.env.NEXT_PUBLIC_SERVER,
       headers: {
@@ -22,6 +23,7 @@ export class HTTPService {
       withCredentials: true,
     });
 
+    this.router = router;
     this.initializeRequestInterceptor();
     this.initializeResponseInterceptor();
   }
@@ -84,10 +86,17 @@ export class HTTPService {
               (originalRequest._retryCount || 0) + 1;
 
             if (originalRequest._retryCount <= MAX_RETRY_COUNT) {
-              await refreshTokenAPI();
-              return this.apiClient(originalRequest);
+              try {
+                await refreshTokenAPI();
+                return this.apiClient(originalRequest);
+              } catch (error: any) {
+                await logoutAPI();
+                this.redirectToLogin();
+                return Promise.reject(error);
+              }
             } else {
               await logoutAPI();
+              this.redirectToLogin();
               return Promise.reject(new Error(`Error: ${error.message}`));
             }
           }
@@ -102,6 +111,16 @@ export class HTTPService {
         }
       }
     );
+  }
+
+  private redirectToLogin() {
+    if (isClient) {
+      if (this.router) {
+        this.router.push('/login');
+      } else {
+        window.location.href = '/login';
+      }
+    }
   }
 
   public async get<T>(

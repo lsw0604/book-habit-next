@@ -1,7 +1,9 @@
-import { queryKeys } from '@/queries/query-key';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import PublicCommentService from './PublicCommentService';
+
+import { usePublicCommentService } from '@/service/public-comment/PublicCommentService';
+import useServiceInstance from '@/hooks/useServiceInstance';
+import { queryKeys } from '@/queries/query-key';
 
 export function usePublicComments(
   payload: Pick<
@@ -9,6 +11,7 @@ export function usePublicComments(
     'end_date' | 'start_date' | 'page_size'
   >
 ) {
+  const PublicCommentService = useServiceInstance(usePublicCommentService);
   return useSuspenseInfiniteQuery<
     ResponseGetPublicCommentList,
     AxiosError<NestServerErrorType>,
