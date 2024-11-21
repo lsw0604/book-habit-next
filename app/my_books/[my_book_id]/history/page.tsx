@@ -3,5 +3,5 @@ export default function HistoryPage({
 }: {
   params: { my_book_id: string };
 }) {
-  return <div>MyBookId : {params.my_book_id}</div>;
+  return <div></div>;
 }
