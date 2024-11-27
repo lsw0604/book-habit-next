@@ -12,6 +12,7 @@ import MyBookHistoryHeader from './_components/my-book-history-header';
 
 import { useMyBookHistory } from '@/service/my-book-history/useMyBookHistoryService';
 import { getCalendarDetail } from '@/utils/calendar';
+import MyBookHistoryList from './_components/my-book-history-list';
 
 /**
  * TODO HistoryList 작성
@@ -44,6 +45,7 @@ export default function MyBookHistoryPage({
         Component={MyBookHistoryDateBox}
         setCalendar={setCalendar}
       />
+      <MyBookHistoryList data={data} calendar={calendar} />
     </section>
   );
 }

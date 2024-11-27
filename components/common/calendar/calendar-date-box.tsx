@@ -50,14 +50,18 @@ export default function CalendarDateBox({
       >
         {day}
       </div>
-      <div
-        className={cn(
-          'h-full w-full absolute top-0 left-0',
-          isToday ? 'bg-blue-200' : '',
-          isSunday ? 'bg-gray-100' : '',
-          isSaturday ? 'bg-gray-100' : ''
-        )}
-      />
+      {isToday ||
+        isSunday ||
+        (isSaturday && (
+          <div
+            className={cn(
+              'h-full w-full absolute top-0 left-0',
+              isToday ? 'bg-blue-200' : '',
+              isSunday ? 'bg-gray-100' : '',
+              isSaturday ? 'bg-gray-100' : ''
+            )}
+          />
+        ))}
       {children}
     </div>
   );
