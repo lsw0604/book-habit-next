@@ -9,14 +9,11 @@ import CustomCalendar from '@/components/common/calendar';
 import MyBookHistoryDateBox from './_components/my-book-history-date-box';
 import MyBookHistoryLoader from './_components/my-book-history-loader';
 import MyBookHistoryHeader from './_components/my-book-history-header';
+import MyBookHistoryList from './_components/my-book-history-list';
 
 import { useMyBookHistory } from '@/service/my-book-history/useMyBookHistoryService';
 import { getCalendarDetail } from '@/utils/calendar';
-import MyBookHistoryList from './_components/my-book-history-list';
 
-/**
- * TODO HistoryList 작성
- */
 export default function MyBookHistoryPage({
   params,
 }: {
@@ -31,7 +28,7 @@ export default function MyBookHistoryPage({
   if (!data || isLoading || isFetching) return <MyBookHistoryLoader />;
 
   return (
-    <section className="my-3 px-2">
+    <section className="my-3">
       <ErrorBoundary
         FallbackComponent={(response) => (
           <Alert message={response.error.message} status="ERROR" />
@@ -39,13 +36,15 @@ export default function MyBookHistoryPage({
       >
         <MyBookHistoryHeader myBookId={params.my_book_id} history={data} />
       </ErrorBoundary>
-      <CustomCalendar
-        data={data}
-        calendar={calendar}
-        Component={MyBookHistoryDateBox}
-        setCalendar={setCalendar}
-      />
-      <MyBookHistoryList data={data} calendar={calendar} />
+      <div className="w-full h-auto border border-gray-300 rounded-lg shadow-lg bg-transparent px-2 py-4">
+        <CustomCalendar
+          data={data}
+          calendar={calendar}
+          Component={MyBookHistoryDateBox}
+          setCalendar={setCalendar}
+        />
+        <MyBookHistoryList />
+      </div>
     </section>
   );
 }

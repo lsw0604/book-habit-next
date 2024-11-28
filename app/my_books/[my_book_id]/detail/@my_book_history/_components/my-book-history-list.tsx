@@ -1,69 +1,24 @@
+import { useAppSelector } from '@/store';
+import { myBookHistorySelector } from '@/store/features/my-book-history/my-book-history-selector';
 import { useMemo, useState } from 'react';
 
-interface MyBookHistoryListProps {
-  data: ResponseGetMyBookHistory;
-  calendar: CalendarDetailType;
-}
-
-export default function MyBookHistoryList({
-  data,
-  calendar,
-}: MyBookHistoryListProps) {
-  const [page, setPage] = useState<number>(1);
-  const useGroupedByMonth = (data: ResponseGetMyBookHistory) => {
-    const groupedByMonth = useMemo(() => {
-      const result: Record<string, MyBookHistoryItemType[]> = {};
-
-      Object.entries(data).forEach(([date, items]) => {
-        const month = date.substring(0, 7);
-        if (!result[month]) {
-          result[month] = [];
-        }
-        result[month].push(...items);
-      });
-
-      return result;
-    }, [data]);
-
-    return groupedByMonth;
-  };
-
-  const currentMonthData =
-    useGroupedByMonth(data)[`${calendar.year}-${calendar.month}`] || [];
-  const totalPages = Math.ceil(currentMonthData.length / 3);
-  const paginatedData = currentMonthData.slice((page - 1) * 3, page * 3);
-  const handlePageChange = (newPage: number) => {
-    if (newPage < 1 || newPage > totalPages) return;
-    setPage(newPage);
-  };
-
+export default function MyBookHistoryList() {
+  const { selectedHistory } = useAppSelector(myBookHistorySelector);
   return (
     <>
-      <ul className="w-full h-auto grid">
-        {paginatedData.map((element) => (
-          <li key={element.id}>{element.page}</li>
-        ))}
-      </ul>
-      <div className="flex justify-center mt-4">
-        {' '}
-        <button
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 1}
-        >
-          {' '}
-          이전{' '}
-        </button>{' '}
-        <span>
-          {page} / {totalPages}
-        </span>{' '}
-        <button
-          onClick={() => handlePageChange(page + 1)}
-          disabled={page === totalPages}
-        >
-          {' '}
-          다음{' '}
-        </button>
-      </div>
+      {selectedHistory ? (
+        <div className="mt-6 border-t pt-4">
+          <div className="flex justify-between items-center mb-3 px-4">
+            <h3 className="text-md font-semibold">2024년 11월 28일 기록</h3>
+            <button className="px-3 py-1 text-sm bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
+              새 기록
+            </button>
+          </div>
+          <div className="text-sm text-gray-500 text-center py-3">
+            등록된 기록이 없습니다.
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }

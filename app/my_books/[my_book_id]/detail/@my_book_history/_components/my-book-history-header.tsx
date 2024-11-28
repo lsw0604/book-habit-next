@@ -13,7 +13,7 @@ export default function MyBookHistoryHeader({
   if (!myBookId) throw Error('myBookId값이 존재하지 않습니다.');
 
   return (
-    <header className="mb-2 flex align-items text-2xl font-bold tracking-normal overflow-hidden">
+    <header className="mb-2 px-2 flex align-items text-2xl font-bold tracking-normal overflow-hidden">
       <h2 className="text-2xl font-bold inline-flex items-center">기록</h2>
       <span className="ml-2 inline-flex items-center text-gray-300 text-base tracking-normal font-normal">
         {Object.values(history).reduce((acc, cur) => acc + cur.length, 0)}
