@@ -16,16 +16,8 @@ export default function MyBookHistoryDateBox({
   const formattedDate = dayjs(date).toISOString();
 
   const onClickDateBox = () => {
-    dispatch(
-      myBookHistoryActions.setMyBookHistoryState({
-        createHistory: {
-          date: formattedDate,
-          page: 1,
-          memo: '',
-        },
-        selectedHistory: data,
-      })
-    );
+    dispatch(myBookHistoryActions.setSelectedDate(formattedDate));
+    dispatch(myBookHistoryActions.setSelectedMyBookHistory(data));
   };
 
   if (data) {

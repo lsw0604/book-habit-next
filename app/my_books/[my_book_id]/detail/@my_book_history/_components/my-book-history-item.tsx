@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { BookOpenIcon, CalendarIcon, ScrollTextIcon } from 'lucide-react';
 
 interface MyBookHistoryItemProps extends MyBookHistoryItemType {}
 
@@ -16,28 +15,21 @@ export default function MyBookHistoryItem({
   const updatedDate =
     createdAt === updatedAt ? `생성됨 : ${createdAt}` : `수정됨 : ${updatedAt}`;
 
-  const onClick = () => {
-    console.log(id);
-  };
-
   return (
-    <div className="border-2 rounded-lg p-4" onClick={onClick}>
-      <div className="flex justify-between items-start mb-2">
-        <div className="flex items-center gap-2 text-gray-600">
-          <CalendarIcon className="w-4 h-4" />
-          <span>{formattedDate}</span>
+    <div className="p-3 bg-gray-50 rounded-lg border border-gray-200 transition-colors flex justify-between items-center">
+      <div className="flex w-full flex-col mb-2 gap-2">
+        <div className="text-base text-gray-500 ml-auto">{page}Page</div>
+        <div className="text-sm text-gray-600 bg-white p-2 rounded border border-gray-100 w-full">
+          {memo ? memo : '등록된 메모가 없습니다.'}
         </div>
-        <span className="text-xs text-gray-400">{updatedDate}</span>
-      </div>
-      <div className="flex items-center gap-2 text-gray-600 mb-2">
-        <BookOpenIcon className="w-4 h-4" />
-        <span>{page} 페이지</span>
-      </div>
-      <div className="flex gap-2">
-        <ScrollTextIcon className="w-4 h-4 text-gray-600 flex-shrink-0 mt-1" />
-        <p className="text-gray-700">
-          {memo && memo?.length > 0 ? memo : null}
-        </p>
+        <div className="flex gap-2">
+          <button className="text-sm text-blue-500 hover:text-blue-700">
+            수정
+          </button>
+          <button className="text-sm text-red-500 hover:text-red-700">
+            삭제
+          </button>
+        </div>
       </div>
     </div>
   );

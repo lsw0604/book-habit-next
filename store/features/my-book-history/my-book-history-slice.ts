@@ -13,28 +13,28 @@ const myBookHistorySlice = createSlice({
     ) => {
       return { ...state, ...action.payload };
     },
+    setSelectedDate: (
+      state: WritableDraft<ReduxMyBookHistoryType>,
+      action: PayloadAction<string | undefined>
+    ) => {
+      state.selectedDate = action.payload;
+    },
     setSelectedMyBookHistory: (
       state: WritableDraft<ReduxMyBookHistoryType>,
       action: PayloadAction<MyBookHistoryItemType[] | undefined>
     ) => {
       state.selectedHistory = action.payload;
     },
-    setCreateMyBookHistory: (
-      state: WritableDraft<ReduxMyBookHistoryType>,
-      action: PayloadAction<ReduxCreateHistoryType>
-    ) => {
-      state.createHistory = action.payload;
-    },
     clearMyBookHistory: (state: WritableDraft<ReduxMyBookHistoryType>) => {
       state.selectedHistory = undefined;
-      state.createHistory = undefined;
+      state.selectedDate = undefined;
     },
   },
 });
 
 export const {
+  setSelectedDate,
   setSelectedMyBookHistory,
-  setCreateMyBookHistory,
   setMyBookHistoryState,
   clearMyBookHistory,
 } = myBookHistorySlice.actions;

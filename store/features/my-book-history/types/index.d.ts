@@ -1,6 +1,6 @@
 type ReduxMyBookHistoryType = {
+  selectedDate?: string;
   selectedHistory?: MyBookHistoryItemType[];
-  createHistory?: ReduxCreateHistoryType;
 };
 
 type ReduxCreateHistoryType = {
