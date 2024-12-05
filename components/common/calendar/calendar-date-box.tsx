@@ -37,7 +37,9 @@ export default function CalendarDateBox({
     <div
       className={cn(
         index + 1 === 1 ? COL_START_OBJ[firstDow + 1] : undefined,
-        'relative w-full pt-full cursor-pointer hover:bg-gray-200'
+        'relative w-full pt-full cursor-pointer hover:bg-gray-200',
+        isToday && 'bg-blue-200',
+        (isSunday || isSaturday) && 'bg-gray-200'
       )}
     >
       <div
@@ -50,18 +52,6 @@ export default function CalendarDateBox({
       >
         {day}
       </div>
-      {isToday ||
-        isSunday ||
-        (isSaturday && (
-          <div
-            className={cn(
-              'h-full w-full absolute top-0 left-0',
-              isToday ? 'bg-blue-200' : '',
-              isSunday ? 'bg-gray-100' : '',
-              isSaturday ? 'bg-gray-100' : ''
-            )}
-          />
-        ))}
       {children}
     </div>
   );

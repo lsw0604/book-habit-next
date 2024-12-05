@@ -23,7 +23,7 @@ export default function CustomCalendar<T>({
   return (
     <div className="w-full">
       <CalendarHeader calendar={calendar} setCalendar={setCalendar} />
-      <div className={cn('w-full grid grid-cols-7 gap-0 overflow-hidden')}>
+      <div className={cn('w-full grid grid-cols-7 gap-0 overflow-hidden p-1')}>
         {DAY_OF_WEEK.map((day) => (
           <div
             key={day}
