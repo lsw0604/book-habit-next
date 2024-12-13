@@ -19,6 +19,8 @@ export default function MyBookTagButtons({
       {tags.length > 0 ? (
         <div className="py-1 pr-2">
           <Tag
+            role="button"
+            key="remove-tag"
             className="whitespace-nowrap cursor-pointer"
             onClick={handlers.editTagHandler}
           >
@@ -28,6 +30,8 @@ export default function MyBookTagButtons({
       ) : null}
       <div className="py-1 pr-2">
         <Tag
+          role="register-tag"
+          key="re-delete"
           className="whitespace-nowrap cursor-pointer"
           onClick={handlers.openFormHandler}
         >

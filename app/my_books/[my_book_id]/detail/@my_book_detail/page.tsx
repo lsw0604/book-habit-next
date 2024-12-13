@@ -11,9 +11,9 @@ export default function MyBookDetailPage({
 }: {
   params: { my_book_id: number };
 }) {
-  const { data, isLoading, isFetching } = useMyBook(params.my_book_id);
+  const { data, isLoading } = useMyBook(params.my_book_id);
 
-  if (!data || isLoading || isFetching) return <MyBookDetailLoader />;
+  if (!data || isLoading) return <MyBookDetailLoader />;
 
   return (
     <div className="w-full h-auto border border-gray-300 rounded-lg shadow-lg bg-transparent px-2 py-4">

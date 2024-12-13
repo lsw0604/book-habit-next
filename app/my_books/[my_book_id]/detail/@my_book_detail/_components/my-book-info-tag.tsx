@@ -38,7 +38,6 @@ export default function MyBookInfoTag({ data }: MyBookInfoTagProps) {
           ))}
           <div className="py-1 pr-2" key={publisher}>
             <Tag
-              key={publisher}
               className="whitespace-nowrap"
               onClick={() => navigateToTagSearch(publisher, 'publisher')}
             >
@@ -55,7 +54,6 @@ export default function MyBookInfoTag({ data }: MyBookInfoTagProps) {
           {isbn.map((isbn) => (
             <div className="py-1 pr-2" key={isbn}>
               <Tag
-                key={isbn}
                 className="whitespace-nowrap"
                 onClick={() => navigateToTagSearch(isbn, 'isbn')}
               >
