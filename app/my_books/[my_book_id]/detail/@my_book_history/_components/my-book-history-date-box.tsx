@@ -1,62 +1,75 @@
 import dayjs from 'dayjs';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { HTMLAttributes, useCallback, useMemo } from 'react';
 
-import { useAppDispatch } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store';
 import { myBookHistoryActions } from '@/store/features/my-book-history/my-book-history-action';
-import { useCallback, useMemo } from 'react';
+import { myBookHistorySelector } from '@/store/features/my-book-history/my-book-history-selector';
 import { cn } from '@/utils/class-name';
 
-interface MyBookHistoryDateBoxProps {
+interface MyBookHistoryDateBoxProps extends HTMLAttributes<HTMLDivElement> {
   data?: MyBookHistoryItemType[];
   date: Date;
 }
 
+const MAX_DOTS = 3;
+const DOTS_SIZE = 2;
+
 export default function MyBookHistoryDateBox({
   data,
   date,
+  ...props
 }: MyBookHistoryDateBoxProps) {
-  // const dispatch = useAppDispatch();
-  // const formattedDate = dayjs(date).toISOString();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const MAX_DOTS = 3;
+  const dispatch = useAppDispatch();
+  const { selectedDate } = useAppSelector(myBookHistorySelector);
 
-  const URLDate = useMemo(() => {
-    return searchParams.get('date');
-  }, [searchParams]);
-  const newDate = dayjs(date).format('YYYY-MM-DD');
-
-  const isSelected = URLDate === newDate;
+  const formattedDate = useMemo(() => dayjs(date).toISOString(), [date]);
+  const isSelected = selectedDate === formattedDate;
+  const dotCounts = Math.min(MAX_DOTS, data?.length || 0);
+  const remainingCount = (data?.length || 0) - MAX_DOTS;
 
   const onClickDateBox = useCallback(() => {
     if (isSelected) return null;
 
-    const params = new URLSearchParams(searchParams);
-    params.set('date', newDate);
-
-    router.replace(`?${params.toString()}`);
-  }, [router, searchParams]);
+    console.log(selectedDate, date);
+    dispatch(
+      myBookHistoryActions.setMyBookHistoryState({
+        selectedDate: formattedDate,
+        selectedHistory: data,
+      })
+    );
+  }, [date, data, dispatch, selectedDate]);
 
   return (
     <div
       role="gridcell"
-      aria-label={`${dayjs(date).format('YYYY년 MM월 DD일')}`}
+      tabIndex={0}
+      aria-selected={isSelected}
       className={cn(
         'h-full w-full absolute top-0 left-0',
-        isSelected && 'bg-slate-500'
+        'transition-all duration-200 ease-in-out',
+        'cursor-pointer focus:outline-none',
+        isSelected
+          ? 'shadow-lg ring-2 ring-blue-400 z-10 rounded-md'
+          : 'shadow-none'
       )}
       onClick={onClickDateBox}
+      {...props}
     >
-      <div className="flex items-center gap-1 w-full h-full pt-6 px-1">
-        {Array.from({ length: Math.min(MAX_DOTS, data?.length || 0) }).map(
-          (_, idx) => (
-            <div key={idx} className="w-2 h-2 rounded-full bg-slate-700" />
-          )
-        )}
-        {data && data.length > MAX_DOTS && (
-          <span className="text-xs text-slate-600">
-            +{data.length - MAX_DOTS}
-          </span>
+      <div
+        className="flex items-center gap-1 w-full h-full pt-6 px-1"
+        aria-hidden="true"
+      >
+        {Array.from({ length: dotCounts }).map((_, idx) => (
+          <div
+            key={idx}
+            className={cn(
+              'rounded-full bg-slate-700',
+              `w-${DOTS_SIZE} h-${DOTS_SIZE}`
+            )}
+          />
+        ))}
+        {remainingCount > 0 && (
+          <span className="text-xs text-slate-600">+{remainingCount}</span>
         )}
       </div>
     </div>

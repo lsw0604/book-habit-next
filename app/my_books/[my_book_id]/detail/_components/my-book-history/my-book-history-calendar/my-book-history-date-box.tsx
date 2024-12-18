@@ -9,6 +9,8 @@ import { cn } from '@/utils/class-name';
 interface MyBookHistoryDateBoxProps extends HTMLAttributes<HTMLDivElement> {
   data?: MyBookHistoryItemType[];
   date: Date;
+  selectedDate: string;
+  onSelectedDate: (date: string, history?: MyBookHistoryItemType[]) => void;
 }
 
 const MAX_DOTS = 3;
@@ -17,10 +19,12 @@ const DOTS_SIZE = 2;
 export default function MyBookHistoryDateBox({
   data,
   date,
+  onSelectedDate,
+  selectedDate,
   ...props
 }: MyBookHistoryDateBoxProps) {
-  const dispatch = useAppDispatch();
-  const { selectedDate } = useAppSelector(myBookHistorySelector);
+  // const dispatch = useAppDispatch();
+  // const { selectedDate } = useAppSelector(myBookHistorySelector);
 
   const formattedDate = useMemo(() => dayjs(date).toISOString(), [date]);
   const isSelected = selectedDate === formattedDate;
@@ -29,13 +33,14 @@ export default function MyBookHistoryDateBox({
 
   const onClickDateBox = useCallback(() => {
     if (isSelected) return null;
-    dispatch(
-      myBookHistoryActions.setMyBookHistoryState({
-        selectedDate: formattedDate,
-        selectedHistory: data,
-      })
-    );
-  }, [date, data, dispatch, selectedDate]);
+    // dispatch(
+    //   myBookHistoryActions.setMyBookHistoryState({
+    //     selectedDate: formattedDate,
+    //     selectedHistory: data,
+    //   })
+    // );
+    onSelectedDate(formattedDate, data);
+  }, [date, data, selectedDate]);
 
   return (
     <div

@@ -1,38 +1,28 @@
+import dayjs from 'dayjs';
+
 import { useAppSelector } from '@/store';
 import { myBookHistorySelector } from '@/store/features/my-book-history/my-book-history-selector';
-import dayjs from 'dayjs';
-import { useSearchParams } from 'next/navigation';
-import { useMemo, useState } from 'react';
 
-interface MyBookHistoryListProps {
-  data: ResponseGetMyBookHistory;
-}
-
-export default function MyBookHistoryList({ data }: MyBookHistoryListProps) {
-  // const { selectedDate, selectedHistory } = useAppSelector(
-  //   myBookHistorySelector
-  // );
-
-  const searchParams = useSearchParams();
-
-  const currentDate = searchParams.get('date');
-  const currentData = currentDate ? data[currentDate] : null;
+export default function MyBookHistoryList() {
+  const { selectedDate, selectedHistory } = useAppSelector(
+    myBookHistorySelector
+  );
 
   return (
     <>
-      {currentDate ? (
+      {selectedDate ? (
         <div className="mt-6 border-t pt-4">
           <div className="flex justify-between items-center mb-3 px-4">
             <h3 className="text-md font-semibold">
-              {dayjs(currentDate).format('YYYY년 MM월 DD일')}
+              {dayjs(selectedDate).format('YYYY년 MM월 DD일')}
             </h3>
             <button className="px-3 py-1 text-sm bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
               새 기록
             </button>
           </div>
-          {currentData && currentData.length > 0 ? (
+          {selectedHistory && selectedHistory.length > 0 ? (
             <div className="space-y-2">
-              {currentData.map((history) => (
+              {selectedHistory.map((history) => (
                 <div
                   key={history.id}
                   className="p-3 bg-gray-50 rounded-lg border border-gray-200 transition-colors flex justify-between items-center"

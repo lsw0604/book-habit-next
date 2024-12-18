@@ -26,7 +26,7 @@ export default function MyBookHistoryCalendar({
         setCalendar={setCalendar}
         Component={MyBookHistoryDateBox}
       />
-      <MyBookHistoryList data={data} />
+      <MyBookHistoryList />
     </div>
   );
 }

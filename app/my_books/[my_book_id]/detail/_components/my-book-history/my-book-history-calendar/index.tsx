@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import CustomCalendar from '@/components/common/calendar';
 import MyBookHistoryDateBox from './my-book-history-date-box';
@@ -17,6 +17,17 @@ export default function MyBookHistoryCalendar({
   const [calendar, setCalendar] = useState(
     getCalendarDetail(dayjs().format('YYYY-MM-DD'))
   );
+  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [selectedHistory, setSelectedHistory] = useState<
+    MyBookHistoryItemType[] | undefined
+  >([]);
+  const onSelectedDate = useCallback(
+    (date: string, history?: MyBookHistoryItemType[]) => {
+      setSelectedDate(date);
+      setSelectedHistory(history);
+    },
+    []
+  );
 
   return (
     <div className="w-full h-auto border border-gray-300 rounded-lg shadow-lg bg-transparent px-2 py-4">
@@ -24,9 +35,18 @@ export default function MyBookHistoryCalendar({
         data={data}
         calendar={calendar}
         setCalendar={setCalendar}
-        Component={MyBookHistoryDateBox}
+        Component={(props) => (
+          <MyBookHistoryDateBox
+            {...props}
+            selectedDate={selectedDate}
+            onSelectedDate={onSelectedDate}
+          />
+        )}
       />
-      <MyBookHistoryList />
+      <MyBookHistoryList
+        selectedDate={selectedDate}
+        selectedHistory={selectedHistory}
+      />
     </div>
   );
 }

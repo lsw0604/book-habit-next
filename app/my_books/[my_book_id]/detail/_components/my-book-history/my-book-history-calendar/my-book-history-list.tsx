@@ -1,13 +1,14 @@
 import dayjs from 'dayjs';
 
-import { useAppSelector } from '@/store';
-import { myBookHistorySelector } from '@/store/features/my-book-history/my-book-history-selector';
+interface MyBookHistoryListProps {
+  selectedDate?: string;
+  selectedHistory?: MyBookHistoryItemType[];
+}
 
-export default function MyBookHistoryList() {
-  const { selectedDate, selectedHistory } = useAppSelector(
-    myBookHistorySelector
-  );
-
+export default function MyBookHistoryList({
+  selectedHistory,
+  selectedDate,
+}: MyBookHistoryListProps) {
   return (
     <>
       {selectedDate ? (
