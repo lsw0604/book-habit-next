@@ -26,9 +26,8 @@ export default function CalendarDateBox({
   firstDow,
 }: CalendarDateBoxProps) {
   const today = dayjs().format('YYYY-MM-DD');
-  const formattedDate = dayjs(date).format('YYYY-MM-DD');
 
-  const isToday = formattedDate === today;
+  const isToday = dayjs(date).format('YYYY-MM-DD') === today;
   const isSunday = dayjs(date).day() === 0;
   const isSaturday = dayjs(date).day() === 6;
   const day = dayjs(date).format('D');
