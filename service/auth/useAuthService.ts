@@ -34,6 +34,7 @@ export function useAuthMutation() {
   >({
     mutationFn: (payload) => AuthService.register(payload),
   });
+
   return {
     login,
     register,

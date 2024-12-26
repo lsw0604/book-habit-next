@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { EyeIcon, EyeOffIcon, MailIcon } from 'lucide-react';
+import { AxiosError } from 'axios';
 
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -16,27 +17,26 @@ import { useAuthMutation } from '@/service/auth/useAuthService';
 import useLoginRouter from '@/hooks/auth/useLoginRouter';
 import useKakaoRouter from '@/hooks/auth/useKakaoRouter';
 import useLoginForm from '@/hooks/form/auth/useLoginForm';
-import useSuccessHandler from '@/hooks/success/useSuccessHandler';
-import useErrorHandler from '@/hooks/error/useErrorHandler';
 import { LoginSchemaType } from '@/hooks/form/auth/schema/login.schema';
 import { IconKakao } from '@/style/icon';
-
-interface ControllerProps {
-  control: Control<LoginSchemaType>;
-}
 
 export default function LoginForm() {
   const dispatch = useAppDispatch();
   const { onSuccessCallback } = useLoginRouter();
-  const { pushToKakaoLogin } = useKakaoRouter();
+
   const {
-    login: { mutate, isSuccess, isError, error, isPending },
+    login: { mutate, isPending, isError, error },
   } = useAuthMutation();
 
-  const handleSuccess = (response: ResponseAuth) => {
-    dispatch(userActions.setUserState({ ...response, isLogged: true }));
-    onSuccessCallback();
-  };
+  const handleSuccess = useCallback(
+    async (response: ResponseAuth) => {
+      await Promise.all([
+        dispatch(userActions.setUserState({ ...response, isLogged: true })),
+        onSuccessCallback(),
+      ]);
+    },
+    [dispatch, onSuccessCallback]
+  );
 
   const onSubmit = useCallback(
     (data: LoginSchemaType) => {
@@ -50,40 +50,36 @@ export default function LoginForm() {
     [handleSuccess, mutate]
   );
 
-  useSuccessHandler({ isSuccess, message: '로그인에 성공했습니다.' });
-  useErrorHandler(isError, error);
-
   const {
     control,
     handleSubmit,
     formState: { isSubmitting },
   } = useLoginForm();
 
+  const isLoading = isSubmitting || isPending;
+
   return (
     <form
       className="flex flex-col ml-auto max-w-sm p-4 w-full rounded-lg"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <LoginEmailController control={control} />
-      <LoginPasswordController control={control} />
-      <p className="text-sm mt-4">
-        계정이 없나요?{' '}
-        <span className="text-slate-300">
-          <Link
-            href="/register"
-            className="font-bold text-slate-500 hover:underline"
-          >
-            회원가입
-          </Link>
-        </span>
-        하러가기
-      </p>
+      <FormUI control={control} isError={isError} error={error} />
+      <FormActions />
       <Separator className="my-4" />
+      <FormButtons isLoading={isLoading} />
+    </form>
+  );
+}
+
+function FormButtons({ isLoading }: { isLoading: boolean }) {
+  const { pushToKakaoLogin } = useKakaoRouter();
+  return (
+    <>
       <Button
         type="submit"
         role="primary"
-        isLoading={isPending}
-        disabled={isSubmitting}
+        isLoading={isLoading}
+        disabled={isLoading}
       >
         로그인하기
       </Button>
@@ -91,13 +87,53 @@ export default function LoginForm() {
         role="secondary"
         onClick={pushToKakaoLogin}
         type="button"
+        isLoading={isLoading}
+        disabled={isLoading}
         variant="yellow"
         className="mt-4 bg-yellow-300 hover:bg-yellow-300"
       >
         <IconKakao className="w-5 h-5 mr-4 fill-yellow-300" />
         카카오로 로그인
       </Button>
-    </form>
+    </>
+  );
+}
+
+interface ControllerProps {
+  control: Control<LoginSchemaType>;
+  isError?: boolean;
+  error?: AxiosError<NestServerErrorType, any> | null;
+}
+
+function FormUI({ control, isError, error }: ControllerProps) {
+  return (
+    <>
+      <LoginEmailController control={control} />
+      <LoginPasswordController control={control} />
+      {isError && error?.response && error?.response?.data.message && (
+        <ErrorMessage>{error?.response.data.message}</ErrorMessage>
+      )}
+    </>
+  );
+}
+
+function FormActions() {
+  return (
+    <>
+      <p className="text-sm mt-4">
+        계정이 없나요?{' '}
+        <span className="text-slate-300">
+          <Link
+            href="/register"
+            className="font-bold text-slate-500 hover:underline"
+            prefetch
+          >
+            회원가입
+          </Link>
+        </span>
+        하러가기
+      </p>
+    </>
   );
 }
 
