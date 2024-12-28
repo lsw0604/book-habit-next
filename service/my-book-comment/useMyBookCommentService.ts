@@ -10,13 +10,15 @@ export function useMyBookComment(myBookId: RequestGetMyBookCommentList) {
   const MyBookCommentService = useServiceInstance(useMyBookCommentService);
   return useQuery<
     ResponseGetMyBookCommentList,
-    AxiosError<NestServerErrorType>
+    AxiosError<NestServerErrorType>,
+    MyBookCommentItemType[]
   >({
     queryKey: queryKeys.myBookComment.all(myBookId).queryKey,
     queryFn: () => MyBookCommentService.all(myBookId),
     gcTime: 30 * 60 * 1000,
     staleTime: 10 * 60 * 1000,
     retry: 1,
+    select: (response) => response.myBookComment,
   });
 }
 

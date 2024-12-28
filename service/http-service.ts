@@ -52,7 +52,8 @@ export class HTTPService {
           if (
             response.request.responseURL.includes('/api/auth/signin') ||
             response.request.responseURL.includes('/api/auth/signup') ||
-            response.request.responseURL.includes('/api/auth/refresh')
+            response.request.responseURL.includes('/api/auth/refresh') ||
+            response.request.responseURL.includes('/api/auth/kakao')
           ) {
             const accessToken =
               response.headers['authorization']?.split(' ')[1];
@@ -76,9 +77,14 @@ export class HTTPService {
             return Promise.reject(error);
           }
 
+          const isAuthEndpoint =
+            originalRequest.url.includes('/api/auth/signin') ||
+            originalRequest.url.includes('/api/auth/signup') ||
+            originalRequest.url.includes('/api/auth/refresh');
+
           if (
-            error.response &&
-            error.response.status === 401 &&
+            error.response?.status === 401 &&
+            !isAuthEndpoint &&
             !originalRequest._retry
           ) {
             originalRequest._retry = true;
