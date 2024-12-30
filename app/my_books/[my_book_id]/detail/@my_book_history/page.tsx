@@ -19,15 +19,13 @@ export default function MyBookHistoryPage({
   if (!data || isLoading || isFetching) return <MyBookHistoryLoader />;
 
   return (
-    <section className="my-3">
-      <ErrorBoundary
-        FallbackComponent={(response) => (
-          <Alert message={response.error.message} status="ERROR" />
-        )}
-      >
-        <MyBookHistoryHeader myBookId={params.my_book_id} history={data} />
-        <MyBookHistoryCalendar data={data} />
-      </ErrorBoundary>
-    </section>
+    <ErrorBoundary
+      FallbackComponent={(response) => (
+        <Alert message={response.error.message} status="ERROR" />
+      )}
+    >
+      <MyBookHistoryHeader myBookId={params.my_book_id} history={data} />
+      <MyBookHistoryCalendar data={data} />
+    </ErrorBoundary>
   );
 }

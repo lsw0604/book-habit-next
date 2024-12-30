@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 interface MyBookHistoryListProps {
   selectedDate?: string;
@@ -9,6 +11,11 @@ export default function MyBookHistoryList({
   selectedHistory,
   selectedDate,
 }: MyBookHistoryListProps) {
+  const params = useParams();
+  const myBookId = Number(params.my_book_id);
+
+  if (!myBookId) throw Error('myBookId값이 존재하지 않습니다.');
+
   return (
     <>
       {selectedDate ? (
@@ -17,9 +24,15 @@ export default function MyBookHistoryList({
             <h3 className="text-md font-semibold">
               {dayjs(selectedDate).format('YYYY년 MM월 DD일')}
             </h3>
-            <button className="px-3 py-1 text-sm bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
-              새 기록
-            </button>
+            <Link
+              href={`/my_books/${myBookId}/history/${dayjs(selectedDate).format(
+                'YYYYMMDD'
+              )}/write`}
+            >
+              <button className="px-3 py-1 text-sm bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
+                새 기록
+              </button>
+            </Link>
           </div>
           {selectedHistory && selectedHistory.length > 0 ? (
             <div className="space-y-2">

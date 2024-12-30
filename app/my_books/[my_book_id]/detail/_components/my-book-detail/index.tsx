@@ -1,3 +1,5 @@
+'use client';
+
 import MyBookInfo from './my-book-info';
 import MyBookDate from './my-book-date';
 import MyBookLoader from './my-book-loader';
