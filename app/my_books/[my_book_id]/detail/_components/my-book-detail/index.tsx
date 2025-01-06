@@ -4,6 +4,7 @@ import MyBookInfo from './my-book-info';
 import MyBookDate from './my-book-date';
 import MyBookLoader from './my-book-loader';
 import MyBookUpdateForm from './my-book-update-form';
+import MyBookTag from './my-book-tag';
 
 import { useMyBook } from '@/service/my-book/useMyBookService';
 
@@ -18,7 +19,9 @@ export default function MyBookDetail({ myBookId }: BookDetailProps) {
 
   return (
     <div className="w-full h-auto border border-gray-300 rounded-lg shadow-lg bg-transparent px-2 py-4">
-      <MyBookInfo data={data} />
+      <MyBookInfo data={data}>
+        <MyBookTag data={data} />
+      </MyBookInfo>
       <MyBookUpdateForm data={data} myBookId={myBookId} />
       <MyBookDate createdAt={data.createdAt} updatedAt={data.updatedAt} />
     </div>

@@ -11,13 +11,11 @@ type ResponseGetMyBookDetail = {
 };
 
 type MyBookDetailType = {
-  isbn: string[];
   authors: string[];
   contents: string;
   datetime: string;
   publisher: string;
   thumbnail: string;
   title: string;
-  translators: string[];
   url: string;
 };
