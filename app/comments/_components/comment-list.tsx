@@ -1,8 +1,10 @@
 'use client';
 
+import dayjs from 'dayjs';
+
+import { CommentItem } from './comment-item';
 import usePublicCommentParams from '@/hooks/public-comment/usePublicCommentParams';
 import { usePublicComments } from '@/service/public-comment/usePublicCommentService';
-import dayjs from 'dayjs';
 
 export default function CommentList() {
   const { endDate, pageSize, startDate } = usePublicCommentParams();
@@ -16,9 +18,9 @@ export default function CommentList() {
   });
 
   return (
-    <div>
+    <div className="w-full max-w-2xl mx-auto p-4 space-y-4">
       {data.map((comment) => (
-        <div key={comment.commentId}>{comment.comment}</div>
+        <CommentItem key={comment.commentId} {...comment} />
       ))}
     </div>
   );
