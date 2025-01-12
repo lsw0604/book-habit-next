@@ -1,3 +1,6 @@
+import { Suspense } from 'react';
+import GoogleMapComponent from './_components/google';
+
 export default function MyBookHistoryWritePage({
   params,
 }: {
@@ -5,5 +8,10 @@ export default function MyBookHistoryWritePage({
     history_date: string;
   };
 }) {
-  return <div>{params.history_date}Write</div>;
+  return (
+    <div>
+      {params.history_date}Write
+      <GoogleMapComponent />
+    </div>
+  );
 }

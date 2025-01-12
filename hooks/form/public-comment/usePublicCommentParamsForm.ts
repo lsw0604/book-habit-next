@@ -2,11 +2,11 @@ import useFormWithSchema from '../useFormWithSchema';
 import { defaultPublicCommentValue } from './default/params';
 import {
   publicCommentParamsSchema,
-  publicCommentParamsSchemaType,
+  PublicCommentParamsSchemaType,
 } from './schema/params.schema';
 
 const usePublicCommentParamsForm = (
-  initialValue?: publicCommentParamsSchemaType
+  initialValue?: PublicCommentParamsSchemaType
 ) =>
   useFormWithSchema(
     publicCommentParamsSchema,

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { LogoSad } from 'style/icon';
+import { LogoSad } from '@/style/icon';
 
 export default function NotFound() {
   return (

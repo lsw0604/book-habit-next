@@ -9,12 +9,11 @@ export default function useErrorHandler(
   const { errorToast } = useToastHook();
 
   useEffect(() => {
-    if (isError && error instanceof Error) {
-      errorToast(error.message);
-    }
-
     if (isError && error instanceof AxiosError && error.response) {
-      errorToast(error.response.data.message);
+      return errorToast(error.response.data.message);
+    }
+    if (isError && error instanceof Error) {
+      return errorToast(error.message);
     }
   }, [isError, error]);
 }

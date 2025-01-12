@@ -1,13 +1,13 @@
 import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
-import { publicCommentParamsSchemaType } from '../form/public-comment/schema/params.schema';
+import { PublicCommentParamsSchemaType } from '../form/public-comment/schema/params.schema';
 import { defaultPublicCommentValue } from '../form/public-comment/default/params';
 import { parseParam } from '@/utils/params';
 
 const MAX_SIZE = 50;
 const MIN_SIZE = 10;
 
-export default function usePublicCommentParams(): publicCommentParamsSchemaType {
+export default function usePublicCommentParams(): PublicCommentParamsSchemaType {
   const searchParams = useSearchParams();
 
   const sizeParser = (size: string) => {
