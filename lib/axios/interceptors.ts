@@ -17,9 +17,6 @@ interface ExtendedAxiosError extends AxiosError {
   response?: AxiosResponse<NestServerErrorType>;
 }
 
-/**
- * TODO : interceptor 마무리
- */
 export const createRequestInterceptor = (client: AxiosInstance) => {
   return client.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
@@ -80,12 +77,19 @@ export const createResponseInterceptor = (client: AxiosInstance) => {
         isRefreshing = true;
 
         try {
+          // 1. refreshTokenAPI는 Authorization Header에 Bearer Token 형식으로 JWT 토큰을 보내줌
+          // 2. createResponseInterceptors에서 Authorization Header에 Token을 session에 저장함
           await refreshTokenAPI();
           processQueue();
-          error.config.headers.Authorization = `Bea`;
           return client(originalRequest);
-        } catch (err) {}
+        } catch (err) {
+          processQueue(err);
+          throw err;
+        } finally {
+          isRefreshing = false;
+        }
       }
+      return Promise.reject(error);
     }
   );
 };
