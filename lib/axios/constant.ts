@@ -6,4 +6,5 @@ export const API_ENDPOINTS = {
     KAKAO: '/api/auth/kakao',
     LOGOUT: '/api/auth/logout',
   },
+  MY_BOOK: '/api/my-book',
 } as const;
