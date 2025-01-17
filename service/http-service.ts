@@ -6,6 +6,9 @@ import Axios, {
 } from 'axios';
 import { refreshTokenAPI, logoutAPI } from './auth';
 
+/**
+ * TODO service 구조 바꾸기
+ */
 const MAX_RETRY_COUNT = 1;
 const isClient = typeof window !== 'undefined';
 

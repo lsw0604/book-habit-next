@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 import { useAuthService } from '@/service/auth/AuthService';
 import useServiceInstance from '@/hooks/useServiceInstance';
 import { queryKeys } from '@/queries/query-key';
+import { getAuthService } from '.';
 
 export function useKakao(code: string) {
   const AuthService = useServiceInstance(useAuthService);
@@ -17,7 +18,7 @@ export function useKakao(code: string) {
 }
 
 export function useAuthMutation() {
-  const AuthService = useServiceInstance(useAuthService);
+  const AuthService = getAuthService();
 
   const login = useMutation<
     ResponseAuth,

@@ -12,19 +12,19 @@ export const createClient = () => {
   createResponseInterceptor(client);
 
   return {
-    get: async <T>(url: string, config = {}) => {
+    get: async <T>(url: string, config = {}): Promise<T> => {
       const response = await client.get<T>(url, config);
       return response.data;
     },
-    post: async <T>(url: string, data?: unknown, config = {}) => {
-      const response = await client.post(url, data, config);
+    post: async <T>(url: string, data?: unknown, config = {}): Promise<T> => {
+      const response = await client.post<T>(url, data, config);
       return response.data;
     },
-    put: async <T>(url: string, data?: unknown, config = {}) => {
+    put: async <T>(url: string, data?: unknown, config = {}): Promise<T> => {
       const response = await client.put<T>(url, data, config);
       return response.data;
     },
-    delete: async <T>(url: string, config = {}) => {
+    delete: async <T>(url: string, config = {}): Promise<T> => {
       const response = await client.delete<T>(url, config);
       return response.data;
     },

@@ -6,7 +6,7 @@ import type {
 } from 'axios';
 import { API_ENDPOINTS } from './constant';
 import { tokenStorage } from '@/utils/token';
-import { refreshTokenAPI } from '@/service/auth';
+import { getAuthService } from '@/service/auth';
 
 interface RetryConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -33,21 +33,17 @@ export const createRequestInterceptor = (client: AxiosInstance) => {
 
 export const createResponseInterceptor = (client: AxiosInstance) => {
   let isRefreshing = false;
-  let failedQueue: { resolve: Function; reject: Function }[] = [];
+  const queue: { resolve: Function; reject: Function }[] = [];
 
   const processQueue = (error: any = null) => {
-    failedQueue.forEach((promise) => {
-      if (error) {
-        promise.reject(error);
-      } else {
-        promise.resolve();
-      }
+    queue.forEach(({ resolve, reject }) => {
+      error ? reject(error) : resolve();
     });
-    failedQueue = [];
+    queue.length = 0;
   };
 
   return client.interceptors.response.use(
-    (response) => {
+    (response: AxiosResponse) => {
       const isAuthEndPoint = Object.values(API_ENDPOINTS.AUTH).some(
         (endPoint) => response.request?.responseURL.includes(endPoint)
       );
@@ -62,12 +58,13 @@ export const createResponseInterceptor = (client: AxiosInstance) => {
     },
     async (error: ExtendedAxiosError) => {
       const originalRequest = error.config;
+      const AuthService = getAuthService();
       if (!originalRequest) return Promise.reject(error);
 
       if (error.response?.status === 401 && !originalRequest?._retry) {
         if (isRefreshing) {
           return new Promise((resolve, reject) => {
-            failedQueue.push({ resolve, reject });
+            queue.push({ resolve, reject });
           })
             .then(() => client(originalRequest))
             .catch((err) => Promise.reject(err));
@@ -79,7 +76,7 @@ export const createResponseInterceptor = (client: AxiosInstance) => {
         try {
           // 1. refreshTokenAPI는 Authorization Header에 Bearer Token 형식으로 JWT 토큰을 보내줌
           // 2. createResponseInterceptors에서 Authorization Header에 Token을 session에 저장함
-          await refreshTokenAPI();
+          await AuthService.refresh();
           processQueue();
           return client(originalRequest);
         } catch (err) {

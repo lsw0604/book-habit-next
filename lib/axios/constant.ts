@@ -8,3 +8,6 @@ export const API_ENDPOINTS = {
   },
   MY_BOOK: '/api/my-book',
 } as const;
+
+export const MAX_RETRY_COUNT = 1;
+export const isClient = typeof window !== 'undefined';
