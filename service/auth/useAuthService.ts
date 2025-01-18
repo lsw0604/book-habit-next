@@ -1,13 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import { useAuthService } from '@/service/auth/AuthService';
-import useServiceInstance from '@/hooks/useServiceInstance';
 import { queryKeys } from '@/queries/query-key';
 import { getAuthService } from '.';
 
 export function useKakao(code: string) {
-  const AuthService = useServiceInstance(useAuthService);
+  const AuthService = getAuthService();
 
   return useQuery<ResponseAuth, AxiosError<NestServerErrorType>>({
     queryKey: queryKeys.auth.kakao(code).queryKey,
@@ -35,6 +33,8 @@ export function useAuthMutation() {
   >({
     mutationFn: (payload) => AuthService.register(payload),
   });
+
+  const logout = useMutation
 
   return {
     login,

@@ -4,7 +4,6 @@ import Axios, {
   AxiosResponse,
   AxiosInstance,
 } from 'axios';
-import { refreshTokenAPI, logoutAPI } from './auth';
 
 /**
  * TODO service 구조 바꾸기

@@ -1,3 +1,0 @@
-type ResponseLogout = {
-  message: string;
-};

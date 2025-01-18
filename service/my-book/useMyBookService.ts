@@ -1,16 +1,14 @@
 import { AxiosError } from 'axios';
 import { useInfiniteQuery, useQuery, useMutation } from '@tanstack/react-query';
-
-import { useMyBookService } from '@/service/my-book/MyBookService';
 import { useMyBookInvalidateCache } from '@/hooks/my-book/useMyBookInvalidateCache';
 import { useMyBookUpdateCache } from '@/hooks/my-book/useMyBookUpdateCache';
-import useServiceInstance from '@/hooks/useServiceInstance';
 import { queryKeys } from '@/queries/query-key';
+import { getMyBookService } from '.';
 
 export function useMyBooks(
   params: Pick<RequestGetMyBookList, 'order' | 'status'>
 ) {
-  const MyBookService = useServiceInstance(useMyBookService);
+  const MyBookService = getMyBookService();
 
   return useInfiniteQuery<
     ResponseGetMyBookList,
@@ -19,7 +17,7 @@ export function useMyBooks(
   >({
     queryKey: queryKeys.myBook.list(params).queryKey,
     queryFn: ({ pageParam = 1 }) =>
-      MyBookService.all({
+      MyBookService.getMyBooks({
         ...params,
         page: pageParam as number,
       }),
@@ -32,11 +30,11 @@ export function useMyBooks(
 }
 
 export function useMyBook(myBookId: RequestGetMyBookDetail) {
-  const MyBookService = useServiceInstance(useMyBookService);
+  const MyBookService = getMyBookService();
 
   return useQuery<ResponseGetMyBookDetail, AxiosError<NestServerErrorType>>({
     queryKey: queryKeys.myBook.detail(myBookId).queryKey,
-    queryFn: () => MyBookService.detail(myBookId),
+    queryFn: () => MyBookService.getMyBook(myBookId),
     gcTime: 30 * 60 * 1000, // 30분
     staleTime: 10 * 60 * 1000, // 10분
   });
@@ -45,14 +43,15 @@ export function useMyBook(myBookId: RequestGetMyBookDetail) {
 export function useMyBookMutation() {
   const { invalidateList, invalidateDetail } = useMyBookInvalidateCache();
   const { updateMyBookQueryData } = useMyBookUpdateCache();
-  const MyBookService = useServiceInstance(useMyBookService);
+  const MyBookService = getMyBookService();
 
   const addMyBook = useMutation<
     ResponseRegisterMyBook,
     AxiosError<NestServerErrorType>,
     RequestRegisterMyBook
   >({
-    mutationFn: (payload: RequestRegisterMyBook) => MyBookService.add(payload),
+    mutationFn: (payload: RequestRegisterMyBook) =>
+      MyBookService.addMyBook(payload),
     onSuccess: invalidateList,
   });
 
@@ -61,7 +60,8 @@ export function useMyBookMutation() {
     AxiosError<NestServerErrorType>,
     RequestPutMyBook
   >({
-    mutationFn: (payload: RequestPutMyBook) => MyBookService.update(payload),
+    mutationFn: (payload: RequestPutMyBook) =>
+      MyBookService.updateMyBook(payload),
     onSuccess: (response) => {
       invalidateList();
       updateMyBookQueryData(response);
@@ -73,7 +73,8 @@ export function useMyBookMutation() {
     AxiosError<NestServerErrorType>,
     RequestDeleteMyBook
   >({
-    mutationFn: (payload: RequestDeleteMyBook) => MyBookService.remove(payload),
+    mutationFn: (payload: RequestDeleteMyBook) =>
+      MyBookService.deleteMyBook(payload),
     onMutate: invalidateDetail,
     onSuccess: invalidateList,
   });
