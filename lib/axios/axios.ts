@@ -37,10 +37,32 @@ const processQueue = (error: Error | null, token: string | null = null) => {
   failedQueue = [];
 };
 
-/**
- * TODO refresh token logic 구현하기
- */
-const handleRefreshToken = async () => {};
+const handleRefreshToken = async (originalRequest: RetryConfig) => {
+  if (isRefreshing) {
+    return new Promise((resolve, reject) => {
+      failedQueue.push({ resolve, reject });
+    }).then(() => createAxios(originalRequest));
+  }
+
+  isRefreshing = true;
+  const authService = getAuthService();
+
+  try {
+    await authService.refresh();
+    processQueue(null);
+    return createAxios(originalRequest);
+  } catch (err) {
+    if (err instanceof AxiosError && err.response?.status === 401) {
+      await authService.logout();
+      tokenStorage.removeToken();
+      window.location.href = '/login';
+    }
+    processQueue(err as Error);
+    throw err;
+  } finally {
+    isRefreshing = false;
+  }
+};
 
 createAxios.interceptors.request.use(
   (config) => {
@@ -67,7 +89,6 @@ createAxios.interceptors.response.use(
   },
   async (error: ExtendedAxiosError) => {
     const originalRequest = error.config;
-    const authService = getAuthService();
 
     if (!originalRequest) return Promise.reject(error);
     if (originalRequest._retryCount && originalRequest._retryCount >= 3) {
@@ -78,31 +99,7 @@ createAxios.interceptors.response.use(
       originalRequest._retry = true;
       originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
 
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then(() => {
-            return createAxios(originalRequest);
-          })
-          .catch((err) => {
-            return Promise.reject(err);
-          });
-      }
-
-      isRefreshing = true;
-
-      try {
-        await authService.refresh();
-        processQueue(null);
-        isRefreshing = false;
-        return createAxios(originalRequest);
-      } catch (err) {
-        processQueue(err as Error);
-        isRefreshing = false;
-        await authService.logout();
-        return Promise.reject(err);
-      }
+      return await handleRefreshToken(originalRequest);
     }
 
     return Promise.reject(error);
