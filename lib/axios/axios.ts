@@ -77,31 +77,31 @@ createAxios.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-createAxios.interceptors.response.use(
-  (response) => {
-    const authHeader = response.headers['authorization'];
+// createAxios.interceptors.response.use(
+//   (response) => {
+//     const authHeader = response.headers['authorization'];
 
-    if (authHeader?.startsWith('Bearer ')) {
-      const token = authHeader.split(' ')[1];
-      tokenStorage.setToken(token);
-    }
-    return response;
-  },
-  async (error: ExtendedAxiosError) => {
-    const originalRequest = error.config;
+//     if (authHeader?.startsWith('Bearer ')) {
+//       const token = authHeader.split(' ')[1];
+//       tokenStorage.setToken(token);
+//     }
+//     return response;
+//   },
+//   async (error: ExtendedAxiosError) => {
+//     const originalRequest = error.config;
 
-    if (!originalRequest) return Promise.reject(error);
-    if (originalRequest._retryCount && originalRequest._retryCount >= 3) {
-      return Promise.reject(error);
-    }
+//     if (!originalRequest) return Promise.reject(error);
+//     if (originalRequest._retryCount && originalRequest._retryCount >= 3) {
+//       return Promise.reject(error);
+//     }
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
+//     if (error.response?.status === 401 && !originalRequest._retry) {
+//       originalRequest._retry = true;
+//       originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
 
-      return await handleRefreshToken(originalRequest);
-    }
+//       return await handleRefreshToken(originalRequest);
+//     }
 
-    return Promise.reject(error);
-  }
-);
+//     return Promise.reject(error);
+//   }
+// );

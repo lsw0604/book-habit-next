@@ -7,6 +7,7 @@ import type {
 import { API_ENDPOINTS } from './constant';
 import { tokenStorage } from '@/utils/token';
 import { getAuthService } from '@/service/auth';
+import { createAxios } from './axios';
 
 interface RetryConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -16,6 +17,34 @@ interface ExtendedAxiosError extends AxiosError {
   config: RetryConfig;
   response?: AxiosResponse<NestServerErrorType>;
 }
+
+/**
+ * TODO 다시 인터셉터랑 분리해보기
+ */
+export const setUpAxiosInterceptor = (onAuthError: () => void) => {
+  return createAxios.interceptors.response.use(
+    (response: AxiosResponse) => {
+      return response;
+    },
+    async (error: ExtendedAxiosError) => {
+      const originalRequest = error.config;
+      const authService = getAuthService();
+
+      if (error.response?.status === 401 && !originalRequest?._retry) {
+        originalRequest._retry = true;
+
+        try {
+          await authService.refresh();
+          return createAxios(originalRequest);
+        } catch (err) {
+          onAuthError();
+          throw err;
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
+};
 
 export const createRequestInterceptor = (client: AxiosInstance) => {
   return client.interceptors.request.use(
