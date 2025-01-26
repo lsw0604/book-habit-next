@@ -8,19 +8,17 @@ import { API_ENDPOINTS } from './constant';
 import { tokenStorage } from '@/utils/token';
 import { getAuthService } from '@/service/auth';
 import { createAxios } from './axios';
+import { authEvents } from '@/events/auth';
 
-interface RetryConfig extends InternalAxiosRequestConfig {
+interface RequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
 }
 
 interface ExtendedAxiosError extends AxiosError {
-  config: RetryConfig;
+  config: RequestConfig;
   response?: AxiosResponse<NestServerErrorType>;
 }
 
-/**
- * TODO 다시 인터셉터랑 분리해보기
- */
 export const setUpAxiosInterceptor = (onAuthError: () => void) => {
   return createAxios.interceptors.response.use(
     (response: AxiosResponse) => {
@@ -48,7 +46,7 @@ export const setUpAxiosInterceptor = (onAuthError: () => void) => {
 
 export const createRequestInterceptor = (client: AxiosInstance) => {
   return client.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
+    (config: RequestConfig) => {
       const token = tokenStorage.getToken();
 
       if (token) {
@@ -87,13 +85,8 @@ export const createResponseInterceptor = (client: AxiosInstance) => {
     },
     async (error: ExtendedAxiosError) => {
       const originalRequest = error.config;
-      const AuthService = getAuthService();
-
       if (!originalRequest) return Promise.reject(error);
-      if (originalRequest.url?.includes('/logout')) {
-        console.log('lo');
-        return Promise.reject(error);
-      }
+      const AuthService = getAuthService();
 
       if (error.response?.status === 401 && !originalRequest?._retry) {
         if (isRefreshing) {
@@ -107,9 +100,7 @@ export const createResponseInterceptor = (client: AxiosInstance) => {
         originalRequest._retry = true;
         isRefreshing = true;
         try {
-          // 1. refreshTokenAPI는 Authorization Header에 Bearer Token 형식으로 JWT 토큰을 보내줌
-          // 2. createResponseInterceptors에서 Authorization Header에 Token을 session에 저장함
-          await AuthService.refresh();
+          authEvents.emitSessionExpired();
           processQueue();
           return client(originalRequest);
         } catch (err) {
