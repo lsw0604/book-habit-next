@@ -6,6 +6,7 @@ import axios, {
 import { axiosConfig } from './config';
 import { tokenStorage } from '@/utils/token';
 import { getAuthService } from '@/service/auth';
+import { getNavigationService } from '@/service/navigation';
 
 interface RetryConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -46,6 +47,7 @@ const handleRefreshToken = async (originalRequest: RetryConfig) => {
 
   isRefreshing = true;
   const authService = getAuthService();
+  const navigationService = getNavigationService();
 
   try {
     await authService.refresh();
@@ -53,9 +55,9 @@ const handleRefreshToken = async (originalRequest: RetryConfig) => {
     return createAxios(originalRequest);
   } catch (err) {
     if (err instanceof AxiosError && err.response?.status === 401) {
-      await authService.logout();
+      // await authService.logout();
+      await navigationService.navigate('/login');
       tokenStorage.removeToken();
-      window.location.href = '/login';
     }
     processQueue(err as Error);
     throw err;
@@ -77,31 +79,31 @@ createAxios.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// createAxios.interceptors.response.use(
-//   (response) => {
-//     const authHeader = response.headers['authorization'];
+createAxios.interceptors.response.use(
+  (response) => {
+    const authHeader = response.headers['authorization'];
 
-//     if (authHeader?.startsWith('Bearer ')) {
-//       const token = authHeader.split(' ')[1];
-//       tokenStorage.setToken(token);
-//     }
-//     return response;
-//   },
-//   async (error: ExtendedAxiosError) => {
-//     const originalRequest = error.config;
+    if (authHeader?.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      tokenStorage.setToken(token);
+    }
+    return response;
+  },
+  async (error: ExtendedAxiosError) => {
+    const originalRequest = error.config;
 
-//     if (!originalRequest) return Promise.reject(error);
-//     if (originalRequest._retryCount && originalRequest._retryCount >= 3) {
-//       return Promise.reject(error);
-//     }
+    if (!originalRequest) return Promise.reject(error);
+    if (originalRequest._retryCount && originalRequest._retryCount >= 3) {
+      return Promise.reject(error);
+    }
 
-//     if (error.response?.status === 401 && !originalRequest._retry) {
-//       originalRequest._retry = true;
-//       originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
 
-//       return await handleRefreshToken(originalRequest);
-//     }
+      return await handleRefreshToken(originalRequest);
+    }
 
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+);

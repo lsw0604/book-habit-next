@@ -17,6 +17,7 @@ import {
   createRequestInterceptor,
   setUpAxiosInterceptor,
 } from '@/lib/axios/interceptors';
+import { NavigationProvider } from '@/providers/navigation-provider';
 
 const ToastPortal = dynamic(() => import('@/components/toast/toast-portal'));
 const ModalPortal = dynamic(() => import('@/components/modal/modal-portal'));
@@ -40,20 +41,22 @@ export default function RootLayout({
         <div id="root-toast" />
         <ReduxProvider>
           <QueryProvider client={queryClient}>
-            <React.Fragment>
-              <ToastPortal />
-              <Header />
-              <div
-                className={cn(
-                  'w-screen h-screen p-0 box-border',
-                  pathname !== '/' && 'py-16 px-0'
-                )}
-              >
-                {children}
-              </div>
-              <Bottom />
-              <ModalPortal />
-            </React.Fragment>
+            <NavigationProvider>
+              <React.Fragment>
+                <ToastPortal />
+                <Header />
+                <div
+                  className={cn(
+                    'w-screen h-screen p-0 box-border',
+                    pathname !== '/' && 'py-16 px-0'
+                  )}
+                >
+                  {children}
+                </div>
+                <Bottom />
+                <ModalPortal />
+              </React.Fragment>
+            </NavigationProvider>
           </QueryProvider>
         </ReduxProvider>
         <div id="root-modal" />
