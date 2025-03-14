@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/axios';
+import { createAxios } from '@/lib/axios/axios';
 import { API_ENDPOINTS } from '@/lib/axios/constant';
 import { stringify } from 'querystring';
 
@@ -12,9 +13,10 @@ export const createMyBookService = () => {
       status = 'ALL',
     }: RequestGetMyBookList) => {
       const queryString = stringify({ page, status, order });
-      return client.get<ResponseGetMyBookList>(
+      const response = createAxios.get<ResponseGetMyBookList>(
         `${API_ENDPOINTS.MY_BOOK}?${queryString}`
       );
+      return response;
     },
     getMyBook: (myBookId: number) =>
       client.get<ResponseGetMyBookDetail>(

@@ -16,11 +16,14 @@ export function useMyBooks(
     Pick<ResponseGetMyBookList, 'books'>
   >({
     queryKey: queryKeys.myBook.list(params).queryKey,
-    queryFn: ({ pageParam = 1 }) =>
-      MyBookService.getMyBooks({
+    queryFn: async ({ pageParam = 1 }) => {
+      const response = await MyBookService.getMyBooks({
         ...params,
         page: pageParam as number,
-      }),
+      });
+
+      return response.data;
+    },
     getNextPageParam: (response) => response.nextPage ?? undefined,
     initialPageParam: 1,
     select: (data) => ({ books: data.pages.flatMap((page) => page.books) }),
