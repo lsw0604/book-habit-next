@@ -75,7 +75,10 @@ export class HTTPService {
             error.response.status === 401 &&
             error.request?.responseURL.includes('api/auth/refresh')
           ) {
-            await logoutAPI();
+            /**
+             * TODO: 로그아웃 처리
+             */
+
             return Promise.reject(error);
           }
 
@@ -95,15 +98,25 @@ export class HTTPService {
 
             if (originalRequest._retryCount <= MAX_RETRY_COUNT) {
               try {
-                await refreshTokenAPI();
+                /**
+                 * TODO: refresh token 요청
+                 * TODO: refresh token 성공 시 originalRequest 재요청
+                 */
+
                 return this.apiClient(originalRequest);
               } catch (error: any) {
-                await logoutAPI();
+                /**
+                 * TODO: 로그아웃 처리
+                 * TODO: 로그인 페이지로 리다이렉트
+                 */
                 this.redirectToLogin();
                 return Promise.reject(error);
               }
             } else {
-              await logoutAPI();
+              /**
+               * TODO: 로그아웃 처리
+               * TODO: 로그인 페이지로 리다이렉트
+               */
               this.redirectToLogin();
               return Promise.reject(new Error(`Error: ${error.message}`));
             }
@@ -135,7 +148,7 @@ export class HTTPService {
     url: string,
     config?: InternalAxiosRequestConfig
   ): Promise<T> {
-    return await this.apiClient.get<T>(url, config).then((res) => res.data);
+    return await this.apiClient.get<T>(url, config).then(res => res.data);
   }
 
   public async post<T>(
@@ -145,7 +158,7 @@ export class HTTPService {
   ): Promise<T> {
     return await this.apiClient
       .post<T>(url, data, config)
-      .then((res) => res.data);
+      .then(res => res.data);
   }
 
   public async put<T>(
@@ -153,15 +166,13 @@ export class HTTPService {
     data?: unknown,
     config?: InternalAxiosRequestConfig
   ): Promise<T> {
-    return await this.apiClient
-      .put<T>(url, data, config)
-      .then((res) => res.data);
+    return await this.apiClient.put<T>(url, data, config).then(res => res.data);
   }
 
   public async delete<T>(
     url: string,
     config?: InternalAxiosRequestConfig
   ): Promise<T> {
-    return await this.apiClient.delete<T>(url, config).then((res) => res.data);
+    return await this.apiClient.delete<T>(url, config).then(res => res.data);
   }
 }
