@@ -6,12 +6,10 @@ import type {
 } from 'axios';
 import { API_ENDPOINTS } from './constant';
 import { tokenStorage } from '@/utils/token';
-import { getAuthService } from '@/service/auth';
-import { createAxios } from './axios';
-import { authEvents } from '@/events/auth';
 
 interface RequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
+  _retryCount?: number;
 }
 
 interface ExtendedAxiosError extends AxiosError {
@@ -19,30 +17,8 @@ interface ExtendedAxiosError extends AxiosError {
   response?: AxiosResponse<NestServerErrorType>;
 }
 
-export const setUpAxiosInterceptor = (onAuthError: () => void) => {
-  return createAxios.interceptors.response.use(
-    (response: AxiosResponse) => {
-      return response;
-    },
-    async (error: ExtendedAxiosError) => {
-      const originalRequest = error.config;
-      const authService = getAuthService();
-
-      if (error.response?.status === 401 && !originalRequest?._retry) {
-        originalRequest._retry = true;
-
-        try {
-          await authService.refresh();
-          return createAxios(originalRequest);
-        } catch (err) {
-          onAuthError();
-          throw err;
-        }
-      }
-      return Promise.reject(error);
-    }
-  );
-};
+const isClient = typeof window !== 'undefined';
+const MAX_RETRY_COUNT = 1;
 
 export const createRequestInterceptor = (client: AxiosInstance) => {
   return client.interceptors.request.use(
@@ -54,61 +30,71 @@ export const createRequestInterceptor = (client: AxiosInstance) => {
       }
       return config;
     },
-    (error) => Promise.reject(error)
+    error => Promise.reject(error)
   );
 };
 
 export const createResponseInterceptor = (client: AxiosInstance) => {
-  let isRefreshing = false;
-  const queue: { resolve: Function; reject: Function }[] = [];
-
-  const processQueue = (error: any = null) => {
-    queue.forEach(({ resolve, reject }) => {
-      error ? reject(error) : resolve();
-    });
-    queue.length = 0;
-  };
-
   return client.interceptors.response.use(
     (response: AxiosResponse) => {
-      const isAuthEndPoint = Object.values(API_ENDPOINTS.AUTH).some(
-        (endPoint) => response.request?.responseURL.includes(endPoint)
-      );
+      if (isClient) {
+        const isAuthEndPoint = Object.values(API_ENDPOINTS.AUTH).some(
+          endPoint => response.request?.responseURL.includes(endPoint)
+        );
 
-      if (isAuthEndPoint) {
-        const token: string | null =
-          response.headers['authorization']?.split(' ')[1];
-        if (token) tokenStorage.setToken(token);
+        if (isAuthEndPoint) {
+          const accessToken = response.headers['authorization']?.split(' ')[1];
+          if (accessToken) {
+            tokenStorage.setToken(accessToken);
+          }
+        }
       }
-
       return response;
     },
     async (error: ExtendedAxiosError) => {
       const originalRequest = error.config;
-      if (!originalRequest) return Promise.reject(error);
-      const AuthService = getAuthService();
 
-      if (error.response?.status === 401 && !originalRequest?._retry) {
-        if (isRefreshing) {
-          return new Promise((resolve, reject) => {
-            queue.push({ resolve, reject });
-          })
-            .then(() => client(originalRequest))
-            .catch((err) => Promise.reject(err));
+      if (isClient) {
+        if (
+          error.response?.status === 401 &&
+          error.request?.responseURL.includes(API_ENDPOINTS.AUTH.REFRESH)
+        ) {
+          /**
+           * TODO: 로그아웃 처리
+           */
+          return Promise.reject(error);
         }
 
-        originalRequest._retry = true;
-        isRefreshing = true;
-        try {
-          authEvents.emitSessionExpired();
-          processQueue();
-          return client(originalRequest);
-        } catch (err) {
-          await AuthService.logout();
-          processQueue(err);
-          throw err;
-        } finally {
-          isRefreshing = false;
+        const isAuthEndPoint = Object.values(API_ENDPOINTS.AUTH).some(
+          endPoint => error.request?.responseURL.includes(endPoint)
+        );
+
+        if (
+          error.response?.status === 401 &&
+          !isAuthEndPoint &&
+          !originalRequest?._retry
+        ) {
+          originalRequest._retry = true;
+          originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
+
+          if (originalRequest._retryCount <= MAX_RETRY_COUNT) {
+            try {
+              /**
+               * TODO: refresh token
+               */
+              return client(originalRequest);
+            } catch (err: any) {
+              /**
+               * TODO: 로그아웃 처리
+               */
+              return Promise.reject(err);
+            }
+          } else {
+            /**
+             * TODO: 로그아웃 처리
+             */
+            return Promise.reject(error);
+          }
         }
       }
       return Promise.reject(error);
