@@ -1,5 +1,7 @@
-export type MyBookStatusType = 'TO_READ' | 'START_READ' | 'READING' | 'READ';
-export type MyBookOrderType = 'desc' | 'asc';
+import { MyBookTag } from '../my-book-tag/types';
+
+export type MyBookStatus = 'TO_READ' | 'START_READ' | 'READING' | 'READ';
+export type MyBookOrder = 'desc' | 'asc';
 
 export interface MyBookService {
   postMyBook: (payload: RequestPostMyBook) => Promise<ResponsePostMyBook>;
@@ -7,12 +9,6 @@ export interface MyBookService {
   getMyBook: (payload: RequestGetMyBook) => Promise<ResponseGetMyBook>;
   putMyBook: (payload: RequestPutMyBook) => Promise<ResponsePutMyBook>;
   deleteMyBook: (payload: RequestDeleteMyBook) => Promise<ResponseDeleteMyBook>;
-}
-
-export interface MyBookTag {
-  myBookId: number;
-  myBookTagId: number;
-  tag: string;
 }
 
 export interface MyBookTranslator {
@@ -30,7 +26,7 @@ export interface ResponsePostMyBook {
   id: number;
   userId: number;
   bookId: number;
-  myBookStatus: MyBookStatusType;
+  myBookStatus: MyBookStatus;
   createdAt: string;
   updatedAt: string;
 }
@@ -52,16 +48,16 @@ export interface RequestPostMyBook {
 
 // READ MyBookList에 대한 Type
 export interface RequestGetMyBooks {
-  status?: MyBookStatusType | 'ALL';
+  status?: MyBookStatus | 'ALL';
   page?: number;
-  order?: MyBookOrderType;
+  order?: MyBookOrder;
 }
 
 export interface MyBooksItem {
   id: number;
   title: string;
   thumbnail?: string;
-  status: MyBookStatusType;
+  status: MyBookStatus;
   rating: 0;
 }
 
@@ -89,7 +85,7 @@ export interface ResponseGetMyBook {
   id: number;
   book: MyBookItem[];
   rating: number;
-  status: MyBookStatusType;
+  status: MyBookStatus;
   tag: MyBookTag[];
   createdAt: string;
   updatedAt: string;
@@ -97,17 +93,17 @@ export interface ResponseGetMyBook {
 
 // UPDATE MyBook에 대한 Type
 export interface RequestPutMyBook {
-  myBookStatus?: MyBookStatusType;
+  myBookStatus?: MyBookStatus;
   rating?: number;
   myBookId: number;
 }
 
 export interface ResponsePutMyBook {
   id: number;
-  book: MyBookDetailType;
+  book: MyBookItem;
   rating: number;
-  status: MyBookStatusType;
-  tag: MyBookTagType[];
+  status: MyBookStatus;
+  tag: MyBookTag[];
   createdAt: string;
   updatedAt: string;
 }
@@ -122,7 +118,7 @@ export interface ResponseDeleteMyBook {
   userId: number;
   bookId: number;
   rating: number;
-  myBookStatus: MyBookStatusType;
+  myBookStatus: MyBookStatus;
   createdAt: string;
   updatedAt: string;
 }

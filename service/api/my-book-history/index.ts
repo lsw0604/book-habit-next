@@ -8,7 +8,7 @@ import type {
   ResponseGetMyBookHistory,
   ResponseRegisterMyBookHistory,
   ResponseUpdateMyBookHistory,
-} from '@/service/api/my-book-history/types';
+} from './types';
 
 import axiosInstance from '@/lib/axios';
 import { API_ENDPOINTS } from '@/lib/axios/constant';

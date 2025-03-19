@@ -8,7 +8,7 @@ import type {
   ResponseGetMyBookComments,
   ResponsePostMyBookComment,
   ResponseUpdateMyBookComment,
-} from '@/service/api/my-book-comment/types';
+} from './types';
 
 import axiosInstance from '@/lib/axios';
 import { API_ENDPOINTS } from '@/lib/axios/constant';

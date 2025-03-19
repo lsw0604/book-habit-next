@@ -10,7 +10,7 @@ import type {
   ResponsePutMyBook,
   RequestDeleteMyBook,
   ResponseDeleteMyBook,
-} from '@/service/api/my-book/types';
+} from './types';
 
 import { stringify } from 'querystring';
 import axiosInstance from '@/lib/axios';
