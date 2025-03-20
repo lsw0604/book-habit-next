@@ -4,12 +4,12 @@ import { FieldErrors } from 'react-hook-form';
 import Tag from '@/components/common/tag';
 import { ErrorMessage } from '@/components/common/error-message';
 import ImageWrapper from '@/components/common/image-wrapper';
-import { MyBookRegistrationSchemaType } from '@/hooks/form/my-book/schema/registration.schema';
+import { MyBookRegistrationType } from '@/schemas/my-book/registration';
 import { formattedIsbn, formattedPrice } from '@/utils/book';
 
 interface BookDetailProps {
   detail: ReduxBookType;
-  errors: FieldErrors<MyBookRegistrationSchemaType>;
+  errors: FieldErrors<MyBookRegistrationType>;
 }
 
 export default function BookDetail({ detail, errors }: BookDetailProps) {
@@ -64,10 +64,10 @@ export default function BookDetail({ detail, errors }: BookDetailProps) {
       </div>
       <div className="flex gap-1 flex-wrap w-full mt-2">
         {detail.status ? <Tag>{detail.status}</Tag> : null}
-        {detail.authors.map((author) => (
+        {detail.authors.map(author => (
           <Tag key={author}>{author}</Tag>
         ))}
-        {detail.translators.map((translator) => (
+        {detail.translators.map(translator => (
           <Tag key={translator}>{translator}</Tag>
         ))}
         <Tag>{detail.publisher}</Tag>

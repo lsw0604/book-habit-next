@@ -1,5 +1,6 @@
 'use client';
 
+import type { MyBookParamsType } from '@/schemas/my-book-params';
 import { Control, Controller } from 'react-hook-form';
 import { ArrowDownNarrowWideIcon, ArrowUpNarrowWideIcon } from 'lucide-react';
 
@@ -9,15 +10,14 @@ import Select from '@/components/common/select';
 import useAutoSubmit from '@/hooks/form/useAutoSubmit';
 import useMyBookRouter from '@/hooks/my-book/useMyBookRouter';
 import useMyBookParams from '@/hooks/my-book/useMyBookParams';
-import useMyBookParamsForm from '@/hooks/form/my-book/useMyBookParamsForm';
-import { MyBookParamsSchemaType } from '@/hooks/form/my-book/schema/params.schema';
+import useMyBookParamsForm from '@/hooks/my-book/useMyBookParamsForm';
 
 export default function MyBookForm() {
   const { order, status } = useMyBookParams();
   const { control, watch } = useMyBookParamsForm({ order, status });
   const { pushToMyBookList } = useMyBookRouter();
 
-  useAutoSubmit<MyBookParamsSchemaType>({
+  useAutoSubmit<MyBookParamsType>({
     watch,
     onSubmit: pushToMyBookList,
     dependencies: [watch, pushToMyBookList],
@@ -32,7 +32,7 @@ export default function MyBookForm() {
 }
 
 interface ControllerProps {
-  control: Control<MyBookParamsSchemaType>;
+  control: Control<MyBookParamsType>;
 }
 
 const MyBookStatusController = ({ control }: ControllerProps) => {
