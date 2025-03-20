@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-export type MyBookParamsSchemaType = z.infer<typeof myBookParamsSchema>;
-
 export const myBookParamsSchema = z.object({
   order: z.enum(['desc', 'asc'], {
     errorMap: () => ({
@@ -15,3 +13,10 @@ export const myBookParamsSchema = z.object({
     }),
   }),
 });
+
+export type MyBookParamsType = z.infer<typeof myBookParamsSchema>;
+
+export const DEFAULT_MY_BOOK_PARAMS: MyBookParamsType = {
+  order: 'desc',
+  status: 'ALL',
+};

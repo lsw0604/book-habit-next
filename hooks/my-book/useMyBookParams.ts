@@ -1,7 +1,7 @@
 import { useSearchParams } from 'next/navigation';
-import { MyBookParamsSchemaType } from '../form/my-book/schema/params.schema';
+import { MyBookParamsType } from '@/schemas/my-book-params';
 
-export default function useMyBookParams(): MyBookParamsSchemaType {
+export default function useMyBookParams(): MyBookParamsType {
   const searchParams = useSearchParams();
 
   const order = (searchParams.get('order') as MyBookOrderType) || 'desc';

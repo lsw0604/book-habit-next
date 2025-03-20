@@ -1,8 +1,6 @@
 import { z } from 'zod';
 import { MY_BOOK_STATUS } from '@/constant/my-book-item';
 
-export type MyBookUpdateSchemaType = z.infer<typeof myBookUpdateSchema>;
-
 export const myBookUpdateSchema = z.object({
   rating: z
     .number()
@@ -19,3 +17,10 @@ export const myBookUpdateSchema = z.object({
     })
     .optional(),
 });
+
+export type MyBookUpdateType = z.infer<typeof myBookUpdateSchema>;
+
+export const DEFAULT_MY_BOOK_UPDATE: MyBookUpdateType = {
+  rating: undefined,
+  status: undefined as MyBookStatusType | undefined,
+};
