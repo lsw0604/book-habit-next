@@ -4,8 +4,9 @@ import type {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { API_ENDPOINTS } from './constant';
 import { tokenStorage } from '@/utils/token';
+import { authService } from '@/service/api/auth';
+import { API_ENDPOINTS, MAX_RETRY_COUNT, isClient } from './constant';
 
 interface RequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -17,8 +18,8 @@ interface ExtendedAxiosError extends AxiosError {
   response?: AxiosResponse<NestServerErrorType>;
 }
 
-const isClient = typeof window !== 'undefined';
-const MAX_RETRY_COUNT = 1;
+const isAuthEndPoint = (url?: string) =>
+  Object.values(API_ENDPOINTS.AUTH).some(endPoint => url?.includes(endPoint));
 
 export const createRequestInterceptor = (client: AxiosInstance) => {
   return client.interceptors.request.use(
@@ -35,14 +36,12 @@ export const createRequestInterceptor = (client: AxiosInstance) => {
 };
 
 export const createResponseInterceptor = (client: AxiosInstance) => {
+  const authServiceInstance = authService();
+
   return client.interceptors.response.use(
     (response: AxiosResponse) => {
       if (isClient) {
-        const isAuthEndPoint = Object.values(API_ENDPOINTS.AUTH).some(
-          endPoint => response.request?.responseURL.includes(endPoint)
-        );
-
-        if (isAuthEndPoint) {
+        if (isAuthEndPoint(response.request?.responseURL)) {
           const accessToken = response.headers['authorization']?.split(' ')[1];
           if (accessToken) {
             tokenStorage.setToken(accessToken);
@@ -59,19 +58,13 @@ export const createResponseInterceptor = (client: AxiosInstance) => {
           error.response?.status === 401 &&
           error.request?.responseURL.includes(API_ENDPOINTS.AUTH.REFRESH)
         ) {
-          /**
-           * TODO: 로그아웃 처리
-           */
+          authServiceInstance.logout();
           return Promise.reject(error);
         }
 
-        const isAuthEndPoint = Object.values(API_ENDPOINTS.AUTH).some(
-          endPoint => error.request?.responseURL.includes(endPoint)
-        );
-
         if (
           error.response?.status === 401 &&
-          !isAuthEndPoint &&
+          !isAuthEndPoint(error.request?.responseURL) &&
           !originalRequest?._retry
         ) {
           originalRequest._retry = true;
@@ -79,20 +72,14 @@ export const createResponseInterceptor = (client: AxiosInstance) => {
 
           if (originalRequest._retryCount <= MAX_RETRY_COUNT) {
             try {
-              /**
-               * TODO: refresh token
-               */
+              const response = authServiceInstance.refresh();
               return client(originalRequest);
             } catch (err: any) {
-              /**
-               * TODO: 로그아웃 처리
-               */
+              authServiceInstance.logout();
               return Promise.reject(err);
             }
           } else {
-            /**
-             * TODO: 로그아웃 처리
-             */
+            authServiceInstance.logout();
             return Promise.reject(error);
           }
         }

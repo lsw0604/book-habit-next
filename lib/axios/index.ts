@@ -5,7 +5,9 @@ import {
   createResponseInterceptor,
 } from './interceptors';
 
-export const axiosInstance = axios.create(axiosConfig);
+const axiosInstance = axios.create(axiosConfig);
 
 createResponseInterceptor(axiosInstance);
 createRequestInterceptor(axiosInstance);
+
+export default axiosInstance;

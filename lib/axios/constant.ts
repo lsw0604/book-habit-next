@@ -7,6 +7,10 @@ export const API_ENDPOINTS = {
     LOGOUT: '/api/auth/logout',
   },
   MY_BOOK: '/api/my-book',
+  MY_BOOK_COMMENT: 'api/my-book-comment',
+  MY_BOOK_HISTORY: 'api/my-book-history',
+  MY_BOOK_TAG: 'api/my-book-tag',
+  PUBLIC_COMMENT: 'api/public-comment',
 } as const;
 
 export const MAX_RETRY_COUNT = 1;
