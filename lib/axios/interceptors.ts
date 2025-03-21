@@ -5,7 +5,6 @@ import type {
   InternalAxiosRequestConfig,
 } from 'axios';
 import { tokenStorage } from '@/utils/token';
-import { authService } from '@/service/api/auth';
 import { API_ENDPOINTS, MAX_RETRY_COUNT, isClient } from './constant';
 
 interface RequestConfig extends InternalAxiosRequestConfig {
@@ -21,6 +20,9 @@ interface ExtendedAxiosError extends AxiosError {
 const isAuthEndPoint = (url?: string) =>
   Object.values(API_ENDPOINTS.AUTH).some(endPoint => url?.includes(endPoint));
 
+/**
+ * TODO 순환 참조 에러 해결하기 의존성 분리하기
+ */
 export const createRequestInterceptor = (client: AxiosInstance) => {
   return client.interceptors.request.use(
     (config: RequestConfig) => {
@@ -36,8 +38,6 @@ export const createRequestInterceptor = (client: AxiosInstance) => {
 };
 
 export const createResponseInterceptor = (client: AxiosInstance) => {
-  const authServiceInstance = authService();
-
   return client.interceptors.response.use(
     (response: AxiosResponse) => {
       if (isClient) {
@@ -58,7 +58,7 @@ export const createResponseInterceptor = (client: AxiosInstance) => {
           error.response?.status === 401 &&
           error.request?.responseURL.includes(API_ENDPOINTS.AUTH.REFRESH)
         ) {
-          authServiceInstance.logout();
+          console.log('1 logout!');
           return Promise.reject(error);
         }
 
@@ -72,14 +72,13 @@ export const createResponseInterceptor = (client: AxiosInstance) => {
 
           if (originalRequest._retryCount <= MAX_RETRY_COUNT) {
             try {
-              const response = authServiceInstance.refresh();
               return client(originalRequest);
             } catch (err: any) {
-              authServiceInstance.logout();
+              console.log('2 logout!');
               return Promise.reject(err);
             }
           } else {
-            authServiceInstance.logout();
+            console.log('3 logout!');
             return Promise.reject(error);
           }
         }
