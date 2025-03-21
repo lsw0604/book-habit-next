@@ -16,9 +16,17 @@ import { myBookService } from '@/service/api/my-book';
 import { queryKeys } from '@/queries';
 import { useMyBookInvalidateCache } from './useMyBookInvalidateCache';
 import { useMyBookUpdateCache } from './useMyBookUpdateCache';
+import { useMyBooksUpdateCache } from './useMyBooksUpdateCache';
 
+/**
+ * TODO: 낙관적 업데이트 구현 add, remove
+ */
 export const useMyBooks = (
-  params: Pick<RequestGetMyBooks, 'order' | 'status'>
+  params: Pick<RequestGetMyBooks, 'order' | 'status'>,
+  options?: {
+    enabled?: boolean;
+    forceRefetch?: boolean;
+  }
 ) => {
   const service = myBookService();
 
@@ -41,6 +49,8 @@ export const useMyBooks = (
     select: data => ({ books: data.pages.flatMap(page => page.books) }),
     gcTime: 5 * 60 * 1000,
     staleTime: 1 * 60 * 1000,
+    // refetchOnMount: options?.forceRefetch ? 'always' : true,
+    // enabled: options?.enabled ?? true,
   });
 };
 
@@ -58,6 +68,7 @@ export const useMyBook = ({ myBookId }: RequestGetMyBook) => {
 export const useMyBookMutation = () => {
   const { invalidateList, invalidateDetail } = useMyBookInvalidateCache();
   const { updateMyBookQueryData } = useMyBookUpdateCache();
+  const { updateMyBooksQueryData } = useMyBooksUpdateCache();
   const service = myBookService();
 
   const addMyBook = useMutation<
@@ -66,7 +77,7 @@ export const useMyBookMutation = () => {
     RequestPostMyBook
   >({
     mutationFn: (payload: RequestPostMyBook) => service.postMyBook(payload),
-    onSuccess: invalidateList,
+    onSuccess: () => invalidateList(),
   });
 
   const updateMyBook = useMutation<
@@ -76,8 +87,8 @@ export const useMyBookMutation = () => {
   >({
     mutationFn: (payload: RequestPutMyBook) => service.putMyBook(payload),
     onSuccess: response => {
-      invalidateList();
       updateMyBookQueryData(response);
+      updateMyBooksQueryData(response);
     },
   });
 
@@ -88,7 +99,7 @@ export const useMyBookMutation = () => {
   >({
     mutationFn: (payload: RequestDeleteMyBook) => service.deleteMyBook(payload),
     onMutate: ({ myBookId }) => invalidateDetail(myBookId),
-    onSuccess: invalidateList,
+    onSuccess: () => invalidateList(),
   });
 
   return { addMyBook, updateMyBook, removeMyBook };
