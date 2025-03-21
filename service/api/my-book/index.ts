@@ -52,11 +52,11 @@ export const createMyBookService = (): MyBookService => {
       );
       return response.data;
     },
-    putMyBook: async ({ myBookId, myBookStatus, rating }: RequestPutMyBook) => {
+    putMyBook: async ({ myBookId, status, rating }: RequestPutMyBook) => {
       const response = await client.put<ResponsePutMyBook>(
         `${API_ENDPOINTS.MY_BOOK}/${myBookId}`,
         {
-          myBookStatus,
+          status,
           rating,
         }
       );

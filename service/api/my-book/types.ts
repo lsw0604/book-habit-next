@@ -83,7 +83,7 @@ export interface MyBookItem {
 
 export interface ResponseGetMyBook {
   id: number;
-  book: MyBookItem[];
+  book: MyBookItem;
   rating: number;
   status: MyBookStatus;
   tag: MyBookTag[];
@@ -93,7 +93,7 @@ export interface ResponseGetMyBook {
 
 // UPDATE MyBook에 대한 Type
 export interface RequestPutMyBook {
-  myBookStatus?: MyBookStatus;
+  status?: MyBookStatus;
   rating?: number;
   myBookId: number;
 }
