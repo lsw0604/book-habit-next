@@ -4,7 +4,7 @@ import type {
 } from '@/service/api/my-book/types';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { queryKeys } from '@/queries/query-key';
+import { queryKeys } from '@/queries';
 
 export const useMyBookUpdateCache = () => {
   const queryClient = useQueryClient();

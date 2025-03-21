@@ -58,7 +58,7 @@ export interface MyBooksItem {
   title: string;
   thumbnail?: string;
   status: MyBookStatus;
-  rating: 0;
+  rating: number;
 }
 
 export interface ResponseGetMyBooks {
