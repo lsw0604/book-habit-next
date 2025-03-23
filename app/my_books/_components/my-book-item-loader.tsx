@@ -1,8 +1,9 @@
 import { Skeleton } from '@/components/ui/skeleton';
+import { forwardRef } from 'react';
 
-export default function MyBookItemLoader() {
+const MyBookItemLoader = forwardRef<HTMLLIElement, {}>((props, ref) => {
   return (
-    <li className="w-auto h-auto p-1">
+    <li ref={ref} className="w-auto h-auto p-1">
       <Skeleton className="w-full relative mb-2 pt-[145%] h-4 rounded-lg overflow-hidden bg-gray-200" />
       <div className="flex flex-col px-2">
         <Skeleton className="w-full h-4 mb-1 bg-gray-200" />
@@ -11,4 +12,8 @@ export default function MyBookItemLoader() {
       </div>
     </li>
   );
-}
+});
+
+MyBookItemLoader.displayName = 'MyBookItemLoader';
+
+export default MyBookItemLoader;

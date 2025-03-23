@@ -1,10 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import Loader from '@/components/common/loader';
-import MyBookItem from './my-book-item';
+
 import MyBookListLoader from './my-book-list-loader';
-import { useMyBooks } from '@/service/my-book/useMyBookService';
+import MyBookItem from './my-book-item';
+import Loader from '@/components/common/loader';
+
+import { useMyBooks } from '@/hooks/my-book/useMyBookQueries';
 import useMyBookParams from '@/hooks/my-book/useMyBookParams';
 import useInfiniteScroll from '@/hooks/infinite-scroll/useInfiniteScroll';
 import { cn } from '@/utils/class-name';
@@ -19,12 +21,12 @@ export default function MyBookList() {
     isFetching,
     isError,
     error,
-  } = useMyBooks({ order, status });
+  } = useMyBooks({ order, status }, { forceRefetch: true });
   const ref = useInfiniteScroll(fetchNextPage, hasNextPage);
 
-  if (data === undefined || isLoading) return <MyBookListLoader />;
+  if (!data || isLoading) return <MyBookListLoader />;
+  if (!data.books?.length) return <MyBookList.NotFound />;
   if (isError && error?.status === 401) return <MyBookList.LoginError />;
-  if (data.books.length === 0) return <MyBookList.NotFound />;
 
   return (
     <div className={cn('w-full h-full overflow-scroll scrollbar-none')}>
@@ -38,8 +40,8 @@ export default function MyBookList() {
           '2xl:grid-cols-10 2xl:gap-2' // 큰 화면에서 10열로 변경
         )}
       >
-        {data.books.map((item) => (
-          <MyBookItem key={item.thumbnail} {...item} />
+        {data.books.map(item => (
+          <MyBookItem key={item.id} {...item} />
         ))}
       </ul>
       {isFetching ? (

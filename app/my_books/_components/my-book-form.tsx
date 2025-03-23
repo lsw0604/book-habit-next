@@ -1,6 +1,6 @@
 'use client';
 
-import type { MyBookParamsType } from '@/schemas/my-book-params';
+import type { MyBookParamsType } from '@/schemas/my-book/params';
 import { Control, Controller } from 'react-hook-form';
 import { ArrowDownNarrowWideIcon, ArrowUpNarrowWideIcon } from 'lucide-react';
 
@@ -24,7 +24,7 @@ export default function MyBookForm() {
   });
 
   return (
-    <form className="p-4 flex w-full max-w-96 min-w-[240px] border-1 border-gray-300 rounded-lg shadow-lg bg-popover">
+    <form className="p-4 flex w-full min-w-[240px] border-1 border-gray-300 rounded-lg shadow-lg bg-popover">
       <MyBookOrderController control={control} />
       <MyBookStatusController control={control} />
     </form>
