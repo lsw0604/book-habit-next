@@ -35,7 +35,7 @@ export default function RootLayout({
               <Header />
               <main
                 className={cn(
-                  'w-screen  min-h-screen px-4 box-border',
+                  'w-screen h-screen min-h-screen px-4 box-border flex flex-col',
                   pathname !== '/' && 'py-16'
                 )}
               >

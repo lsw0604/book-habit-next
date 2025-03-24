@@ -1,23 +1,28 @@
 'use client';
 
+import type { AxiosError } from 'axios';
+import type { AuthLoginType } from '@/schemas/auth/login';
+import type { ResponseAuth } from '@/service/api/auth/types';
 import Link from 'next/link';
 import React, { useCallback, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { EyeIcon, EyeOffIcon, MailIcon } from 'lucide-react';
-import { AxiosError } from 'axios';
 
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ErrorMessage } from '@/components/common/error-message';
+
 import { useAppDispatch } from '@/store';
 import { userActions } from '@/store/features/user/user-action';
-import { useAuthMutation } from '@/service/auth/useAuthService';
+/**
+ * TODO: useAuthMutation 수정하기 service =>
+ */
+import { useAuthMutation } from '@/hooks/auth/useAuthQueries';
 import useLoginRouter from '@/hooks/auth/useLoginRouter';
 import useKakaoRouter from '@/hooks/auth/useKakaoRouter';
-import useLoginForm from '@/hooks/form/auth/useLoginForm';
-import { LoginSchemaType } from '@/hooks/form/auth/schema/login.schema';
+import useLoginForm from '@/hooks/auth/useLoginForm';
 import { IconKakao } from '@/style/icon';
 
 export default function LoginForm() {
@@ -39,7 +44,7 @@ export default function LoginForm() {
   );
 
   const onSubmit = useCallback(
-    (data: LoginSchemaType) => {
+    (data: AuthLoginType) => {
       mutate(
         { ...data },
         {
@@ -100,7 +105,7 @@ function FormButtons({ isLoading }: { isLoading: boolean }) {
 }
 
 interface ControllerProps {
-  control: Control<LoginSchemaType>;
+  control: Control<AuthLoginType>;
   isError?: boolean;
   error?: AxiosError<NestServerErrorType, any> | null;
 }
@@ -163,7 +168,7 @@ const LoginEmailController = ({ control }: ControllerProps) => {
 const LoginPasswordController = ({ control }: ControllerProps) => {
   const [isEyeOpen, setIsEyeOpen] = useState<boolean>(false);
   const onClick = useCallback(() => {
-    setIsEyeOpen((prev) => !prev);
+    setIsEyeOpen(prev => !prev);
   }, []);
   return (
     <Controller

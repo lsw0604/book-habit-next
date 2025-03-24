@@ -1,15 +1,17 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 import Alert from '@/components/common/alert';
 import Loader from '@/components/common/loader';
 import { Button } from '@/components/ui/button';
+
 import { useAppDispatch } from '@/store';
 import { userActions } from '@/store/features/user/user-action';
-import { useKakao } from '@/service/auth/useAuthService';
-import useLoginRouter from '@/hooks/auth/useLoginRouter';
+
+import { useKakao } from '@/hooks/auth/useAuthQueries';
 import useErrorHandler from '@/hooks/error/useErrorHandler';
 import { LogoMain, LogoSad } from '@/style/icon';
 
@@ -19,19 +21,34 @@ export default function KakaoLoginPage({
   searchParams: { code: string };
 }) {
   const dispatch = useAppDispatch();
-  const { onSuccessCallback } = useLoginRouter();
+  const router = useRouter();
+
   if (!code) {
-    throw new Error('code가 없습니다.');
+    return (
+      <div className="flex flex-col items-center p-1 pb-4 rounded-lg border border-gray-300 shadow-md">
+        <Alert message="인증 코드가 없습니다." status="ERROR" />
+        <div className="flex flex-col items-center gap-4 w-full">
+          <LogoSad className="w-1/2 h-1/2" />
+          <div className="flex items-center justify-around gap-4 w-full">
+            <Link href="/login" className="text-sm text-gray-500 font-semibold">
+              로그인 페이지로 가기
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   }
-  const { data, isSuccess, isLoading, refetch, isError, error } =
-    useKakao(code);
+
+  const { data, isSuccess, isLoading, refetch, isError, error } = useKakao({
+    code,
+  });
 
   useEffect(() => {
     if (isSuccess) {
       dispatch(userActions.setUserState({ ...data, isLogged: true }));
-      onSuccessCallback();
+      router.push('/search');
     }
-  }, [isSuccess, data, dispatch]);
+  }, [isSuccess, data, dispatch, router]);
   useErrorHandler(isError, error);
 
   return (
