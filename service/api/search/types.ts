@@ -1,21 +1,25 @@
-type RequestSearchBook = {
-  query: string;
-  sort?: 'accuracy' | 'latest';
-  page?: number;
-  size?: number;
-  target?: 'title' | 'isbn' | 'publisher' | 'person';
-};
+export interface SearchService {
+  searchBook: (payload: RequestSearchBook) => Promise<ResponseSearchBook>;
+}
 
-type ResponseSearchBook = {
+export interface ResponseSearchBook {
   meta: {
     total_count: number;
     pageable_count: number;
     is_end: boolean;
   };
   documents: KakaoDocument[];
-};
+}
 
-type KakaoDocument = {
+export interface RequestSearchBook {
+  query: string;
+  sort?: 'accuracy' | 'latest';
+  page?: number;
+  size?: number;
+  target?: 'title' | 'isbn' | 'publisher' | 'person';
+}
+
+export interface KakaoDocument {
   title: string; //	도서 제목
   contents: string; //	도서 소개
   url: string; //	도서 상세 URL
@@ -28,4 +32,4 @@ type KakaoDocument = {
   sale_price: number; //	도서 판매가
   thumbnail: string; //	도서 표지 미리보기 URL
   status: string; //  도서 판매 상태 정보 (정상, 품절, 절판 등)
-};
+}

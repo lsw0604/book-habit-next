@@ -1,8 +1,12 @@
+import { forwardRef, HTMLAttributes } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export function SearchItemLoader() {
+const SearchItemLoader = forwardRef<
+  HTMLLIElement,
+  HTMLAttributes<HTMLLIElement>
+>((props, ref) => {
   return (
-    <li className="w-full h-auto p-4 rounded-2xl shadow-lg">
+    <li ref={ref} className="w-full h-auto p-4" {...props}>
       <div className="flex">
         <div className="flex w-full">
           <div className="relative flex-shrink-0 overflow-hidden w-[120px]">
@@ -19,4 +23,8 @@ export function SearchItemLoader() {
       </div>
     </li>
   );
-}
+});
+
+SearchItemLoader.displayName = 'SearchItemLoader';
+
+export default SearchItemLoader;

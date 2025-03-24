@@ -1,18 +1,19 @@
 'use client';
 
+import type { SearchParamsType } from '@/schemas/search/params';
 import { Control, Controller } from 'react-hook-form';
 import { useCallback, useState } from 'react';
 
-import SearchPopover from './search-popover';
 import { Input } from '@/components/ui/input';
 import { ErrorMessage } from '@/components/common/error-message';
+import SearchPopover from './search-popover';
+
 import useSearchFormSubmit from '@/hooks/search/useSearchFormSubmit';
 import { useSearchFormHandler } from '@/hooks/search/useSearchFormHandler';
-import { SearchParamsSchemaType } from '@/hooks/form/search/schema/params.schema';
 import { cn } from '@/utils/class-name';
 
 interface ControllerProps {
-  control: Control<SearchParamsSchemaType>;
+  control: Control<SearchParamsType>;
 }
 
 export default function SearchForm() {
@@ -20,7 +21,7 @@ export default function SearchForm() {
   const { handleSubmit, control, formState } = useSearchFormHandler();
 
   const onFormSubmit = useCallback(() => {
-    setFormKey((prev) => prev++);
+    setFormKey(prev => prev++);
   }, []);
 
   const { onSubmit } = useSearchFormSubmit(onFormSubmit);
@@ -28,10 +29,7 @@ export default function SearchForm() {
   return (
     <form
       key={formKey}
-      className={cn(
-        'w-full flex p-4 relative gap-2 min-w-[240px] max-w-96', // 기본 스타일
-        'border-gray-300 border-b shadow-sm rounded-lg' // 테두리 스타일
-      )}
+      className={cn('w-full flex px-4 pt-4 pb-0 relative gap-2 min-w-[240px]')}
       onSubmit={handleSubmit(onSubmit)}
     >
       <SearchInputController control={control} />

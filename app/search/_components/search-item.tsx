@@ -1,7 +1,10 @@
+import type { KakaoDocument } from '@/service/api/search/types';
 import dayjs from 'dayjs';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import ImageWrapper from '@/components/common/image-wrapper';
+import SearchItemLoader from './search-item-loader';
+
 import { useAppDispatch } from '@/store';
 import { setModalState } from '@/store/features/modal/modal-slice';
 import { setBookState } from '@/store/features/book/book-slice';
@@ -11,22 +14,40 @@ import {
   formattedPrice,
   isbnToArray,
 } from '@/utils/book';
+import { useIntersectionObserver } from 'usehooks-ts';
+import { observerOption } from '@/utils/observer-option';
 
 interface SearchItemProps {
   item: KakaoDocument;
 }
 
 export default function SearchItem({ item }: SearchItemProps) {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const { ref, isIntersecting } = useIntersectionObserver(
+    observerOption({ threshold: 0.5 })
+  );
+
   const datetime = dayjs(item.datetime);
   const dispatch = useAppDispatch();
 
   const modalHandler = useCallback(() => {
     dispatch(setModalState({ isOpen: true, type: 'register-my-book' }));
     dispatch(setBookState({ ...item, isbn: isbnToArray(item.isbn) }));
-  }, []);
+  }, [dispatch, item]);
+
+  useEffect(() => {
+    if (isIntersecting) {
+      setIsVisible(true);
+    }
+  }, [isIntersecting]);
+
+  if (!isVisible) {
+    return <SearchItemLoader ref={ref} />;
+  }
 
   return (
     <li
+      ref={ref}
       className="w-full h-auto p-4 rounded-2xl border-[none] shadow-lg clear-both"
       onClick={modalHandler}
     >

@@ -5,23 +5,23 @@ export const MY_BOOK_ITEM_RATINGS = [
   },
   {
     rating: 1,
-    text: '1점 평가함',
+    text: '⭐',
   },
   {
     rating: 2,
-    text: '2점 평가함',
+    text: '⭐⭐',
   },
   {
     rating: 3,
-    text: '3점 평가함',
+    text: '⭐⭐⭐',
   },
   {
     rating: 4,
-    text: '4점 평가함',
+    text: '⭐⭐⭐⭐',
   },
   {
     rating: 5,
-    text: '5점 평가함',
+    text: '⭐⭐⭐⭐⭐',
   },
 ] as const;
 
@@ -58,4 +58,3 @@ export const MY_BOOK_STATUS: MyBookStatusType[] = [
   'TO_READ',
   'START_READ',
 ] as const;
-

@@ -11,6 +11,7 @@ export const API_ENDPOINTS = {
   MY_BOOK_HISTORY: 'api/my-book-history',
   MY_BOOK_TAG: 'api/my-book-tag',
   PUBLIC_COMMENT: 'api/public-comment',
+  SEARCH: 'api/search',
 } as const;
 
 export const MAX_RETRY_COUNT = 1;

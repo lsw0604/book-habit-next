@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-import useSearchForm from '../form/search/useSearchForm';
+import { useSearchForm } from './useSearchForm';
 import useParsedSearchParams from '@/hooks/search/useParsedSearchParams';
 import { SEARCH_FIELDS } from '@/constant/search-filed';
 

@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-export type SearchParamsSchemaType = z.infer<typeof searchParamsSchema>;
-
 export const searchParamsSchema = z.object({
   query: z.string().min(1, {
     message: '검색어를 입력해주세요.',
@@ -26,3 +24,12 @@ export const searchParamsSchema = z.object({
     }),
   }),
 });
+
+export type SearchParamsType = z.infer<typeof searchParamsSchema>;
+
+export const DEFAULT_SEARCH_PARAMS: SearchParamsType = {
+  query: '',
+  size: 10,
+  sort: 'accuracy',
+  target: 'title',
+};

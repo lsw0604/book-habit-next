@@ -8,15 +8,15 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { ErrorMessage } from '@/components/common/error-message';
-import { SearchParamsSchemaType } from '@/hooks/form/search/schema/params.schema';
+import { SearchParamsType } from '@/schemas/search/params';
 
 interface SearchPopoverProps {
-  control: Control<SearchParamsSchemaType>;
-  formState: FormState<SearchParamsSchemaType>;
+  control: Control<SearchParamsType>;
+  formState: FormState<SearchParamsType>;
 }
 
 interface ControllerProps {
-  control: Control<SearchParamsSchemaType>;
+  control: Control<SearchParamsType>;
 }
 
 export default function SearchPopover({
@@ -96,7 +96,7 @@ const SearchPopoverSizeController = ({ control }: ControllerProps) => {
             step={10}
             min={10}
             max={50}
-            onValueChange={(val) => onChange(val[0])}
+            onValueChange={val => onChange(val[0])}
           />
           {!!error?.message && (
             <ErrorMessage className="my-2">{error.message}</ErrorMessage>
