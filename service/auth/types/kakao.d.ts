@@ -1,3 +1,0 @@
-type RequestKakao = {
-  code: string;
-};
