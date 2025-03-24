@@ -22,6 +22,7 @@ const buttonVariants = cva(
         primary: 'bg-sky-700 text-primary-foreground hover:bg-sky-700/90',
         yellow: 'bg-yellow-300 text-yellow-foreground hover:bg-yellow-700/90',
         rose: 'bg-rose-300 text-rose-foreground hover:bg-rose-700/90',
+        none: '',
       },
       size: {
         default: 'h-10 px-4 py-2',

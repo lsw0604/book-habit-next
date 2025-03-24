@@ -16,8 +16,8 @@ const PageContainer = ({
     <div
       className={cn(
         'w-full flex-grow',
-        variant === 'vertical' && 'flex flex-col',
-        variant === 'horizontal' && 'flex flex-row',
+        variant === 'vertical' && 'flex flex-col relative',
+        variant === 'horizontal' && 'flex flex-row relative',
         className
       )}
     >

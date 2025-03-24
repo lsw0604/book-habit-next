@@ -80,7 +80,7 @@ export default function InputDatePicker({
       )
         return;
 
-      setDate((prev) => ({ ...prev, [id]: value }));
+      setDate(prev => ({ ...prev, [id]: value }));
     },
     []
   );
@@ -138,7 +138,7 @@ export default function InputDatePicker({
         MouseEvent
       >
     );
-    setDate((prev) => ({
+    setDate(prev => ({
       ...prev,
       year: '',
       month: '',
@@ -176,7 +176,7 @@ export default function InputDatePicker({
 
   useEventListener(
     'keydown',
-    (event) => {
+    event => {
       if (date.month === '' && event.key === 'Backspace') {
         yearRef.current?.focus();
       }
@@ -186,7 +186,7 @@ export default function InputDatePicker({
 
   useEventListener(
     'keydown',
-    (event) => {
+    event => {
       if (event.key === 'Backspace' && date.day === '') {
         monthRef.current?.focus();
       }
@@ -207,7 +207,7 @@ export default function InputDatePicker({
             <Popover.Trigger className={cn(classNames?.popover?.trigger)}>
               <Button
                 type="button"
-                variant="ghost"
+                variant="none"
                 className={cn('p-2', classNames?.popover?.button)}
               >
                 <CalendarIcon className="w-4 h-4" />

@@ -1,5 +1,7 @@
 'use client';
 
+import type { AuthRegisterType } from '@/schemas/auth/register';
+import type { ResponseAuth } from '@/service/api/auth/types';
 import React, { useCallback, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import {
@@ -17,16 +19,16 @@ import { Separator } from '@/components/ui/separator';
 import { ErrorMessage } from '@/components/common/error-message';
 import { InputDatePicker } from '@/components/common/date-picker';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { IconFemale, IconMale } from '@/style/icon';
+
+import { useAppDispatch } from '@/store';
+import { userActions } from '@/store/features/user/user-action';
 
 import useLoginRouter from '@/hooks/auth/useLoginRouter';
-import useRegisterForm from '@/hooks/form/auth/useRegisterForm';
-import { RegisterSchemaType } from '@/hooks/form/auth/schema/register.schema';
-import { IconFemale, IconMale } from '@/style/icon';
-import { useAppDispatch } from '@/store';
-import { useAuthMutation } from '@/service/auth/useAuthService';
-import useSuccessHandler from '@/hooks/success/useSuccessHandler';
 import useErrorHandler from '@/hooks/error/useErrorHandler';
-import { userActions } from '@/store/features/user/user-action';
+import useRegisterForm from '@/hooks/auth/useRegisterForm';
+import useSuccessHandler from '@/hooks/success/useSuccessHandler';
+import { useAuthMutation } from '@/hooks/auth/useAuthQueries';
 
 export default function RegisterForm() {
   const dispatch = useAppDispatch();
@@ -44,7 +46,7 @@ export default function RegisterForm() {
   useSuccessHandler({ isSuccess, message: '회원가입에 성공했습니다.' });
   useErrorHandler(isError, error);
 
-  const onSubmit = (data: RegisterSchemaType) => {
+  const onSubmit = (data: AuthRegisterType) => {
     const { checkPassword: _, ...rest } = data;
     mutate(
       { ...rest },
@@ -56,7 +58,7 @@ export default function RegisterForm() {
 
   return (
     <form
-      className="flex flex-col ml-auto max-w-sm p-4 w-full rounded-lg"
+      className="flex flex-col max-w-sm p-4 w-full rounded-lg"
       onSubmit={handleSubmit(onSubmit)}
     >
       <EmailController control={control} />
@@ -74,7 +76,7 @@ export default function RegisterForm() {
 }
 
 interface ControllerProps {
-  control: Control<RegisterSchemaType>;
+  control: Control<AuthRegisterType>;
 }
 
 const EmailController: React.FC<ControllerProps> = ({ control }) => {
@@ -121,7 +123,7 @@ const PasswordController: React.FC<ControllerProps> = ({ control }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const passwordHandler = useCallback(() => {
-    setIsOpen((prev) => !prev);
+    setIsOpen(prev => !prev);
   }, []);
   return (
     <Controller
@@ -159,6 +161,7 @@ const CheckPasswordController: React.FC<ControllerProps> = ({ control }) => {
           <Label>비밀번호 확인</Label>
           <Input
             {...field}
+            type="password"
             autoComplete="off"
             icon={<LockIcon className="w-5 h-5" />}
           />
