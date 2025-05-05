@@ -1,13 +1,10 @@
 import axios from 'axios';
 import { axiosConfig } from './config';
-import {
-  createRequestInterceptor,
-  createResponseInterceptor,
-} from './interceptors';
+import requestInterceptor from './interceptor/request.interceptor';
+import responseInterceptor from './interceptor/response.interceptor';
 
-const axiosInstance = axios.create(axiosConfig);
+export const apiClient = axios.create(axiosConfig);
+export const authClient = axios.create(axiosConfig);
 
-createResponseInterceptor(axiosInstance);
-createRequestInterceptor(axiosInstance);
-
-export default axiosInstance;
+requestInterceptor(apiClient);
+responseInterceptor(apiClient);

@@ -41,8 +41,10 @@ export const createResponseInterceptor = (client: AxiosInstance) => {
   return client.interceptors.response.use(
     (response: AxiosResponse) => {
       if (isClient) {
+        console.log(isAuthEndPoint(response.request?.responseURL));
         if (isAuthEndPoint(response.request?.responseURL)) {
           const accessToken = response.headers['authorization']?.split(' ')[1];
+          console.log(accessToken);
           if (accessToken) {
             tokenStorage.setToken(accessToken);
           }
@@ -72,6 +74,8 @@ export const createResponseInterceptor = (client: AxiosInstance) => {
 
           if (originalRequest._retryCount <= MAX_RETRY_COUNT) {
             try {
+              const response = await client.get(API_ENDPOINTS.AUTH.REFRESH);
+              console.log(response);
               return client(originalRequest);
             } catch (err: any) {
               console.log('2 logout!');
