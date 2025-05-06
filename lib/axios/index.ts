@@ -1,10 +1,19 @@
 import axios from 'axios';
+import {
+  setupRequestInterceptor,
+  setupResponseInterceptor,
+} from './interceptor';
 import { axiosConfig } from './config';
-import requestInterceptor from './interceptor/request.interceptor';
-import responseInterceptor from './interceptor/response.interceptor';
+import { createApiWrapper } from './helper';
 
-export const apiClient = axios.create(axiosConfig);
-export const authClient = axios.create(axiosConfig);
+// Axios 인스턴스 생성
+export const apiAxiosInstance = axios.create(axiosConfig);
+export const authAxiosInstance = axios.create(axiosConfig);
 
-requestInterceptor(apiClient);
-responseInterceptor(apiClient);
+// 인터셉터 설정
+setupRequestInterceptor(apiAxiosInstance);
+setupResponseInterceptor(apiAxiosInstance);
+
+// 사용하기 쉬운 래핑된 클라이언트 생성
+export const apiClient = createApiWrapper(apiAxiosInstance);
+export const authClient = createApiWrapper(authAxiosInstance);
