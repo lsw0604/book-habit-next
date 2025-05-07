@@ -1,12 +1,12 @@
-import SearchItemLoader from './search-item-loader';
-import { cn } from '@/utils/class-name';
+import BookSearchItemLoader from '../item/loader';
+import { cn } from '@/shared/utils/class-name';
 
-export default function SearchListLoader() {
+export default function BookSearchListLoader() {
   return (
     <div className="w-full h-full flex flex-col overflow-scroll scrollbar-none">
       <ul
         className={cn(
-          'w-full px-4 pb-4 flex flex-col gap-4 overflew-scroll scroll-none',
+          'w-full pb-4 flex flex-col gap-4 overflew-scroll scroll-none',
           'md:grid md:grid-cols-2 md:gap-4',
           'lg:grid lg:grid-cols-3 lg:gap-4',
           'xl:grid xl:grid-cols-4 xl:gap-4',
@@ -14,7 +14,7 @@ export default function SearchListLoader() {
         )}
       >
         {Array.from({ length: 20 }).map((_, index) => (
-          <SearchItemLoader key={index} />
+          <BookSearchItemLoader key={index} />
         ))}
       </ul>
     </div>

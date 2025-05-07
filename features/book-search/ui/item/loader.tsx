@@ -1,7 +1,7 @@
 import { forwardRef, HTMLAttributes } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/shared/ui/skeleton';
 
-const SearchItemLoader = forwardRef<
+const BookSearchItemLoader = forwardRef<
   HTMLLIElement,
   HTMLAttributes<HTMLLIElement>
 >((props, ref) => {
@@ -25,6 +25,6 @@ const SearchItemLoader = forwardRef<
   );
 });
 
-SearchItemLoader.displayName = 'SearchItemLoader';
+BookSearchItemLoader.displayName = 'BookSearchItemLoader';
 
-export default SearchItemLoader;
+export default BookSearchItemLoader;

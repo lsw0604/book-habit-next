@@ -1,28 +1,20 @@
 import { DotIcon, ListFilterIcon } from 'lucide-react';
-import { Control, Controller, FormState } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
-import Popover from '@/components/common/popover';
-import Select from '@/components/common/select';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { ErrorMessage } from '@/components/common/error-message';
-import { SearchParamsType } from '@/schemas/search/params';
+import { BookSearchControllerProps, BookSearchPopoverProps } from '../types';
 
-interface SearchPopoverProps {
-  control: Control<SearchParamsType>;
-  formState: FormState<SearchParamsType>;
-}
+import Popover from '@/shared/common/popover';
+import Select from '@/shared/common/select';
+import { Button } from '@/shared/ui/button';
+import { Label } from '@/shared/ui/label';
+import { Slider } from '@/shared/ui/slider';
+import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
+import { ErrorMessage } from '@/shared/common/error-message';
 
-interface ControllerProps {
-  control: Control<SearchParamsType>;
-}
-
-export default function SearchPopover({
+export default function BookSearchPopover({
   control,
   formState,
-}: SearchPopoverProps) {
+}: BookSearchPopoverProps) {
   const { errors } = formState;
   return (
     <Popover>
@@ -46,7 +38,9 @@ export default function SearchPopover({
   );
 }
 
-const SearchPopoverTargetController = ({ control }: ControllerProps) => {
+const SearchPopoverTargetController = ({
+  control,
+}: BookSearchControllerProps) => {
   return (
     <Controller
       name="target"
@@ -79,7 +73,9 @@ const SearchPopoverTargetController = ({ control }: ControllerProps) => {
   );
 };
 
-const SearchPopoverSizeController = ({ control }: ControllerProps) => {
+const SearchPopoverSizeController = ({
+  control,
+}: BookSearchControllerProps) => {
   return (
     <Controller
       name="size"
@@ -107,7 +103,9 @@ const SearchPopoverSizeController = ({ control }: ControllerProps) => {
   );
 };
 
-const SearchPopoverSortController = ({ control }: ControllerProps) => {
+const SearchPopoverSortController = ({
+  control,
+}: BookSearchControllerProps) => {
   return (
     <Controller
       name="sort"

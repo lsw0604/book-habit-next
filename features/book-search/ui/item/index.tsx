@@ -1,39 +1,32 @@
-import type { KakaoDocument } from '@/service/api/search/types';
 import dayjs from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
-
-import ImageWrapper from '@/components/common/image-wrapper';
-import SearchItemLoader from './search-item-loader';
-
-import { useAppDispatch } from '@/store';
-import { setModalState } from '@/store/features/modal/modal-slice';
-import { setBookState } from '@/store/features/book/book-slice';
-import {
-  formattedIsbn,
-  formattedAuthor,
-  formattedPrice,
-  isbnToArray,
-} from '@/utils/book';
 import { useIntersectionObserver } from 'usehooks-ts';
-import { observerOption } from '@/utils/observer-option';
 
-interface SearchItemProps {
-  item: KakaoDocument;
-}
+import { formattedAuthor, formattedPrice } from '../../utils/formatter';
+import { BookSearchItemProps } from '../../ui/types';
+import BookSearchItemLoader from '../../ui/item/loader';
+import { formatISBNToArray } from '../../utils/helper';
 
-export default function SearchItem({ item }: SearchItemProps) {
+import { setModalState } from '@/entities/modal/model';
+import { setBookState } from '@/entities/book/model';
+
+import { observerOption } from '@/shared/hooks/infinite-scroll/util';
+import { useAppDispatch } from '@/shared/redux/store';
+import ImageWrapper from '@/shared/common/image-wrapper';
+
+export default function BookSearchItem({ item }: BookSearchItemProps) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const { ref, isIntersecting } = useIntersectionObserver(
-    observerOption({ threshold: 0.5 })
+    observerOption({ threshold: 0.3 })
   );
-
-  const datetime = dayjs(item.datetime);
   const dispatch = useAppDispatch();
 
+  const datetime = dayjs(item.datetime);
+
   const modalHandler = useCallback(() => {
-    dispatch(setModalState({ isOpen: true, type: 'register-my-book' }));
-    dispatch(setBookState({ ...item, isbn: isbnToArray(item.isbn) }));
-  }, [dispatch, item]);
+    dispatch(setModalState({ isOpen: true, type: 'REGISTER_MY_BOOK' }));
+    dispatch(setBookState({ ...formatISBNToArray(item) }));
+  }, [item]);
 
   useEffect(() => {
     if (isIntersecting) {
@@ -41,9 +34,7 @@ export default function SearchItem({ item }: SearchItemProps) {
     }
   }, [isIntersecting]);
 
-  if (!isVisible) {
-    return <SearchItemLoader ref={ref} />;
-  }
+  if (!isVisible) return <BookSearchItemLoader ref={ref} />;
 
   return (
     <li
@@ -67,7 +58,7 @@ export default function SearchItem({ item }: SearchItemProps) {
               {item.title}
             </span>
             <div className="line-clamp-1 flex overflow-hidden whitespace-normal break-all text-xxs text-gray-700">
-              {formattedIsbn(item.isbn)}
+              {item.isbn}
             </div>
             <div className="line-clamp-2 flex overflow-hidden whitespace-normal break-all text-sm text-gray-800 my-1">
               {formattedAuthor(item.authors)} | {item.publisher}

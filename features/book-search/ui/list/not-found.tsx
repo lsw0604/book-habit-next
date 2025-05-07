@@ -1,20 +1,14 @@
-import { ErrorMessage } from '@/components/common/error-message';
-import { Button } from '@/components/ui/button';
 import { InfoIcon } from 'lucide-react';
+import { Button } from '@/shared/ui/button';
+import { ErrorMessage } from '@/shared/common/error-message';
+import { BookSearchListNotFoundProps } from '../types';
 
-interface SearchListNotFoundProps {
-  query?: string;
-  isError?: boolean;
-  errorMessage?: string;
-  refetch?: () => void;
-}
-
-export default function SearchListNotFound({
-  query,
-  isError,
+export default function BookSearchListNotFound({
   errorMessage,
+  isError,
+  query,
   refetch,
-}: SearchListNotFoundProps) {
+}: BookSearchListNotFoundProps) {
   return (
     <div className="w-full h-full p-4">
       <div className="bg-[rgba(0,0,0,0.05)] w-full h-full rounded-lg flex justify-center items-center text-slate-500 text-lg">
