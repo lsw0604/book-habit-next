@@ -1,24 +1,8 @@
-import { tokenStorage } from '@/utils/token';
 import { AxiosInstance } from 'axios';
 import { API_ENDPOINTS, MAX_RETRY_COUNT } from '../constant';
+import { tokenStorage } from '@/shared/utils/token';
 
-export const setupRequestInterceptor = (client: AxiosInstance) => {
-  return client.interceptors.request.use(
-    config => {
-      const token = tokenStorage.getToken();
-
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-
-      return config;
-    },
-    error => Promise.reject(error)
-  );
-};
-
-const isClient = typeof window === undefined;
-
+const isClient = typeof window !== undefined;
 const isAuthEndPoint = (url?: string) =>
   Object.values(API_ENDPOINTS.AUTH).some(endPoint => url?.includes(endPoint));
 
