@@ -1,13 +1,14 @@
 'use client';
 
+import BookSearchListNotFound from './not-found';
+import BookSearchListLoader from './loader';
+import BookSearchItem from '../item';
+import Loader from '@/shared/common/loader';
 import { useBookSearchParams } from '../../lib/hooks/useBookSearchParams';
 import { useBookSearchQuery } from '../../lib/query/useBookSearchQuery';
 import { KakaoDocument } from '../../api/types';
-import BookSearchItem from '../item';
-import BookSearchListLoader from './loader';
 import { useInfiniteScroll } from '@/shared/hooks/infinite-scroll';
 import { cn } from '@/shared/utils/class-name';
-import Loader from '@/shared/common/loader';
 
 export default function BookSearchList() {
   const { query, size, sort, target } = useBookSearchParams();
@@ -24,9 +25,15 @@ export default function BookSearchList() {
   const ref = useInfiniteScroll(fetchNextPage, hasNextPage);
 
   if (isLoading) return <BookSearchListLoader />;
-  if (!data || !query || data.length === 0 || isError) {
-    return null;
-  }
+  if (!data || !query || data.length === 0 || isError)
+    return (
+      <BookSearchListNotFound
+        query={query}
+        isError={isError}
+        errorMessage={error?.response?.data.message}
+        refetch={refetch}
+      />
+    );
 
   return (
     <div className={cn('w-full h-full overflow-scroll scrollbar-none')}>
@@ -40,16 +47,16 @@ export default function BookSearchList() {
         )}
       >
         {data.map((item: KakaoDocument) => (
-          <BookSearchItem key={item.thumbnail} item={item} />
+          <BookSearchItem key={item.isbn} item={item} />
         ))}
+        {isFetching ? (
+          <li className="col-span-full flex justify-center my-4">
+            <Loader size={2} className="border-gray-800" />
+          </li>
+        ) : (
+          <li className="col-span-full h-4" ref={ref} />
+        )}
       </ul>
-      {isFetching ? (
-        <div className="w-full justify-center flex mb-1">
-          <Loader size={2} className="border-gray-800" />
-        </div>
-      ) : (
-        <div className="mb-[20px]" ref={ref} />
-      )}
     </div>
   );
 }
