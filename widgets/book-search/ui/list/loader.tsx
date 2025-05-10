@@ -1,4 +1,4 @@
-import BookSearchItemLoader from '../item/loader';
+import BookSearchItemLoader from '@/features/book-search/ui/item/loader';
 import { cn } from '@/shared/utils/class-name';
 
 export default function BookSearchListLoader() {

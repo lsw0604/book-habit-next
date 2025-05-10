@@ -1,6 +1,6 @@
-import BookSearchForm from '@/features/book-search/ui/form';
-import BookSearchList from '@/features/book-search/ui/list';
 import PageContainer from '@/shared/common/page-container';
+import BookSearchForm from '@/widgets/book-search/ui/form';
+import BookSearchList from '@/widgets/book-search/ui/list';
 
 export default function SearchPage() {
   return (

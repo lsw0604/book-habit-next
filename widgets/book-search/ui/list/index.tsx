@@ -1,12 +1,12 @@
 'use client';
 
+import type { KakaoDocument } from '@/features/book-search/api/types';
 import BookSearchListNotFound from './not-found';
 import BookSearchListLoader from './loader';
-import BookSearchItem from '../item';
+import { useBookSearchParams } from '@/features/book-search/lib/hooks';
+import { useBookSearchQuery } from '@/features/book-search/lib/query';
+import BookSearchItem from '@/features/book-search/ui/item';
 import Loader from '@/shared/common/loader';
-import { useBookSearchParams } from '../../lib/hooks/useBookSearchParams';
-import { useBookSearchQuery } from '../../lib/query/useBookSearchQuery';
-import { KakaoDocument } from '../../api/types';
 import { useInfiniteScroll } from '@/shared/hooks/infinite-scroll';
 import { cn } from '@/shared/utils/class-name';
 

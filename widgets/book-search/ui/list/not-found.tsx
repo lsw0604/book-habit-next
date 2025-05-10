@@ -1,7 +1,7 @@
+import type { BookSearchListNotFoundProps } from '../../model/types';
 import { InfoIcon } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { ErrorMessage } from '@/shared/common/error-message';
-import { BookSearchListNotFoundProps } from '../types';
 
 export default function BookSearchListNotFound({
   errorMessage,

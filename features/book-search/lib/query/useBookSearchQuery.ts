@@ -6,7 +6,7 @@ import type {
   KakaoDocument,
 } from '@/features/book-search/api/types';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { bookSearchService } from '@/features/book-search/api/bookSearchService';
+import { bookSearchService } from '@/features/book-search/api';
 import { queryKeys } from '@/shared/query/keys';
 
 export const useBookSearchQuery = ({
