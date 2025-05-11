@@ -2,7 +2,14 @@ import type { Config } from 'tailwindcss';
 
 const config = {
   darkMode: ['class'],
-  content: ['./components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}'],
+  content: [
+    './app/**/*.{ts,tsx}',
+    './shared/**/*.{ts,tsx}',
+    './entities/**/*.{ts,tsx}',
+    './features/**/*.{ts,tsx}',
+    './widgets/**/*.{ts,tsx}',
+    './pages/**/*.{ts,tsx}',
+  ],
   prefix: '',
   theme: {
     container: {
