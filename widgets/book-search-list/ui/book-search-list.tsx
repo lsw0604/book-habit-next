@@ -1,13 +1,13 @@
 'use client';
 
 import type { KakaoDocument } from '@/features/book-search/api/types';
-import BookSearchListNotFound from './not-found';
-import BookSearchListLoader from './loader';
 import { useBookSearchParams } from '@/features/book-search/lib/hooks';
 import { useBookSearchQuery } from '@/features/book-search/lib/query';
-import BookSearchItem from '@/features/book-search/ui/item';
+import BookSearchListLoader from './book-search-list-loader';
+import BookSearchListNotFound from './book-search-list-not-found';
+import BookSearchItem from './book-search-item';
 import Loader from '@/shared/common/loader';
-import { useInfiniteScroll } from '@/shared/hooks/infinite-scroll';
+import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { cn } from '@/shared/utils/class-name';
 
 export default function BookSearchList() {
@@ -22,7 +22,9 @@ export default function BookSearchList() {
     error,
     refetch,
   } = useBookSearchQuery({ query, size, sort, target });
-  const ref = useInfiniteScroll(fetchNextPage, hasNextPage);
+  const ref = useInfiniteScroll(fetchNextPage, hasNextPage, {
+    threshold: 0.3,
+  });
 
   if (isLoading) return <BookSearchListLoader />;
   if (!data || !query || data.length === 0 || isError)
@@ -39,7 +41,7 @@ export default function BookSearchList() {
     <div className={cn('w-full h-full overflow-scroll scrollbar-none')}>
       <ul
         className={cn(
-          'w-full px-4 flex flex-col gap-4', // 기본 모바일 레이아웃
+          'w-full px-4 flex flex-col gap-4 mb-2', // 기본 모바일 레이아웃
           'md:grid md:grid-cols-2 md:gap-4', // 작은 화면에서 2열로 변경
           'lg:grid lg:grid-cols-3 lg:gap-4', // 중간 화면에서 3열로 변경
           'xl:grid xl:grid-cols-4 xl:gap-4', // 큰 화면에서 4열로 변경
@@ -49,14 +51,10 @@ export default function BookSearchList() {
         {data.map((item: KakaoDocument) => (
           <BookSearchItem key={item.isbn} item={item} />
         ))}
-        {isFetching ? (
-          <li className="col-span-full flex justify-center my-4">
-            <Loader size={2} className="border-gray-800" />
-          </li>
-        ) : (
-          <li className="col-span-full h-4" ref={ref} />
-        )}
       </ul>
+      <div className="w-full flex justify-center p-4" ref={ref}>
+        {isFetching && <Loader size={2} className="border-gray-800" />}
+      </div>
     </div>
   );
 }

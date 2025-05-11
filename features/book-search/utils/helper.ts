@@ -1,6 +1,5 @@
 import type { Book } from '@/entities/book/model/types';
 import type { KakaoDocument } from '@/features/book-search/api/types';
-import dayjs from 'dayjs';
 
 export const formatISBNToArray = (item: KakaoDocument): Book => {
   const {

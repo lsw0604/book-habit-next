@@ -1,6 +1,6 @@
 'use client';
 
-import type { BookSearchControllerProps } from '../types';
+import type { BookSearchControllerProps } from '../model/types';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 import { Label } from '@/shared/ui/label';

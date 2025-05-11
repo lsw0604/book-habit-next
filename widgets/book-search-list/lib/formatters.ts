@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export const formattedAuthor = (authors: string[]): string => {
   if (authors.length === 0) {
     return '미상';
@@ -21,3 +23,6 @@ export const formattedPrice = ({
 
   return `${(1 - Math.floor(sale_price / price)) * 10}%`;
 };
+
+export const formattedDatetime = (datetime: string) =>
+  dayjs(datetime).add(9, 'hour').format('YYYY.MM.DD');

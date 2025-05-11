@@ -1,4 +1,4 @@
-import type { BookSearchListNotFoundProps } from '../../model/types';
+import type { BookSearchListNotFoundProps } from '../../book-search-form/model/types';
 import { InfoIcon } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { ErrorMessage } from '@/shared/common/error-message';

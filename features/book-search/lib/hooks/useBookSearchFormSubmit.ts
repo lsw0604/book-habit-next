@@ -2,7 +2,7 @@ import type { BookSearchParamsType } from '@/features/book-search/model/schema';
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
-export function useBookSearchFormSubmit(onFormSubmit: () => void) {
+export function useBookSearchFormSubmit(setIsRouting: (v: boolean) => void) {
   const router = useRouter();
 
   const onSubmit = useCallback(
@@ -16,14 +16,13 @@ export function useBookSearchFormSubmit(onFormSubmit: () => void) {
       if (data.sort) searchParams.set('sort', data.sort);
       if (data.target) searchParams.set('target', data.target);
 
-      // URL로 이동
-      router.push(`/search?${searchParams.toString()}`);
-
       // 폼 제출 후 콜백 실행
-      onFormSubmit();
+      setIsRouting(true);
+      router.push(`/search?${searchParams.toString()}`);
+      // 추후에 useEffect에서 setIsRouting(false)로 자동 전환 가능
     },
-    [router, onFormSubmit] // router를 의존성에 포함
-  );
+    [router, setIsRouting]
+  ); // router를 의존성에 포함
 
   return {
     onSubmit,

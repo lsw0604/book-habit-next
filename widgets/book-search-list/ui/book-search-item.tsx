@@ -1,39 +1,20 @@
-import dayjs from 'dayjs';
-import { useCallback, useEffect, useState } from 'react';
-import { useIntersectionObserver } from 'usehooks-ts';
-
-import { formattedAuthor, formattedPrice } from '../../utils/formatter';
-import { BookSearchItemProps } from '../../ui/types';
-import BookSearchItemLoader from '../../ui/item/loader';
-import { formatISBNToArray } from '../../utils/helper';
-
-import { setModalState } from '@/entities/modal/model';
-import { setBookState } from '@/entities/book/model';
+import type { BookSearchItemProps } from '../model/types';
+import {
+  formattedAuthor,
+  formattedPrice,
+  formattedDatetime,
+} from '../lib/formatters';
+import BookSearchItemLoader from './book-search-item-loader';
+import { useBookSearchModal } from '@/features/book-search/lib/hooks';
 import BookItemCard from '@/entities/book/ui/book-item-card';
-
-import { observerOption } from '@/shared/hooks/infinite-scroll/util';
-import { useAppDispatch } from '@/shared/redux/store';
 import ImageWrapper from '@/shared/common/image-wrapper';
+import { useOnceVisible } from '@/shared/hooks/useInfiniteScroll';
+import { useState } from 'react';
 
 export default function BookSearchItem({ item }: BookSearchItemProps) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const { ref, isIntersecting } = useIntersectionObserver(
-    observerOption({ threshold: 0.3 })
-  );
-  const dispatch = useAppDispatch();
-
-  const datetime = dayjs(item.datetime);
-
-  const modalHandler = useCallback(() => {
-    dispatch(setModalState({ isOpen: true, type: 'REGISTER_MY_BOOK' }));
-    dispatch(setBookState({ ...formatISBNToArray(item) }));
-  }, [item]);
-
-  useEffect(() => {
-    if (isIntersecting) {
-      setIsVisible(true);
-    }
-  }, [isIntersecting]);
+  const { modalHandler } = useBookSearchModal({ item });
+  const ref = useOnceVisible(() => setIsVisible(true), { threshold: 0.1 });
 
   if (!isVisible) return <BookSearchItemLoader ref={ref} />;
 
@@ -81,7 +62,7 @@ export default function BookSearchItem({ item }: BookSearchItemProps) {
             : item.contents}
         </p>
         <div className="mt-auto line-clamp-1 flex overflow-hidden whitespace-normal break-all text-xxs text-gray-700">
-          {datetime.add(9, 'hour').format('YYYY.MM.DD')}
+          {formattedDatetime(item.datetime)}
         </div>
       </div>
     </BookItemCard>

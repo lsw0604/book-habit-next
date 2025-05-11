@@ -1,24 +1,40 @@
 'use client';
 
-import type { BookSearchPopoverProps } from '../../model/types';
+import type { BookSearchControllerProps } from '../model/types';
 import React from 'react';
+import { useWatch } from 'react-hook-form';
 import { DotIcon, ListFilterIcon } from 'lucide-react';
 
-import BookSearchTargetController from '@/features/book-search/ui/target-controller';
-import BookSearchSizeController from '@/features/book-search/ui/size-controller';
-import BookSearchSortController from '@/features/book-search/ui/sort-controller';
+import BookSearchTargetController from './book-search-target-controller';
+import BookSearchSizeController from './book-search-size-controller';
+import BookSearchSortController from './book-search-sort-controller';
 import Popover from '@/shared/common/popover';
 import { Button } from '@/shared/ui/button';
-import { hasFormErrors } from '../../utils';
+import { hasFormErrors } from '../utils';
 
-const BookSearchPopover: React.FC<BookSearchPopoverProps> = ({
+const BookSearchPopover: React.FC<BookSearchControllerProps> = ({
   control,
   formState,
-}: BookSearchPopoverProps) => {
+}: BookSearchControllerProps) => {
+  const query = useWatch({
+    control,
+    name: 'query',
+    defaultValue: '',
+  });
+
+  const shouldShowError =
+    formState &&
+    formState.isSubmitted &&
+    hasFormErrors(formState) &&
+    (query.trim() !== '' ||
+      formState.errors.target ||
+      formState.errors.size ||
+      formState.errors.sort);
+
   return (
     <Popover>
       <Popover.Trigger>
-        {hasFormErrors(formState) && (
+        {shouldShowError && (
           <DotIcon className="absolute left-[-1.25rem] top-[-1.25rem] w-12 h-12 stroke-red-500" />
         )}
         <Button type="button" className="rounded-full" variant="ghost">

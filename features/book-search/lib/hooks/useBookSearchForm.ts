@@ -1,4 +1,4 @@
-import useFormWithSchema from '@/shared/hooks/form/useFormWithSchema';
+import { useFormWithSchema } from '@/shared/hooks/form/useFormWithSchema';
 import {
   bookSearchParamsSchema,
   BookSearchParamsType,
@@ -6,7 +6,7 @@ import {
 } from '@/features/book-search/model/schema';
 
 export const useBookSearchForm = (initialValue?: BookSearchParamsType) =>
-  useFormWithSchema(
-    bookSearchParamsSchema,
-    initialValue ?? DEFAULT_BOOK_SEARCH_PARAMS
-  );
+  useFormWithSchema(bookSearchParamsSchema, {
+    defaultValues: initialValue ?? DEFAULT_BOOK_SEARCH_PARAMS,
+    mode: 'onSubmit',
+  });

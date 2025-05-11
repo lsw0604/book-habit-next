@@ -4,6 +4,7 @@ import { KakaoDocument } from '../api/types';
 
 export interface BookSearchControllerProps {
   control: Control<BookSearchParamsType>;
+  isSubmitted?: boolean;
 }
 
 export interface BookSearchItemProps {

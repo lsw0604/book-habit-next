@@ -18,6 +18,7 @@ export const BOOK_SEARCH_FIELDS: Array<keyof BookSearchParamsType> = [
   'size',
   'sort',
 ] as const;
+export type BookSearchFieldType = (typeof BOOK_SEARCH_FIELDS)[number];
 
 export const BOOK_SEARCH_SORT_FIELDS: BookSearchParamsType['sort'][] = [
   'accuracy',

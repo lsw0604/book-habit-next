@@ -1,16 +1,14 @@
-import { useCallback, useEffect, useRef } from 'react';
-
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useBookSearchForm } from './useBookSearchForm';
 import { useBookSearchParams } from './useBookSearchParams';
-import { BOOK_SEARCH_FIELDS } from '@/features/book-search/constant';
-
-type BookSearchFieldType = (typeof BOOK_SEARCH_FIELDS)[number];
+import { BOOK_SEARCH_FIELDS, BookSearchFieldType } from '../../constant';
 
 export const useBookSearchFormHandler = () => {
   const params = useBookSearchParams();
-  const { handleSubmit, control, setValue, formState } = useBookSearchForm({
-    ...params,
-  });
+  const { handleSubmit, control, setValue, formState, ...methods } =
+    useBookSearchForm({ ...params });
+
+  const [isRouting, setIsRouting] = useState<boolean>(false);
 
   const previousQuery = useRef(params.query);
   const previousSize = useRef(params.size);
@@ -34,12 +32,14 @@ export const useBookSearchFormHandler = () => {
   }, [params, setValue]);
 
   useEffect(() => {
-    updateFormValue();
+    if (!isRouting) updateFormValue();
   }, [params, updateFormValue]);
 
   return {
     handleSubmit,
     formState,
     control,
+    setIsRouting,
+    ...methods,
   };
 };

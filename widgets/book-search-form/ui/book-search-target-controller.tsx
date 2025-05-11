@@ -1,9 +1,9 @@
-import { Controller } from 'react-hook-form';
-import { BookSearchControllerProps } from '../types';
-import { Label } from '@/shared/ui/label';
-import Select from '@/shared/common/select';
-import { ErrorMessage } from '@/shared/ui/error-message';
+import type { BookSearchControllerProps } from '../model/types';
 import React from 'react';
+import { Controller } from 'react-hook-form';
+import { Label } from '@/shared/ui/label';
+import Select from '@/shared/ui/select';
+import { ErrorMessage } from '@/shared/ui/error-message';
 
 const BookSearchTargetController: React.FC<BookSearchControllerProps> = ({
   control,
