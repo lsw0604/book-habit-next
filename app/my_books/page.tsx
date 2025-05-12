@@ -1,15 +1,14 @@
-import MyBookList from './_components/my-book-list';
-import MyBookForm from './_components/my-book-form';
+import { MyBookForm } from '@/widgets/my-book-form';
+
+import PageContainer from '@/shared/common/page-container';
 
 export default function MyBookPage() {
   return (
-    <div className="w-full h-full flex flex-col relative">
-      <div className="w-full flex justify-center p-2 bg-white sticky top-16 z-10">
+    <PageContainer variant="vertical" className="h-full">
+      <div className="w-full flex justify-center bg-white sticky top-16 z-10">
         <MyBookForm />
       </div>
-      <div className="flex-1 overflow-auto">
-        <MyBookList />
-      </div>
-    </div>
+      <div className="flex-1 overflow-auto"></div>
+    </PageContainer>
   );
 }
