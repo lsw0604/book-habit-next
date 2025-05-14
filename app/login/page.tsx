@@ -1,5 +1,5 @@
-import PageContainer from '@/components/common/page-container';
-import LoginForm from './_components/login-form';
+import PageContainer from '@/shared/common/page-container';
+import { LoginForm } from '@/widgets/login-form';
 
 export default function LoginPage() {
   return (
