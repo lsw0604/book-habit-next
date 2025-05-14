@@ -1,5 +1,5 @@
 import { useSearchParams } from 'next/navigation';
-import { MyBookOrder, MyBookStatus } from '@/entities/my-book/api/types';
+import { MyBookOrder, MyBookStatus } from '@/entities/my-book/model';
 
 export const useMyBookParams = () => {
   const searchParams = useSearchParams();
