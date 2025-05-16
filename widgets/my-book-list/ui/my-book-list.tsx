@@ -1,15 +1,15 @@
 'use client';
 
 import MyBookItem from './my-book-item';
+import MyBookListEmpty from './my-book-list-empty';
 import MyBookListLoader from './my-book-list-loader';
 import MyBookListNotFound from './my-book-list-not-found';
 import MyBookListLoginError from './my-book-list-login-error';
 import { useMyBookFilterParams } from '@/features/filter-my-book/lib/hooks';
-import { useMyBooks } from '@/features/filter-my-book/lib/query';
+import { useMyBooks } from '@/entities/my-book/lib/queries';
 import Loader from '@/shared/common/loader';
 import { cn } from '@/shared/utils/class-name';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
-import MyBookListEmpty from './my-book-list-empty';
 
 export default function MyBookList() {
   const { order, status } = useMyBookFilterParams();

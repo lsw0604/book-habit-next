@@ -6,6 +6,7 @@ import type {
   GetMyBooksPayload,
   CreateMyBookPayload,
   UpdateMyBookPayload,
+  ResponseDeleteMyBook,
 } from './types';
 import { stringify } from 'querystring';
 import { API_ENDPOINTS } from '@/shared/api/constant';
@@ -25,14 +26,14 @@ export const myBookService: MyBookService = {
     );
     return response;
   },
-  addMyBook: async (payload: CreateMyBookPayload) => {
+  addMyBook: async (payload: CreateMyBookPayload): Promise<MyBook> => {
     const response = await apiClient.post<MyBook>(
       API_ENDPOINTS.MY_BOOK,
       payload
     );
     return response;
   },
-  updateMyBook: async (payload: UpdateMyBookPayload) => {
+  updateMyBook: async (payload: UpdateMyBookPayload): Promise<MyBookDetail> => {
     const { myBookId, ...data } = payload;
     const response = await apiClient.patch<MyBookDetail>(
       `${API_ENDPOINTS.MY_BOOK}/${myBookId}`,
@@ -40,10 +41,11 @@ export const myBookService: MyBookService = {
     );
     return response;
   },
-  deleteMyBook: async (myBookId: number): Promise<MyBook> => {
-    const response: MyBook = await apiClient.delete<MyBook>(
-      `${API_ENDPOINTS.MY_BOOK}/${myBookId}`
-    );
+  deleteMyBook: async (myBookId: number): Promise<ResponseDeleteMyBook> => {
+    const response: ResponseDeleteMyBook =
+      await apiClient.delete<ResponseDeleteMyBook>(
+        `${API_ENDPOINTS.MY_BOOK}/${myBookId}`
+      );
     return response;
   },
 };

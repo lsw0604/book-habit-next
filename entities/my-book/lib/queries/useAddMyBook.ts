@@ -2,7 +2,7 @@ import type { CreateMyBookPayload, MyBook } from '@/entities/my-book/api/types';
 import type { ErrorResponseDto } from '@/shared/api/types/error';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { myBookService } from '@/entities/my-book/api';
+import { myBookService } from '../../api';
 
 export const useAddMyBook = () => {
   const { addMyBook } = myBookService;

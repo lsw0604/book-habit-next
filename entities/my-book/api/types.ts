@@ -6,7 +6,7 @@ export interface MyBookService {
   getMyBooks: (params: GetMyBooksPayload) => Promise<MyBooks>;
   addMyBook: (payload: CreateMyBookPayload) => Promise<MyBook>;
   updateMyBook: (payload: UpdateMyBookPayload) => Promise<MyBookDetail>;
-  deleteMyBook: (myBookId: number) => Promise<MyBook>;
+  deleteMyBook: (myBookId: number) => Promise<ResponseDeleteMyBook>;
 }
 
 export interface MyBook {
@@ -68,4 +68,8 @@ export interface UpdateMyBookPayload {
   myBookId: number;
   rating?: number;
   status?: MyBookStatus;
+}
+
+export interface ResponseDeleteMyBook {
+  id: number;
 }
