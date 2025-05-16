@@ -7,7 +7,7 @@ interface UseAutoSubmitProps<T extends FieldValues> {
   dependencies: any[];
 }
 
-export default function useAutoSubmit<T extends FieldValues>({
+export function useAutoSubmit<T extends FieldValues>({
   watch,
   onSubmit,
   dependencies,
