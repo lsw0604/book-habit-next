@@ -1,14 +1,14 @@
 import type { MyBookFilterControllerProps } from '@/features/filter-my-book/model';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { useStatusController } from '@/features/filter-my-book/model';
+import { useStatusOptions } from '@/entities/my-book/lib';
 import Select from '@/shared/ui/select';
 import { ErrorMessage } from '@/shared/ui/error-message';
 
 const MyBookFilterStatusController: React.FC<MyBookFilterControllerProps> = ({
   control,
 }) => {
-  const { getStatusLabel, statusOptions } = useStatusController();
+  const { filterOptions, getFilterLabel } = useStatusOptions();
   return (
     <Controller
       name="status"
@@ -17,9 +17,9 @@ const MyBookFilterStatusController: React.FC<MyBookFilterControllerProps> = ({
         <div className="w-full">
           <Select.ErrorBoundary>
             <Select onChange={onChange} value={value}>
-              <Select.Trigger>{getStatusLabel(value)}</Select.Trigger>
+              <Select.Trigger>{getFilterLabel(value)}</Select.Trigger>
               <Select.Content>
-                {statusOptions.map(({ value, label }) => (
+                {filterOptions.map(({ value, label }) => (
                   <Select.Option key={value} value={value}>
                     {label}
                   </Select.Option>

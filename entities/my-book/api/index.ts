@@ -34,7 +34,7 @@ export const myBookService: MyBookService = {
   },
   updateMyBook: async (payload: UpdateMyBookPayload) => {
     const { myBookId, ...data } = payload;
-    const response = await apiClient.patch<MyBook>(
+    const response = await apiClient.patch<MyBookDetail>(
       `${API_ENDPOINTS.MY_BOOK}/${myBookId}`,
       data
     );

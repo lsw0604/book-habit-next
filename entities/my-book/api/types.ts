@@ -5,7 +5,7 @@ export interface MyBookService {
   getMyBook: (myBookId: number) => Promise<MyBookDetail>;
   getMyBooks: (params: GetMyBooksPayload) => Promise<MyBooks>;
   addMyBook: (payload: CreateMyBookPayload) => Promise<MyBook>;
-  updateMyBook: (payload: UpdateMyBookPayload) => Promise<MyBook>;
+  updateMyBook: (payload: UpdateMyBookPayload) => Promise<MyBookDetail>;
   deleteMyBook: (myBookId: number) => Promise<MyBook>;
 }
 
@@ -24,7 +24,10 @@ export interface MyBooks {
 
 export interface MyBookDetail {
   id: number;
-  status: MyBookStatus;
+  status:
+    | MyBookStatus.WANT_TO_READ
+    | MyBookStatus.CURRENTLY_READING
+    | MyBookStatus.READ;
   rating: number;
   createdAt: Date;
   updatedAt: Date;
@@ -42,7 +45,7 @@ export interface MyBookDetail {
 
 export interface GetMyBooksPayload {
   page: number;
-  status: MyBookStatus | 'ALL';
+  status: MyBookStatus;
   order: MyBookOrder;
 }
 
