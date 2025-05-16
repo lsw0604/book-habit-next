@@ -1,11 +1,11 @@
-import type { MyBookControllerProps } from '@/features/my-book/model/types';
+import type { MyBookFilterControllerProps } from '@/features/filter-my-book/model/types';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 import Select from '@/shared/ui/select';
 import { ErrorMessage } from '@/shared/ui/error-message';
-import { useOrderController } from '@/features/my-book/model';
+import { useOrderController } from '@/features/filter-my-book/model';
 
-const MyBookOrderController: React.FC<MyBookControllerProps> = ({
+const MyBookFilterOrderController: React.FC<MyBookFilterControllerProps> = ({
   control,
 }) => {
   const { getOrderLabel, orderOptions } = useOrderController();
@@ -36,4 +36,4 @@ const MyBookOrderController: React.FC<MyBookControllerProps> = ({
   );
 };
 
-export default MyBookOrderController;
+export default MyBookFilterOrderController;

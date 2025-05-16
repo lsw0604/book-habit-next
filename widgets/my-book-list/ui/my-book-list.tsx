@@ -4,15 +4,15 @@ import MyBookItem from './my-book-item';
 import MyBookListLoader from './my-book-list-loader';
 import MyBookListNotFound from './my-book-list-not-found';
 import MyBookListLoginError from './my-book-list-login-error';
-import { useMyBookParams } from '@/features/my-book/lib/hooks';
-import { useMyBooks } from '@/features/my-book/lib/query';
+import { useMyBookFilterParams } from '@/features/filter-my-book/lib/hooks';
+import { useMyBooks } from '@/features/filter-my-book/lib/query';
 import Loader from '@/shared/common/loader';
 import { cn } from '@/shared/utils/class-name';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import MyBookListEmpty from './my-book-list-empty';
 
 export default function MyBookList() {
-  const { order, status } = useMyBookParams();
+  const { order, status } = useMyBookFilterParams();
   const {
     data,
     fetchNextPage,

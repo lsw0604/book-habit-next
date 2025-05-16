@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { MyBookParamsType } from '@/entities/my-book/model/schema';
 
-export function useMyBokFormSubmit() {
+export function useMyBookFilterFormSubmit() {
   const router = useRouter();
 
   const onSubmit = useCallback(

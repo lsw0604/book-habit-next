@@ -1,11 +1,11 @@
-import type { MyBookControllerProps } from '@/features/my-book/model';
+import type { MyBookFilterControllerProps } from '@/features/filter-my-book/model';
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { useStatusController } from '@/features/my-book/model';
+import { useStatusController } from '@/features/filter-my-book/model';
 import Select from '@/shared/ui/select';
 import { ErrorMessage } from '@/shared/ui/error-message';
 
-const MyBookStatusController: React.FC<MyBookControllerProps> = ({
+const MyBookFilterStatusController: React.FC<MyBookFilterControllerProps> = ({
   control,
 }) => {
   const { getStatusLabel, statusOptions } = useStatusController();
@@ -36,4 +36,4 @@ const MyBookStatusController: React.FC<MyBookControllerProps> = ({
   );
 };
 
-export default MyBookStatusController;
+export default MyBookFilterStatusController;

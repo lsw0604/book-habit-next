@@ -1,7 +1,9 @@
+import { MyBookOrder } from '@/entities/my-book/model';
+
 export const useOrderController = () => {
   const orderOptions = [
-    { value: 'asc', label: '오름차순' },
-    { value: 'desc', label: '내림차순' },
+    { value: MyBookOrder.asc, label: '오름차순' },
+    { value: MyBookOrder.desc, label: '내림차순' },
   ];
 
   const getOrderLabel = (value: string) => {
