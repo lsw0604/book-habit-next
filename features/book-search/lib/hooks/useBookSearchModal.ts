@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { KakaoDocument } from '../../api/types';
-import { formatISBNToArray } from '../../utils/helper';
-import { setModalState } from '@/entities/modal/model';
-import { setBookState } from '@/entities/book/model';
+import { formatISBNToArray } from '../../utils';
+import { setModalState } from '@/entities/modal/model/store';
+import { setBookState } from '@/entities/book/model/store';
 import { useAppDispatch } from '@/shared/redux/store';
 
 export function useBookSearchModal({ item }: { item: KakaoDocument }) {

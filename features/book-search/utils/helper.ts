@@ -27,7 +27,7 @@ export const formatISBNToArray = (item: KakaoDocument): Book => {
     authors,
     contents,
     datetime,
-    isbn: isbn(isbnStr),
+    isbns: isbn(isbnStr),
     price,
     publisher,
     salePrice: sale_price,
