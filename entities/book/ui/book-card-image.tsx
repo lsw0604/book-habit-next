@@ -1,0 +1,31 @@
+import { forwardRef } from 'react';
+import { BookCardImageProps } from '../model/types';
+import { cn } from '@/shared/utils/class-name';
+import ImageWrapper from '@/shared/common/image-wrapper';
+
+const BookCardImage = forwardRef<HTMLDivElement, BookCardImageProps>(
+  ({ item, className, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'relative flex-shrink-0 overflow-hidden w-[120px]',
+          className
+        )}
+        {...props}
+      >
+        <ImageWrapper
+          src={item.thumbnail}
+          alt={`${item.title}-${item.isbn}`}
+          width={120}
+          height={174}
+          priority
+        />
+      </div>
+    );
+  }
+);
+
+BookCardImage.displayName = 'BookCardImage';
+
+export default BookCardImage;
