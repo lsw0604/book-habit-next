@@ -1,4 +1,4 @@
-import { cn } from '@/utils/class-name';
+import { cn } from '@/shared/utils/class-name';
 import MyBookItemLoader from './my-book-item-loader';
 
 export default function MyBookListLoader() {

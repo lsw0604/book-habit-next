@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/shared/ui/skeleton';
 import { forwardRef } from 'react';
 
 const MyBookItemLoader = forwardRef<HTMLLIElement, {}>((props, ref) => {
