@@ -1,0 +1,34 @@
+import { HTMLAttributes } from 'react';
+import { formattedPrice, calculateDiscountRate } from '../lib';
+
+interface BookCardPriceProps extends HTMLAttributes<HTMLDivElement> {
+  className?: string;
+  price: number;
+  sale_price: number;
+}
+
+export default function BookCardPrice({
+  price,
+  sale_price,
+  className,
+}: BookCardPriceProps) {
+  const hasDiscount = sale_price > 0 && sale_price < price;
+
+  return (
+    <div className="flex items-baseline gap-1 mt-1 mb-1">
+      {hasDiscount && (
+        <span className="font-bold text-green-800 text-sm">
+          {calculateDiscountRate(price, sale_price)}%
+        </span>
+      )}
+      <span className="font-bold text-gray-900 ml-1">
+        {formattedPrice(sale_price)}원
+      </span>
+      {hasDiscount && (
+        <span className="text-gray-500 text-xs line-through ml-1">
+          {formattedPrice(price)}원
+        </span>
+      )}
+    </div>
+  );
+}
