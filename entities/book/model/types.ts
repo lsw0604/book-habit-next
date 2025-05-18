@@ -35,23 +35,37 @@ export interface BookCardContainerProps extends HTMLAttributes<HTMLLIElement> {
   className?: string;
 }
 
-export interface BookCardContentProps extends HTMLAttributes<HTMLDivElement> {
-  className?: string;
-  variant?: 'list' | 'modal';
-  item: Pick<
-    KakaoDocument,
-    | 'title'
-    | 'isbn'
-    | 'authors'
-    | 'publisher'
-    | 'price'
-    | 'sale_price'
-    | 'contents'
-    | 'datetime'
-  >;
-}
-
 export interface BookCardImageProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   item: Pick<KakaoDocument, 'thumbnail' | 'title' | 'isbn'>;
+}
+
+export interface BookCardContentProps
+  extends HTMLAttributes<HTMLParagraphElement> {
+  className?: string;
+  content: string;
+}
+
+export interface BookCardAuthorProps
+  extends HTMLAttributes<HTMLParagraphElement> {
+  className?: string;
+  authors: string[];
+  translators: string[];
+}
+
+export interface BookCardISBNProps extends HTMLAttributes<HTMLDivElement> {
+  className?: string;
+}
+
+export interface BookCardPriceProps extends HTMLAttributes<HTMLDivElement> {
+  className?: string;
+  price: number;
+  sale_price: number;
+}
+
+export interface BookCardPublisherProps
+  extends HTMLAttributes<HTMLParagraphElement> {
+  className?: string;
+  publisher: string;
+  datetime: string;
 }

@@ -1,10 +1,5 @@
+import type { BookCardISBNProps } from '../model/types';
 import { cn } from '@/shared/utils/class-name';
-import { HTMLAttributes } from 'react';
-
-interface BookCardISBNProps extends HTMLAttributes<HTMLDivElement> {
-  className?: string;
-  isbn: string;
-}
 
 const BOOK_CARD_ISBN_STYLE = {
   base: 'flex overflow-hidden whitespace-normal break-all text-xxs text-gray-700',
@@ -15,7 +10,7 @@ const BOOK_CARD_ISBN_STYLE = {
 
 export default function BookCardISBN({
   className,
-  isbn,
+  children,
   ...props
 }: BookCardISBNProps) {
   return (
@@ -29,7 +24,7 @@ export default function BookCardISBN({
       )}
       {...props}
     >
-      {isbn}
+      {children}
     </div>
   );
 }

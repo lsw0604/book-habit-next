@@ -1,11 +1,6 @@
-import { HTMLAttributes } from 'react';
+import type { BookCardPriceProps } from '../model/types';
 import { formattedPrice, calculateDiscountRate } from '../lib';
-
-interface BookCardPriceProps extends HTMLAttributes<HTMLDivElement> {
-  className?: string;
-  price: number;
-  sale_price: number;
-}
+import { cn } from '@/shared/utils/class-name';
 
 export default function BookCardPrice({
   price,
@@ -15,7 +10,7 @@ export default function BookCardPrice({
   const hasDiscount = sale_price > 0 && sale_price < price;
 
   return (
-    <div className="flex items-baseline gap-1 mt-1 mb-1">
+    <div className={cn('flex items-baseline gap-1 mt-1 mb-1', className)}>
       {hasDiscount && (
         <span className="font-bold text-green-800 text-sm">
           {calculateDiscountRate(price, sale_price)}%

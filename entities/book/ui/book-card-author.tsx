@@ -1,12 +1,6 @@
+import type { BookCardAuthorProps } from '../model/types';
 import { cn } from '@/shared/utils/class-name';
-import { HTMLAttributes } from 'react';
 import { formattedAuthor, formattedTranslator } from '../lib';
-
-interface BookCardAuthorProps extends HTMLAttributes<HTMLParagraphElement> {
-  className?: string;
-  authors: string[];
-  translators: string[];
-}
 
 const BOOK_CARD_AUTHOR_STYLE = {
   base: 'line-clamp-2 overflow-hidden whitespace-normal break-all text-xs text-gray-800 my-1',
