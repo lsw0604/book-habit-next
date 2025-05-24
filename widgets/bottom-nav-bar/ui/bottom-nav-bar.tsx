@@ -1,11 +1,26 @@
 'use client';
 
+import { useCallback } from 'react';
 import { useNavigation } from '@/features/navigation/lib/useNavigation';
 import { BOTTOM_NAVIGATION_ITEMS } from '../model/config';
 import BottomNavBtn from './bottom-nav-btn';
+import { BottomItemOption } from '../model/types';
 
 export default function BottomNavBar() {
   const { canActive, canNavigate } = useNavigation();
+
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, option: BottomItemOption) => {
+      if (!canNavigate(option.isAuth)) {
+        e.preventDefault();
+        /**
+         * TODO 로그인이 필요하다는 모달창을 띄우는 로직 추가 예정
+         */
+        console.log('로그인이 필요합니다.');
+      }
+    },
+    [canNavigate]
+  );
 
   return (
     <nav
@@ -21,7 +36,7 @@ export default function BottomNavBar() {
               key={`bottom-nav-btn-${option.label}`}
               option={option}
               isActive={isActive}
-              canNavigate={canNavigate(option.isAuth)}
+              onClick={e => handleClick(e, option)}
             />
           );
         })}

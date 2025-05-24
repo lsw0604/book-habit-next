@@ -5,10 +5,14 @@ import Link from 'next/link';
 import { HTMLAttributes } from 'react';
 import { BottomItemOption } from '../model/types';
 
-interface BottomNavBtnProps extends HTMLAttributes<HTMLLIElement> {
+interface BottomNavBtnProps
+  extends Omit<HTMLAttributes<HTMLLIElement>, 'onClick'> {
   option: BottomItemOption;
   isActive: boolean;
-  canNavigate: boolean;
+  onClick: (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    option: BottomItemOption
+  ) => void;
 }
 
 const BOTTOM_NAV_BTN_STYLE = {
@@ -18,11 +22,13 @@ const BOTTOM_NAV_BTN_STYLE = {
 };
 
 export default function BottomNavBtn({
-  option: { icon: Icon, isAuth, label, value },
+  option,
   isActive,
   className,
+  onClick,
   ...props
 }: BottomNavBtnProps) {
+  const Icon = option.icon;
   return (
     <li
       className={cn(
@@ -33,7 +39,7 @@ export default function BottomNavBtn({
       )}
       {...props}
     >
-      <Link href={value}>
+      <Link onClick={e => onClick(e, option)} href={option.value}>
         {isActive && (
           <div className="absolute top-0 h-1 w-12 rounded-full bg-blue-600" />
         )}
@@ -51,7 +57,7 @@ export default function BottomNavBtn({
           <span
             className={`text-xs font-medium ${isActive ? 'text-blue-600' : 'text-gray-500'}`}
           >
-            {label}
+            {option.label}
           </span>
         </div>
       </Link>

@@ -32,7 +32,10 @@ export default function BookSearchItem({ item }: BookSearchItemProps) {
           publisher={item.publisher}
         />
         <BookCardPrice price={item.price} sale_price={item.sale_price} />
-        <BookCardContent content={item.contents} />
+        <BookCardContent
+          content={item.contents}
+          className="line-clamp-3 break-words"
+        />
       </div>
     </li>
   );
