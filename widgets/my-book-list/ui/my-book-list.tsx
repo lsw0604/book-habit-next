@@ -30,10 +30,10 @@ export default function MyBookList() {
   if (data.books.length === 0) return <MyBookListNotFound />;
 
   return (
-    <div>
+    <div className={cn('w-full h-full overflow-scroll scrollbar-none')}>
       <ul
         className={cn(
-          'w-full grid px-2 grid-cols-3 flex-col', // 기본 모바일 레이아웃
+          'w-full gap-1 grid px-2 grid-cols-3 flex-col', // 기본 모바일 레이아웃
           'sm:grid-cols-4 sm:gap-2', // 작은 화면에서 4열로 변경
           'md:grid-cols-5 md:gap-2', // 중간 화면에서 5열로 변경
           'lg:grid-cols-6 lg:gap-2', // 큰 화면에서 6열로 변경
