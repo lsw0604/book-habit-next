@@ -11,7 +11,7 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "./shared/ui",
-    "utils": "./shared/utils/class-name.ts"
+    "components": "@/shared/ui",
+    "utils": "@/shared/utils/class-name.ts"
   }
 }
