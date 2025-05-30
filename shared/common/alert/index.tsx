@@ -1,21 +1,22 @@
 import { AlertTriangle, BanIcon, CheckIcon, InfoIcon } from 'lucide-react';
 import { cn } from '@/shared/utils/class-name';
+import { Toast, ToastStatus } from '@/shared/ui/toast/model/types';
 
-const ALERT_ICONS: Record<ToastStatusType, JSX.Element> = {
+const ALERT_ICONS: Record<ToastStatus, JSX.Element> = {
   SUCCESS: <CheckIcon className="w-6 h-6 stroke-green-500" />,
   ERROR: <BanIcon className="w-6 h-6 stroke-rose-500" />,
   WARNING: <AlertTriangle className="w-6 h-6 stroke-amber-500" />,
   INFO: <InfoIcon className="w-6 h-6 stroke-blue-500" />,
 };
 
-const ALERT_STATUS_COLORS: Record<ToastStatusType, string> = {
+const ALERT_STATUS_COLORS: Record<ToastStatus, string> = {
   SUCCESS: 'text-green-500',
   ERROR: 'text-rose-500',
   WARNING: 'text-amber-500',
   INFO: 'text-blue-500',
 };
 
-interface AlertProps extends Pick<ToastType, 'status' | 'message'> {
+interface AlertProps extends Pick<Toast, 'status' | 'message'> {
   className?: string;
 }
 

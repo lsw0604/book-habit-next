@@ -8,10 +8,10 @@ export const API_ENDPOINTS = {
     LOGOUT: '/api/auth/logout',
   },
   MY_BOOK: '/api/my-book',
-  MY_BOOK_COMMENT: 'api/my-book-comment',
+  MY_BOOK_REVIEW: 'api/my-book-review',
   MY_BOOK_HISTORY: 'api/my-book-history',
   MY_BOOK_TAG: 'api/my-book-tag',
-  PUBLIC_COMMENT: 'api/public-comment',
+  PUBLIC_REVIEW: 'api/public-review',
   SEARCH: 'api/search',
 } as const;
 

@@ -51,7 +51,7 @@ export default function ImageWrapper({
           {...props}
         />
       ) : (
-        <IconImage className="w-1/3 h-1/3 text-gray-300" />
+        <IconImage className="w-1/3 h-1/3" />
       )}
     </div>
   );

@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 import ModalManager from '@/widgets/modal/ui/modal-manager';
 import { useAppDispatch, useAppSelector } from '@/shared/redux/store';
-import { modalSelector, setModalState } from '@/entities/modal/model';
+import { modalSelector, setModalState } from '@/entities/modal/model/store';
 import { MODAL_VARIANT } from './constant';
 
 export default function ModalPortal() {

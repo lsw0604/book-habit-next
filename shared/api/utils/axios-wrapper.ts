@@ -1,4 +1,4 @@
-import type { ResponseDto } from '../types';
+import type { ResponseDto } from '../types/response';
 import { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 export const createApiWrapper = (client: AxiosInstance) => {
