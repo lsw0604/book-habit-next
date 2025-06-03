@@ -1,4 +1,4 @@
-import { useFormWithSchema } from '@/shared/hooks/form/useFormWithSchema';
+import { useFormWithSchema } from '@/shared/hooks/form';
 import {
   addMyBookSchema,
   AddMyBookType,
