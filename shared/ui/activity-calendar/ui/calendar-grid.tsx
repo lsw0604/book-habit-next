@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { CalendarGridProps } from '../model/types';
 import { CalendarDay } from './calendar-day';
-import dayjs from 'dayjs';
+import { format } from 'date-fns';
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'] as const;
 
@@ -9,23 +9,23 @@ export const CalendarGrid = <T,>({
   daysInMonth,
   firstDayOfWeek,
   data,
-  DayComponent = CalendarDay,
+  DayComponent,
   onDateClick,
 }: CalendarGridProps<T>) => {
   const calendarDays = useMemo(() => {
-    const today = dayjs().format('YYYY-MM-DD');
+    const todayFormattedString = format(new Date(), 'yyyy-MM-dd');
 
-    return daysInMonth.map(date => {
-      const formattedDate = dayjs(date).format('YYYY-MM-DD');
-      const dayData = data?.[formattedDate];
-      const isToday = formattedDate === today;
+    return daysInMonth.map(dateObject => {
+      const formattedDateString = format(dateObject, 'yyyy-MM-dd');
+      const dayData = data?.[formattedDateString];
+      const isToday = formattedDateString === todayFormattedString;
 
       return {
-        date,
-        formattedDate,
+        date: dateObject,
+        formattedDate: formattedDateString,
         data: dayData,
         isToday,
-        key: formattedDate,
+        key: formattedDateString,
       };
     });
   }, [daysInMonth, data]);
@@ -44,17 +44,18 @@ export const CalendarGrid = <T,>({
 
       {/* 빈 셀 (첫 주의 빈 공간) */}
       {Array.from({ length: firstDayOfWeek }, (_, index) => (
-        <div key={`empty-${index}`} className="p-2 min-h-[40px]" />
+        <div key={`empty-${index}`} className="p-1 aspect-square" />
       ))}
 
       {/* 실제 날짜들 */}
       {calendarDays.map(({ date, data: dayData, isToday, key }) => (
-        <DayComponent
+        <CalendarDay
           key={key}
           date={date}
           data={dayData}
           isToday={isToday}
-          isCurrentMonth={true}
+          DayComponent={DayComponent}
+          onDateClick={onDateClick}
         />
       ))}
     </div>
