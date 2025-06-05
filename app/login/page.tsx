@@ -1,5 +1,5 @@
 import PageContainer from '@/shared/common/page-container';
-import { LoginForm } from '@/widgets/login-form';
+import { LoginForm } from '@/features/login-form';
 
 export default function LoginPage() {
   return (
