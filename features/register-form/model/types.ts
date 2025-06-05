@@ -1,4 +1,4 @@
-import { RegisterType } from '@/features/register-form/model/schema';
+import { RegisterType } from './schema';
 import { Control } from 'react-hook-form';
 
 export interface RegisterControllerProps {

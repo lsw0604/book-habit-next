@@ -1,7 +1,7 @@
 'use client';
 
 import PageContainer from '@/shared/common/page-container';
-import { RegisterForm } from '@/widgets/register-form';
+import { RegisterForm } from '@/features/register-form';
 
 export default function RegisterPage() {
   return (
