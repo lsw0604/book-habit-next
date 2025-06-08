@@ -19,7 +19,7 @@ export const CalendarDay = <T,>({
   return (
     <div
       className={cn(
-        'p-1 cursor-pointer aspect-square',
+        'p-1 cursor-pointer aspect-square bg-gray-50 rounded-md m-0.5',
         isToday && 'bg-gray-200 font-bold rounded-md',
         isSaturday && 'text-blue-500',
         isSunday && 'text-rose-500'

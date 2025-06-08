@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 import ModalManager from '@/widgets/modal/ui/modal-manager';
 import { useAppDispatch, useAppSelector } from '@/shared/redux/store';
-import { modalSelector, setModalState } from '@/entities/modal/model/store';
+import { closeModal, modalSelector } from '@/entities/modal/model/store';
 import { MODAL_VARIANT } from './constant';
 
 export default function ModalPortal() {
@@ -17,7 +17,7 @@ export default function ModalPortal() {
   const { isOpen } = useAppSelector(modalSelector);
 
   const modalClose = useCallback(() => {
-    dispatch(setModalState({ isOpen: false, type: undefined }));
+    dispatch(closeModal());
   }, [dispatch]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function ModalPortal() {
         />
         <motion.div
           {...MODAL_VARIANT}
-          className="absolute z-9999 w-full h-auto min-h-[10%] bottom-0 rounded-tl-lg rounded-tr-lg p-4 bg-slate-100"
+          className="absolute z-9999 w-full h-auto min-h-[10%] bottom-0 rounded-tl-lg rounded-tr-lg p-4 bg-white"
         >
           <ModalManager />
         </motion.div>
