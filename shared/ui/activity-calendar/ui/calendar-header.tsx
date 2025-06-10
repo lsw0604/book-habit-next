@@ -1,13 +1,19 @@
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 import { Button } from '../../button';
-import { CalendarHeaderProps } from '../model/types';
 
-export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
+interface CalendarHeaderProps {
+  readonly year: number;
+  readonly month: number;
+  readonly onNavigateMonth: (direction: 'prev' | 'next') => void;
+  readonly onNavigateToToday: () => void;
+}
+
+export default function CalendarHeader({
   year,
   month,
   onNavigateMonth,
   onNavigateToToday,
-}) => {
+}: CalendarHeaderProps) {
   return (
     <div className="flex items-center justify-between px-4">
       <Button
@@ -34,4 +40,4 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
       </Button>
     </div>
   );
-};
+}

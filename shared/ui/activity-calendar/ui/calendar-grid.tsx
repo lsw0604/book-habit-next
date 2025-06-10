@@ -1,17 +1,23 @@
-import { useMemo } from 'react';
-import { CalendarGridProps } from '../model/types';
-import { CalendarDay } from './calendar-day';
+import type { CalendarData, DayComponentProps } from '../model';
+import { type ComponentType, useMemo } from 'react';
 import { format } from 'date-fns';
+import { CalendarDay } from './calendar-day';
+
+export interface CalendarGridProps<T> {
+  readonly daysInMonth: readonly Date[];
+  readonly firstDayOfWeek: number;
+  readonly data?: CalendarData<T>;
+  readonly DayComponent?: ComponentType<DayComponentProps<T>>;
+}
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'] as const;
 
-export const CalendarGrid = <T,>({
+export default function CalendarGrid<T>({
   daysInMonth,
   firstDayOfWeek,
   data,
   DayComponent,
-  onDateClick,
-}: CalendarGridProps<T>) => {
+}: CalendarGridProps<T>) {
   const calendarDays = useMemo(() => {
     const todayFormattedString = format(new Date(), 'yyyy-MM-dd');
 
@@ -41,12 +47,10 @@ export const CalendarGrid = <T,>({
           {day}
         </div>
       ))}
-
       {/* 빈 셀 (첫 주의 빈 공간) */}
       {Array.from({ length: firstDayOfWeek }, (_, index) => (
         <div key={`empty-${index}`} className="p-1 aspect-square" />
       ))}
-
       {/* 실제 날짜들 */}
       {calendarDays.map(({ date, data: dayData, isToday, key }) => (
         <CalendarDay
@@ -55,9 +59,8 @@ export const CalendarGrid = <T,>({
           data={dayData}
           isToday={isToday}
           DayComponent={DayComponent}
-          onDateClick={onDateClick}
         />
       ))}
     </div>
   );
-};
+}
