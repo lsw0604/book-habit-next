@@ -1,29 +1,20 @@
+import type { HistorySwitchType } from './types';
 import { Dispatch, SetStateAction, useCallback } from 'react';
 import { Clock, Edit3 } from 'lucide-react';
+import { HISTORY_SWITCH_STYLE } from './constant';
 import { cn } from '@/shared/utils/class-name';
 
-export type AddMyBookHistorySwitchType = 'timer' | 'manual';
-
-interface AddMyBookHistorySwitchProps {
-  mode: AddMyBookHistorySwitchType;
-  setMode: Dispatch<SetStateAction<AddMyBookHistorySwitchType>>;
+interface HistorySwitchProps {
+  mode: HistorySwitchType;
+  setMode: Dispatch<SetStateAction<HistorySwitchType>>;
   className?: string;
 }
 
-const STYLES = {
-  base: 'flex mb-6 bg-gray-100 rounded-lg p-1',
-  button: {
-    base: 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all',
-    on: 'bg-white text-blue-600 shadow-sm',
-    off: 'text-gray-600 hover:text-gray-900',
-  },
-};
-
-export default function AddMyBookHistorySwitch({
+export default function HistorySwitch({
   mode,
   setMode,
   className,
-}: AddMyBookHistorySwitchProps) {
+}: HistorySwitchProps) {
   const handleSetTimerMode = useCallback(() => {
     setMode('timer');
   }, [setMode]); // setMode는 안정적인 함수이므로 의존성 배열에 포함해도 불필요한 재생성은 없습니다.
@@ -33,12 +24,14 @@ export default function AddMyBookHistorySwitch({
   }, [setMode]);
 
   return (
-    <div className={cn(STYLES.base, className)}>
+    <div className={cn(HISTORY_SWITCH_STYLE.container, className)}>
       <button
         onClick={handleSetTimerMode}
         className={cn(
-          STYLES.button.base,
-          mode === 'timer' ? STYLES.button.on : STYLES.button.off
+          HISTORY_SWITCH_STYLE.button.base,
+          mode === 'timer'
+            ? HISTORY_SWITCH_STYLE.button.on
+            : HISTORY_SWITCH_STYLE.button.off
         )}
       >
         <Clock className="w-4 h-4 inline mr-2" />
@@ -47,8 +40,10 @@ export default function AddMyBookHistorySwitch({
       <button
         onClick={handleSetManualMode}
         className={cn(
-          STYLES.button.base,
-          mode === 'manual' ? STYLES.button.on : STYLES.button.off
+          HISTORY_SWITCH_STYLE.button.base,
+          mode === 'manual'
+            ? HISTORY_SWITCH_STYLE.button.on
+            : HISTORY_SWITCH_STYLE.button.off
         )}
       >
         <Edit3 className="w-4 h-4 inline mr-2" />
