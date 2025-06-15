@@ -4,7 +4,7 @@ import { cn } from '@/shared/utils/class-name';
 import ImageWrapper from '@/shared/common/image-wrapper';
 
 const BookCardImage = forwardRef<HTMLDivElement, BookCardImageProps>(
-  ({ item, className, ...props }, ref) => {
+  ({ item, className, children, ...props }, ref) => {
     return (
       <div
         ref={ref}
@@ -21,6 +21,7 @@ const BookCardImage = forwardRef<HTMLDivElement, BookCardImageProps>(
           height={174}
           priority
         />
+        {children}
       </div>
     );
   }

@@ -12,7 +12,7 @@ export default function BookCardPrice({
   return (
     <div className={cn('flex items-baseline gap-1 mt-1 mb-1', className)}>
       {hasDiscount && (
-        <span className="font-bold text-green-800 text-sm">
+        <span className="bg-rose-100 text-rose-700 font-semibold text-xs px-2 py-0.5 rounded">
           {calculateDiscountRate(price, sale_price)}%
         </span>
       )}
