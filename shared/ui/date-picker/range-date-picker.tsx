@@ -1,7 +1,7 @@
 'use client';
 
-import dayjs from 'dayjs';
 import { ko } from 'date-fns/locale';
+import { format, isSameDay } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { DateRange, SelectRangeEventHandler } from 'react-day-picker';
 
@@ -62,15 +62,16 @@ export default function RangeDatePicker({
           >
             <span className={cn('text-sm', classNames?.trigger?.button?.span)}>
               {date?.from ? (
-                dayjs(date.from).format('YYYY년 MM월 DD일') !==
-                dayjs(date.to).format('YYYY년 MM월 DD일') ? (
-                  <>
-                    {`${dayjs(date.from).format('YYYY년 MM월 DD일')} - ${dayjs(
-                      date.to
-                    ).format('YYYY년 MM월 DD일')}`}
-                  </>
+                date.to && isSameDay(date.from, date.to) ? (
+                  format(date.from, 'yyyy년 MM월 dd일')
                 ) : (
-                  dayjs(date.from).format('YYYY년 MM월 DD일')
+                  <>
+                    {`${format(date.from, 'yyyy년 MM월 dd일')} - ${
+                      date.to
+                        ? format(date.to, 'yyyy년 MM월 dd일')
+                        : '종료 날짜 선택'
+                    }`}
+                  </>
                 )
               ) : (
                 <span>날짜를 선택해 주세요.</span>
