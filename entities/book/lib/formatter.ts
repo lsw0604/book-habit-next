@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import { parseISO, format } from 'date-fns';
 
 export const formattedAuthor = (authors: string[]): string => {
   if (authors.length === 0) {
@@ -30,4 +30,4 @@ export const formattedPrice = (price: number) => {
 };
 
 export const formattedDatetime = (datetime: string) =>
-  dayjs(datetime).format('YYYY.MM.DD');
+  format(parseISO(datetime), 'yyyy.MM.dd');
