@@ -1,7 +1,7 @@
 'use client';
 
-import dayjs from 'dayjs';
 import { ko } from 'date-fns/locale';
+import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { SelectSingleEventHandler } from 'react-day-picker';
 
@@ -15,14 +15,12 @@ interface SingleDatePickerProps {
   setDate: SelectSingleEventHandler;
   className?: string;
   classNames?: {
-    trigger?: {
-      button?: {
-        label?: string;
-        content?: string;
-      };
-      content?: string;
+    popover?: {
+      triggerWrapper?: string;
+      button?: string;
+      buttonLabel?: string;
+      calendarContent?: string;
     };
-    content?: string;
   };
 }
 
@@ -35,14 +33,14 @@ export default function SingleDatePicker({
   return (
     <Popover className={cn('inline-block relative', className)}>
       <Popover.Trigger
-        className={cn('w-auto relative', classNames?.trigger?.content)}
+        className={cn('w-auto relative', classNames?.popover?.triggerWrapper)}
       >
         <Button
           type="button"
           variant="outline"
           className={cn(
             'w-full flex-1 flex items-center px-0',
-            classNames?.trigger?.button?.content
+            classNames?.popover?.button
           )}
         >
           <div className="p-2">
@@ -51,23 +49,26 @@ export default function SingleDatePicker({
           <div
             className={cn(
               'text-sm flex w-full justify-center p-2',
-              classNames?.trigger?.button?.label
+              classNames?.popover?.buttonLabel
             )}
           >
             <span>
               {date
-                ? dayjs(date).format('YYYY년 MM월 DD일')
+                ? format(date, 'yyyy년 MM월 dd일')
                 : '날짜를 선택해 주세요.'}
             </span>
           </div>
         </Button>
       </Popover.Trigger>
-      <Popover.Content className={cn('p-0 z-9999', classNames?.content)}>
+      <Popover.Content
+        className={cn('p-0 z-9999', classNames?.popover?.calendarContent)}
+      >
         <Calendar
           locale={ko}
           mode="single"
           selected={date}
           onSelect={setDate}
+          initialFocus
         />
       </Popover.Content>
     </Popover>
