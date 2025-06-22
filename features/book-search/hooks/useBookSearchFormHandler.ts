@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useBookSearchForm } from './useBookSearchForm';
 import { useBookSearchParams } from './useBookSearchParams';
-import { BOOK_SEARCH_FIELDS, BookSearchFieldType } from '../../constant';
+import { BOOK_SEARCH_FIELDS, BookSearchFieldType } from '../constant';
 
 export const useBookSearchFormHandler = () => {
   const params = useBookSearchParams();
