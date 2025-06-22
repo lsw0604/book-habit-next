@@ -1,16 +1,4 @@
-export interface BookSearchService {
-  search: (payload: SearchPayload) => Promise<ResponseSearch>;
-}
-
-export interface SearchPayload {
-  query: string;
-  sort?: 'accuracy' | 'latest';
-  page?: number;
-  size?: number;
-  target?: 'title' | 'isbn' | 'publisher' | 'person';
-}
-
-export interface KakaoDocument {
+export interface BookDTO {
   title: string; //	도서 제목
   contents: string; //	도서 소개
   url: string; //	도서 상세 URL
@@ -25,11 +13,11 @@ export interface KakaoDocument {
   status: string; //  도서 판매 상태 정보 (정상, 품절, 절판 등)
 }
 
-export interface ResponseSearch {
+export interface ResponseSearchDTO {
   meta: {
     total_count: number;
     pageable_count: number;
     is_end: boolean;
   };
-  documents: KakaoDocument[];
+  documents: BookDTO[];
 }
