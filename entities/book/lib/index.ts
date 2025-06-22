@@ -1,1 +1,2 @@
-export * from './formatter';
+export * from './book.formatter';
+export * from './book.mapper';
