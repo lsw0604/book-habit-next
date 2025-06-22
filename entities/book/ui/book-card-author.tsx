@@ -1,4 +1,4 @@
-import type { BookCardAuthorProps } from '../model/types';
+import type { BookCardAuthorProps } from './types';
 import { cn } from '@/shared/utils/class-name';
 import { formattedAuthor, formattedTranslator } from '../lib';
 

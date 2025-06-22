@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { BookCardImageProps } from '../model/types';
+import { BookCardImageProps } from './types';
 import { cn } from '@/shared/utils/class-name';
 import ImageWrapper from '@/shared/common/image-wrapper';
 
@@ -16,7 +16,7 @@ const BookCardImage = forwardRef<HTMLDivElement, BookCardImageProps>(
       >
         <ImageWrapper
           src={item.thumbnail}
-          alt={`${item.title}-${item.isbn}`}
+          alt={`${item.title}-${item.isbns.join('-')}`}
           width={120}
           height={174}
           priority

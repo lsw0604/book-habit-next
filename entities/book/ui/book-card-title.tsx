@@ -1,10 +1,5 @@
 import { cn } from '@/shared/utils/class-name';
-import { HTMLAttributes } from 'react';
-
-interface BookCardTitleProps extends HTMLAttributes<HTMLHeadElement> {
-  className?: string;
-  children: React.ReactNode;
-}
+import { BookCardTitleProps } from './types';
 
 const BOOK_CARD_TITLE_STYLE = {
   base: 'font-bold text-foreground text-base mt-1 line-clamp-1 text-lg',

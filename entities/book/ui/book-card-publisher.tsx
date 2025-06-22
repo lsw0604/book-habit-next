@@ -1,4 +1,4 @@
-import type { BookCardPublisherProps } from '../model/types';
+import type { BookCardPublisherProps } from './types';
 import { formattedDatetime } from '../lib';
 import { cn } from '@/shared/utils/class-name';
 

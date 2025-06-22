@@ -1,4 +1,4 @@
-import type { BookCardISBNProps } from '../model/types';
+import type { BookCardISBNProps } from './types';
 import { cn } from '@/shared/utils/class-name';
 
 const BOOK_CARD_ISBN_STYLE = {
