@@ -1,15 +1,12 @@
-import { ResponseAuth } from '@/entities/auth/api/types';
-import { useAuthMutations } from '@/entities/auth/lib/query';
-import { authEvents } from '@/entities/auth/model/auth-events';
+import type { User } from '@/entities/user/model';
+import { type RegisterType, authEvents } from '@/entities/auth/model';
 import { useCallback } from 'react';
-import { RegisterType } from '../../model/schema';
+import { useRegister } from '@/entities/auth/hooks';
 
 export const useRegisterFormSubmit = () => {
-  const {
-    register: { mutate, isPending },
-  } = useAuthMutations();
+  const { mutate, isPending } = useRegister();
 
-  const onSuccess = useCallback((response: ResponseAuth) => {
+  const onSuccess = useCallback((response: User) => {
     authEvents.emitRegister({ ...response });
   }, []);
 

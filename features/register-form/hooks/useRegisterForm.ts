@@ -1,9 +1,9 @@
-import { useFormWithSchema } from '@/shared/hooks/form/useFormWithSchema';
 import {
+  type RegisterType,
   DEFAULT_REGISTER,
-  RegisterType,
   registerSchema,
-} from '../../model/schema';
+} from '@/entities/auth/model';
+import { useFormWithSchema } from '@/shared/hooks/form/useFormWithSchema';
 
 export const useRegisterForm = (initialValue?: RegisterType) =>
   useFormWithSchema(registerSchema, {

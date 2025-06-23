@@ -1,4 +1,4 @@
-import type { RegisterControllerProps } from '../model/types';
+import type { RegisterControllerProps } from './types';
 import React, { useCallback, useState } from 'react';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { Controller } from 'react-hook-form';

@@ -1,5 +1,5 @@
 import { Controller } from 'react-hook-form';
-import { RegisterControllerProps } from '../model/types';
+import { RegisterControllerProps } from './types';
 import { Label } from '@/shared/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
 import { IconFemale, IconMale } from '@/style/icon';

@@ -1,5 +1,5 @@
 import { Controller } from 'react-hook-form';
-import { RegisterControllerProps } from '../model/types';
+import { RegisterControllerProps } from './types';
 import { Label } from '@/shared/ui/label';
 import { Input } from '@/shared/ui/input';
 import { MailIcon } from 'lucide-react';

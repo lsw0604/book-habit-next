@@ -10,7 +10,7 @@ import RegisterButtons from './register-buttons';
 import {
   useRegisterForm,
   useRegisterFormSubmit,
-} from '@/features/register-form/lib/hooks';
+} from '@/features/register-form/hooks';
 
 export default function RegisterForm() {
   const { handleSubmit, control } = useRegisterForm();

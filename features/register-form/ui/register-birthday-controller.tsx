@@ -1,5 +1,5 @@
 import { Controller } from 'react-hook-form';
-import { RegisterControllerProps } from '../model/types';
+import { RegisterControllerProps } from './types';
 import { Label } from '@/shared/ui/label';
 import { InputDatePicker } from '@/shared/ui/date-picker';
 import { ErrorMessage } from '@/shared/ui/error-message';

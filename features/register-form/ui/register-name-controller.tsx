@@ -1,4 +1,4 @@
-import type { RegisterControllerProps } from '../model/types';
+import type { RegisterControllerProps } from './types';
 import { Controller } from 'react-hook-form';
 import { UserIcon } from 'lucide-react';
 import { Label } from '@/shared/ui/label';
