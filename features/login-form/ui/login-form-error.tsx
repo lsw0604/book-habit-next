@@ -1,5 +1,5 @@
 import { ErrorMessage } from '@/shared/ui/error-message';
-import { LoginFormErrorProps } from '../model/types';
+import { LoginFormErrorProps } from './types';
 
 export default function LoginFormError({
   error,

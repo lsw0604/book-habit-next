@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useKakaoRouter } from '@/features/login-form/lib/hooks';
+import { useKakaoRouter } from '@/features/login-form/hooks';
 import { Button } from '@/shared/ui/button';
 import { Separator } from '@/shared/ui/separator';
 import { IconKakao } from '@/style/icon';

@@ -1,11 +1,13 @@
 import { MailIcon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
-import { LoginControllerProps } from '../model/types';
+import { LoginControllerProps } from './types';
 import { Label } from '@/shared/ui/label';
 import { Input } from '@/shared/ui/input';
 import { ErrorMessage } from '@/shared/ui/error-message';
 
-const LoginEmailController = ({ control }: LoginControllerProps) => {
+export default function LoginEmailController({
+  control,
+}: LoginControllerProps) {
   return (
     <Controller
       name="email"
@@ -26,6 +28,4 @@ const LoginEmailController = ({ control }: LoginControllerProps) => {
       )}
     />
   );
-};
-
-export default LoginEmailController;
+}

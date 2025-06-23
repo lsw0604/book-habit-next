@@ -2,7 +2,7 @@ import {
   KAKAO_AUTH_URL,
   KAKAO_CLIENT_ID,
   KAKAO_REDIRECT_URI,
-} from '@/entities/auth/lib/constant';
+} from '@/entities/auth/constant';
 import { useCallback } from 'react';
 
 export const useKakaoRouter = () => {

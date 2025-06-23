@@ -1,4 +1,4 @@
-import { LoginType } from '@/features/login-form/model/schema';
+import { LoginType } from '@/entities/auth/model';
 import { Control } from 'react-hook-form';
 
 export interface LoginControllerProps {

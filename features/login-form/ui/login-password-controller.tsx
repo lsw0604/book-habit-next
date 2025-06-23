@@ -4,7 +4,7 @@ import { Controller } from 'react-hook-form';
 import { Label } from '@/shared/ui/label';
 import { Input } from '@/shared/ui/input';
 import { ErrorMessage } from '@/shared/ui/error-message';
-import { LoginControllerProps } from '../model/types';
+import { LoginControllerProps } from './types';
 
 const LoginPasswordController = ({ control }: LoginControllerProps) => {
   const [isEyeOpen, setIsEyeOpen] = useState<boolean>(false);
