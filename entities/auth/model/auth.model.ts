@@ -1,4 +1,4 @@
-import { User } from '@/entities/user/model/types';
+import { User } from '@/entities/user/model';
 
 export interface Auth {
   user: User | null;

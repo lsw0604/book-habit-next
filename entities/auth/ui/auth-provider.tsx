@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { authEvents } from '../model/auth-events';
-import { useAuthProvider } from '../lib/hooks/useAuthProvider';
+import { authEvents } from '../model';
+import { useAuthProvider } from '../hooks/useAuthProvider';
 
 export default function AuthProvider({
   children,

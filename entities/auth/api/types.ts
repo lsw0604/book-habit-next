@@ -1,34 +1,25 @@
-import { Gender, Provider } from '@/entities/user/model/types';
-import { ResponseDto } from '@/shared/api/types/response';
 import { AxiosResponse } from 'axios';
+import { UserDTO } from '@/entities/user/api';
+import { ResponseDTO } from '@/shared/api/types/response';
 
 export interface AuthService {
-  login: (payload: LoginPayload) => Promise<ResponseAuth>;
-  register: (payload: RegisterPayload) => Promise<ResponseAuth>;
-  kakao: (code: string) => Promise<ResponseAuth>;
+  login: (payload: LoginPayload) => Promise<UserDTO>;
+  register: (payload: RegisterPayload) => Promise<UserDTO>;
+  kakao: (code: string) => Promise<UserDTO>;
+  access: () => Promise<UserDTO>;
+  refresh: () => Promise<AxiosResponse<ResponseDTO<UserDTO>>>;
   logout: () => Promise<void>;
-  refresh: () => Promise<AxiosResponse<ResponseDto<ResponseAuth>>>;
-  access: () => Promise<ResponseAuth>;
 }
 
-interface UserPayload {
+export interface LoginPayload {
   email: string;
   password: string;
 }
 
-export interface LoginPayload extends UserPayload {}
-
-export interface RegisterPayload extends UserPayload {
-  gender: Gender;
-  password: string;
-  birthday?: Date;
-}
-
-export interface ResponseAuth {
-  id: number;
+export interface RegisterPayload {
   email: string;
+  password: string;
   name: string;
-  birthday?: string;
-  gender: Gender;
-  provider: Provider;
+  gender: string;
+  birthday: Date;
 }

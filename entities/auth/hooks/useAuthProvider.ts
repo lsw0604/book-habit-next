@@ -1,14 +1,14 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback } from 'react';
-import { AuthEventData } from '../../model/auth-events';
-import { clearAuthState, setAuthState } from '../../model/store';
+import { AuthEventData } from '../model';
 import {
-  AUTH_ROUTES,
   DEFAULT_AUTHENTICATED_ROUTE,
   DEFAULT_UNAUTHENTICATED_ROUTE,
+  AUTH_ROUTES,
 } from '../constant';
 import { isClient } from '@/shared/utils/is-client';
 import { useAppDispatch } from '@/shared/redux/store';
+import { clearAuthState, setAuthState } from '../store';
 
 /**
  * TODO 토스트 알림 추가

@@ -1,4 +1,4 @@
-import type { Auth } from './types';
+import type { Auth } from '../model';
 import type { RootState } from '@/shared/redux/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
