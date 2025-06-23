@@ -1,4 +1,4 @@
-import { MyBookDetailDTO, MyBookDTO, MyBooksDTO } from './my-book-.dto';
+import { MyBookDetailDTO, MyBookDTO, MyBooksDTO } from './my-book.dto';
 
 export interface MyBookService {
   getMyBook: (payload: GetMyBookPayload) => Promise<MyBookDetailDTO>;

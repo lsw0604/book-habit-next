@@ -1,4 +1,5 @@
-import { BOOK_ORDER_OPTIONS, MyBookOrder } from '../model';
+import type { MyBookOrder } from '../../model';
+import { BOOK_ORDER_OPTIONS } from '../constants';
 
 export const useOrderOptions = () => {
   const getOrderLabel = (value: MyBookOrder): string => {

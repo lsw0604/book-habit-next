@@ -1,9 +1,9 @@
+import { type GetMyBooksPayload, type MyBooksDTO, myBookService } from '../api';
+import { type ErrorResponseDTO } from '@/shared/api/types/error';
 import { AxiosError } from 'axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { myBookService } from '@/entities/my-book/api';
-import { GetMyBooksPayload, MyBooks } from '@/entities/my-book/api/types';
-import { ErrorResponseDto } from '@/shared/api/types/error';
 import { queryKeys } from '@/shared/query/keys';
+import { MyBooks, toMyBooksViewModel } from '../model';
 
 export const useMyBooks = (
   params: Pick<GetMyBooksPayload, 'order' | 'status'>,
@@ -12,7 +12,7 @@ export const useMyBooks = (
   const { getMyBooks } = myBookService;
   const { forceRefetch = false } = option;
 
-  return useInfiniteQuery<MyBooks, AxiosError<ErrorResponseDto>, MyBooks>({
+  return useInfiniteQuery<MyBooksDTO, AxiosError<ErrorResponseDTO>, MyBooks>({
     queryKey: queryKeys.myBook.list(params).queryKey,
     queryFn: async ({ pageParam = 1 }) => {
       const response = await getMyBooks({
@@ -31,10 +31,10 @@ export const useMyBooks = (
       const lastPage = data.pages[data.pages.length - 1];
       const lastMeta = lastPage.meta || { totalCount: 0, totalPages: 0 };
 
-      return {
+      return toMyBooksViewModel({
         books: data.pages.flatMap(page => page.books || []),
         meta: lastMeta,
-      };
+      });
     },
     gcTime: 5 * 60 * 1000,
     staleTime: 1 * 60 * 1000,

@@ -1,2 +1,2 @@
-export * from './constants';
-export * from './types';
+export * from './my-book.model';
+export * from './my-book.mapper';

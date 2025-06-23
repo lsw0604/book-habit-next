@@ -1,4 +1,4 @@
-import { BOOK_RATINGS } from '../model';
+import { BOOK_RATINGS } from '../constants';
 
 export const useRatingOptions = () => {
   const getRatingText = (rating: number): string => {

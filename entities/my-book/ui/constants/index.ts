@@ -1,10 +1,5 @@
-import {
-  BookOrder,
-  BookRating,
-  BookStatusOption,
-  MyBookOrder,
-  MyBookStatus,
-} from './types';
+import type { BookOrder, BookRating, BookStatusOption } from '../types';
+import { MyBookOrder, MyBookStatus } from '../../model';
 
 export const BOOK_RATINGS: readonly BookRating[] = [
   { rating: 0, text: '평가 없음' },

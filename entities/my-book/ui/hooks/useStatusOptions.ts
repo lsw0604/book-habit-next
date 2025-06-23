@@ -1,5 +1,5 @@
-import type { MyBookStatus } from '../model';
-import { BOOK_FILTER_OPTIONS, BOOK_STATUS_OPTIONS } from '../model';
+import type { MyBookStatus } from '../../model';
+import { BOOK_FILTER_OPTIONS, BOOK_STATUS_OPTIONS } from '../constants';
 
 export const useStatusOptions = () => {
   const getStatusLabel = (value?: MyBookStatus): string => {

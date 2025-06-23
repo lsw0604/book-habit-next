@@ -1,14 +1,4 @@
-export enum MyBookStatus {
-  ALL = 'ALL',
-  WANT_TO_READ = 'WANT_TO_READ',
-  CURRENTLY_READING = 'CURRENTLY_READING',
-  READ = 'READ',
-}
-
-export enum MyBookOrder {
-  desc = 'desc',
-  asc = 'asc',
-}
+import { MyBookOrder, MyBookStatus } from '../../model';
 
 export type MyBookFilterStatus = MyBookStatus;
 export type MyBookITemStatus = Exclude<MyBookStatus, MyBookStatus.ALL>;
