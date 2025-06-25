@@ -1,4 +1,4 @@
-export interface ResponseDto<T> {
+export interface ResponseDTO<T> {
   success: boolean;
   statusCode: number;
   message: string;

@@ -4,8 +4,8 @@ import { authService } from '@/entities/auth/api';
 import { extractAndSaveToken } from '../utils/extract-and-save-token';
 import { isClient } from '@/shared/utils/is-client';
 import { CustomAxiosRequestConfig } from '../types/axios';
-import { ErrorResponseDto } from '../types/error';
-import { authEvents } from '@/entities/auth/model/auth-events';
+import { ErrorResponseDTO } from '../types/error';
+import { authEvents } from '@/entities/auth/model';
 
 let isRefreshing = false;
 let requestQueue: ((token: string) => void)[] = [];
@@ -37,7 +37,7 @@ export const setupAuthResponseInterceptor = (client: AxiosInstance) => {
 
       return response;
     },
-    async (error: AxiosError<ErrorResponseDto>) => {
+    async (error: AxiosError<ErrorResponseDTO>) => {
       return Promise.reject(error);
     }
   );
@@ -50,7 +50,7 @@ export const setupApiResponseInterceptor = (client: AxiosInstance) => {
 
       return response;
     },
-    async (error: AxiosError<ErrorResponseDto>) => {
+    async (error: AxiosError<ErrorResponseDTO>) => {
       // 브라우저 환경이 아니면 처리하지 않음
       if (!isClient) {
         console.log('isClient');
@@ -72,7 +72,6 @@ export const setupApiResponseInterceptor = (client: AxiosInstance) => {
       ) {
         console.log('refresh token error');
         authEvents.emitLogout();
-        await authService.logout();
         return Promise.reject(error);
       }
 

@@ -1,10 +1,10 @@
-import type { ResponseDto } from '../types/response';
+import type { ResponseDTO } from '../types/response';
 import { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 export const createApiWrapper = (client: AxiosInstance) => {
   return {
     get: async <T>(url: string, config?: AxiosRequestConfig): Promise<T> => {
-      const response = await client.get<ResponseDto<T>>(url, config);
+      const response = await client.get<ResponseDTO<T>>(url, config);
 
       if (!response.data.success) {
         const error = new Error(response.data.message);
@@ -20,7 +20,7 @@ export const createApiWrapper = (client: AxiosInstance) => {
       data?: any,
       config?: AxiosRequestConfig
     ): Promise<T> => {
-      const response = await client.post<ResponseDto<T>>(url, data, config);
+      const response = await client.post<ResponseDTO<T>>(url, data, config);
 
       if (!response.data.success) {
         const error = new Error(response.data.message);
@@ -36,7 +36,7 @@ export const createApiWrapper = (client: AxiosInstance) => {
       data?: any,
       config?: AxiosRequestConfig
     ): Promise<T> => {
-      const response = await client.patch<ResponseDto<T>>(url, data, config);
+      const response = await client.patch<ResponseDTO<T>>(url, data, config);
 
       if (!response.data.success) {
         const error = new Error(response.data.message);
@@ -52,7 +52,7 @@ export const createApiWrapper = (client: AxiosInstance) => {
       data?: any,
       config?: AxiosRequestConfig
     ): Promise<T> => {
-      const response = await client.put<ResponseDto<T>>(url, data, config);
+      const response = await client.put<ResponseDTO<T>>(url, data, config);
 
       if (!response.data.success) {
         const error = new Error(response.data.message);
@@ -64,7 +64,7 @@ export const createApiWrapper = (client: AxiosInstance) => {
       return response.data.data as T;
     },
     delete: async <T>(url: string, config?: AxiosRequestConfig): Promise<T> => {
-      const response = await client.delete<ResponseDto<T>>(url, config);
+      const response = await client.delete<ResponseDTO<T>>(url, config);
 
       if (!response.data.success) {
         const error = new Error(response.data.message);

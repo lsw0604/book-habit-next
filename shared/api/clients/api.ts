@@ -1,14 +1,13 @@
 import axios from 'axios';
 import { axiosConfig } from '../config';
 import { createApiWrapper } from '../utils/axios-wrapper';
-import {
-  setupApiResponseInterceptor,
-  setupApiRequestInterceptor,
-} from '../interceptors';
+import { setupRequestInterceptor } from '../interceptors/request';
+import { setupApiResponseInterceptor } from '../interceptors/api.response';
+import { authService } from '@/entities/auth/api';
 
 export const apiAxiosInstance = axios.create(axiosConfig);
 
-setupApiRequestInterceptor(apiAxiosInstance);
-setupApiResponseInterceptor(apiAxiosInstance);
+setupRequestInterceptor(apiAxiosInstance);
+setupApiResponseInterceptor(apiAxiosInstance, () => authService.refresh());
 
 export const apiClient = createApiWrapper(apiAxiosInstance);
