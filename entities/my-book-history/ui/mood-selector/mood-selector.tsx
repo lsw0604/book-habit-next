@@ -1,5 +1,5 @@
 import type { MoodSelectorOption } from './types';
-import type { ReadingMood } from '../../model/types';
+import type { ReadingMood } from '../../model';
 import { MOOD_SELECTOR_STYLE, MOOD_SELECTOR_OPTIONS } from './constant';
 import { cn } from '@/shared/utils/class-name';
 import { Check } from 'lucide-react';

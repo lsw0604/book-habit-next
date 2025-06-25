@@ -1,4 +1,4 @@
-import { ReadingMood } from '../../model/types';
+import { ReadingMood } from '../../model';
 import { MoodSelectorOption } from './types';
 
 export const MOOD_SELECTOR_OPTIONS: MoodSelectorOption[] = [

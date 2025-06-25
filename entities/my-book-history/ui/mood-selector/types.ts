@@ -1,4 +1,4 @@
-import { ReadingMood } from '../../model/types';
+import { ReadingMood } from '../../model';
 
 export interface MoodSelectorOption {
   value: ReadingMood;

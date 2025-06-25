@@ -1,4 +1,5 @@
-import { MyBookHistory } from '../model/types';
+import { MyBookHistory } from '../model';
+import { MyBookHistoryDTO } from './my-book-history.dto';
 
 type CreateMyBookHistoryPick =
   | 'myBookId'
@@ -21,6 +22,10 @@ type UpdateMyBookHistoryPick =
   | 'memo'
   | 'readingMood';
 
+export interface GetMyBookHistoriesPayload {
+  myBookId: number;
+}
+
 export interface CreateMyBookHistoryPayload
   extends Pick<MyBookHistory, CreateMyBookHistoryPick> {}
 
@@ -29,18 +34,21 @@ export interface UpdateMyBookHistoryPayload
   id: number;
 }
 
-export interface ResponseRegisterMyBookHistory extends MyBookHistory {}
-export interface ResponseGetMyBookHistory extends MyBookHistory {}
-export interface ResponseDeleteMyBookHistory extends MyBookHistory {}
-export interface ResponseUpdateMyBookHistory extends MyBookHistory {}
+export interface DeleteMyBookHistoryPayload {
+  id: number;
+}
 
 export interface MyBookHistoryService {
   addMyBookHistory: (
     payload: CreateMyBookHistoryPayload
-  ) => Promise<MyBookHistory>;
-  getMyBookHistories: (myBookId: number) => Promise<MyBookHistory[]>;
+  ) => Promise<MyBookHistoryDTO>;
+  getMyBookHistories: (
+    payload: GetMyBookHistoriesPayload
+  ) => Promise<MyBookHistoryDTO[]>;
   updateMyBookHistory: (
     payload: UpdateMyBookHistoryPayload
-  ) => Promise<MyBookHistory>;
-  deleteMyBookHistory: (myBookHistoryId: number) => Promise<MyBookHistory>;
+  ) => Promise<MyBookHistoryDTO>;
+  deleteMyBookHistory: (
+    payload: DeleteMyBookHistoryPayload
+  ) => Promise<MyBookHistoryDTO>;
 }

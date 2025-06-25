@@ -1,6 +1,6 @@
 import type { RootState } from '@/shared/redux/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { MyBookHistory } from './types';
+import { MyBookHistory } from '../model';
 
 interface MyBookHistoryState {
   selectedDate: string | null;
