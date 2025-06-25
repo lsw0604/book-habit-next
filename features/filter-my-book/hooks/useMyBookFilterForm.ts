@@ -3,7 +3,7 @@ import {
   DEFAULT_MY_BOOK_FILTER,
   MyBookFilterType,
   myBookFilterSchema,
-} from '../../model';
+} from '../model';
 
 export const useMyBookFilterForm = (initialValue?: MyBookFilterType) =>
   useFormWithSchema(myBookFilterSchema, {

@@ -1,25 +1,25 @@
-import type { MyBookFilterControllerProps } from '@/features/filter-my-book/model';
-import React from 'react';
+import type { MyBookFilterControllerProps } from './types';
 import { Controller } from 'react-hook-form';
-import { useStatusOptions } from '@/entities/my-book/lib';
+import { useOrderOptions } from '@/entities/my-book/ui';
 import Select from '@/shared/ui/select';
 import { ErrorMessage } from '@/shared/ui/error-message';
 
-const MyBookFilterStatusController: React.FC<MyBookFilterControllerProps> = ({
+export default function MyBookOrderController({
   control,
-}) => {
-  const { filterOptions, getFilterLabel } = useStatusOptions();
+}: MyBookFilterControllerProps) {
+  const { orderOptions, getOrderLabel } = useOrderOptions();
+
   return (
     <Controller
-      name="status"
+      name="order"
       control={control}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <div className="w-full">
           <Select.ErrorBoundary>
             <Select onChange={onChange} value={value}>
-              <Select.Trigger>{getFilterLabel(value)}</Select.Trigger>
+              <Select.Trigger>{getOrderLabel(value)}</Select.Trigger>
               <Select.Content>
-                {filterOptions.map(({ value, label }) => (
+                {orderOptions.map(({ value, label }) => (
                   <Select.Option key={value} value={value}>
                     {label}
                   </Select.Option>
@@ -34,6 +34,4 @@ const MyBookFilterStatusController: React.FC<MyBookFilterControllerProps> = ({
       )}
     />
   );
-};
-
-export default MyBookFilterStatusController;
+}
