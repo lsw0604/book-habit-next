@@ -3,7 +3,7 @@ import {
   addMyBookSchema,
   AddMyBookType,
   DEFAULT_ADD_MY_BOOK,
-} from '../../model/schema';
+} from '../model/schema';
 
 export const useAddMyBookForm = (initialValue?: AddMyBookType) =>
   useFormWithSchema(addMyBookSchema, {

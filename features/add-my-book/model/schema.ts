@@ -12,7 +12,7 @@ export const addMyBookSchema = z.object({
   publisher: z.string(), // 도서 출판사
   translators: z.array(z.string()), // 도서 번역자 리스트
   price: z.number(), // 도서 정가
-  sale_price: z.number(), // 도서 판매가
+  salePrice: z.number(), // 도서 판매가
   thumbnail: z.string().optional(), // 도서 표지 미리보기 URL
   status: z.string().optional(), // 도서 판매 상태 정보 (정상, 품절, 절판 등)
 });
@@ -29,7 +29,7 @@ export const DEFAULT_ADD_MY_BOOK: AddMyBookType = {
   publisher: '',
   translators: [],
   price: 0,
-  sale_price: 0,
+  salePrice: 0,
   thumbnail: '',
   status: '',
 };

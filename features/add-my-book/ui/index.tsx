@@ -1,4 +1,4 @@
-import { bookSelector } from '@/entities/book/model/store';
+import { bookSelector } from '@/entities/book/store';
 import {
   BookCardAuthor,
   BookCardContent,
@@ -8,46 +8,54 @@ import {
   BookCardPublisher,
   BookCardTitle,
 } from '@/entities/book';
-import { useAddMyBookForm, useAddMyBookFormSubmit } from '../lib/hooks';
+import { useAddMyBookForm, useAddMyBookFormSubmit } from '../hooks';
 import { useAppSelector } from '@/shared/redux/store';
 import { Button } from '@/shared/ui/button';
 import { CARD_STYLES } from '@/shared/style/card-style';
 import { cn } from '@/shared/utils/class-name';
 
-export default function RegisterMyBookModal() {
-  const book = useAppSelector(bookSelector);
-  const { handleSubmit } = useAddMyBookForm({
-    ...book,
-    sale_price: book.salePrice,
-  });
+export default function AddMyBookModal() {
+  const { selectedBook } = useAppSelector(bookSelector);
+  if (!selectedBook) return null;
+  const { handleSubmit } = useAddMyBookForm({ ...selectedBook });
   const { onSubmit, isPending } = useAddMyBookFormSubmit();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex">
-        <BookCardImage item={{ ...book, isbn: book.isbns.join(', ') }} />
-        <div className={cn(CARD_STYLES.contentWrapper)}>
-          <BookCardTitle>{book.title}</BookCardTitle>
+        <BookCardImage item={{ ...selectedBook, isbns: selectedBook.isbns }} />
+        <div
+          className={cn(
+            CARD_STYLES.contentWrapper,
+            'p-1 ml-2 pl-2 bg-gray-100 rounded-md'
+          )}
+        >
+          <BookCardTitle>{selectedBook.title}</BookCardTitle>
           <div className="flex gap-2">
-            {book.isbns.map(isbn => (
+            {selectedBook.isbns.map(isbn => (
               <BookCardISBN key={isbn}>{isbn}</BookCardISBN>
             ))}
           </div>
           <BookCardAuthor
-            authors={book.authors}
-            translators={book.translators}
+            authors={selectedBook.authors}
+            translators={selectedBook.translators}
           />
           <BookCardPublisher
-            datetime={book.datetime}
-            publisher={book.publisher}
+            datetime={selectedBook.datetime}
+            publisher={selectedBook.publisher}
           />
-          <BookCardPrice price={book.price} sale_price={book.salePrice} />
-          <BookCardContent content={book.contents} />
+          <BookCardPrice
+            price={selectedBook.price}
+            salePrice={selectedBook.salePrice}
+          />
         </div>
+      </div>
+      <div className="p-1 bg-gray-100 rounded-md my-2">
+        <BookCardContent content={selectedBook.contents} />
       </div>
       <div className="w-full flex flex-shrink-0 mt-2 gap-2">
         <Button className="w-full" isLoading={isPending} type="submit">
-          등록하기
+          내 서재에 등록하기
         </Button>
       </div>
     </form>

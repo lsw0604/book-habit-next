@@ -1,12 +1,17 @@
 import { useCallback } from 'react';
-import { useAddMyBook } from '@/entities/my-book/lib/queries';
-import { AddMyBookType } from '../../model/schema';
+import { useAddMyBook } from '@/entities/my-book/hooks';
+import { AddMyBookType } from '../model/schema';
 
 export const useAddMyBookFormSubmit = () => {
   const { mutate, isPending } = useAddMyBook();
 
   const onSubmit = useCallback((data: AddMyBookType) => {
-    mutate({ ...data });
+    const { salePrice, ...rest } = data;
+
+    mutate({
+      ...rest,
+      sale_price: salePrice,
+    });
   }, []);
 
   return {
