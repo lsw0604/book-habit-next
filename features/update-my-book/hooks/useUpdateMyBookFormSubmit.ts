@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { useUpdateMyBook } from '@/entities/my-book/lib/queries';
-import { UpdateMyBookType } from '../../model/schema';
+import { useUpdateMyBook } from '@/entities/my-book/hooks';
+import { UpdateMyBookType } from '../model/schema';
 
 export const useUpdateMyBookFormSubmit = (myBookId: number) => {
   const { mutate } = useUpdateMyBook();

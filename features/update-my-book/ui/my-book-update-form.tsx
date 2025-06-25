@@ -1,11 +1,11 @@
-import type { MyBookUpdateFormProps } from '../model';
+import type { MyBookUpdateFormProps } from './types';
 import { useAutoSubmit } from '@/shared/hooks/form';
 import MyBookUpdateRatingController from './my-book-update-rating-controller';
 import MyBookUpdateStatusController from './my-book-update-status-controller';
 import {
   useUpdateMyBookForm,
   useUpdateMyBookFormSubmit,
-} from '@/features/update-my-book/lib/hooks';
+} from '@/features/update-my-book/hooks';
 import { UpdateMyBookType } from '@/features/update-my-book/model/schema';
 
 export default function MyBookUpdateForm({
@@ -22,9 +22,9 @@ export default function MyBookUpdateForm({
   });
 
   return (
-    <form className="flex gap-2 w-full">
-      <MyBookUpdateRatingController control={control} />
+    <form className="flex flex-col gap-2 w-full mt-auto">
       <MyBookUpdateStatusController control={control} />
+      <MyBookUpdateRatingController control={control} />
     </form>
   );
 }

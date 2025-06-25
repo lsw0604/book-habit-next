@@ -3,7 +3,7 @@ import {
   DEFAULT_UPDATE_MY_BOOK,
   updateMyBookSchema,
   UpdateMyBookType,
-} from '../../model/schema';
+} from '../model/schema';
 
 export const useUpdateMyBookForm = (initialValue: UpdateMyBookType) =>
   useFormWithSchema(updateMyBookSchema, {

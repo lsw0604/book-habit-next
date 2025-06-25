@@ -1,6 +1,6 @@
-import type { MyBookUpdateControllerProps } from '../model/types';
+import type { MyBookUpdateControllerProps } from './types';
 import { Controller } from 'react-hook-form';
-import { useStatusOptions } from '@/entities/my-book/lib';
+import { useStatusOptions } from '@/entities/my-book/ui';
 import Select from '@/shared/ui/select';
 import { ErrorMessage } from '@/shared/ui/error-message';
 

@@ -1,4 +1,4 @@
-import { MyBookDetail } from '@/entities/my-book/api/types';
+import { MyBookDetail } from '@/entities/my-book/model';
 import { UpdateMyBookType } from '@/features/update-my-book/model/schema';
 import { Control } from 'react-hook-form';
 
