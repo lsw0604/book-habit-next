@@ -1,12 +1,12 @@
-import { BOOK_RATINGS } from '../constants';
+import { BOOK_RATING_OPTIONS } from '../constants';
 
 export const useRatingOptions = () => {
   const getRatingText = (rating: number): string => {
-    return BOOK_RATINGS.find(item => item.rating === rating)?.text || '';
+    return BOOK_RATING_OPTIONS.find(item => item.rating === rating)?.text || '';
   };
 
   return {
-    ratingOptions: BOOK_RATINGS,
+    ratingOptions: BOOK_RATING_OPTIONS,
     getRatingText,
   };
 };

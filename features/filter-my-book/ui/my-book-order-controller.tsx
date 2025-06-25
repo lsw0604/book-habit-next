@@ -1,13 +1,13 @@
 import type { MyBookFilterControllerProps } from './types';
 import { Controller } from 'react-hook-form';
-import { useOrderOptions } from '@/entities/my-book/ui';
+import { useMyBookFilterOrder } from './hooks';
 import Select from '@/shared/ui/select';
 import { ErrorMessage } from '@/shared/ui/error-message';
 
 export default function MyBookOrderController({
   control,
 }: MyBookFilterControllerProps) {
-  const { orderOptions, getOrderLabel } = useOrderOptions();
+  const { getOrderLabel, orderOptions } = useMyBookFilterOrder();
 
   return (
     <Controller

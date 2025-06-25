@@ -1,13 +1,13 @@
 import type { MyBookFilterControllerProps } from './types';
 import { Controller } from 'react-hook-form';
-import { useStatusOptions } from '@/entities/my-book/ui';
+import { useMyBookFilterStatus } from './hooks';
 import { ErrorMessage } from '@/shared/ui/error-message';
 import Select from '@/shared/ui/select';
 
 export default function MyBookStatusController({
   control,
 }: MyBookFilterControllerProps) {
-  const { filterOptions, getFilterLabel } = useStatusOptions();
+  const { getStatusLabel, statusOptions } = useMyBookFilterStatus();
 
   return (
     <Controller
@@ -17,9 +17,9 @@ export default function MyBookStatusController({
         <div className="w-full">
           <Select.ErrorBoundary>
             <Select onChange={onChange} value={value}>
-              <Select.Trigger>{getFilterLabel(value)}</Select.Trigger>
+              <Select.Trigger>{getStatusLabel(value)}</Select.Trigger>
               <Select.Content>
-                {filterOptions.map(({ value, label }) => (
+                {statusOptions.map(({ value, label }) => (
                   <Select.Option key={value} value={value}>
                     {label}
                   </Select.Option>

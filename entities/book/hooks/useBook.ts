@@ -1,9 +1,11 @@
+import type { ErrorResponseDTO } from '@/shared/api/types/error';
+import type { ResponseSearchDTO } from '../api/book.dto';
+import type { SearchPayload } from '../api/types';
+import type { AxiosError } from 'axios';
+import type { Book } from '../model';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { bookService, ResponseSearchDTO, SearchPayload } from '../api';
-import { AxiosError } from 'axios';
-import { Book } from '../model';
-import { toBookViewModel } from '../lib';
-import { ErrorResponseDto } from '@/shared/api/types/error';
+import { bookService } from '../api/service';
+import { toBookViewModel } from '../model/book.mapper';
 import { queryKeys } from '@/shared/query/keys';
 
 export const useBookQuery = ({
@@ -14,7 +16,7 @@ export const useBookQuery = ({
 }: Omit<SearchPayload, 'page'>) => {
   return useInfiniteQuery<
     ResponseSearchDTO,
-    AxiosError<ErrorResponseDto>,
+    AxiosError<ErrorResponseDTO>,
     Book[]
   >({
     queryKey: queryKeys.search.book({ query, size, sort, target }).queryKey,

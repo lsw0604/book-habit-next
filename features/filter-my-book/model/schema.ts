@@ -1,18 +1,18 @@
 import { z } from 'zod';
-import { MyBookOrder, MyBookStatus } from '@/entities/my-book/model';
+import { FilterMyBookOrder, FilterMyBookStatus } from './filter-my-book.model';
 
 export const myBookFilterSchema = z.object({
-  order: z.enum([MyBookOrder.asc, MyBookOrder.desc], {
+  order: z.enum([FilterMyBookOrder.asc, FilterMyBookOrder.desc], {
     errorMap: () => ({
       message: '정렬 방식은 "오름차순" "내림차순" 이어야 합니다.',
     }),
   }),
   status: z.enum(
     [
-      MyBookStatus.ALL,
-      MyBookStatus.WANT_TO_READ,
-      MyBookStatus.CURRENTLY_READING,
-      MyBookStatus.READ,
+      FilterMyBookStatus.ALL,
+      FilterMyBookStatus.WANT_TO_READ,
+      FilterMyBookStatus.CURRENTLY_READING,
+      FilterMyBookStatus.READ,
     ],
     {
       errorMap: () => ({
@@ -26,6 +26,6 @@ export const myBookFilterSchema = z.object({
 export type MyBookFilterType = z.infer<typeof myBookFilterSchema>;
 
 export const DEFAULT_MY_BOOK_FILTER: MyBookFilterType = {
-  order: MyBookOrder.desc,
-  status: MyBookStatus.ALL,
+  order: FilterMyBookOrder.desc,
+  status: FilterMyBookStatus.ALL,
 };

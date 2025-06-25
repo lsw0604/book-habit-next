@@ -33,13 +33,7 @@ export interface MyBookDetail {
 }
 
 export enum MyBookStatus {
-  ALL = 'ALL',
   WANT_TO_READ = 'WANT_TO_READ',
   CURRENTLY_READING = 'CURRENTLY_READING',
   READ = 'READ',
-}
-
-export enum MyBookOrder {
-  desc = 'desc',
-  asc = 'asc',
 }
