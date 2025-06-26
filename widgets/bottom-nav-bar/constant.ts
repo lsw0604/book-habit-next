@@ -1,33 +1,34 @@
+import { NavigationOption } from '@/features/navigation/model';
 import { BookHeart, BookOpen, Home, Search, UserRound } from 'lucide-react';
 
-export const BOTTOM_NAVIGATION_ITEMS = [
+export const BOTTOM_NAVIGATION_ITEMS: NavigationOption[] = [
   {
     label: '홈',
-    value: '/',
+    href: '/',
     icon: Home,
     isAuth: false,
   },
   {
     label: '검색하기',
-    value: '/search',
+    href: '/search',
     icon: Search,
     isAuth: false,
   },
   {
     label: '한줄평',
-    value: '/reviews',
+    href: '/reviews',
     icon: BookOpen,
     isAuth: false,
   },
   {
     label: '나의 서재',
-    value: '/my_books',
+    href: '/my_books',
     icon: BookHeart,
     isAuth: true,
   },
   {
     label: '마이페이지',
-    value: '/my_page',
+    href: '/my_page',
     icon: UserRound,
     isAuth: true,
   },
