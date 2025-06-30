@@ -4,14 +4,14 @@ import type { MyBookItemProps } from '../model';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ImageIcon, Star } from 'lucide-react';
-import { useStatusOptions } from '@/entities/my-book/lib';
+import { useStatusOptions } from '@/entities/my-book/ui';
 import { cn } from '@/shared/utils/class-name';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/shared/ui/ui/tooltip';
+} from '@/shared/ui/tooltip';
 
 export default function MyBookItem({ book, className }: MyBookItemProps) {
   const { getStatusLabel } = useStatusOptions();

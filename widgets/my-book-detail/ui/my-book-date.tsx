@@ -1,5 +1,5 @@
-import dayjs from 'dayjs';
 import { Pen } from 'lucide-react';
+import { format } from 'date-fns';
 
 interface MyBookDateProps {
   createdAt: Date;
@@ -7,8 +7,8 @@ interface MyBookDateProps {
 }
 
 export default function MyBookDate({ createdAt, updatedAt }: MyBookDateProps) {
-  const createdAtTime = dayjs(createdAt).format('YYYY-MM-DD');
-  const updatedAtTime = dayjs(updatedAt).format('YYYY-MM-DD');
+  const createdAtTime = format(new Date(createdAt), 'yyyy-MM-dd');
+  const updatedAtTime = format(new Date(updatedAt), 'yyyy-MM-dd');
 
   const isTime = createdAt === updatedAt;
 

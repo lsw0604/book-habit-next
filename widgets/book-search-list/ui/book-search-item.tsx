@@ -1,4 +1,4 @@
-import type { BookSearchItemProps } from '../model/types';
+import type { BookSearchItemProps } from './types';
 import { useState } from 'react';
 import BookSearchItemLoader from './book-search-item-loader';
 import {
@@ -8,7 +8,7 @@ import {
   BookCardPrice,
   BookCardPublisher,
 } from '@/entities/book';
-import { useBookSearchModal } from '@/features/book-search/lib/hooks';
+import { useBookSearchModal } from '@/features/book-search/hooks';
 import { BookCardImage } from '@/entities/book';
 import { useOnceVisible } from '@/shared/hooks/useInfiniteScroll';
 import { cn } from '@/shared/utils/class-name';
@@ -31,7 +31,7 @@ export default function BookSearchItem({ item }: BookSearchItemProps) {
           datetime={item.datetime}
           publisher={item.publisher}
         />
-        <BookCardPrice price={item.price} sale_price={item.sale_price} />
+        <BookCardPrice price={item.price} salePrice={item.salePrice} />
         <BookCardContent
           content={item.contents}
           className="line-clamp-3 break-words"

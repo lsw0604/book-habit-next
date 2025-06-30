@@ -4,7 +4,7 @@ import type { BookSearchFormProps } from '../model/types';
 import {
   useBookSearchFormHandler,
   useBookSearchFormSubmit,
-} from '@/features/book-search/lib/hooks';
+} from '@/features/book-search/hooks';
 import { cn } from '@/shared/utils/class-name';
 import BookSearchInputController from './book-search-input-controller';
 import BookSearchPopover from './book-search-popover';

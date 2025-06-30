@@ -1,8 +1,7 @@
 'use client';
 
-import type { KakaoDocument } from '@/features/book-search/api/types';
-import { useBookSearchParams } from '@/features/book-search/lib/hooks';
-import { useBookSearchQuery } from '@/features/book-search/lib/query';
+import { useBookQuery } from '@/entities/book/hooks/useBook';
+import { useBookSearchParams } from '@/features/book-search/hooks';
 import BookSearchListLoader from './book-search-list-loader';
 import BookSearchListNotFound from './book-search-list-not-found';
 import BookSearchItem from './book-search-item';
@@ -21,7 +20,7 @@ export default function BookSearchList() {
     isError,
     error,
     refetch,
-  } = useBookSearchQuery({ query, size, sort, target });
+  } = useBookQuery({ query, size, sort, target });
   const ref = useInfiniteScroll(fetchNextPage, hasNextPage, {
     threshold: 0.3,
   });
@@ -48,8 +47,8 @@ export default function BookSearchList() {
           '2xl:grid 2xl:grid-cols-5 2xl:gap-2' // 큰 화면에서 5열로 변경
         )}
       >
-        {data.map((item: KakaoDocument) => (
-          <BookSearchItem key={item.isbn} item={item} />
+        {data.map(item => (
+          <BookSearchItem key={item.isbns.join('-')} item={item} />
         ))}
       </ul>
       <div className="w-full flex justify-center p-4" ref={ref}>
