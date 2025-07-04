@@ -1,54 +1,41 @@
-import type { InputDatepickerProps } from './type';
+import type { InputDatepickerProps } from './types';
 import { forwardRef } from 'react';
-import { CalendarIcon, XIcon } from 'lucide-react';
 import { ko } from 'date-fns/locale';
+import { AlertCircle, CalendarIcon, XIcon } from 'lucide-react';
+
+import { Popover } from '@/shared/common/popover';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
-import { Popover } from '@/shared/common/popover';
-import { cn } from '@/shared/utils/class-name';
 import { ErrorMessage } from '@/shared/ui/error-message';
-import { DATE_CONSTRAINTS } from '../constants';
-import { useInputDatepickerState } from '../hooks';
+import { cn } from '@/shared/utils/class-name';
 import {
-  datePickerVariants,
+  inputContainerVariants,
+  inputIconVariants,
   inputVariants,
-  clearButtonVariants,
-  clearIconVariants,
-  calendarButtonVariants,
-  calendarIconVariants,
-} from '../style/variants';
+} from '@/shared/ui/input/style';
+
+import { useInputDatepicker } from '../hook/useInputDatepicker';
+import { DATE_CONSTRAINTS } from '../lib/constants';
+import { calendarBTNVariants, clearBTNVariants } from '../style';
 
 const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
   (
-    {
-      className,
-      disabled,
-      value,
-      onChange: onChangeCallback,
-      error: externalError,
-      ...props
-    },
+    { className, disabled, value, onChange, error: externalError, ...props },
     ref
   ) => {
     const {
-      hasError,
       error,
       dateStr,
+      hasError,
+      handleClearDate,
       handleInputChange,
       handleCalendarSelect,
-      handleClearDate,
-      getState,
-    } = useInputDatepickerState({
-      value,
-      onChange: onChangeCallback,
-      externalError,
-    });
-
-    const state = disabled ? 'disabled' : getState();
+    } = useInputDatepicker({ onChange, value, externalError });
+    const state = disabled ? 'disabled' : hasError ? 'error' : 'default';
 
     return (
       <div className={cn('w-full space-y-1', className)}>
-        <div className={datePickerVariants({ state })}>
+        <div className={inputContainerVariants({ state })}>
           <div className="absolute inset-y-0 left-0 flex items-center justify-center">
             <Popover>
               <Popover.Trigger>
@@ -57,26 +44,26 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
                   variant="ghost"
                   size="sm"
                   disabled={disabled}
-                  className={calendarButtonVariants({
+                  className={calendarBTNVariants({
                     state: disabled ? 'disabled' : 'default',
                   })}
                 >
                   <CalendarIcon
                     size={16}
-                    className={calendarIconVariants({ state })}
+                    className={inputIconVariants({ state })}
                   />
                 </Button>
               </Popover.Trigger>
               <Popover.Content className="p-0 z-50 shadow-lg border border-slate-200 rounded-lg bg-white">
                 <Calendar
-                  defaultMonth={value}
-                  initialFocus
                   locale={ko}
+                  initialFocus
                   mode="single"
                   selected={value}
+                  defaultMonth={value}
                   onSelect={handleCalendarSelect}
                   fromDate={new Date(DATE_CONSTRAINTS.MIN_YEAR, 0, 1)}
-                  toDate={new Date(DATE_CONSTRAINTS.MAX_YEAR, 11, 31)}
+                  toDate={new Date()}
                   className="rounded-lg"
                 />
               </Popover.Content>
@@ -91,21 +78,24 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
             onChange={handleInputChange}
             {...props}
           />
+          {hasError && (
+            <div className="absolute inset-y-0 right-0 flex items-center justify-center pr-2">
+              <AlertCircle size={16} className={inputIconVariants({ state })} />
+            </div>
+          )}
           {value && !hasError && (
             <div className="absolute inset-y-0 right-0 flex items-center justify-center pr-2">
               <Button
                 type="button"
                 variant="none"
                 size="icon"
-                onClick={handleClearDate}
                 disabled={disabled}
-                className={cn(
-                  clearButtonVariants({
-                    state: disabled ? 'disabled' : 'default',
-                  })
-                )}
+                className={clearBTNVariants({
+                  state: disabled ? 'disabled' : 'default',
+                })}
+                onClick={handleClearDate}
               >
-                <XIcon size={16} className={clearIconVariants()} />
+                <XIcon size={16} />
               </Button>
             </div>
           )}
@@ -122,4 +112,4 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
 
 InputDatepicker.displayName = 'InputDatepicker';
 
-export { InputDatepicker };
+export default InputDatepicker;
