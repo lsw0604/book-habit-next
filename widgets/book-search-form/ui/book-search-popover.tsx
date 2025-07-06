@@ -8,7 +8,7 @@ import { DotIcon, ListFilterIcon } from 'lucide-react';
 import BookSearchTargetController from './book-search-target-controller';
 import BookSearchSizeController from './book-search-size-controller';
 import BookSearchSortController from './book-search-sort-controller';
-import Popover from '@/shared/common/popover';
+import { Popover } from '@/shared/ui/popover';
 import { Button } from '@/shared/ui/button';
 import { hasFormErrors } from '../utils';
 
