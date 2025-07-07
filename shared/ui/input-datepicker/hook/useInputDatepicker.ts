@@ -1,5 +1,11 @@
 import type { SelectSingleEventHandler } from 'react-day-picker';
-import { type ChangeEvent, useCallback, useEffect, useState } from 'react';
+import {
+  type ChangeEvent,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import {
   extractDigits,
   formatDateObjectToString,
@@ -20,7 +26,7 @@ interface UseInputDatepickerReturn {
   hasError: boolean;
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleCalendarSelect: SelectSingleEventHandler;
-  handleClearDate: () => void;
+  handleClearDate: (e: MouseEvent) => void;
 }
 
 export const useInputDatepicker = ({
@@ -35,10 +41,20 @@ export const useInputDatepicker = ({
 
   useEffect(() => {
     if (value) {
-      setDateStr(formatDateObjectToString(value));
+      const newDateStr = formatDateObjectToString(value);
+      if (dateStr !== newDateStr) {
+        setDateStr(newDateStr);
+      }
       setInternalError(null);
     }
   }, [value]);
+
+  const notifyChange = useCallback(
+    (day: Date | undefined, e: ChangeEvent<HTMLInputElement> | MouseEvent) => {
+      onChange(day, day || new Date(), {}, e as any);
+    },
+    [onChange]
+  );
 
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,15 +76,15 @@ export const useInputDatepicker = ({
 
         if (error) {
           setInternalError(error);
-          onChange(undefined, new Date(), {}, e as any);
+          notifyChange(undefined, e);
           return;
         }
 
         if (date && value?.getTime() !== date.getTime()) {
-          onChange(date, date, {}, e as any);
+          notifyChange(date, e);
         }
       } else if (value) {
-        onChange(undefined, new Date(), {}, e as any);
+        notifyChange(undefined, e);
       }
     },
     [value, onChange]
@@ -82,11 +98,14 @@ export const useInputDatepicker = ({
     [onChange]
   );
 
-  const handleClearDate = useCallback(() => {
-    onChange(undefined, new Date(), {}, {} as any);
-    setDateStr('');
-    setInternalError(null);
-  }, [onChange]);
+  const handleClearDate = useCallback(
+    (e: MouseEvent) => {
+      notifyChange(undefined, e);
+      setDateStr('');
+      setInternalError(null);
+    },
+    [onChange]
+  );
 
   return {
     dateStr,

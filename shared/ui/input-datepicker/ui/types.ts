@@ -9,4 +9,6 @@ export interface InputDatepickerProps
   value?: Date;
   onChange: SelectSingleEventHandler;
   error?: boolean;
+  label?: string;
+  errorMessage?: string;
 }

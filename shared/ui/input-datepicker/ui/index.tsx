@@ -3,9 +3,10 @@ import { forwardRef } from 'react';
 import { ko } from 'date-fns/locale';
 import { AlertCircle, CalendarIcon, XIcon } from 'lucide-react';
 
-import { Popover } from '@/shared/common/popover';
+import { Label } from '@/shared/ui/label';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
+import { Popover } from '@/shared/ui/popover';
 import { ErrorMessage } from '@/shared/ui/error-message';
 import { cn } from '@/shared/utils/class-name';
 import {
@@ -20,7 +21,17 @@ import { calendarBTNVariants, clearBTNVariants } from '../style';
 
 const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
   (
-    { className, disabled, value, onChange, error: externalError, ...props },
+    {
+      id,
+      label,
+      value,
+      onChange,
+      disabled,
+      className,
+      errorMessage,
+      error: externalError,
+      ...props
+    },
     ref
   ) => {
     const {
@@ -32,9 +43,15 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
       handleCalendarSelect,
     } = useInputDatepicker({ onChange, value, externalError });
     const state = disabled ? 'disabled' : hasError ? 'error' : 'default';
+    const finalErrorMessage = error || errorMessage;
 
     return (
       <div className={cn('w-full space-y-1', className)}>
+        {label && (
+          <Label htmlFor={id} className="text-xs ml-1 font-bold">
+            {label}
+          </Label>
+        )}
         <div className={inputContainerVariants({ state })}>
           <div className="absolute inset-y-0 left-0 flex items-center justify-center">
             <Popover>
@@ -71,6 +88,7 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
           </div>
           <input
             ref={ref}
+            id={id}
             disabled={disabled}
             placeholder="YYYY-MM-DD"
             className={inputVariants({ state })}
@@ -100,10 +118,8 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
             </div>
           )}
         </div>
-        {error && (
-          <ErrorMessage className="text-xs px-1 animate-in slide-in-from-top-1 duration-200">
-            {error}
-          </ErrorMessage>
+        {hasError && finalErrorMessage && (
+          <ErrorMessage>{finalErrorMessage}</ErrorMessage>
         )}
       </div>
     );
