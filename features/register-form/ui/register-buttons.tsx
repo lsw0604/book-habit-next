@@ -1,8 +1,8 @@
+import Link from 'next/link';
 import { Button } from '@/shared/ui/button';
 import { Separator } from '@/shared/ui/separator';
-import Link from 'next/link';
 
-const RegisterButtons = ({ isLoading }: { isLoading: boolean }) => {
+export default function RegisterButtons({ isLoading }: { isLoading: boolean }) {
   return (
     <>
       <p className="text-sm mt-4">
@@ -24,6 +24,4 @@ const RegisterButtons = ({ isLoading }: { isLoading: boolean }) => {
       </Button>
     </>
   );
-};
-
-export default RegisterButtons;
+}

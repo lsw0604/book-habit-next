@@ -1,14 +1,12 @@
 import type { RegisterControllerProps } from './types';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
-import { Label } from '@/shared/ui/label';
 import { Input } from '@/shared/ui/input';
-import { ErrorMessage } from '@/shared/ui/error-message';
 
-const RegisterPasswordController: React.FC<RegisterControllerProps> = ({
+export default function RegisterPasswordController({
   control,
-}) => {
+}: RegisterControllerProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const passwordHandler = useCallback(() => {
@@ -21,24 +19,19 @@ const RegisterPasswordController: React.FC<RegisterControllerProps> = ({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div className="w-full relative mb-2">
-          <Label>비밀번호</Label>
           <Input
             {...field}
+            id="password"
+            label="비밀번호"
+            error={!!error}
+            errorMessage={error?.message}
             autoComplete="off"
             type={isOpen ? 'text' : 'password'}
-            icon={
-              isOpen ? (
-                <EyeIcon className="w-5 h-5" onClick={passwordHandler} />
-              ) : (
-                <EyeOffIcon className="w-5 h-5" onClick={passwordHandler} />
-              )
-            }
+            iconClick={passwordHandler}
+            icon={isOpen ? EyeIcon : EyeOffIcon}
           />
-          {error?.message && <ErrorMessage>{error.message}</ErrorMessage>}
         </div>
       )}
     />
   );
-};
-
-export default RegisterPasswordController;
+}

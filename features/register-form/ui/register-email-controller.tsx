@@ -1,30 +1,27 @@
+import type { RegisterControllerProps } from './types';
 import { Controller } from 'react-hook-form';
-import { RegisterControllerProps } from './types';
-import { Label } from '@/shared/ui/label';
-import { Input } from '@/shared/ui/input';
 import { MailIcon } from 'lucide-react';
-import { ErrorMessage } from '@/shared/ui/error-message';
+import { Input } from '@/shared/ui/input';
 
-const RegisterEmailController: React.FC<RegisterControllerProps> = ({
+export default function RegisterEmailController({
   control,
-}) => {
+}: RegisterControllerProps) {
   return (
     <Controller
       name="email"
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div className="w-full relative mb-2">
-          <Label>이메일</Label>
           <Input
             {...field}
+            label="이메일"
             autoComplete="off"
-            icon={<MailIcon className="w-5 h-5" />}
+            icon={MailIcon}
+            error={!!error}
+            errorMessage={error?.message}
           />
-          {error?.message && <ErrorMessage>{error.message}</ErrorMessage>}
         </div>
       )}
     />
   );
-};
-
-export default RegisterEmailController;
+}

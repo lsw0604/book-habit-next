@@ -1,12 +1,10 @@
+import type { RegisterControllerProps } from './types';
 import { Controller } from 'react-hook-form';
-import { RegisterControllerProps } from './types';
-import { Label } from '@/shared/ui/label';
-import { InputDatePicker } from '@/shared/ui/date-picker';
-import { ErrorMessage } from '@/shared/ui/error-message';
+import { InputDatepicker } from '@/shared/ui/input-datepicker';
 
-const RegisterBirthdayController: React.FC<RegisterControllerProps> = ({
+export default function RegisterBirthdayController({
   control,
-}) => {
+}: RegisterControllerProps) {
   return (
     <Controller
       name="birthday"
@@ -14,18 +12,17 @@ const RegisterBirthdayController: React.FC<RegisterControllerProps> = ({
       render={({ field: { value, onChange }, fieldState: { error } }) => {
         return (
           <div className="w-full relative mb-2">
-            <Label>생년월일</Label>
-            <InputDatePicker
-              className="border-slate-500 border-2"
+            <InputDatepicker
+              id="birthday"
+              label="생년월일"
               value={value}
               onChange={onChange}
+              error={!!error}
+              errorMessage={error?.message}
             />
-            {error?.message && <ErrorMessage>{error.message}</ErrorMessage>}
           </div>
         );
       }}
     />
   );
-};
-
-export default RegisterBirthdayController;
+}
