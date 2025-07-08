@@ -1,10 +1,10 @@
 import type { DateRange, SelectRangeEventHandler } from 'react-day-picker';
 import { CalendarIcon } from 'lucide-react';
-import { format, isSameDay } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { Calendar } from './calendar';
-import { Popover } from './popover';
-import { cn } from '../utils/class-name';
+import { Calendar } from '@/shared/ui/calendar';
+import { Popover } from '@/shared/ui/popover';
+import { cn } from '@/shared/utils/class-name';
+import { dateRangeDisplay } from '../lib/formatters';
 
 interface RangeDatepickerProps {
   selected: DateRange | undefined;
@@ -13,21 +13,12 @@ interface RangeDatepickerProps {
   numberOfMonths?: number;
 }
 
-export const RangeDatepicker = ({
+const RangeDatepicker = ({
   selected,
   onSelect,
   className,
   numberOfMonths = 2,
 }: RangeDatepickerProps) => {
-  function message(from: Date | undefined, to: Date | undefined) {
-    if (!from && !to) return '날짜를 선택해주세요.';
-    if (from && to && isSameDay(from, to)) return format(from, 'yyyy-MM-dd');
-    if (from && !to) return `${format(from, 'yyyy-MM-dd')} - 종료 날짜 선택`;
-    if (from && to)
-      return `${format(from, 'yyyy-MM-dd')} ~ ${format(to, 'yyyy-MM-dd')}`;
-    return '예기치 못한 에러가 발생했습니다.';
-  }
-
   return (
     <Popover
       className={cn(
@@ -40,14 +31,14 @@ export const RangeDatepicker = ({
           <CalendarIcon size={16} className="stroke-slate-600" />
         </div>
         <div className="w-full text-sm py-2 pl-1 pr-11 text-center text-slate-600 font-bold">
-          {message(selected?.from, selected?.to)}
+          {dateRangeDisplay(selected)}
         </div>
       </Popover.Trigger>
       <Popover.Content className="p-0 z-9999">
         <Calendar
           locale={ko}
           mode="range"
-          defaultMonth={new Date()}
+          defaultMonth={selected?.from || new Date()}
           selected={selected}
           onSelect={onSelect}
           numberOfMonths={numberOfMonths}
@@ -57,3 +48,5 @@ export const RangeDatepicker = ({
     </Popover>
   );
 };
+
+export default RangeDatepicker;
