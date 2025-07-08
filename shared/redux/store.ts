@@ -9,11 +9,11 @@ import {
   createListenerMiddleware,
 } from '@reduxjs/toolkit';
 
-import bookSlice, { clearSelectedBook } from '@/entities/book/model/store';
-import authSlice from '@/entities/auth/model/store';
+import bookSlice, { clearSelectedBook } from '@/entities/book/store/book.slice';
+import authSlice from '@/entities/auth/store/auth.slice';
 import modalSlice, { closeModal } from '@/entities/modal/model/store';
 import toastSlice from '@/shared/ui/toast/model/store';
-import myBookHistorySlice from '@/entities/my-book-history/model/store';
+import myBookHistorySlice from '@/entities/my-book-history/store/my-book-history.slice';
 
 const rootReducer = combineReducers({
   auth: authSlice,
