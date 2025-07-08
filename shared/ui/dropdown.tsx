@@ -6,7 +6,7 @@ interface DropdownProps extends AllHTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
-const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
+export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
   ({ className, children, ...props }, ref) => {
     return (
       <div
@@ -22,5 +22,3 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     );
   }
 );
-
-export default Dropdown;
