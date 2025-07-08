@@ -1,4 +1,5 @@
 import { Gender } from '@/entities/user/model';
+import { isBefore, startOfDay } from 'date-fns';
 import { z } from 'zod';
 
 export const registerSchema = z
@@ -36,11 +37,22 @@ export const registerSchema = z
     }),
     birthday: z
       .date()
-      .refine(date => !isNaN(date.getTime()), '올바른 생년월일을 입력해주세요.')
-      .refine(
-        date => date < new Date(),
-        '생년월일은 오늘보다 이전 날짜여야 합니다.'
-      ),
+      .optional()
+      .superRefine((value, ctx) => {
+        if (value === undefined) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '생년월일을 입력해주세요.',
+          });
+        }
+
+        if (value && !isBefore(value, startOfDay(new Date()))) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '생년월일은 오늘보다 이전 날짜여야합니다.',
+          });
+        }
+      }),
   })
   .refine(data => data.password === data.checkPassword, {
     message: '비밀번호가 일치하지 않습니다.',
@@ -55,5 +67,5 @@ export const DEFAULT_REGISTER: RegisterType = {
   checkPassword: '',
   name: '',
   gender: Gender.MALE,
-  birthday: new Date(),
+  birthday: undefined,
 };
