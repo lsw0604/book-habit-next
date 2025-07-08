@@ -16,7 +16,7 @@ import {
 } from '@/shared/ui/input/style';
 
 import { useInputDatepicker } from '../hook/useInputDatepicker';
-import { DATE_CONSTRAINTS } from '../lib/constants';
+import { INPUT_DATEPICKER_CONSTRAINTS } from '../lib/constants';
 import { calendarBTNVariants, clearBTNVariants } from '../style';
 
 const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
@@ -79,7 +79,9 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
                   selected={value}
                   defaultMonth={value}
                   onSelect={handleCalendarSelect}
-                  fromDate={new Date(DATE_CONSTRAINTS.MIN_YEAR, 0, 1)}
+                  fromDate={
+                    new Date(INPUT_DATEPICKER_CONSTRAINTS.MIN_YEAR, 0, 1)
+                  }
                   toDate={new Date()}
                   className="rounded-lg"
                 />

@@ -6,13 +6,10 @@ import {
   useEffect,
   useState,
 } from 'react';
-import {
-  extractDigits,
-  formatDateObjectToString,
-  addSeparatorsToDateString,
-} from '../lib/formatter';
+import { extractDigits, addSeparatorsToDateString } from '../lib/formatter';
 import { validatePartialDate, parseAndValidateDate } from '../lib/validator';
-import { DATE_CONSTRAINTS } from '../lib/constants';
+import { INPUT_DATEPICKER_CONSTRAINTS } from '../lib/constants';
+import { formatDateObjectToString } from '@/shared/utils/date';
 
 interface UseInputDatepickerProps {
   value: Date | undefined;
@@ -58,7 +55,10 @@ export const useInputDatepicker = ({
 
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const digits = extractDigits(e.target.value, DATE_CONSTRAINTS.MAX_DIGITS);
+      const digits = extractDigits(
+        e.target.value,
+        INPUT_DATEPICKER_CONSTRAINTS.MAX_DIGITS
+      );
       const formattedInput = addSeparatorsToDateString(digits);
       setDateStr(formattedInput);
       setInternalError(null);
@@ -71,7 +71,7 @@ export const useInputDatepicker = ({
         return;
       }
 
-      if (digits.length === DATE_CONSTRAINTS.MAX_DIGITS) {
+      if (digits.length === INPUT_DATEPICKER_CONSTRAINTS.MAX_DIGITS) {
         const { date, error } = parseAndValidateDate(digits);
 
         if (error) {
