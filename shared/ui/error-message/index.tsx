@@ -13,7 +13,12 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
 }) => {
   return (
     <p
-      className={cn('ml-0.5 text-red-300 mt-0.5 text-sm font-bold', className)}
+      className={cn(
+        'ml-1 mt-1',
+        'font-bold text-xs text-red-300',
+        'animate-in slide-in-from-top-1 duration-200',
+        className
+      )}
     >
       {children}
     </p>
