@@ -94,6 +94,11 @@ export const useInputDatepicker = ({
     (day, ...rest) => {
       onChange(day, ...rest);
       setInternalError(null);
+
+      // Calendar에서 날짜 선택 해제에 대한 동작
+      if (day === undefined) {
+        setDateStr('');
+      }
     },
     [onChange]
   );
