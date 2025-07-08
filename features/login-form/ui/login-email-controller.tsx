@@ -1,9 +1,7 @@
 import { MailIcon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 import { LoginControllerProps } from './types';
-import { Label } from '@/shared/ui/label';
 import { Input } from '@/shared/ui/input';
-import { ErrorMessage } from '@/shared/ui/error-message';
 
 export default function LoginEmailController({
   control,
@@ -14,16 +12,16 @@ export default function LoginEmailController({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div className="relative w-full mb-2">
-          <Label className="mb-2 ml-2 text-sm font-bold">이메일</Label>
           <Input
             {...field}
+            id="email"
+            label="이메일"
             type="email"
-            icon={<MailIcon className="w-5 h-5" />}
+            icon={MailIcon}
             autoComplete="off"
+            error={!!error}
+            errorMessage={error?.message}
           />
-          {!!error && error.message && (
-            <ErrorMessage>{error.message}</ErrorMessage>
-          )}
         </div>
       )}
     />

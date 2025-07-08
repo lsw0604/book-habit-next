@@ -1,9 +1,7 @@
 import { useCallback, useState } from 'react';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
-import { Label } from '@/shared/ui/label';
 import { Input } from '@/shared/ui/input';
-import { ErrorMessage } from '@/shared/ui/error-message';
 import { LoginControllerProps } from './types';
 
 const LoginPasswordController = ({ control }: LoginControllerProps) => {
@@ -19,22 +17,17 @@ const LoginPasswordController = ({ control }: LoginControllerProps) => {
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div className="relative w-full mb-2">
-          <Label className="mb-2 ml-2 text-sm font-bold">비밀번호</Label>
           <Input
             {...field}
+            id="password"
+            label="비밀번호"
             type={isEyeOpen ? 'text ' : 'password'}
-            icon={
-              isEyeOpen ? (
-                <EyeIcon className="w-5 h-5" onClick={onClick} />
-              ) : (
-                <EyeOffIcon className="w-5 h-5" onClick={onClick} />
-              )
-            }
+            icon={isEyeOpen ? EyeIcon : EyeOffIcon}
             autoComplete="off"
+            error={!!error}
+            errorMessage={error?.message}
+            iconClick={onClick}
           />
-          {!!error && error.message && (
-            <ErrorMessage>{error.message}</ErrorMessage>
-          )}
         </div>
       )}
     />
