@@ -65,11 +65,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             </div>
           )}
         </div>
-        {error && (
-          <ErrorMessage className="text-xs px-1 animate-in slide-in-from-top-1 duration-200">
-            {errorMessage}
-          </ErrorMessage>
-        )}
+        {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
       </div>
     );
   }
