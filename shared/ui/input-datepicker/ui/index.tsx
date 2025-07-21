@@ -93,7 +93,7 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
             id={id}
             disabled={disabled}
             placeholder="YYYY-MM-DD"
-            className={inputVariants({ state })}
+            className={inputVariants({ state, hasIcon: true })}
             value={dateStr}
             onChange={handleInputChange}
             {...props}
