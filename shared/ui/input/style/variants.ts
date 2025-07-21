@@ -33,7 +33,7 @@ export const inputContainerVariants = cva(
 );
 
 export const inputVariants = cva(
-  'w-full px-11 py-2 text-sm bg-transparent outline-none transition-colors duration-200',
+  'w-full py-2 text-sm bg-transparent outline-none transition-colors duration-200',
   {
     variants: {
       state: {
@@ -41,6 +41,10 @@ export const inputVariants = cva(
         error: 'text-rose-300 placeholder:text-rose-300',
         disabled:
           'text-slate-400 placeholder:text-slate-300 cursor-not-allowed',
+      },
+      hasIcon: {
+        true: 'pl-10 pr-2',
+        false: 'px-2',
       },
     },
     defaultVariants: {

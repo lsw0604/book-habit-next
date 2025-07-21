@@ -54,7 +54,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
           <input
             id={id}
-            className={inputVariants({ state })}
+            className={inputVariants({ state, hasIcon: !!icon })}
             ref={ref}
             disabled={disabled}
             {...props}
