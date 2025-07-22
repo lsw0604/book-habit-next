@@ -26,9 +26,8 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "prettier/prettier": "error",
     // Next.js에 특화된 규칙 오버라이드
     "react/react-in-jsx-scope": "off", // Next.js에서는 React import가 필요없음
     "react/jsx-props-no-spreading": "off", // props spreading이 Next.js에서 자주 사용됨
