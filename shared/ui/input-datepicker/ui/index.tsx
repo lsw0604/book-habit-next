@@ -1,23 +1,26 @@
-import type { InputDatepickerProps } from './types';
-import { forwardRef } from 'react';
 import { ko } from 'date-fns/locale';
 import { AlertCircle, CalendarIcon, XIcon } from 'lucide-react';
+import { forwardRef } from 'react';
 
-import { Label } from '@/shared/ui/label';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
-import { Popover } from '@/shared/ui/popover';
 import { ErrorMessage } from '@/shared/ui/error-message';
-import { cn } from '@/shared/utils/class-name';
 import {
   inputContainerVariants,
   inputIconVariants,
   inputVariants,
 } from '@/shared/ui/input/style';
+import { Label } from '@/shared/ui/label';
+import { Popover } from '@/shared/ui/popover';
+import { cn } from '@/shared/utils/class-name';
 
 import { useInputDatepicker } from '../hook/useInputDatepicker';
 import { INPUT_DATEPICKER_CONSTRAINTS } from '../lib/constants';
 import { calendarBTNVariants, clearBTNVariants } from '../style';
+
+import type { InputDatepickerProps } from './types';
+
+type StateType = 'default' | 'disabled' | 'error';
 
 const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
   (
@@ -42,7 +45,13 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
       handleInputChange,
       handleCalendarSelect,
     } = useInputDatepicker({ onChange, value, externalError });
-    const state = disabled ? 'disabled' : hasError ? 'error' : 'default';
+    let state: StateType = 'default';
+
+    if (disabled) {
+      state = 'disabled';
+    } else if (hasError) {
+      state = 'error';
+    }
     const finalErrorMessage = error || errorMessage;
 
     return (

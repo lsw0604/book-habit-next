@@ -1,4 +1,3 @@
-import type { SelectSingleEventHandler } from 'react-day-picker';
 import {
   type ChangeEvent,
   MouseEvent,
@@ -6,10 +5,13 @@ import {
   useEffect,
   useState,
 } from 'react';
+import type { SelectSingleEventHandler } from 'react-day-picker';
+
+import { formatDateObjectToString } from '@/shared/utils/date';
+
+import { INPUT_DATEPICKER_CONSTRAINTS } from '../lib/constants';
 import { extractDigits, addSeparatorsToDateString } from '../lib/formatter';
 import { validatePartialDate, parseAndValidateDate } from '../lib/validator';
-import { INPUT_DATEPICKER_CONSTRAINTS } from '../lib/constants';
-import { formatDateObjectToString } from '@/shared/utils/date';
 
 interface UseInputDatepickerProps {
   value: Date | undefined;
@@ -44,11 +46,11 @@ export const useInputDatepicker = ({
       }
       setInternalError(null);
     }
-  }, [value]);
+  }, [value, dateStr]);
 
   const notifyChange = useCallback(
     (day: Date | undefined, e: ChangeEvent<HTMLInputElement> | MouseEvent) => {
-      onChange(day, day || new Date(), {}, e as any);
+      onChange(day, day || new Date(), {}, e as MouseEvent);
     },
     [onChange]
   );
@@ -61,33 +63,39 @@ export const useInputDatepicker = ({
       );
       const formattedInput = addSeparatorsToDateString(digits);
       setDateStr(formattedInput);
-      setInternalError(null);
 
-      // 유효성 검사 통합 로직
-      const stepError = validatePartialDate(digits);
-      if (stepError) {
-        setInternalError(stepError);
-        onChange(undefined, new Date(), {}, e as any);
-        return;
-      }
+      let newDate: Date | null = null;
+      let newError: string | null = null;
 
-      if (digits.length === INPUT_DATEPICKER_CONSTRAINTS.MAX_DIGITS) {
-        const { date, error } = parseAndValidateDate(digits);
+      const partialError = validatePartialDate(digits);
 
-        if (error) {
-          setInternalError(error);
-          notifyChange(undefined, e);
-          return;
+      if (partialError) {
+        // 부분적인 날짜 형식이 유효하지 않은 경우
+        newError = partialError;
+      } else if (digits.length === INPUT_DATEPICKER_CONSTRAINTS.MAX_DIGITS) {
+        // 날짜가 모두 입력된 경우 (8자리)
+        const { date, error: fullError } = parseAndValidateDate(digits);
+
+        if (fullError) {
+          // 유효하지 않은 날짜인 경우
+          newError = fullError;
+        } else {
+          newDate = date;
         }
+      }
+      // 3. 내부 에러 상태를 업데이트합니다.
+      setInternalError(newError);
 
-        if (date && value?.getTime() !== date.getTime()) {
-          notifyChange(date, e);
+      if (newDate) {
+        if (!value || newDate.getTime() !== value.getTime()) {
+          notifyChange(newDate, e);
         }
       } else if (value) {
+        // 입력을 지우면 날짜도 지워줌
         notifyChange(undefined, e);
       }
     },
-    [value, onChange]
+    [value, notifyChange]
   );
 
   const handleCalendarSelect: SelectSingleEventHandler = useCallback(
@@ -109,7 +117,7 @@ export const useInputDatepicker = ({
       setDateStr('');
       setInternalError(null);
     },
-    [onChange]
+    [notifyChange]
   );
 
   return {
