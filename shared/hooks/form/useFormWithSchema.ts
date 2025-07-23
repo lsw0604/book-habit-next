@@ -1,5 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, UseFormReturn, DefaultValues } from 'react-hook-form';
+import {
+  type FieldErrors,
+  useForm,
+  UseFormReturn,
+  DefaultValues,
+} from 'react-hook-form';
 import { ZodSchema, infer as InferZodType } from 'zod';
 
 interface UseFormWithSchemaOptions<T> {
@@ -31,16 +36,15 @@ export function useFormWithSchema<T extends ZodSchema>(
 
   const handleSubmitWithReset = (
     onValid: (data: InferZodType<T>) => void,
-    onInvalid?: (errors: any) => void
-  ) => {
-    return originalHandleSubmit(data => {
+    onInvalid?: (errors: FieldErrors<InferZodType<T>>) => void
+  ) =>
+    originalHandleSubmit(data => {
       onValid(data);
       // resetOnSubmit이 true이면 제출 후 폼 리셋
       if (resetOnSubmit) {
         methods.reset(defaultValues);
       }
     }, onInvalid);
-  };
 
   // 명시적 리셋 함수 추가
   const resetForm = () => methods.reset(defaultValues);
