@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import {
   getHours,
   getMinutes,
@@ -7,6 +6,8 @@ import {
   setMinutes,
   setSeconds,
 } from 'date-fns';
+import { useMemo } from 'react';
+
 import { getValidHour, getValidMinuteOrSecond } from '../lib/formatter';
 
 type PickerType = 'hours' | 'minutes' | 'seconds';
@@ -24,20 +25,23 @@ interface ReturnTimePicker {
   stepTime: (step: number, type: PickerType) => void;
 }
 
-export const useTimePicker = ({
+export const useTimepicker = ({
   date,
   setDate,
 }: UseTimePickerProps): ReturnTimePicker => {
-  const _date = date ?? new Date();
+  const currentDate = useMemo(() => date ?? new Date(), [date]);
 
-  const hour = useMemo(() => getValidHour(String(getHours(_date))), [_date]);
+  const hour = useMemo(
+    () => getValidHour(String(getHours(currentDate))),
+    [currentDate]
+  );
   const minute = useMemo(
-    () => getValidMinuteOrSecond(String(getMinutes(_date))),
-    [_date]
+    () => getValidMinuteOrSecond(String(getMinutes(currentDate))),
+    [currentDate]
   );
   const second = useMemo(
-    () => getValidMinuteOrSecond(String(getSeconds(_date))),
-    [_date]
+    () => getValidMinuteOrSecond(String(getSeconds(currentDate))),
+    [currentDate]
   );
 
   const setTime = (value: string, type: PickerType) => {
@@ -46,23 +50,25 @@ export const useTimePicker = ({
 
     switch (type) {
       case 'hours':
-        newDate = setHours(_date, numericValue);
+        newDate = setHours(currentDate, numericValue);
         break;
       case 'minutes':
-        newDate = setMinutes(_date, numericValue);
+        newDate = setMinutes(currentDate, numericValue);
         break;
       case 'seconds':
-        newDate = setSeconds(_date, numericValue);
+        newDate = setSeconds(currentDate, numericValue);
         break;
+      default:
+        return;
     }
     setDate(newDate);
   };
 
   const stepTime = (step: number, type: PickerType) => {
     const currentVal = {
-      hours: getHours(_date),
-      minutes: getMinutes(_date),
-      seconds: getSeconds(_date),
+      hours: getHours(currentDate),
+      minutes: getMinutes(currentDate),
+      seconds: getSeconds(currentDate),
     };
 
     const newNumericValue = currentVal[type] + step;

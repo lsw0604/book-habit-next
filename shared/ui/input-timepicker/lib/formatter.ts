@@ -3,7 +3,7 @@ import { isValidHour, isValidMinuteOrSecond } from './validator';
 function getValidNumber(value: string, max: number): string {
   let numericValue: number = parseInt(value, 10);
 
-  if (!isNaN(numericValue)) {
+  if (!Number.isNaN(numericValue)) {
     if (numericValue > max) numericValue = 0;
     if (numericValue < 0) numericValue = max;
 
