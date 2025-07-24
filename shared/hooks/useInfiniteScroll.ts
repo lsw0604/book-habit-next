@@ -83,9 +83,7 @@ export const useInfiniteScroll = (
 
   useEffect(() => {
     if (isIntersecting && hasNextPage) {
-      // setTimeout을 사용하여 다음 tick에서 실행
-      const timer = setTimeout(handleFetch, 0);
-      return () => clearTimeout(timer);
+      handleFetch();
     }
   }, [isIntersecting, hasNextPage, handleFetch]);
 
