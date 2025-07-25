@@ -1,15 +1,17 @@
 'use client';
 
-import type { BookSearchControllerProps } from '../model/types';
 import React from 'react';
 import { Controller } from 'react-hook-form';
+
+import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import { Slider } from '@/shared/ui/slider';
-import { ErrorMessage } from '@/shared/ui/error-message';
 
-const BookSearchSizeController: React.FC<BookSearchControllerProps> = ({
+import type { BookSearchControllerProps } from '../model/types';
+
+export default function BookSearchSizeController({
   control,
-}: BookSearchControllerProps) => {
+}: BookSearchControllerProps) {
   return (
     <Controller
       name="size"
@@ -35,6 +37,4 @@ const BookSearchSizeController: React.FC<BookSearchControllerProps> = ({
       )}
     />
   );
-};
-
-export default BookSearchSizeController;
+}

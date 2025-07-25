@@ -1,14 +1,16 @@
 'use client';
 
-import type { BookSearchControllerProps } from '../model/types';
 import React from 'react';
 import { Controller } from 'react-hook-form';
+
 import { ErrorMessage } from '@/shared/ui/error-message';
 import { Input } from '@/shared/ui/input';
 
-const BookSearchInputController: React.FC<BookSearchControllerProps> = ({
+import type { BookSearchControllerProps } from '../model/types';
+
+export default function BookSearchQueryController({
   control,
-}) => {
+}: BookSearchControllerProps) {
   return (
     <Controller
       name="query"
@@ -28,6 +30,4 @@ const BookSearchInputController: React.FC<BookSearchControllerProps> = ({
       )}
     />
   );
-};
-
-export default BookSearchInputController;
+}

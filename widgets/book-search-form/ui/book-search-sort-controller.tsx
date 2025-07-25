@@ -1,15 +1,17 @@
 'use client';
 
-import type { BookSearchControllerProps } from '../model/types';
 import React from 'react';
 import { Controller } from 'react-hook-form';
+
+import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
-import { ErrorMessage } from '@/shared/ui/error-message';
 
-const BookSearchSortController: React.FC<BookSearchControllerProps> = ({
+import type { BookSearchControllerProps } from '../model/types';
+
+export default function BookSearchSortController({
   control,
-}: BookSearchControllerProps) => {
+}: BookSearchControllerProps) {
   return (
     <Controller
       name="sort"
@@ -38,6 +40,4 @@ const BookSearchSortController: React.FC<BookSearchControllerProps> = ({
       )}
     />
   );
-};
-
-export default BookSearchSortController;
+}

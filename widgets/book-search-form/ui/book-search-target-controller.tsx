@@ -1,13 +1,14 @@
-import type { BookSearchControllerProps } from '../model/types';
-import React from 'react';
 import { Controller } from 'react-hook-form';
+
+import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import Select from '@/shared/ui/select';
-import { ErrorMessage } from '@/shared/ui/error-message';
 
-const BookSearchTargetController: React.FC<BookSearchControllerProps> = ({
+import type { BookSearchControllerProps } from '../model/types';
+
+export default function BookSearchTargetController({
   control,
-}: BookSearchControllerProps) => {
+}: BookSearchControllerProps) {
   return (
     <Controller
       name="target"
@@ -38,6 +39,4 @@ const BookSearchTargetController: React.FC<BookSearchControllerProps> = ({
       )}
     />
   );
-};
-
-export default BookSearchTargetController;
+}

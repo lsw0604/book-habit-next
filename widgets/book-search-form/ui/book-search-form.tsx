@@ -1,22 +1,21 @@
 'use client';
 
-import type { BookSearchFormProps } from '../model/types';
 import {
   useBookSearchFormHandler,
   useBookSearchFormSubmit,
 } from '@/features/book-search/hooks';
-import { cn } from '@/shared/utils/class-name';
+
 import BookSearchInputController from './book-search-input-controller';
 import BookSearchPopover from './book-search-popover';
 
-const BookSearchForm: React.FC<BookSearchFormProps> = ({ className }) => {
+export default function BookSearchForm() {
   const { handleSubmit, control, formState, setIsRouting } =
     useBookSearchFormHandler();
   const { onSubmit } = useBookSearchFormSubmit(setIsRouting);
 
   return (
     <form
-      className={cn('w-full px-4 relative min-w-[240px]', className)}
+      className="w-full px-4 relative min-w-[240px]"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="w-full h-auto shadow-lg flex gap-2 relative p-2 rounded-lg">
@@ -25,6 +24,4 @@ const BookSearchForm: React.FC<BookSearchFormProps> = ({ className }) => {
       </div>
     </form>
   );
-};
-
-export default BookSearchForm;
+}
