@@ -1,5 +1,6 @@
-import { Sort, Target } from '@/entities/book/model';
 import { z } from 'zod';
+
+import { Sort, Target } from '@/entities/book/model';
 
 export const bookSearchParamsSchema = z.object({
   query: z.string().min(1, {

@@ -1,5 +1,6 @@
 import { Control } from 'react-hook-form';
-import { BookSearchParamsType } from '../model/schema';
+
+import { BookSearchParamsType } from './schema';
 
 export interface BookSearchControllerProps {
   control: Control<BookSearchParamsType>;

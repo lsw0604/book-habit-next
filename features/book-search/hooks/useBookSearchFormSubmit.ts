@@ -1,6 +1,7 @@
-import type { BookSearchParamsType } from '@/features/book-search/model/schema';
-import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
+
+import type { BookSearchParamsType } from '@/features/book-search/model/schema';
 
 export function useBookSearchFormSubmit(setIsRouting: (v: boolean) => void) {
   const router = useRouter();

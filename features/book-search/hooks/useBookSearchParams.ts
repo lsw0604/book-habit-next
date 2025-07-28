@@ -1,12 +1,15 @@
 import { useSearchParams } from 'next/navigation';
-import { DEFAULT_BOOK_SEARCH_PARAMS } from '@/features/book-search/model/schema';
+
 import {
   BOOK_SEARCH_MIN_SIZE,
   BOOK_SEARCH_MAX_SIZE,
   BOOK_SEARCH_SORT_VALUES,
   BOOK_SEARCH_TARGET_VALUES,
 } from '@/features/book-search/constant';
-import { BookSearchParamsType } from '@/features/book-search/model/schema';
+import {
+  DEFAULT_BOOK_SEARCH_PARAMS,
+  BookSearchParamsType,
+} from '@/features/book-search/model/schema';
 import { parseParam } from '@/shared/utils/parse-param';
 
 export const useBookSearchParams = () => {
@@ -14,31 +17,24 @@ export const useBookSearchParams = () => {
 
   const sizeParser = (size: string): number => {
     const num: number = parseInt(size, 10);
-    if (isNaN(num)) return DEFAULT_BOOK_SEARCH_PARAMS.size;
+    if (Number.isNaN(num)) return DEFAULT_BOOK_SEARCH_PARAMS.size;
     return num >= BOOK_SEARCH_MIN_SIZE && num <= BOOK_SEARCH_MAX_SIZE
       ? num
       : DEFAULT_BOOK_SEARCH_PARAMS.size;
   };
 
-  const queryParser = (query: string): string => {
-    return query || DEFAULT_BOOK_SEARCH_PARAMS.query;
-  };
+  const queryParser = (query: string): string =>
+    query || DEFAULT_BOOK_SEARCH_PARAMS.query;
 
-  const sortParser = (sort: string): BookSearchParamsType['sort'] => {
-    return BOOK_SEARCH_SORT_VALUES.includes(
-      sort as BookSearchParamsType['sort']
-    )
+  const sortParser = (sort: string): BookSearchParamsType['sort'] =>
+    BOOK_SEARCH_SORT_VALUES.includes(sort as BookSearchParamsType['sort'])
       ? (sort as BookSearchParamsType['sort'])
       : DEFAULT_BOOK_SEARCH_PARAMS.sort;
-  };
 
-  const targetParser = (target: string): BookSearchParamsType['target'] => {
-    return BOOK_SEARCH_TARGET_VALUES.includes(
-      target as BookSearchParamsType['target']
-    )
+  const targetParser = (target: string): BookSearchParamsType['target'] =>
+    BOOK_SEARCH_TARGET_VALUES.includes(target as BookSearchParamsType['target'])
       ? (target as BookSearchParamsType['target'])
       : DEFAULT_BOOK_SEARCH_PARAMS.target;
-  };
 
   return {
     query: parseParam(
