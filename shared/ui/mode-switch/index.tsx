@@ -19,7 +19,7 @@ const modeSwitchButtonVariants = cva(
   }
 );
 
-export default function ModeSwitch<T extends string>({
+export function ModeSwitch<T extends string>({
   options,
   value,
   onValueChange,
