@@ -11,7 +11,7 @@ import { Button } from '@/shared/ui/button';
 import { formatTimer } from '../lib/formatter';
 import { TimerProps } from '../model/type';
 
-export default function Timer({
+export function Timer({
   elapsedSeconds,
   handlePause,
   handleStop,
@@ -21,7 +21,7 @@ export default function Timer({
   status,
 }: TimerProps) {
   return (
-    <div className="flex flex-col items-center gap-1">
+    <div className="flex flex-col items-center gap-1 w-full">
       <div className="text-5xl font-mono font-bold tracking-wider bg-gray-50 w-full text-center py-8 rounded-md">
         {formatTimer(elapsedSeconds)}
       </div>
