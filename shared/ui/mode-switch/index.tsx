@@ -4,21 +4,19 @@ import { cn } from '@/shared/utils/class-name';
 
 import { ModeSwitchProps } from './types';
 
-const modeSwitchVariants = cva(
-  'flex mb-6 bg-gray-100 rounded-lg p-1',
+const modeSwitchButtonVariants = cva(
+  'flex flex-1 flex-col min-w-0 items-center justify-center gap-1 py-2 px-1 text-sm font-medium transition-all rounded-md',
   {
     variants: {
-      variant: {
-        default:
-          'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all',
-        on: 'bg-white text-blue-600 shadow-sm',
-        off: 'text-gray-600 hover:text-gray-900',
+      active: {
+        true: 'bg-white text-blue-600 shadow-sm',
+        false: 'text-gray-600 hover:text-gray-900',
       },
     },
     defaultVariants: {
-      variant: 'default',
+      active: false,
     },
-  },
+  }
 );
 
 export default function ModeSwitch<T extends string>({
@@ -28,21 +26,18 @@ export default function ModeSwitch<T extends string>({
   className,
 }: ModeSwitchProps<T>) {
   return (
-    <div className={cn(modeSwitchVariants({}), className)}>
-      {options.map((option) => (
+    <div className={cn('flex bg-gray-100 rounded-lg p-1 w-full', className)}>
+      {options.map(option => (
         <button
           key={option.value}
           type="button"
           onClick={() => onValueChange(option.value)}
           className={cn(
-            modeSwitchVariants({ variant: 'default' }),
-            value === option.value
-              ? modeSwitchVariants({ variant: 'on' })
-              : modeSwitchVariants({ variant: 'off' }),
+            modeSwitchButtonVariants({ active: value === option.value })
           )}
         >
-          <option.icon className="w-4 h-4 inline mr-2" />
-          {option.label}
+          <option.icon className="w-4 h-4" />
+          <span className="w-full truncate">{option.label}</span>
         </button>
       ))}
     </div>
