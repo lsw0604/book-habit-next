@@ -1,16 +1,21 @@
 'use client';
 
-import type { InputProps } from './types';
-import { forwardRef } from 'react';
 import { AlertCircle } from 'lucide-react';
+import { forwardRef } from 'react';
+
 import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import { cn } from '@/shared/utils/class-name';
+
 import {
   inputContainerVariants,
   inputIconVariants,
   inputVariants,
 } from '../style';
+
+import type { InputProps } from './types';
+
+type StateType = 'default' | 'error' | 'disabled';
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -27,7 +32,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    const state = disabled ? 'disabled' : error ? 'error' : 'default';
+    let state: StateType = 'default';
+
+    if (disabled) {
+      state = 'disabled';
+    } else if (error) {
+      state = 'error';
+    }
+
     const Icon = icon;
 
     return (
@@ -54,7 +66,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
           <input
             id={id}
-            className={inputVariants({ state, hasIcon: !!icon })}
+            className={cn(inputVariants({ state, hasIcon: !!icon }), className)}
             ref={ref}
             disabled={disabled}
             {...props}
