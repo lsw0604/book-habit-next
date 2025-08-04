@@ -1,12 +1,20 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
+import {
+  KeyboardEvent,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { createPortal } from 'react-dom';
 
-import ModalManager from '@/widgets/modal/ui/modal-manager';
-import { useAppDispatch, useAppSelector } from '@/shared/redux/store';
 import { closeModal, modalSelector } from '@/entities/modal/model/store';
+import { useAppDispatch, useAppSelector } from '@/shared/redux/store';
+import ModalManager from '@/widgets/modal/ui/modal-manager';
+
 import { MODAL_VARIANT } from './constant';
 
 export default function ModalPortal() {
@@ -16,9 +24,23 @@ export default function ModalPortal() {
   const dispatch = useAppDispatch();
   const { isOpen } = useAppSelector(modalSelector);
 
-  const modalClose = useCallback(() => {
-    dispatch(closeModal());
-  }, [dispatch]);
+  const onClickHandle = useCallback(
+    (e: MouseEvent) => {
+      e.preventDefault();
+      dispatch(closeModal());
+    },
+    [dispatch]
+  );
+
+  const keydownHandle = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        dispatch(closeModal());
+      }
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     setMounted(true);
@@ -33,7 +55,11 @@ export default function ModalPortal() {
       <div className="w-full h-full flex justify-center items-center fixed top-0 left-0 z-9998">
         <div
           className="absolute w-full h-full bg-black opacity-60"
-          onClick={modalClose}
+          role="button"
+          aria-label="Close modal"
+          tabIndex={0}
+          onClick={onClickHandle}
+          onKeyDown={keydownHandle}
         />
         <motion.div
           {...MODAL_VARIANT}
