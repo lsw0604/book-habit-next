@@ -12,4 +12,5 @@ export interface AddMyBookHistoryRegisterProps {
 
 export interface AddMyBookHistorySetValueProps {
   setValue: UseFormSetValue<AddMyBookHistoryType>;
+  date: Date;
 }

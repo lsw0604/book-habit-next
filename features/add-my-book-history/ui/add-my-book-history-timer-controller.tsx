@@ -7,13 +7,14 @@ import { AddMyBookHistorySetValueProps } from '../model/types';
 
 export default function AddMyBookHistoryTimerController({
   setValue,
+  date,
 }: AddMyBookHistorySetValueProps) {
   const hooks = useTimer({
     onStart() {
-      setValue('startTime', new Date());
+      setValue('startTime', date);
     },
     onStop(elapsedSeconds) {
-      setValue('endTime', new Date());
+      setValue('endTime', date);
       setValue('readingMinutes', Math.floor(elapsedSeconds / 60));
     },
     onReset() {
