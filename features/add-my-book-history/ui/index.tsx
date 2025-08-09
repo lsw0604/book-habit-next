@@ -17,7 +17,7 @@ import AddMyBookHistoryMoodController from './add-my-book-history-mood-controlle
 import AddMyBookHistoryPageController from './add-my-book-history-page-controller';
 import AddMyBookHistoryTimeStep from './add-my-book-history-time-step';
 
-const LAST_STEP = 3;
+const LAST_STEP = 4;
 const FIRST_STEP = 1;
 
 export default function RegisterMyBookHistoryModal() {
@@ -120,29 +120,62 @@ export default function RegisterMyBookHistoryModal() {
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* Step Content */}
-      <div className="min-h-[200px]">{renderCurrentStep()}</div>
+  const progress = (currentStep / LAST_STEP) * 100;
 
-      {/* Navigation */}
-      <div className="flex w-full items-center justify-between gap-2">
-        {currentStep > FIRST_STEP && (
-          <Button type="button" variant="outline" onClick={handlePrevStep}>
-            이전
-          </Button>
-        )}
-        <div className="flex-grow" /> {/* Spacer */}
-        {currentStep < LAST_STEP ? (
-          <Button type="button" onClick={handleNextStep} className="w-auto">
-            다음
-          </Button>
-        ) : (
-          <Button type="submit" disabled={isSubmitting} className="w-auto">
-            {isSubmitting ? '등록 중...' : '등록하기'}
-          </Button>
-        )}
+  return (
+    <div className="flex flex-col p-6 bg-white rounded-lg shadow-xl w-full max-w-md mx-auto">
+      <div className="mb-4">
+        <div className="text-center text-xl font-semibold text-gray-800 mb-2">
+          {
+            [
+              '독서 시간 기록',
+              '독서 감정 선택',
+              '페이지 기록',
+              '메모 작성',
+            ][currentStep - 1]
+          }
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-2.5">
+          <div
+            className="bg-blue-600 h-2.5 rounded-full"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
-    </form>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-grow">
+        <div className="flex-grow min-h-[250px]">{renderCurrentStep()}</div>
+        <div className="flex w-full items-center justify-between gap-4 mt-6">
+          {currentStep > FIRST_STEP && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handlePrevStep}
+              className="w-1/2"
+            >
+              이전
+            </Button>
+          )}
+          <div className="flex-grow" />
+          {currentStep < LAST_STEP ? (
+            <Button
+              type="button"
+              onClick={handleNextStep}
+              className="w-1/2"
+            >
+              다음
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              isLoading={isSubmitting}
+              className="w-1/2"
+            >
+              {isSubmitting ? '등록 중...' : '등록하기'}
+            </Button>
+          )}
+        </div>
+      </form>
+    </div>
   );
 }

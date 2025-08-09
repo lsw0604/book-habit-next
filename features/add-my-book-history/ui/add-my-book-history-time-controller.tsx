@@ -39,8 +39,8 @@ export default function AddMyBookHistoryTimeController({
   };
 
   return (
-    <div className="w-full h-auto my-2 p-4 rounded-lg border-none shadow-lg flex items-center justify-center hover:shadow-2xl bg-white/50 backdrop-blur-sm transition-shadow duration-200">
-      <div className="flex flex-col gap-4 w-full h-36">
+    <div className="w-full h-auto my-2 p-6 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+      <div className="flex flex-col gap-6">
         <Controller
           control={control}
           name="startTime"

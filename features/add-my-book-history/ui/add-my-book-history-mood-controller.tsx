@@ -14,14 +14,16 @@ export default function AddMyBookHistoryMoodController({
       name="readingMood"
       control={control}
       render={({ field: { value, onChange }, formState: { errors } }) => (
-        <div className="w-full h-auto my-2 p-4 rounded-lg border-none shadow-lg flex items-center justify-center hover:shadow-2xl bg-white/50 backdrop-blur-sm transition-shadow duration-200">
-          <div className="relative w-full mb-2">
-            <Label className="mb-2 ml-2 text-sm font-bold">
-              당시 감정을 선택해주세요.
+        <div className="w-full h-auto my-2 p-6 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+          <div className="relative w-full">
+            <Label className="text-lg font-semibold text-gray-800 mb-4 block text-center">
+              어떤 감정으로 책을 읽으셨나요?
             </Label>
             <MoodSelector value={value} onChange={onChange} />
-            {!!errors.readingMinutes?.message && (
-              <ErrorMessage>{errors.readingMinutes.message}</ErrorMessage>
+            {!!errors.readingMood?.message && (
+              <ErrorMessage className="mt-2 text-center">
+                {errors.readingMood.message}
+              </ErrorMessage>
             )}
           </div>
         </div>

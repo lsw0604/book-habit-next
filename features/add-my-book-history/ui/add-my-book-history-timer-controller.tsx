@@ -26,7 +26,7 @@ export default function AddMyBookHistoryTimerController({
   });
 
   return (
-    <div className="w-full h-auto my-2 p-4 rounded-lg border-none shadow-lg flex items-center justify-center hover:shadow-2xl bg-white/50 backdrop-blur-sm transition-shadow duration-200">
+    <div className="w-full h-auto my-2 p-6 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex items-center justify-center">
       <Timer {...hooks} />
     </div>
   );

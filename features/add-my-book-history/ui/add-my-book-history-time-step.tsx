@@ -17,7 +17,7 @@ import AddMyBookHistoryTimerController from './add-my-book-history-timer-control
 type Mode = 'timer' | 'manual';
 
 const modeOptions: ModeOption<Mode>[] = [
-  { value: 'timer', label: '타이머 모드', icon: Clock },
+  { value: 'timer', label: '타이머', icon: Clock },
   { value: 'manual', label: '직접 입력', icon: Edit3 },
 ];
 
@@ -37,18 +37,20 @@ export default function AddMyBookHistoryTimeStep({
   const [mode, setMode] = useState<Mode>('timer');
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 items-center">
       <ModeSwitch options={modeOptions} value={mode} onValueChange={setMode} />
-      {mode === 'timer' && (
-        <AddMyBookHistoryTimerController date={date} setValue={setValue} />
-      )}
-      {mode === 'manual' && (
-        <AddMyBookHistoryTimeController
-          getValues={getValues}
-          setValue={setValue}
-          control={control}
-        />
-      )}
+      <div className="w-full mt-4">
+        {mode === 'timer' && (
+          <AddMyBookHistoryTimerController date={date} setValue={setValue} />
+        )}
+        {mode === 'manual' && (
+          <AddMyBookHistoryTimeController
+            getValues={getValues}
+            setValue={setValue}
+            control={control}
+          />
+        )}
+      </div>
     </div>
   );
 }

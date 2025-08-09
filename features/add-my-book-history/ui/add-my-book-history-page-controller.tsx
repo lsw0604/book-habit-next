@@ -6,21 +6,24 @@ export default function AddMyBookHistoryPageController({
   register,
 }: AddMyBookHistoryRegisterProps) {
   return (
-    <div className="w-full h-auto my-2 p-4 rounded-lg border-none shadow-lg flex items-center justify-center hover:shadow-2xl bg-white/50 backdrop-blur-sm transition-shadow duration-200">
-      <div className="flex flex-col gap-4 w-full h-36">
+    <div className="w-full h-auto my-2 p-6 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+      <div className="flex flex-col gap-6">
         <Input
           label="독서 시작 페이지"
-          id="startPage" // Label과 연결하기 위한 id 추가
-          type="number" // 페이지는 숫자로 입력하도록 type 변경
-          inputMode="tel"
+          id="startPage"
+          type="number"
+          inputMode="numeric"
           min={1}
           {...register('startPage', { valueAsNumber: true })}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
         />
         <Input
           label="독서 종료 페이지"
-          id="endPage" // Label과 연결하기 위한 id 추가
-          type="number" // 페이지는 숫자로 입력하도록 type 변경
+          id="endPage"
+          type="number"
+          inputMode="numeric"
           {...register('endPage', { valueAsNumber: true })}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
         />
       </div>
     </div>
