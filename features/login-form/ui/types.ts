@@ -1,5 +1,8 @@
-import { LoginType } from '@/entities/auth/model';
-import { Control } from 'react-hook-form';
+import { type AxiosError } from 'axios';
+import { type Control } from 'react-hook-form';
+
+import { type LoginType } from '@/entities/auth/model';
+import { type ErrorResponseDTO } from '@/shared/api/types/error';
 
 export interface LoginControllerProps {
   control: Control<LoginType>;
@@ -7,5 +10,5 @@ export interface LoginControllerProps {
 
 export interface LoginFormErrorProps {
   isError: boolean;
-  error: any;
+  error: AxiosError<ErrorResponseDTO> | null;
 }

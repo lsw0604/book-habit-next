@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import { useKakaoRouter } from '@/features/login-form/hooks';
 import { Button } from '@/shared/ui/button';
 import { Separator } from '@/shared/ui/separator';
@@ -24,14 +25,14 @@ export default function LoginButtons({ isLoading }: { isLoading: boolean }) {
       <Separator className="my-4" />
       <Button
         type="submit"
-        role="primary"
+        role="button"
         isLoading={isLoading}
         disabled={isLoading}
       >
         로그인하기
       </Button>
       <Button
-        role="secondary"
+        role="button"
         onClick={pushToKakaoLogin}
         type="button"
         isLoading={isLoading}

@@ -1,7 +1,9 @@
 import { MailIcon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
-import { LoginControllerProps } from './types';
+
 import { Input } from '@/shared/ui/input';
+
+import { LoginControllerProps } from './types';
 
 export default function LoginEmailController({
   control,
