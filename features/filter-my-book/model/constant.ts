@@ -1,5 +1,5 @@
-import { FilterMyBookOrder, FilterMyBookStatus } from '../model';
-import { FilterBookOrderOption, FilterBookStatusOption } from './model';
+import { FilterMyBookOrder, FilterMyBookStatus } from './filter-my-book.model';
+import { FilterBookOrderOption, FilterBookStatusOption } from './types';
 
 export const FILTER_BOOK_STATUS_OPTIONS: readonly FilterBookStatusOption[] = [
   { value: FilterMyBookStatus.ALL, label: '전체보기' },
