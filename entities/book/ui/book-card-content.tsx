@@ -1,5 +1,6 @@
-import type { BookCardContentProps } from './types';
 import { cn } from '@/shared/utils/class-name';
+
+import type { BookCardContentProps } from './types';
 
 export default function BookCardContent({
   className,

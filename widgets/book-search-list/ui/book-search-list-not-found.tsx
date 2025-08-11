@@ -1,7 +1,14 @@
-import type { BookSearchListNotFoundProps } from '../../book-search-form/model/types';
 import { InfoIcon } from 'lucide-react';
-import { Button } from '@/shared/ui/button';
+
 import { ErrorMessage } from '@/shared/common/error-message';
+import { Button } from '@/shared/ui/button';
+
+interface BookSearchListNotFoundProps {
+  query?: string;
+  isError?: boolean;
+  errorMessage?: string;
+  refetch?: () => void;
+}
 
 export default function BookSearchListNotFound({
   errorMessage,
@@ -15,27 +22,25 @@ export default function BookSearchListNotFound({
         {!query ? (
           <span className="flex">찾고싶은 내용을 검색해주세요.</span>
         ) : (
-          <>
-            <h1 className="px-10 pb-10">
-              <div className="w-full flex justify-center mb-2">
-                <InfoIcon className="w-12 h-12" />
-              </div>
-              <span className="text-slate-600 font-bold text-lg mr-2">
-                {query}
-              </span>
-              에 대한 검색결과가 없습니다.
-              {isError && (
-                <ErrorMessage className="text-center">
-                  {errorMessage}
-                </ErrorMessage>
-              )}
-              {isError && (
-                <Button onClick={refetch} variant={'ghost'}>
-                  재시도
-                </Button>
-              )}
-            </h1>
-          </>
+          <h1 className="px-10 pb-10">
+            <div className="w-full flex justify-center mb-2">
+              <InfoIcon className="w-12 h-12" />
+            </div>
+            <span className="text-slate-600 font-bold text-lg mr-2">
+              {query}
+            </span>
+            에 대한 검색결과가 없습니다.
+            {isError && (
+              <ErrorMessage className="text-center">
+                {errorMessage}
+              </ErrorMessage>
+            )}
+            {isError && (
+              <Button onClick={refetch} variant="ghost">
+                재시도
+              </Button>
+            )}
+          </h1>
         )}
       </div>
     </div>

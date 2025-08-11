@@ -1,20 +1,26 @@
-import BookSearchItemLoader from './book-search-item-loader';
 import { cn } from '@/shared/utils/class-name';
 
-export default function BookSearchListLoader() {
+import BookSearchItemLoader from './book-search-item-loader';
+import { BOOK_SEARCH_LIST_GRID_STYLE } from '@/shared/style/list-style';
+
+interface BookSearchListLoaderProps {
+  count?: number;
+}
+
+export default function BookSearchListLoader({
+  count = 20,
+}: BookSearchListLoaderProps) {
   return (
     <div className="w-full h-full flex flex-col overflow-scroll px-4 scrollbar-none">
       <ul
         className={cn(
-          'w-full pb-4 flex flex-col gap-4 overflew-scroll scroll-none',
-          'md:grid md:grid-cols-2 md:gap-4',
-          'lg:grid lg:grid-cols-3 lg:gap-4',
-          'xl:grid xl:grid-cols-4 xl:gap-4',
-          '2xl:grid 2xl:grid-cols-5 2xl:gap-2'
+          'w-full pb-4 flex flex-col gap-4 overflow-scroll scroll-none',
+          BOOK_SEARCH_LIST_GRID_STYLE,
         )}
       >
-        {Array.from({ length: 20 }).map((_, index) => (
-          <BookSearchItemLoader key={index} />
+        {Array.from({ length: count }).map((_, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <BookSearchItemLoader key={`search-book-item-loader-${index}`} />
         ))}
       </ul>
     </div>

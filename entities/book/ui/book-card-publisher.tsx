@@ -1,6 +1,8 @@
-import type { BookCardPublisherProps } from './types';
-import { formattedDatetime } from '../lib';
 import { cn } from '@/shared/utils/class-name';
+
+import { formattedDatetime } from '../lib';
+
+import type { BookCardPublisherProps } from './types';
 
 export default function BookCardPublisher({
   className,

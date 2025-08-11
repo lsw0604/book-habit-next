@@ -1,6 +1,8 @@
-import type { BookCardPriceProps } from './types';
-import { formattedPrice, calculateDiscountRate } from '../lib';
 import { cn } from '@/shared/utils/class-name';
+
+import { formattedPrice, calculateDiscountRate } from '../lib';
+
+import type { BookCardPriceProps } from './types';
 
 export default function BookCardPrice({
   price,

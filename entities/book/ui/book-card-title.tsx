@@ -1,4 +1,5 @@
 import { cn } from '@/shared/utils/class-name';
+
 import { BookCardTitleProps } from './types';
 
 const BOOK_CARD_TITLE_STYLE = {

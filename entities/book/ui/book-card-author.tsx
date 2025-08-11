@@ -1,6 +1,8 @@
-import type { BookCardAuthorProps } from './types';
 import { cn } from '@/shared/utils/class-name';
+
 import { formattedAuthor, formattedTranslator } from '../lib';
+
+import type { BookCardAuthorProps } from './types';
 
 const BOOK_CARD_AUTHOR_STYLE = {
   base: 'line-clamp-2 overflow-hidden whitespace-normal break-all text-xs text-gray-800 my-1',

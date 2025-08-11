@@ -2,12 +2,14 @@
 
 import { useBookQuery } from '@/entities/book/hooks/useBook';
 import { useBookSearchParams } from '@/features/book-search/hooks';
-import BookSearchListLoader from './book-search-list-loader';
-import BookSearchListNotFound from './book-search-list-not-found';
-import BookSearchItem from './book-search-item';
 import Loader from '@/shared/common/loader';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
+import { BOOK_SEARCH_LIST_GRID_STYLE } from '@/shared/style/list-style';
 import { cn } from '@/shared/utils/class-name';
+
+import BookSearchItem from './book-search-item';
+import BookSearchListLoader from './book-search-list-loader';
+import BookSearchListNotFound from './book-search-list-not-found';
 
 export default function BookSearchList() {
   const { query, size, sort, target } = useBookSearchParams();
@@ -25,7 +27,7 @@ export default function BookSearchList() {
     threshold: 0.3,
   });
 
-  if (isLoading) return <BookSearchListLoader />;
+  if (isLoading) return <BookSearchListLoader count={size} />;
   if (!data || !query || data.length === 0 || isError)
     return (
       <BookSearchListNotFound
@@ -41,10 +43,7 @@ export default function BookSearchList() {
       <ul
         className={cn(
           'w-full px-4 flex flex-col gap-4 mb-2', // 기본 모바일 레이아웃
-          'md:grid md:grid-cols-2 md:gap-4', // 작은 화면에서 2열로 변경
-          'lg:grid lg:grid-cols-3 lg:gap-4', // 중간 화면에서 3열로 변경
-          'xl:grid xl:grid-cols-4 xl:gap-4', // 큰 화면에서 4열로 변경
-          '2xl:grid 2xl:grid-cols-5 2xl:gap-2' // 큰 화면에서 5열로 변경
+          BOOK_SEARCH_LIST_GRID_STYLE
         )}
       >
         {data.map(item => (
@@ -52,7 +51,12 @@ export default function BookSearchList() {
         ))}
       </ul>
       <div className="w-full flex justify-center p-4" ref={ref}>
-        {isFetching && <Loader size={2} className="border-gray-800" />}
+        {isFetching && (
+          <div role="status">
+            <span className="sr-only">추가 결과 로딩 중...</span>
+            <Loader size={2} className="border-gray-800" />
+          </div>
+        )}
       </div>
     </div>
   );

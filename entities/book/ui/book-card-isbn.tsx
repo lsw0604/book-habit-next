@@ -1,5 +1,6 @@
-import type { BookCardISBNProps } from './types';
 import { cn } from '@/shared/utils/class-name';
+
+import type { BookCardISBNProps } from './types';
 
 const BOOK_CARD_ISBN_STYLE = {
   base: 'flex overflow-hidden whitespace-normal break-all text-xxs text-gray-700',
