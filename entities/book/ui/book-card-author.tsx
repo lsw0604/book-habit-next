@@ -12,9 +12,10 @@ export default function BookCardAuthor({
   className,
   authors,
   translators,
+  ...props
 }: BookCardAuthorProps) {
   return (
-    <p className={cn(BOOK_CARD_AUTHOR_STYLE.base, className)}>
+    <p className={cn(BOOK_CARD_AUTHOR_STYLE.base, className)} {...props}>
       {formattedAuthor(authors)}
       {translators.length !== 0 && ' | '}
       {formattedTranslator(translators)}
