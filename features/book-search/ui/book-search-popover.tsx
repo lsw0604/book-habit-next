@@ -6,8 +6,8 @@ import { useWatch } from 'react-hook-form';
 import { Button } from '@/shared/ui/button';
 import { Popover } from '@/shared/ui/popover';
 
-import type { BookSearchControllerProps } from '../model/types';
-import { hasFormErrors } from '../utils';
+import { hasFormErrors } from '../lib/has-error';
+import type { BookSearchControllerProps } from '../model';
 
 import BookSearchSizeController from './book-search-size-controller';
 import BookSearchSortController from './book-search-sort-controller';

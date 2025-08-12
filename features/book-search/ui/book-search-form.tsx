@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  useBookSearchFormHandler,
-  useBookSearchFormSubmit,
-} from '@/features/book-search/hooks';
+import { useBookSearchFormHandler, useBookSearchFormSubmit } from '../hooks';
 
 import BookSearchInputController from './book-search-input-controller';
 import BookSearchPopover from './book-search-popover';
@@ -15,7 +12,7 @@ export default function BookSearchForm() {
 
   return (
     <form
-      className="w-full px-4 relative min-w-[240px]"
+      className="w-full relative min-w-[240px]"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="w-full h-auto shadow-lg flex gap-2 relative p-2 rounded-lg">

@@ -1,6 +1,6 @@
 import { FormState } from 'react-hook-form';
 
-import { BookSearchParamsType } from '@/features/book-search/model/schema';
+import { BookSearchParamsType } from '../model/schema';
 
 export const hasFormErrors = (
   formState: FormState<BookSearchParamsType>

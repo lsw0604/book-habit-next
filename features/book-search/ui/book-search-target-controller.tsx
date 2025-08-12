@@ -4,7 +4,7 @@ import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import Select from '@/shared/ui/select';
 
-import type { BookSearchControllerProps } from '../model/types';
+import type { BookSearchControllerProps } from '../model';
 
 export default function BookSearchTargetController({
   control,

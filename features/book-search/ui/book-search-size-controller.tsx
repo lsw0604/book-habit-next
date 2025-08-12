@@ -7,7 +7,7 @@ import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import { Slider } from '@/shared/ui/slider';
 
-import type { BookSearchControllerProps } from '../model/types';
+import type { BookSearchControllerProps } from '../model';
 
 export default function BookSearchSizeController({
   control,

@@ -1,8 +1,8 @@
-import { Control } from 'react-hook-form';
+import { Control, FormState } from 'react-hook-form';
 
 import { BookSearchParamsType } from './schema';
 
 export interface BookSearchControllerProps {
   control: Control<BookSearchParamsType>;
-  isSubmitted?: boolean;
+  formState?: FormState<BookSearchParamsType>;
 }
