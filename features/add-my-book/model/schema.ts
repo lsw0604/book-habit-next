@@ -5,7 +5,7 @@ export const addMyBookSchema = z.object({
   contents: z.string(), // 도서 소개
   url: z.string().url(), // 도서 상세 URL
   isbns: z.array(z.string()), // ISBN10 또는 ISBN13 형식의 국제 표준 도서번호
-  datetime: z.string().refine(val => !isNaN(Date.parse(val)), {
+  datetime: z.string().refine(val => !Number.isNaN(Date.parse(val)), {
     message: 'Invalid date format',
   }), // 도서 출판날짜, ISO 8601 형식
   authors: z.array(z.string()), // 도서 저자 리스트
