@@ -1,1 +1,2 @@
-export { default as BookSearchForm } from './book-search-form';
+export * from './book-search-form';
+export * from './book-search-list';

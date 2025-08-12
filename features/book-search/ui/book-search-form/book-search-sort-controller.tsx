@@ -7,7 +7,7 @@ import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
 
-import type { BookSearchControllerProps } from '../model';
+import type { BookSearchControllerProps } from '../../model/types';
 
 export default function BookSearchSortController({
   control,

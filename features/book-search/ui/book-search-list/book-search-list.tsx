@@ -1,11 +1,12 @@
 'use client';
 
 import { useBookQuery } from '@/entities/book/hooks/useBook';
-import { useBookSearchParams } from '@/features/book-search/hooks';
 import Loader from '@/shared/common/loader';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { BOOK_SEARCH_LIST_GRID_STYLE } from '@/shared/style/list-style';
 import { cn } from '@/shared/utils/class-name';
+
+import { useBookSearchParams } from '../../hooks';
 
 import BookSearchItem from './book-search-item';
 import BookSearchListLoader from './book-search-list-loader';

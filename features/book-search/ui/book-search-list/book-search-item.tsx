@@ -9,10 +9,11 @@ import {
   BookCardTitle,
 } from '@/entities/book';
 import { Book } from '@/entities/book/model';
-import { useBookSearchModal } from '@/features/book-search/hooks';
 import { useOnceVisible } from '@/shared/hooks/useInfiniteScroll';
 import { CARD_STYLES } from '@/shared/style/card-style';
 import { cn } from '@/shared/utils/class-name';
+
+import { useBookSearchModal } from '../../hooks';
 
 import BookSearchItemLoader from './book-search-item-loader';
 
@@ -57,4 +58,3 @@ function BookSearchItem({ item }: BookSearchItemProps) {
 }
 
 export default memo(BookSearchItem);
-

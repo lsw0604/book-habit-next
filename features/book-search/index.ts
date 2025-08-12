@@ -1,1 +1,1 @@
-export { BookSearchForm } from './ui';
+export { BookSearchForm, BookSearchList } from './ui';

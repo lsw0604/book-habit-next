@@ -6,7 +6,7 @@ import { Controller } from 'react-hook-form';
 import { ErrorMessage } from '@/shared/ui/error-message';
 import { Input } from '@/shared/ui/input';
 
-import type { BookSearchControllerProps } from '../model';
+import type { BookSearchControllerProps } from '../../model/types';
 
 export default function BookSearchQueryController({
   control,
