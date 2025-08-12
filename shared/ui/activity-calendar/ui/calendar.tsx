@@ -1,34 +1,38 @@
 'use client';
 
+import { useMemo } from 'react';
+
+import { cn } from '@/shared/utils/class-name';
+
 import {
   type CalendarContextValue,
   type CalendarProps,
   CalendarContext,
   useCalendar,
 } from '../model';
-import { useMemo } from 'react';
-import CalendarHeader from './calendar-header';
-import CalendarGrid from './calendar-grid';
-import { cn } from '@/shared/utils/class-name';
 
-const Calendar = <T,>({
+import CalendarGrid from './calendar-grid';
+import CalendarHeader from './calendar-header';
+
+function Calendar<T>({
   data,
   DayComponent,
   initialDate,
   className,
   onDateClick,
   selectedDate,
-}: CalendarProps<T>) => {
+}: CalendarProps<T>) {
   const { calendarState, navigateMonth, navigateToToday } = useCalendar({
     initialDate,
   });
 
-  const contextValue: CalendarContextValue = useMemo(() => {
-    return {
+  const contextValue: CalendarContextValue = useMemo(
+    () => ({
       selectedDate,
       onDateClick,
-    };
-  }, [selectedDate, onDateClick]);
+    }),
+    [selectedDate, onDateClick]
+  );
 
   return (
     <CalendarContext.Provider value={contextValue}>
@@ -53,6 +57,6 @@ const Calendar = <T,>({
       </div>
     </CalendarContext.Provider>
   );
-};
+}
 
 export default Calendar;

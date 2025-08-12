@@ -1,6 +1,5 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
 import {
   addDays,
   addMonths,
@@ -16,6 +15,7 @@ import {
   startOfMonth,
   subMonths,
 } from 'date-fns';
+import { useCallback, useMemo, useState } from 'react';
 
 interface CalendarState {
   readonly year: number;
@@ -27,15 +27,11 @@ interface CalendarState {
 
 interface UseCalendarOptions {
   initialDate?: string | Date;
-  locale?: string;
 }
 
 const YYYY_MM_DD_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
-export const useCalendar = ({
-  initialDate,
-  locale = 'ko',
-}: UseCalendarOptions = {}) => {
+export const useCalendar = ({ initialDate }: UseCalendarOptions = {}) => {
   const [currentDate, setCurrentDate] = useState(() => {
     let dateToInitialize: Date;
     if (initialDate) {

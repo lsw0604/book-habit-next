@@ -1,7 +1,9 @@
-import { type ComponentType, useContext } from 'react';
-import { type DayComponentProps, CalendarContext } from '../model';
 import { getDate, getDay, isSameDay } from 'date-fns';
+import { type ComponentType, useContext } from 'react';
+
 import { cn } from '@/shared/utils/class-name';
+
+import { type DayComponentProps, CalendarContext } from '../model';
 
 interface CalendarDayProps<T> {
   readonly date: Date;
@@ -10,12 +12,12 @@ interface CalendarDayProps<T> {
   readonly DayComponent?: ComponentType<DayComponentProps<T>>;
 }
 
-export const CalendarDay = <T,>({
+export function CalendarDay<T>({
   date,
   data,
   isToday,
   DayComponent,
-}: CalendarDayProps<T>) => {
+}: CalendarDayProps<T>) {
   const { onDateClick, selectedDate } = useContext(CalendarContext);
 
   const dayNumber = getDate(date);
@@ -26,18 +28,24 @@ export const CalendarDay = <T,>({
   const isSelectedDate = selectedDate ? isSameDay(selectedDate, date) : false;
 
   return (
-    <div
+    <button
+      type="button"
       className={cn(
-        'p-1 cursor-pointer aspect-square bg-gray-50 rounded-md m-0.5 border-2',
-        isToday && 'bg-gray-200 font-bold rounded-md',
+        'border-0 appearance-none bg-transparent p-0', // 브라우저 설정 초기화
+        'p-1 cursor-pointer aspect-square bg-gray-50 rounded-md m-0.5',
+        'flex flex-col justify-center',
+        'text-left font-bold',
+        isToday && 'bg-gray-200',
         isSaturday && 'text-blue-500',
         isSunday && 'text-rose-500',
-        isSelectedDate && 'border-2 border-solid border-black font-bold'
+        isSelectedDate && 'bg-primary text-primary-foreground'
       )}
       onClick={() => onDateClick?.(date)}
     >
       <div className="text-xs">{dayNumber}</div>
-      {DayComponent && <DayComponent date={date} data={data} />}
-    </div>
+      <div className="flex-grow min-h-6">
+        {DayComponent && <DayComponent date={date} data={data} />}
+      </div>
+    </button>
   );
-};
+}

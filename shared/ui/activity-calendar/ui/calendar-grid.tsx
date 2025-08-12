@@ -1,6 +1,8 @@
-import type { CalendarData, DayComponentProps } from '../model';
-import { type ComponentType, useMemo } from 'react';
 import { format } from 'date-fns';
+import { type ComponentType, useMemo } from 'react';
+
+import type { CalendarData, DayComponentProps } from '../model';
+
 import { CalendarDay } from './calendar-day';
 
 export interface CalendarGridProps<T> {
