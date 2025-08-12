@@ -18,7 +18,8 @@ export default function MyBookDetailLoader() {
                 <div className="w-full h-8 grid grid-cols-5">
                   {[...Array(5)].map((_, index) => (
                     <i
-                      key={index}
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={`star-skeleton-${index}`}
                       className="flex w-full justify-center items-center"
                     >
                       <IconStar className="w-8 h-8 fill-muted animate-pulse" />

@@ -1,9 +1,7 @@
 'use client';
 
 import { format } from 'date-fns';
-import MyBookDate from './my-book-date';
-import MyBookDetailLoader from './my-book-detail-loader';
-import { MyBookUpdateForm } from '@/features/update-my-book';
+
 import {
   BookCardAuthor,
   BookCardImage,
@@ -11,8 +9,12 @@ import {
   BookCardTitle,
 } from '@/entities/book';
 import { useMyBook } from '@/entities/my-book/hooks';
-import { createMarkUp } from '@/shared/utils/create-mark-up';
+import { MyBookUpdateForm } from '@/features/update-my-book';
 import { Separator } from '@/shared/ui/separator';
+import { createMarkUp } from '@/shared/utils/create-mark-up';
+
+import MyBookDate from './my-book-date';
+import MyBookDetailLoader from './my-book-detail-loader';
 
 export default function MyBookDetail({ myBookId }: { myBookId: number }) {
   const { data, isLoading } = useMyBook({ myBookId });
@@ -50,7 +52,8 @@ export default function MyBookDetail({ myBookId }: { myBookId: number }) {
             </p>
           ) : (
             <p
-              className="text-gray-800 fon-normal"
+              className="text-gray-800 font-normal"
+              // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={createMarkUp(contents)}
             />
           )}
