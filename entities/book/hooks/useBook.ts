@@ -1,24 +1,22 @@
-import type { ErrorResponseDTO } from '@/shared/api/types/error';
-import type { ResponseSearchDTO } from '../api/book.dto';
-import type { SearchPayload } from '../api/types';
-import type { AxiosError } from 'axios';
-import type { Book } from '../model';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { bookService } from '../api/service';
-import { toBookViewModel } from '../model/book.mapper';
+import type { AxiosError } from 'axios';
+
+import type { ErrorResponseDTO } from '@/shared/api/types/error';
 import { queryKeys } from '@/shared/query/keys';
+
+import type { ResponseSearchDTO } from '../api/book.dto';
+import { bookService } from '../api/service';
+import type { SearchPayload } from '../api/types';
+import type { Book } from '../model';
+import { toBookViewModel } from '../model/book.mapper';
 
 export const useBookQuery = ({
   query,
   size,
   sort,
   target,
-}: Omit<SearchPayload, 'page'>) => {
-  return useInfiniteQuery<
-    ResponseSearchDTO,
-    AxiosError<ErrorResponseDTO>,
-    Book[]
-  >({
+}: Omit<SearchPayload, 'page'>) =>
+  useInfiniteQuery<ResponseSearchDTO, AxiosError<ErrorResponseDTO>, Book[]>({
     queryKey: queryKeys.search.book({ query, size, sort, target }).queryKey,
     queryFn: ({ pageParam = 1 }) =>
       bookService.search({
@@ -37,4 +35,3 @@ export const useBookQuery = ({
     select: data =>
       data.pages.flatMap(page => page.documents.map(i => toBookViewModel(i))),
   });
-};

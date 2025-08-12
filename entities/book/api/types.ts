@@ -1,4 +1,5 @@
-import { Sort, Target } from '../model';
+import { Sort, Target } from '../model/book.model';
+
 import { ResponseSearchDTO } from './book.dto';
 
 export interface BookService {
