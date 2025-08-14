@@ -1,5 +1,5 @@
+import MyBookItemLoader from '@/entities/my-book/ui/my-book-item-loader';
 import { cn } from '@/shared/utils/class-name';
-import MyBookItemLoader from './my-book-item-loader';
 
 export default function MyBookListLoader() {
   return (
@@ -11,10 +11,11 @@ export default function MyBookListLoader() {
           'md:grid-cols-5 md:gap-2', // 중간 화면에서 5열로 변경
           'lg:grid-cols-6 lg:gap-2', // 큰 화면에서 6열로 변경
           'xl:grid-cols-7 xl:gap-2', // 큰 화면에서 7열로 변경
-          '2xl:grid-cols-10 2xl:gap-2' // 큰 화면에서 10열로 변경
+          '2xl:grid-cols-10 2xl:gap-2 2xl:max-w-screen-2xl 2xl:mx-auto' // 2xl 이상에서 최대 너비 제한
         )}
       >
         {Array.from({ length: 30 }).map((_, index) => (
+          // eslint-disable-next-line react/no-array-index-key
           <MyBookItemLoader key={index} />
         ))}
       </ul>
