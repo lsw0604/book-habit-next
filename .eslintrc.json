@@ -31,7 +31,13 @@
     // redux-toolkit 규칙 해결
     "no-param-reassign": [
       "error",
-      { "props": true, "ignorePropertyModificationsFor": ["state"] }
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": [
+          "state", // for ReduxToolkit
+          "config" // for Axios Instance
+        ]
+      }
     ],
     // Next.js에 특화된 규칙 오버라이드
     "react/react-in-jsx-scope": "off", // Next.js에서는 React import가 필요없음
