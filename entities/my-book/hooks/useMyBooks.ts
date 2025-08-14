@@ -1,8 +1,10 @@
-import { type GetMyBooksPayload, type MyBooksDTO, myBookService } from '../api';
-import { type ErrorResponseDTO } from '@/shared/api/types/error';
-import { AxiosError } from 'axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+
+import { type ErrorResponseDTO } from '@/shared/api/types/error';
 import { queryKeys } from '@/shared/query/keys';
+
+import { type GetMyBooksPayload, type MyBooksDTO, myBookService } from '../api';
 import { MyBooks, toMyBooksViewModel } from '../model';
 
 export const useMyBooks = (

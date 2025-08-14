@@ -1,12 +1,14 @@
+import { useQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
+
 import type { ErrorResponseDTO } from '@/shared/api/types/error';
+import { queryKeys } from '@/shared/query/keys';
+
 import {
   type GetMyBookPayload,
   type MyBookDetailDTO,
   myBookService,
 } from '../api';
-import { useQuery } from '@tanstack/react-query';
-import { queryKeys } from '@/shared/query/keys';
 import { MyBookDetail, toMyBookDetailViewModel } from '../model';
 
 export const useMyBook = (payload: GetMyBookPayload) => {
