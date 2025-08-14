@@ -1,7 +1,7 @@
 'use client';
 
 import { useMyBooks } from '@/entities/my-book/hooks';
-import MyBookItem from '@/entities/my-book/ui/my-book-item';
+import { MyBookItem } from '@/entities/my-book/ui';
 import { useMyBookFilterParams } from '@/features/filter-my-book/hooks';
 import Loader from '@/shared/common/loader';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';

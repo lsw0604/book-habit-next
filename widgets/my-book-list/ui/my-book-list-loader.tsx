@@ -1,4 +1,4 @@
-import MyBookItemLoader from '@/entities/my-book/ui/my-book-item-loader';
+import { MyBookItemLoader } from '@/entities/my-book/ui';
 import { cn } from '@/shared/utils/class-name';
 
 export default function MyBookListLoader() {
