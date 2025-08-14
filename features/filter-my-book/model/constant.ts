@@ -1,11 +1,11 @@
-import { FilterMyBookOrder, FilterMyBookStatus } from './filter-my-book.model';
+import { MY_BOOK_STATUS_OPTIONS } from '@/entities/my-book/model';
+
+import { FilterMyBookOrder } from './filter-my-book.model';
 import { FilterBookOrderOption, FilterBookStatusOption } from './types';
 
 export const FILTER_BOOK_STATUS_OPTIONS: readonly FilterBookStatusOption[] = [
-  { value: FilterMyBookStatus.ALL, label: '전체보기' },
-  { value: FilterMyBookStatus.WANT_TO_READ, label: '읽기전' },
-  { value: FilterMyBookStatus.CURRENTLY_READING, label: '읽는중' },
-  { value: FilterMyBookStatus.READ, label: '다읽음' },
+  { value: 'ALL', label: '전체보기' },
+  ...MY_BOOK_STATUS_OPTIONS,
 ];
 
 export const FILTER_BOOK_ORDER_OPTIONS: readonly FilterBookOrderOption[] = [

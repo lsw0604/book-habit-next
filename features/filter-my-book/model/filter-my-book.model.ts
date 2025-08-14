@@ -1,9 +1,11 @@
-export enum FilterMyBookStatus {
-  ALL = 'ALL',
-  WANT_TO_READ = 'WANT_TO_READ',
-  CURRENTLY_READING = 'CURRENTLY_READING',
-  READ = 'READ',
-}
+import { MyBookStatus } from '@/entities/my-book/model';
+
+export type FilterMyBookStatus = MyBookStatus | 'ALL';
+
+export const AllFilterMyBookStatus = {
+  ...MyBookStatus,
+  ALL: 'ALL',
+} as const;
 
 export enum FilterMyBookOrder {
   desc = 'desc',
