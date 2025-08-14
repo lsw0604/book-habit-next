@@ -1,7 +1,9 @@
-import type { MyBookUpdateControllerProps } from './types';
 import { Controller } from 'react-hook-form';
-import { Rating } from '@/shared/ui/rating';
+
 import { ErrorMessage } from '@/shared/ui/error-message';
+import { Rating } from '@/shared/ui/rating';
+
+import type { MyBookUpdateControllerProps } from '../model';
 
 export default function MyBookUpdateRatingController({
   control,

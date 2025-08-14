@@ -1,12 +1,14 @@
-import type { MyBookUpdateFormProps } from './types';
-import { useAutoSubmit } from '@/shared/hooks/form';
-import MyBookUpdateRatingController from './my-book-update-rating-controller';
-import MyBookUpdateStatusController from './my-book-update-status-controller';
 import {
   useUpdateMyBookForm,
   useUpdateMyBookFormSubmit,
 } from '@/features/update-my-book/hooks';
 import { UpdateMyBookType } from '@/features/update-my-book/model/schema';
+import { useAutoSubmit } from '@/shared/hooks/form';
+
+import type { MyBookUpdateFormProps } from '../model';
+
+import MyBookUpdateRatingController from './my-book-update-rating-controller';
+import MyBookUpdateStatusController from './my-book-update-status-controller';
 
 export default function MyBookUpdateForm({
   data,

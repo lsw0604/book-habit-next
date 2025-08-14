@@ -1,5 +1,6 @@
-import { MyBookStatus } from '@/entities/my-book/model';
 import { z } from 'zod';
+
+import { MyBookStatus } from '@/entities/my-book/model';
 
 export const updateMyBookSchema = z.object({
   rating: z

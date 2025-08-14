@@ -1,6 +1,8 @@
-import { MyBookDetail } from '@/entities/my-book/model';
-import { UpdateMyBookType } from '@/features/update-my-book/model/schema';
 import { Control } from 'react-hook-form';
+
+import { MyBookDetail } from '@/entities/my-book/model';
+
+import { UpdateMyBookType } from './schema';
 
 export interface MyBookUpdateFormProps {
   data: Partial<Pick<MyBookDetail, 'rating' | 'status'>>;
