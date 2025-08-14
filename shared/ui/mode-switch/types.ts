@@ -4,7 +4,7 @@ import { ForwardRefExoticComponent, RefAttributes } from 'react';
 export interface ModeOption<T extends string> {
   value: T;
   label: string;
-  icon: ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>>;
+  icon?: ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>>;
 }
 
 export interface ModeSwitchProps<T extends string> {

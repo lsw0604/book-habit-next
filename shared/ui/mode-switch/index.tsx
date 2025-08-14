@@ -9,8 +9,8 @@ const modeSwitchButtonVariants = cva(
   {
     variants: {
       active: {
-        true: 'bg-white text-blue-600 shadow-sm',
-        false: 'text-gray-600 hover:text-gray-900',
+        true: 'bg-white text-black shadow-sm',
+        false: 'text-gray-400 hover:text-gray-600',
       },
     },
     defaultVariants: {
@@ -26,7 +26,12 @@ export function ModeSwitch<T extends string>({
   className,
 }: ModeSwitchProps<T>) {
   return (
-    <div className={cn('flex bg-gray-100 rounded-lg p-1 w-full', className)}>
+    <div
+      className={cn(
+        'flex bg-primary-foreground rounded-lg p-1 w-full',
+        className
+      )}
+    >
       {options.map(option => (
         <button
           key={option.value}
@@ -36,7 +41,7 @@ export function ModeSwitch<T extends string>({
             modeSwitchButtonVariants({ active: value === option.value })
           )}
         >
-          <option.icon className="w-4 h-4" />
+          {option.icon && <option.icon className="w-4 h-4" />}
           <span className="w-full truncate">{option.label}</span>
         </button>
       ))}
