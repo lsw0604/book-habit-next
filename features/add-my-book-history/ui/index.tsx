@@ -2,6 +2,7 @@ import { parseISO } from 'date-fns';
 import { useParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
+import { useAddMyBookHistory } from '@/entities/my-book-history/hooks';
 import { myBookHistorySelector } from '@/entities/my-book-history/store';
 import { useAppSelector } from '@/shared/redux/store';
 import { Button } from '@/shared/ui/button';
@@ -44,6 +45,8 @@ export default function RegisterMyBookHistoryModal() {
     date,
   });
 
+  const { mutate } = useAddMyBookHistory();
+
   const stepFields = useMemo(() => {
     switch (currentStep) {
       case 1: // Time Step
@@ -68,12 +71,6 @@ export default function RegisterMyBookHistoryModal() {
   const handleNextStep = async () => {
     const isValid = await trigger(stepFields);
 
-    console.log('--- Step Validation Triggered ---');
-    console.log(`[Step ${currentStep}] Fields to validate:`, stepFields);
-    console.log(`[Step ${currentStep}] Is Valid:`, isValid);
-    // getValues()를 호출하여 현재 폼 값을 함께 로깅합니다.
-    console.log(`[Step ${currentStep}] Current Form Values:`, getValues());
-    console.log('---------------------------------');
     if (isValid) {
       if (currentStep < LAST_STEP) {
         setCurrentStep(prev => prev + 1);
@@ -95,7 +92,7 @@ export default function RegisterMyBookHistoryModal() {
   };
 
   const onSubmit = (data: AddMyBookHistoryType) => {
-    console.log(data);
+    mutate(data);
   };
 
   const renderCurrentStep = () => {
@@ -123,16 +120,13 @@ export default function RegisterMyBookHistoryModal() {
   const progress = (currentStep / LAST_STEP) * 100;
 
   return (
-    <div className="flex flex-col p-6 bg-white rounded-lg shadow-xl w-full max-w-md mx-auto">
+    <>
       <div className="mb-4">
         <div className="text-center text-xl font-semibold text-gray-800 mb-2">
           {
-            [
-              '독서 시간 기록',
-              '독서 감정 선택',
-              '페이지 기록',
-              '메모 작성',
-            ][currentStep - 1]
+            ['독서 시간 기록', '독서 감정 선택', '페이지 기록', '메모 작성'][
+              currentStep - 1
+            ]
           }
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2.5">
@@ -142,7 +136,10 @@ export default function RegisterMyBookHistoryModal() {
           />
         </div>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-grow">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col flex-grow"
+      >
         <div className="flex-grow min-h-[250px]">{renderCurrentStep()}</div>
         <div className="flex w-full items-center justify-between gap-4 mt-6">
           {currentStep > FIRST_STEP && (
@@ -157,11 +154,7 @@ export default function RegisterMyBookHistoryModal() {
           )}
           <div className="flex-grow" />
           {currentStep < LAST_STEP ? (
-            <Button
-              type="button"
-              onClick={handleNextStep}
-              className="w-1/2"
-            >
+            <Button type="button" onClick={handleNextStep} className="w-1/2">
               다음
             </Button>
           ) : (
@@ -176,6 +169,6 @@ export default function RegisterMyBookHistoryModal() {
           )}
         </div>
       </form>
-    </div>
+    </>
   );
 }

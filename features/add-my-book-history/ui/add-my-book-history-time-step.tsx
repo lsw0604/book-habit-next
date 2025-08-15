@@ -39,18 +39,16 @@ export default function AddMyBookHistoryTimeStep({
   return (
     <div className="flex flex-col gap-4 items-center">
       <ModeSwitch options={modeOptions} value={mode} onValueChange={setMode} />
-      <div className="w-full mt-4">
-        {mode === 'timer' && (
-          <AddMyBookHistoryTimerController date={date} setValue={setValue} />
-        )}
-        {mode === 'manual' && (
-          <AddMyBookHistoryTimeController
-            getValues={getValues}
-            setValue={setValue}
-            control={control}
-          />
-        )}
-      </div>
+      {mode === 'timer' && (
+        <AddMyBookHistoryTimerController date={date} setValue={setValue} />
+      )}
+      {mode === 'manual' && (
+        <AddMyBookHistoryTimeController
+          getValues={getValues}
+          setValue={setValue}
+          control={control}
+        />
+      )}
     </div>
   );
 }
