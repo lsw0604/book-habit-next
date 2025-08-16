@@ -1,27 +1,20 @@
 import { cva } from 'class-variance-authority';
 
 export const inputContainerVariants = cva(
-  'group relative flex w-full h-10 items-center rounded-lg border-2 bg-white transition-all duration-200',
+  'group relative flex w-full h-10 border items-center border-input rounded-lg bg-transparent transition-all duration-200',
   {
     variants: {
       state: {
         default: [
-          'border-slate-600',
-          'hover:border-slate-700',
-          'hover:ring-2',
-          'hover:ring-slate-400/50',
-          'focus-within:border-slate-800',
-          'focus-within:ring-2',
-          'focus-within:ring-slate-600/60',
+          'focus-within:border-ring',
+          'focus-within:ring-slate-800/60',
+          'focus-within:ring-[3px]',
         ],
         error: [
           'border-rose-300',
-          'hover:border-rose-400',
-          'hover:ring-2',
-          'hover:ring-rose-400/30',
-          'focus-within:border-rose-600',
+          'focus-within:border-rose-400',
           'focus-within:ring-2',
-          'focus-within:ring-rose-600/60',
+          'focus-within:ring-rose-400/30',
         ],
         disabled: 'border-slate-200 bg-slate-50 cursor-not-allowed opacity-60',
       },
@@ -33,7 +26,7 @@ export const inputContainerVariants = cva(
 );
 
 export const inputVariants = cva(
-  'w-full py-2 text-sm bg-transparent outline-none transition-colors duration-200',
+  'w-full py-1 text-sm bg-transparent outline-none transition-colors duration-200',
   {
     variants: {
       state: {
@@ -61,12 +54,7 @@ export const inputIconVariants = cva('transition-colors duration-200', {
         'group-hover:stroke-slate-700',
         'group-focus-within:stroke-slate-800',
       ],
-
-      error: [
-        'stroke-rose-300',
-        'group-hover:stroke-rose-400',
-        'group-focus-within:stroke-rose-600',
-      ],
+      error: ['stroke-rose-300', 'group-focus-within:stroke-rose-400'],
       disabled: 'stroke-slate-200',
     },
   },
