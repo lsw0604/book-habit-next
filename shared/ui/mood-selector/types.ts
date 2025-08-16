@@ -1,9 +1,7 @@
-import { ReadingMood } from '../../model';
+import type { ReadingMood } from '@/entities/my-book-history/model';
 
 export interface MoodSelectorOption {
   value: ReadingMood;
   label: string;
   emoji: string;
-  color: string;
-  check: string;
 }
