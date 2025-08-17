@@ -2,7 +2,6 @@
 
 import {
   useImperativeHandle,
-  TextareaHTMLAttributes,
   forwardRef,
   useRef,
   useState,
@@ -13,19 +12,14 @@ import {
 
 import { cn } from '@/shared/utils/class-name';
 
+import { ErrorMessage } from '../error-message';
+import { Label } from '../label';
+
+import type { AutoSizeTextareaProps, AutoSizeTextareaRef } from './types';
 import { useAutoSizeTextarea } from './useAutosizeTextarea';
+import { autoSizeTextareaVariants } from './variants';
 
-interface AutoSizeTextareaRef {
-  textarea: HTMLTextAreaElement;
-  maxHeight: number;
-  minHeight: number;
-}
-
-interface AutoSizeTextareaProps
-  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  maxHeight?: number;
-  minHeight?: number;
-}
+type StateType = 'default' | 'error' | 'disabled';
 
 export const AutoSizeTextarea = forwardRef<
   AutoSizeTextareaRef,
@@ -33,17 +27,30 @@ export const AutoSizeTextarea = forwardRef<
 >(
   (
     {
-      maxHeight = Number.MAX_SAFE_INTEGER,
-      minHeight = 52,
-      className,
-      onChange,
+      id,
       value,
+      label,
+      isError,
+      minHeight = 52,
+      maxHeight = Number.MAX_SAFE_INTEGER,
+      className,
+      disabled,
+      errorMessage,
+      onChange,
       ...props
     }: AutoSizeTextareaProps,
     ref: Ref<AutoSizeTextareaRef>
   ) => {
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const [triggerAutoSize, setTriggerAutoSize] = useState<string>('');
+
+    let state: StateType = 'default';
+
+    if (disabled) {
+      state = 'disabled';
+    } else if (isError) {
+      state = 'error';
+    }
 
     useAutoSizeTextarea({
       textareaRef,
@@ -69,16 +76,25 @@ export const AutoSizeTextarea = forwardRef<
     };
 
     return (
-      <textarea
-        {...props}
-        className={cn(
-          'flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-          className
+      <div className="group">
+        {label && (
+          <Label htmlFor={id} className="text-xs ml-1 font-bold">
+            {label}
+          </Label>
         )}
-        value={value}
-        ref={textareaRef}
-        onChange={handleOnChange}
-      />
+        <textarea
+          {...props}
+          id={id}
+          disabled={disabled}
+          className={cn(autoSizeTextareaVariants({ state }), className)}
+          value={value}
+          ref={textareaRef}
+          onChange={handleOnChange}
+        />
+        {isError && !!errorMessage && (
+          <ErrorMessage>{errorMessage}</ErrorMessage>
+        )}
+      </div>
     );
   }
 );
