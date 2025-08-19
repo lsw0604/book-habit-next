@@ -50,6 +50,7 @@ export default function AddMyBookHistoryTimeController() {
             }
             className="mb-6"
             value={field.value}
+            errorMessage={errors?.startTime?.message}
             label="독서 시작 시간"
           />
         )}
@@ -63,18 +64,13 @@ export default function AddMyBookHistoryTimeController() {
               handleChange('endTime', newTime, field.onChange)
             }
             value={field.value}
+            errorMessage={errors?.endTime?.message}
             label="독서 종료 시간"
           />
         )}
       />
       {!!errors.readingMinutes?.message && (
         <ErrorMessage>{errors.readingMinutes.message}</ErrorMessage>
-      )}
-      {!!errors.startTime?.message && (
-        <ErrorMessage>{errors.startTime.message}</ErrorMessage>
-      )}
-      {!!errors.endTime?.message && (
-        <ErrorMessage>{errors.endTime.message}</ErrorMessage>
       )}
     </div>
   );

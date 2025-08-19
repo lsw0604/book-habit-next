@@ -8,6 +8,7 @@ import { cn } from '@/shared/utils/class-name';
 import { useTimepicker } from '../hooks/useTimepicker';
 
 import { TimeInput } from './time-input';
+import { timepickerVariants } from './variants';
 
 interface TimePickerProps {
   value: Date | undefined;
@@ -46,25 +47,22 @@ export default function InputTimepicker({
   };
 
   return (
-    <div className={cn('flex flex-col')}>
+    <div className={cn('flex flex-col group')}>
       {label && (
-        <Label htmlFor="hours" className="text-xs ml-1 font-bold">
+        <Label
+          htmlFor={`${label}-hours`}
+          className="text-xs ml-1 mb-2 font-bold"
+        >
           {label}
         </Label>
       )}
       <div
-        className={cn(
-          'flex items-center w-auto h-10 px-2',
-          'text-xl text-slate-600 text-center font-mono',
-          'border-solid border-2 border-slate-600 rounded-md',
-          className
-        )}
+        className={timepickerVariants({ error: !!errorMessage, className })}
       >
         <ClockIcon className="mr-2" size={16} />
-        <div className="flex items-center h-full">
+        <div className="flex w-full items-center h-full">
           <TimeInput
-            id="hours"
-            label="시"
+            id={`${label}-hours`}
             ref={hourRef}
             value={hour}
             onRightFocus={() => minuteRef.current?.focus()}
@@ -74,9 +72,9 @@ export default function InputTimepicker({
             max={23}
             aria-label="hours"
           />
+          <span>:</span>
           <TimeInput
             id="minutes"
-            label="분"
             ref={minuteRef}
             value={minute}
             setValue={stepNum => setTime(stepNum, 'minutes')}
@@ -86,9 +84,9 @@ export default function InputTimepicker({
             max={59}
             aria-label="minutes"
           />
+          <span>:</span>
           <TimeInput
             id="seconds"
-            label="초"
             ref={secondRef}
             value={second}
             setValue={stepNum => setTime(stepNum, 'seconds')}
