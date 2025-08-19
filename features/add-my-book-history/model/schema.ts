@@ -14,16 +14,22 @@ export const addMyBookHistorySchema = z
       .number()
       .int()
       .positive({ message: '도서 ID는 필수이며, 양의 정수여야 합니다.' }),
-    startPage: z
-      .number()
-      .int()
-      .min(1, { message: '시작 페이지는 1 이상이어야 합니다.' })
-      .max(10000, { message: '페이지 수가 너무 큽니다.' }),
-    endPage: z
-      .number()
-      .int()
-      .min(1, { message: '종료 페이지는 1 이상이어야 합니다.' })
-      .max(10000, { message: '페이지 수가 너무 큽니다.' }),
+    startPage: z.preprocess(
+      value => (value === '' || value === null ? 0 : Number(value)),
+      z
+        .number()
+        .int()
+        .min(1, { message: '시작 페이지는 1 이상이어야 합니다.' })
+        .max(10000, { message: '페이지 수가 너무 큽니다.' })
+    ),
+    endPage: z.preprocess(
+      value => (value === '' || value === null ? 0 : Number(value)),
+      z
+        .number()
+        .int()
+        .min(1, { message: '종료 페이지는 1 이상이어야 합니다.' })
+        .max(10000, { message: '페이지 수가 너무 큽니다.' })
+    ),
     startTime: z.date({
       required_error: '시작 시간은 필수입니다.',
       invalid_type_error: '유효한 날짜 형식이 아닙니다.',
@@ -35,7 +41,7 @@ export const addMyBookHistorySchema = z
     readingMinutes: z
       .number()
       .int()
-      .min(0, { message: '독서 시간(분)은 0 이상이어야 합니다.' })
+      .min(1, { message: '독서 시간(분)은 1분 이상이어야 합니다.' })
       .max(1440, { message: '하루(1440분)를 초과하여 기록할 수 없습니다.' }),
     date: z.date({
       required_error: '독서 날짜는 필수입니다.',
@@ -102,8 +108,8 @@ const todayAtStart = startOfToday();
 
 export const DEFAULT_ADD_MY_BOOK_HISTORY: AddMyBookHistoryType = {
   myBookId: 0,
-  startPage: 1,
-  endPage: 1,
+  startPage: 0,
+  endPage: 0,
   startTime: todayAtStart,
   endTime: todayAtStart,
   readingMinutes: 0,
