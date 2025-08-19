@@ -1,3 +1,7 @@
+import { apiClient } from '@/shared/api/clients';
+import { API_ENDPOINTS } from '@/shared/api/constant';
+
+import { MyBookHistoryDTO } from './my-book-history.dto';
 import type {
   MyBookHistoryService,
   GetMyBookHistoriesPayload,
@@ -5,9 +9,6 @@ import type {
   DeleteMyBookHistoryPayload,
   UpdateMyBookHistoryPayload,
 } from './types';
-import { MyBookHistoryDTO } from './my-book-history.dto';
-import { apiClient } from '@/shared/api/clients';
-import { API_ENDPOINTS } from '@/shared/api/constant';
 
 export const myBookHistoryService: MyBookHistoryService = {
   getMyBookHistories: async (payload: GetMyBookHistoriesPayload) => {
