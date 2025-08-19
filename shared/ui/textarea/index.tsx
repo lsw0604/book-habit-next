@@ -76,7 +76,7 @@ export const AutoSizeTextarea = forwardRef<
     };
 
     return (
-      <div className="group">
+      <div className="group w-full space-y-1">
         {label && (
           <Label htmlFor={id} className="text-xs ml-1 font-bold">
             {label}
