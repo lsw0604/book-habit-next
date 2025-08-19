@@ -21,7 +21,7 @@ export function Timer({
   status,
 }: TimerProps) {
   return (
-    <div className="flex flex-col items-center gap-1 w-full">
+    <div className="flex flex-col items-center gap-4 w-full min-h-[168px]">
       <div className="text-5xl font-mono font-bold tracking-wider bg-gray-50 w-full text-center py-8 rounded-md">
         {formatTimer(elapsedSeconds)}
       </div>
