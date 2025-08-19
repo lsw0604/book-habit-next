@@ -26,7 +26,7 @@ export const inputContainerVariants = cva(
 );
 
 export const inputVariants = cva(
-  'w-full py-1 text-sm bg-transparent outline-none transition-colors duration-200',
+  'w-full py-1 text-sm bg-transparent outline-none transition-colors duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
   {
     variants: {
       state: {
