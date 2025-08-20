@@ -1,3 +1,5 @@
+import { Replace } from '@/shared/types/replace';
+
 export interface MyBookHistory {
   id: number;
   myBookId: number;
@@ -12,6 +14,13 @@ export interface MyBookHistory {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface SerializedMyBookHistory
+  extends Replace<
+    MyBookHistory,
+    'startTime' | 'endTime' | 'date' | 'createdAt' | 'updatedAt',
+    string
+  > {}
 
 export enum ReadingMood {
   INSPIRED = 'INSPIRED',

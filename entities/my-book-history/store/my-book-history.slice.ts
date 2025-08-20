@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import type { RootState } from '@/shared/redux/store';
 
-import { MyBookHistory } from '../model';
+import { SerializedMyBookHistory } from '../model';
 
 interface MyBookHistoryState {
   selectedDate: string | null;
-  selectedHistory: MyBookHistory | null;
+  selectedHistory: SerializedMyBookHistory | null;
 }
 
 const initialState: MyBookHistoryState = {
@@ -21,7 +21,10 @@ const myBookHistorySlice = createSlice({
     setSelectedDate(state, action: PayloadAction<string | null>) {
       state.selectedDate = action.payload;
     },
-    setSelectedHistory(state, action: PayloadAction<MyBookHistory | null>) {
+    setSelectedHistory(
+      state,
+      action: PayloadAction<SerializedMyBookHistory | null>
+    ) {
       state.selectedHistory = action.payload;
     },
     clearSelectedHistory(state) {
