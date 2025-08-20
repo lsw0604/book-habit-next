@@ -35,7 +35,8 @@
         "props": true,
         "ignorePropertyModificationsFor": [
           "state", // for ReduxToolkit
-          "config" // for Axios Instance
+          "config", // for Axios Instance
+          "acc" // for groupByDate Function
         ]
       }
     ],

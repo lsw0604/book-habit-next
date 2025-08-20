@@ -28,20 +28,19 @@ import { format } from 'date-fns';
  *  }
  * ```
  */
-export function groupItemsByDate<T extends { date: Date }>(items?: T[]) {
-  const groupByDate: { [date: string]: T[] } = {};
-
-  if (items) {
-    for (const item of items) {
+export function groupItemsByDate<T extends { date: Date }>(items: T[] = []) {
+  return items.reduce(
+    (acc, item) => {
       const formattedDate = format(item.date, 'yyyy-MM-dd');
 
-      if (!groupByDate[formattedDate]) {
-        groupByDate[formattedDate] = [];
+      if (!acc[formattedDate]) {
+        acc[formattedDate] = [];
       }
 
-      groupByDate[formattedDate].push(item);
-    }
-  }
+      acc[formattedDate].push(item);
 
-  return groupByDate;
+      return acc;
+    },
+    {} as { [date: string]: T[] }
+  );
 }
