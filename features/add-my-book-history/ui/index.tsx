@@ -1,15 +1,15 @@
 import { parseISO } from 'date-fns';
 import { useParams } from 'next/navigation';
 
-import { myBookHistorySelector } from '@/entities/my-book-history/store';
-import { useAppSelector } from '@/shared/redux/store';
+import { RegisterMyBookHistoryProps } from '@/entities/modal/store/types';
 
 import { AddMyBookHistoryForm } from './add-my-book-history-form';
 import { AddMyBookHistoryProvider } from './add-my-book-history-provider';
 
-export default function RegisterMyBookHistoryModal() {
+export default function RegisterMyBookHistoryModal({
+  selectedDate,
+}: RegisterMyBookHistoryProps) {
   const params = useParams();
-  const { selectedDate } = useAppSelector(myBookHistorySelector);
   const { my_book_id: myBookId } = params;
 
   if (!myBookId || typeof myBookId !== 'string') {
