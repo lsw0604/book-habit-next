@@ -18,3 +18,18 @@ export const MODAL_VARIANT = {
     duration: 0.5,
   },
 } as const;
+
+export const BACKDROP_VARIANT = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 0.6,
+  },
+  exit: {
+    opacity: 0,
+  },
+  transition: {
+    duration: 0.3,
+  },
+} as const;

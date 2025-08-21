@@ -2,7 +2,12 @@
 
 import { Suspense, lazy } from 'react';
 
-import { modalSelector } from '@/entities/modal/model/store';
+import { modalSelector } from '@/entities/modal/store';
+import type {
+  RegisterMyBookProps,
+  RegisterMyBookHistoryProps,
+  SelectedMyBookHistoryProps,
+} from '@/entities/modal/store/types';
 import { useAppSelector } from '@/shared/redux/store';
 
 import ModalLoader from './modal-loader';
@@ -18,16 +23,41 @@ const RegisterMyBookHistoryModal = lazy(() =>
     default: module.RegisterMyBookHistoryModal,
   }))
 );
+// 원본 코드
+// const RegisterMyBookHistoryModal = lazy(() =>
+//   import('@/features/add-my-book-history').then(module => ({
+//     default: module.RegisterMyBookHistoryModal,
+//   }))
+// );
+// const SelectedMyBookHistoryModal = lazy(() =>
+//   import('@/features/').then(module => ({
+//     default: module.ModifyMyBookHistoryModal,
+//   }))
+// );
 
 export default function ModalManager() {
-  const { type } = useAppSelector(modalSelector);
+  const { isOpen, type, props } = useAppSelector(modalSelector);
+
+  console.log('Modal state:', { isOpen, type, props });
+
+  if (!isOpen || !type) {
+    return null;
+  }
 
   const renderModal = () => {
     switch (type) {
       case 'REGISTER_MY_BOOK':
-        return <AddMyBookModal />;
+        return <AddMyBookModal {...(props as RegisterMyBookProps)} />;
       case 'REGISTER_MY_BOOK_HISTORY':
-        return <RegisterMyBookHistoryModal />;
+        return (
+          <RegisterMyBookHistoryModal
+            {...(props as RegisterMyBookHistoryProps)}
+          />
+        );
+
+      // case 'SELECTED_MY_BOOK_HISTORY':
+      //   return <S {...(props as SelectedMyBookHistoryProps)} />;
+
       default:
         return null;
     }

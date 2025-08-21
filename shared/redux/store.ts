@@ -1,40 +1,38 @@
 import {
-  TypedUseSelectorHook,
-  useSelector as useReduxSelector,
-  useDispatch,
-} from 'react-redux';
-import {
   configureStore,
   combineReducers,
   createListenerMiddleware,
 } from '@reduxjs/toolkit';
+import {
+  TypedUseSelectorHook,
+  useSelector as useReduxSelector,
+  useDispatch,
+} from 'react-redux';
 
-import bookSlice, { clearSelectedBook } from '@/entities/book/store/book.slice';
 import authSlice from '@/entities/auth/store/auth.slice';
-import modalSlice, { closeModal } from '@/entities/modal/model/store';
-import toastSlice from '@/shared/ui/toast/model/store';
-import myBookHistorySlice from '@/entities/my-book-history/store/my-book-history.slice';
+import modalSlice from '@/entities/modal/store/modal.slice';
 
 const rootReducer = combineReducers({
   auth: authSlice,
-  book: bookSlice,
   modal: modalSlice,
-  toast: toastSlice,
-  myBookHistory: myBookHistorySlice,
 });
 
 const listenerMiddleware = createListenerMiddleware();
 
-listenerMiddleware.startListening({
-  actionCreator: closeModal,
-  effect: async (action, listenerApi) => {
-    const stateBefore = listenerApi.getOriginalState() as RootState;
+// listenerMiddleware.startListening({
+//   actionCreator: closeModal,
+//   effect: async (action, listenerApi) => {
+//     const stateBefore = listenerApi.getOriginalState() as RootState;
 
-    if (stateBefore.modal.type === 'REGISTER_MY_BOOK') {
-      listenerApi.dispatch(clearSelectedBook());
-    }
-  },
-});
+//     if (stateBefore.modal.type === 'REGISTER_MY_BOOK') {
+//       listenerApi.dispatch(clearSelectedBook());
+//     }
+
+//     if (stateBefore.modal.type === 'SELECTED_MY_BOOK_HISTORY') {
+//       listenerApi.dispatch(clearSelectedHistory());
+//     }
+//   },
+// });
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
