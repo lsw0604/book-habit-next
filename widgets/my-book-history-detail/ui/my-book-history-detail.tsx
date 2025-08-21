@@ -1,14 +1,9 @@
 'use client';
 
-import { parseISO } from 'date-fns';
-import { useCallback, useMemo } from 'react';
+import { isSameDay } from 'date-fns';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useMyBookHistories } from '@/entities/my-book-history/hooks';
-import {
-  myBookHistorySelector,
-  setSelectedDate,
-} from '@/entities/my-book-history/store';
-import { useAppDispatch, useAppSelector } from '@/shared/redux/store';
 import { ActivityCalendar } from '@/shared/ui/activity-calendar';
 import { groupItemsByDate } from '@/shared/utils/group-items-by-date';
 
@@ -33,30 +28,19 @@ export default function MyBookHistoryDetail({
 }: {
   myBookId: number;
 }) {
-  const dispatch = useAppDispatch();
-
-  const { selectedDate: selectedDateString } = useAppSelector(
-    myBookHistorySelector
-  );
-  const selectedDate = useMemo(
-    () => (selectedDateString ? parseISO(selectedDateString) : null),
-    [selectedDateString]
-  );
-
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const { data } = useMyBookHistories({ myBookId });
   const groupedData = useMemo(() => groupItemsByDate(data), [data]);
 
   const handleSelectedDate = useCallback(
     (date: Date) => {
-      const newSelectedDateString = date.toISOString();
-
-      if (selectedDateString === newSelectedDateString) {
-        dispatch(setSelectedDate(null));
+      if (selectedDate && isSameDay(selectedDate, date)) {
+        setSelectedDate(null);
       } else {
-        dispatch(setSelectedDate(newSelectedDateString));
+        setSelectedDate(date);
       }
     },
-    [dispatch, selectedDateString]
+    [setSelectedDate, selectedDate]
   );
 
   return (
@@ -69,7 +53,10 @@ export default function MyBookHistoryDetail({
         selectedDate={selectedDate}
       />
       <Legend />
-      <MyBookHistoryList formattedData={groupedData} />
+      <MyBookHistoryList
+        selectedDate={selectedDate}
+        formattedData={groupedData}
+      />
     </div>
   );
 }
