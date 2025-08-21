@@ -6,7 +6,7 @@ import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { BOOK_SEARCH_LIST_GRID_STYLE } from '@/shared/style/list-style';
 import { cn } from '@/shared/utils/class-name';
 
-import { useBookSearchParams } from '../../hooks';
+import { useBookSearchModal, useBookSearchParams } from '../../hooks';
 
 import BookSearchItem from './book-search-item';
 import BookSearchListLoader from './book-search-list-loader';
@@ -24,9 +24,11 @@ export default function BookSearchList() {
     error,
     refetch,
   } = useBookQuery({ query, size, sort, target });
+
   const ref = useInfiniteScroll(fetchNextPage, hasNextPage, {
     threshold: 0.3,
   });
+  const { modalHandler } = useBookSearchModal();
 
   if (isLoading) return <BookSearchListLoader count={size} />;
   if (!data || !query || data.length === 0 || isError)
@@ -47,8 +49,12 @@ export default function BookSearchList() {
           BOOK_SEARCH_LIST_GRID_STYLE
         )}
       >
-        {data.map(item => (
-          <BookSearchItem key={item.isbns.join('-')} item={item} />
+        {data.map(book => (
+          <BookSearchItem
+            key={book.isbns.join('-')}
+            item={book}
+            onClick={modalHandler}
+          />
         ))}
       </ul>
       <div className="w-full flex justify-center p-4" ref={ref}>

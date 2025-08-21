@@ -1,17 +1,18 @@
 import { useCallback } from 'react';
 
 import { Book } from '@/entities/book/model';
-import { selectBook } from '@/entities/book/store';
-import { setModalState } from '@/entities/modal/model/store';
+import { openAddMyBookModal } from '@/entities/modal/store';
 import { useAppDispatch } from '@/shared/redux/store';
 
-export function useBookSearchModal({ item }: { item: Book }) {
+export function useBookSearchModal() {
   const dispatch = useAppDispatch();
 
-  const modalHandler = useCallback(() => {
-    dispatch(setModalState({ isOpen: true, type: 'REGISTER_MY_BOOK' }));
-    dispatch(selectBook({ ...item }));
-  }, [item, dispatch]);
+  const modalHandler = useCallback(
+    (selectedBook: Book) => {
+      dispatch(openAddMyBookModal({ selectedBook }));
+    },
+    [dispatch]
+  );
 
   return {
     modalHandler,

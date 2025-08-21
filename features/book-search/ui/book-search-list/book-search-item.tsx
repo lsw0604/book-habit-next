@@ -13,17 +13,15 @@ import { useOnceVisible } from '@/shared/hooks/useInfiniteScroll';
 import { CARD_STYLES } from '@/shared/style/card-style';
 import { cn } from '@/shared/utils/class-name';
 
-import { useBookSearchModal } from '../../hooks';
-
 import BookSearchItemLoader from './book-search-item-loader';
 
 interface BookSearchItemProps {
   item: Book;
+  onClick?: (selectedBook: Book) => void;
 }
 
-function BookSearchItem({ item }: BookSearchItemProps) {
+function BookSearchItem({ item, onClick }: BookSearchItemProps) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const { modalHandler } = useBookSearchModal({ item });
   const ref = useOnceVisible(() => setIsVisible(true), { threshold: 0.1 });
 
   if (!isVisible) return <BookSearchItemLoader ref={ref} />;
@@ -32,7 +30,7 @@ function BookSearchItem({ item }: BookSearchItemProps) {
     <li ref={ref}>
       <button
         type="button"
-        onClick={modalHandler}
+        onClick={() => onClick?.(item)}
         className={CARD_STYLES.container}
       >
         <BookCardImage item={item} />
