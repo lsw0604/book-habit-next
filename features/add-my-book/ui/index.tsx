@@ -1,4 +1,3 @@
-import { bookSelector } from '@/entities/book/store';
 import {
   BookCardAuthor,
   BookCardContent,
@@ -8,17 +7,16 @@ import {
   BookCardPublisher,
   BookCardTitle,
 } from '@/entities/book';
-import { useAddMyBookForm, useAddMyBookFormSubmit } from '../hooks';
-import { useAppSelector } from '@/shared/redux/store';
-import { Button } from '@/shared/ui/button';
+import { RegisterMyBookProps } from '@/entities/modal/store';
 import { CARD_STYLES } from '@/shared/style/card-style';
+import { Button } from '@/shared/ui/button';
 import { cn } from '@/shared/utils/class-name';
 
-export default function AddMyBookModal() {
-  const { selectedBook } = useAppSelector(bookSelector);
-  if (!selectedBook) return null;
-  const { handleSubmit } = useAddMyBookForm({ ...selectedBook });
+import { useAddMyBookForm, useAddMyBookFormSubmit } from '../hooks';
+
+export default function AddMyBookModal({ selectedBook }: RegisterMyBookProps) {
   const { onSubmit, isPending } = useAddMyBookFormSubmit();
+  const { handleSubmit } = useAddMyBookForm({ ...selectedBook });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
