@@ -28,6 +28,7 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
+    "consistent-return": "off",
     // redux-toolkit 규칙 해결
     "no-param-reassign": [
       "error",
