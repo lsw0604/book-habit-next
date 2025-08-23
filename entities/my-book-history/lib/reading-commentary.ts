@@ -3,17 +3,13 @@ import { getHours, isWeekend as validWeekend } from 'date-fns';
 import { normalizedDate } from '@/shared/utils/date';
 
 import { COMMENTARY_MESSAGES } from '../constants';
-import {
-  calculatePages,
-  messagesPickRandom,
-  pagesPerMinutes,
-} from '../lib/formatters';
+import { MyBookHistory, ReadingMood, SerializedMyBookHistory } from '../model';
 
 import {
-  MyBookHistory,
-  ReadingMood,
-  SerializedMyBookHistory,
-} from './my-book-history.model';
+  calculatePages,
+  pickRandomMessage,
+  calculatePagesPerMinute,
+} from './my-book-history-utils';
 
 type ReadingCommentaryPick =
   | 'endPage'
@@ -23,13 +19,16 @@ type ReadingCommentaryPick =
   | 'readingMood'
   | 'readingMinutes';
 
-export const getReadingCommentary = (
+export const generateReadingCommentary = (
   history:
     | Pick<MyBookHistory, ReadingCommentaryPick>
     | Pick<SerializedMyBookHistory, ReadingCommentaryPick>
 ) => {
   const readPages = calculatePages(history.startPage, history.endPage);
-  const pagesPerMInutes = pagesPerMinutes(readPages, history.readingMinutes);
+  const pagesPerMInutes = calculatePagesPerMinute(
+    readPages,
+    history.readingMinutes
+  );
 
   const startDate = normalizedDate(history.startTime);
   const endDate = normalizedDate(history.endTime);
@@ -82,29 +81,29 @@ export const getReadingCommentary = (
   if (mood) {
     switch (mood) {
       case ReadingMood.EXCITED:
-        return messagesPickRandom([...COMMENTARY_MESSAGES.MOOD.EXCITED]);
+        return pickRandomMessage([...COMMENTARY_MESSAGES.MOOD.EXCITED]);
       case ReadingMood.INSPIRED:
-        return messagesPickRandom([...COMMENTARY_MESSAGES.MOOD.INSPIRED]);
+        return pickRandomMessage([...COMMENTARY_MESSAGES.MOOD.INSPIRED]);
       case ReadingMood.EMOTIONAL:
-        return messagesPickRandom([...COMMENTARY_MESSAGES.MOOD.EMOTIONAL]);
+        return pickRandomMessage([...COMMENTARY_MESSAGES.MOOD.EMOTIONAL]);
       case ReadingMood.THOUGHTFUL:
-        return messagesPickRandom([...COMMENTARY_MESSAGES.MOOD.THOUGHTFUL]);
+        return pickRandomMessage([...COMMENTARY_MESSAGES.MOOD.THOUGHTFUL]);
       case ReadingMood.ENLIGHTENED:
-        return messagesPickRandom([...COMMENTARY_MESSAGES.MOOD.ENLIGHTENED]);
+        return pickRandomMessage([...COMMENTARY_MESSAGES.MOOD.ENLIGHTENED]);
       case ReadingMood.SATISFIED:
-        return messagesPickRandom([...COMMENTARY_MESSAGES.MOOD.SATISFIED]);
+        return pickRandomMessage([...COMMENTARY_MESSAGES.MOOD.SATISFIED]);
       case ReadingMood.INTRIGUED:
-        return messagesPickRandom([...COMMENTARY_MESSAGES.MOOD.INTRIGUED]);
+        return pickRandomMessage([...COMMENTARY_MESSAGES.MOOD.INTRIGUED]);
       case ReadingMood.CHALLENGED:
-        return messagesPickRandom([...COMMENTARY_MESSAGES.MOOD.CHALLENGED]);
+        return pickRandomMessage([...COMMENTARY_MESSAGES.MOOD.CHALLENGED]);
       case ReadingMood.DISAPPOINTED:
-        return messagesPickRandom([...COMMENTARY_MESSAGES.MOOD.DISAPPOINTED]);
+        return pickRandomMessage([...COMMENTARY_MESSAGES.MOOD.DISAPPOINTED]);
       case ReadingMood.CONFUSED:
-        return messagesPickRandom([...COMMENTARY_MESSAGES.MOOD.CONFUSED]);
+        return pickRandomMessage([...COMMENTARY_MESSAGES.MOOD.CONFUSED]);
       case ReadingMood.BORED:
-        return messagesPickRandom([...COMMENTARY_MESSAGES.MOOD.BORED]);
+        return pickRandomMessage([...COMMENTARY_MESSAGES.MOOD.BORED]);
       case ReadingMood.NEUTRAL:
-        return messagesPickRandom([...COMMENTARY_MESSAGES.MOOD.NEUTRAL]);
+        return pickRandomMessage([...COMMENTARY_MESSAGES.MOOD.NEUTRAL]);
       default:
         return COMMENTARY_MESSAGES.DEFAULT;
     }
@@ -123,7 +122,7 @@ export const getReadingCommentary = (
     return COMMENTARY_MESSAGES.FALLBACK.LATE_NIGHT;
   }
   if (startHour >= 5 && startHour < 9) {
-    return messagesPickRandom([...COMMENTARY_MESSAGES.FALLBACK.EARLY_MORNING]);
+    return pickRandomMessage([...COMMENTARY_MESSAGES.FALLBACK.EARLY_MORNING]);
   }
   if (startHour >= 12 && startHour < 14) {
     return COMMENTARY_MESSAGES.FALLBACK.LUNCH_TIME;
