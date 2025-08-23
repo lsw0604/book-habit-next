@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import {
   type ChangeEvent,
   MouseEvent,
@@ -6,8 +7,6 @@ import {
   useState,
 } from 'react';
 import type { SelectSingleEventHandler } from 'react-day-picker';
-
-import { formatDateObjectToString } from '@/shared/utils/date';
 
 import { INPUT_DATEPICKER_CONSTRAINTS } from '../lib/constants';
 import { extractDigits, addSeparatorsToDateString } from '../lib/formatter';
@@ -40,7 +39,7 @@ export const useInputDatepicker = ({
 
   useEffect(() => {
     if (value) {
-      const newDateStr = formatDateObjectToString(value);
+      const newDateStr = format(value, 'yyyy-MM-dd');
       if (dateStr !== newDateStr) {
         setDateStr(newDateStr);
       }
