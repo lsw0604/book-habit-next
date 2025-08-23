@@ -1,6 +1,6 @@
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { MOOD_SELECTOR_OPTIONS } from '@/entities/my-book-history/ui';
+import { MOOD_SELECTOR_OPTIONS } from '@/entities/my-book-history/constants';
 import { ChipSelector } from '@/shared/ui/chip-selector';
 import { ErrorMessage } from '@/shared/ui/error-message';
 
