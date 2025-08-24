@@ -15,17 +15,10 @@ export const STAR_VARIANTS: Variants = {
   }),
   exit: (i: number) => ({
     scale: 0,
+    opacity: 0,
     transition: {
       duration: 0.25,
       delay: 0.2 - i * 0.04,
     },
   }),
-  hovered: {
-    scale: 0.8,
-    transition: {
-      duration: 0.2,
-    },
-  },
 };
-
-export const STAR_SIZE = 5;

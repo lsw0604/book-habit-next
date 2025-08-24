@@ -1,10 +1,19 @@
-import { useCallback, MouseEvent } from 'react';
-import { STAR_SIZE } from './constants';
+import { useCallback, MouseEvent, useId } from 'react';
+
 import { cn } from '@/shared/utils/class-name';
+
 import Star from './star';
-import { RatingProps } from './types';
+
+interface RatingProps {
+  rating: number;
+  onChange: (value: number) => void;
+  className?: string;
+}
+
+const STAR_SIZE = 5;
 
 export default function Rating({ rating, onChange, className }: RatingProps) {
+  const id = useId();
   const handleStar = useCallback(
     (event: MouseEvent<HTMLDivElement>, index: number) => {
       event.stopPropagation();
@@ -18,7 +27,8 @@ export default function Rating({ rating, onChange, className }: RatingProps) {
       <div className="w-full h-full grid grid-cols-5 text-[1rem]">
         {[...Array(STAR_SIZE)].map((_, index) => (
           <Star
-            key={index + 1}
+            // eslint-disable-next-line react/no-array-index-key
+            key={`${id}-${index}`}
             index={index + 1}
             isClicked={rating >= index + 1}
             onClick={handleStar}
