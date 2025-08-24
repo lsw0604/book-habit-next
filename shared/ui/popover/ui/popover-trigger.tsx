@@ -5,8 +5,10 @@ import {
   useCallback,
   useContext,
 } from 'react';
-import { PopoverContext } from '../hooks';
+
 import { cn } from '@/shared/utils/class-name';
+
+import { PopoverContext } from '../hooks';
 
 interface PopoverTriggerProps {
   className?: string;
@@ -25,15 +27,28 @@ export default function PopoverTrigger({
   const onClickTrigger = useCallback(
     (e: MouseEvent | TouchEvent) => {
       e.stopPropagation();
-      setIsOpen(prev => !prev);
+      setIsOpen((prev) => !prev);
     },
-    [setIsOpen]
+    [setIsOpen],
+  );
+
+  const onKeyDownTrigger = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setIsOpen((prev) => !prev);
+      }
+    },
+    [setIsOpen],
   );
 
   return (
     <div
       ref={triggerRef}
       onClick={onClickTrigger}
+      onKeyDown={onKeyDownTrigger}
+      role="button"
+      tabIndex={0}
       className={cn('cursor-pointer', className)}
     >
       {children}

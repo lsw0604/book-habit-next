@@ -1,8 +1,10 @@
 import { ReactNode, useCallback, useContext, useRef } from 'react';
 import { useEventListener, useOnClickOutside } from 'usehooks-ts';
-import { PopoverContext } from '../hooks';
+
 import { Dropdown } from '@/shared/ui/dropdown';
 import { cn } from '@/shared/utils/class-name';
+
+import { PopoverContext } from '../hooks';
 
 interface PopoverContentProps {
   className?: string;
@@ -21,17 +23,17 @@ export default function PopoverContent({
   const contentRef = useRef<HTMLDivElement>(null);
 
   const onClickContent = useCallback(
-    (e: MouseEvent | TouchEvent) => {
+    (_e: MouseEvent | TouchEvent) => {
       if (
         triggerRef.current &&
-        triggerRef.current.contains(event?.target as Node)
+        triggerRef.current.contains(_e?.target as Node)
       ) {
         return;
       }
 
       closeContent();
     },
-    [closeContent, triggerRef]
+    [closeContent, triggerRef],
   );
 
   const onPressKey = useCallback(
@@ -40,24 +42,20 @@ export default function PopoverContent({
         closeContent();
       }
     },
-    [closeContent]
+    [closeContent],
   );
 
   useOnClickOutside(contentRef, onClickContent);
   useEventListener('keydown', onPressKey);
 
-  return (
-    <>
-      {isOpen ? (
-        <Dropdown
-          ref={contentRef}
-          role="dialog"
-          aria-modal="true"
-          className={cn(className)}
-        >
-          {children}
-        </Dropdown>
-      ) : null}
-    </>
-  );
+  return isOpen ? (
+    <Dropdown
+      ref={contentRef}
+      role="dialog"
+      aria-modal="true"
+      className={cn(className)}
+    >
+      {children}
+    </Dropdown>
+  ) : null;
 }

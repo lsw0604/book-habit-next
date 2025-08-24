@@ -1,8 +1,11 @@
-import { ReactNode, useCallback, useRef, useState } from 'react';
-import PopoverTrigger from './popover-trigger';
-import PopoverContent from './popover-content';
-import { PopoverContext } from '../hooks';
+import { ReactNode, useCallback, useMemo, useRef, useState } from 'react';
+
 import { cn } from '@/shared/utils/class-name';
+
+import { PopoverContext } from '../hooks';
+
+import PopoverContent from './popover-content';
+import PopoverTrigger from './popover-trigger';
 
 interface PopoverProps {
   className?: string;
@@ -17,10 +20,18 @@ function Popover({ className, children }: PopoverProps) {
     setIsOpen(false);
   }, [setIsOpen]);
 
+  const popoverContextValue = useMemo(
+    () => ({
+      isOpen,
+      setIsOpen,
+      closeContent,
+      triggerRef,
+    }),
+    [isOpen, setIsOpen, closeContent, triggerRef],
+  );
+
   return (
-    <PopoverContext.Provider
-      value={{ isOpen, setIsOpen, closeContent, triggerRef }}
-    >
+    <PopoverContext.Provider value={popoverContextValue}>
       <div className={cn('inline-block relative', className)}>{children}</div>
     </PopoverContext.Provider>
   );
