@@ -1,11 +1,14 @@
-import type { SelectSingleEventHandler } from 'react-day-picker';
-import { CalendarIcon } from 'lucide-react';
-import { ko } from 'date-fns/locale';
+// eslint-disable-next-line import/no-duplicates
 import { format } from 'date-fns';
+// eslint-disable-next-line import/no-duplicates
+import { ko } from 'date-fns/locale';
+import { CalendarIcon } from 'lucide-react';
+import type { SelectSingleEventHandler } from 'react-day-picker';
 
-import { Popover } from './popover';
-import { Calendar } from './calendar';
 import { cn } from '../utils/class-name';
+
+import { Calendar } from './calendar';
+import { Popover } from './popover';
 
 interface SingleDatepickerProps {
   selected?: Date;
@@ -13,11 +16,11 @@ interface SingleDatepickerProps {
   className?: string;
 }
 
-const SingleDatepicker = ({
+function SingleDatepicker({
   selected,
   onSelect,
   className,
-}: SingleDatepickerProps) => {
+}: SingleDatepickerProps) {
   return (
     <Popover
       className={cn(
@@ -45,6 +48,6 @@ const SingleDatepicker = ({
       </Popover.Content>
     </Popover>
   );
-};
+}
 
 export { SingleDatepicker };

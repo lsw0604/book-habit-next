@@ -1,9 +1,11 @@
-import type { DateRange, SelectRangeEventHandler } from 'react-day-picker';
-import { CalendarIcon } from 'lucide-react';
 import { ko } from 'date-fns/locale';
+import { CalendarIcon } from 'lucide-react';
+import type { DateRange, SelectRangeEventHandler } from 'react-day-picker';
+
 import { Calendar } from '@/shared/ui/calendar';
 import { Popover } from '@/shared/ui/popover';
 import { cn } from '@/shared/utils/class-name';
+
 import { dateRangeDisplay } from '../lib/formatters';
 
 interface RangeDatepickerProps {
@@ -13,12 +15,12 @@ interface RangeDatepickerProps {
   numberOfMonths?: number;
 }
 
-const RangeDatepicker = ({
+function RangeDatepicker({
   selected,
   onSelect,
   className,
   numberOfMonths = 2,
-}: RangeDatepickerProps) => {
+}: RangeDatepickerProps) {
   return (
     <Popover
       className={cn(
@@ -47,6 +49,6 @@ const RangeDatepicker = ({
       </Popover.Content>
     </Popover>
   );
-};
+}
 
 export default RangeDatepicker;

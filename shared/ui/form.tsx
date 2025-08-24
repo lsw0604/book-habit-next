@@ -1,6 +1,6 @@
-import * as React from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
+import * as React from 'react';
 import {
   Controller,
   ControllerProps,
@@ -10,8 +10,8 @@ import {
   useFormContext,
 } from 'react-hook-form';
 
-import { cn } from '@/shared/utils/class-name';
 import { Label } from '@/shared/ui/label';
+import { cn } from '@/shared/utils/class-name';
 
 const Form = FormProvider;
 
@@ -26,18 +26,25 @@ const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue
 );
 
-const FormField = <
+const FormItemContext = React.createContext<FormItemContextValue>(
+  {} as FormItemContextValue
+);
+
+function FormField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
-  ...props
-}: ControllerProps<TFieldValues, TName>) => {
+>({ ...props }: ControllerProps<TFieldValues, TName>) {
+  const formFieldContextValue = React.useMemo(
+    () => ({ name: props.name }),
+    [props.name]
+  );
+
   return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
+    <FormFieldContext.Provider value={formFieldContextValue}>
       <Controller {...props} />
     </FormFieldContext.Provider>
   );
-};
+}
 
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);
@@ -66,18 +73,16 @@ type FormItemContextValue = {
   id: string;
 };
 
-const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue
-);
-
 const FormItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
   const id = React.useId();
 
+  const formItemContextValue = React.useMemo(() => ({ id }), [id]);
+
   return (
-    <FormItemContext.Provider value={{ id }}>
+    <FormItemContext.Provider value={formItemContextValue}>
       <div ref={ref} className={cn('space-y-2', className)} {...props} />
     </FormItemContext.Provider>
   );
