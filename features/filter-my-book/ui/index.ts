@@ -1,1 +1,2 @@
-export { default as MyBookFilterController } from './my-book-filter-controller';
+export * from './filter-my-book-controller';
+export * from './filter-my-book-bar';

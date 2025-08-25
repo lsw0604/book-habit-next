@@ -1,13 +1,15 @@
+'use client';
+
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 
-import { MyBookFilterType } from '../model';
+import { FilterMyBookType } from '../schemas';
 
-export function useMyBookFilterFormSubmit() {
+export function useFilterMyBookFormSubmit() {
   const router = useRouter();
 
   const onSubmit = useCallback(
-    (data: MyBookFilterType) => {
+    (data: FilterMyBookType) => {
       const searchParams = new URLSearchParams();
       if (data.status) searchParams.set('status', data.status);
       if (data.order) searchParams.set('order', data.order);

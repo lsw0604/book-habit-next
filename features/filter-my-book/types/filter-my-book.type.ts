@@ -1,4 +1,4 @@
-import { FilterMyBookOrder, FilterMyBookStatus } from './filter-my-book.model';
+import { FilterMyBookOrder, FilterMyBookStatus } from '../model';
 
 export interface FilterBookStatusOption {
   readonly value: FilterMyBookStatus;

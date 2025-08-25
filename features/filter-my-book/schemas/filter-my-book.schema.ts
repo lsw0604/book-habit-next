@@ -2,10 +2,7 @@ import { z } from 'zod';
 
 import { myBookStatusSchema } from '@/entities/my-book/model';
 
-import {
-  AllFilterMyBookStatus,
-  FilterMyBookOrder,
-} from './filter-my-book.model';
+import { AllFilterMyBookStatus, FilterMyBookOrder } from '../model';
 
 const orderSchema = z.nativeEnum(FilterMyBookOrder, {
   errorMap: () => ({
@@ -22,14 +19,14 @@ const statusSchema = z.union([myBookStatusSchema, z.literal('ALL')], {
   },
 });
 
-export const myBookFilterSchema = z.object({
+export const filterMyBookSchema = z.object({
   order: orderSchema,
   status: statusSchema,
 });
 
-export type MyBookFilterType = z.infer<typeof myBookFilterSchema>;
+export type FilterMyBookType = z.infer<typeof filterMyBookSchema>;
 
-export const DEFAULT_MY_BOOK_FILTER: MyBookFilterType = {
+export const DEFAULT_FILTER_MY_BOOK: FilterMyBookType = {
   order: FilterMyBookOrder.desc,
   status: 'ALL',
 };

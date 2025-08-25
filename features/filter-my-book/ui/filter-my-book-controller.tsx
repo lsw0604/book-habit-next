@@ -3,22 +3,19 @@ import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import { ErrorMessage } from '@/shared/ui/error-message';
 import Select from '@/shared/ui/select';
 
-interface FilterOption {
-  readonly value: string;
-  readonly label: string;
-}
+import { FilterBookOrderOption, FilterBookStatusOption } from '../types';
 
-interface MyBookFilterControllerProps<T extends FieldValues> {
+interface FilterMyBookControllerProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
-  options: readonly FilterOption[];
+  options: readonly FilterBookOrderOption[] | readonly FilterBookStatusOption[];
 }
 
-export default function MyBookFilterController<T extends FieldValues>({
+export function FilterMyBookController<T extends FieldValues>({
   control,
   name,
   options,
-}: MyBookFilterControllerProps<T>) {
+}: FilterMyBookControllerProps<T>) {
   return (
     <Controller
       name={name}
