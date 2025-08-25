@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { myBookStatusSchema } from '@/entities/my-book/model';
+import { myBookStatusSchema } from '@/entities/my-book/schemas';
 
 import { AllFilterMyBookStatus, FilterMyBookOrder } from '../model';
 

@@ -3,6 +3,7 @@
 import { ImageIcon, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { HTMLAttributes } from 'react';
 
 import {
   Tooltip,
@@ -13,13 +14,13 @@ import {
 import { cn } from '@/shared/utils/class-name';
 
 import { getStatusLabel } from '../lib';
-import type { MyBookItemProps } from '../model';
+import { MyBook } from '../model';
 
-export default function MyBookItem({
-  book,
-  className,
-  ...props
-}: MyBookItemProps) {
+interface MyBookItemProps extends HTMLAttributes<HTMLLIElement> {
+  book: MyBook;
+}
+
+export function MyBookItem({ book, className, ...props }: MyBookItemProps) {
   return (
     <li className={cn('w-full', className)} {...props}>
       <Link
@@ -34,7 +35,7 @@ export default function MyBookItem({
                 alt={`${book.title} 표지`}
                 fill
                 sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, (max-width: 1024px) 20vw, (max-width: 1280px) 16vw, (max-width: 1536px) 14vw, 10vw"
-                className={cn('object-cover')}
+                className="object-cover"
                 loading="lazy" // 무한 스크롤 고려
               />
             ) : (
