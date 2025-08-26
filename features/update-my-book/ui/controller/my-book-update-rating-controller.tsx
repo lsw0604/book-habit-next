@@ -1,13 +1,12 @@
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { ErrorMessage } from '@/shared/ui/error-message';
 import { Rating } from '@/shared/ui/rating';
 
-import type { MyBookUpdateControllerProps } from '../model';
+import type { UpdateMyBookType } from '../../schemas';
 
-export default function MyBookUpdateRatingController({
-  control,
-}: MyBookUpdateControllerProps) {
+export function MyBookUpdateRatingController() {
+  const { control } = useFormContext<UpdateMyBookType>();
   return (
     <Controller
       control={control}

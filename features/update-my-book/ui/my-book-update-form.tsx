@@ -1,20 +1,24 @@
-import {
-  useUpdateMyBookForm,
-  useUpdateMyBookFormSubmit,
-} from '@/features/update-my-book/hooks';
-import { UpdateMyBookType } from '@/features/update-my-book/model/schema';
+import { FormProvider } from 'react-hook-form';
+
+import { MyBookDetail } from '@/entities/my-book/model';
 import { useAutoSubmit } from '@/shared/hooks/form';
 
-import type { MyBookUpdateFormProps } from '../model';
+import { useUpdateMyBookForm, useUpdateMyBookFormSubmit } from '../hooks';
+import type { UpdateMyBookType } from '../schemas';
 
-import MyBookUpdateRatingController from './my-book-update-rating-controller';
-import MyBookUpdateStatusController from './my-book-update-status-controller';
+import {
+  MyBookUpdateRatingController,
+  MyBookUpdateStatusController,
+} from './controller';
 
-export default function MyBookUpdateForm({
-  data,
-  myBookId,
-}: MyBookUpdateFormProps) {
-  const { control, watch } = useUpdateMyBookForm({ ...data });
+interface MyBookUpdateFormProps {
+  data: Partial<Pick<MyBookDetail, 'rating' | 'status'>>;
+  myBookId: number;
+}
+
+export function MyBookUpdateForm({ data, myBookId }: MyBookUpdateFormProps) {
+  const { rating, status } = data;
+  const { watch, ...methods } = useUpdateMyBookForm({ rating, status });
   const { onSubmit } = useUpdateMyBookFormSubmit(myBookId);
 
   useAutoSubmit<UpdateMyBookType>({
@@ -24,9 +28,11 @@ export default function MyBookUpdateForm({
   });
 
   return (
-    <form className="flex flex-col gap-2 w-full mt-auto">
-      <MyBookUpdateStatusController control={control} />
-      <MyBookUpdateRatingController control={control} />
-    </form>
+    <FormProvider {...methods} watch={watch}>
+      <form className="flex flex-col w-full">
+        <MyBookUpdateStatusController />
+        <MyBookUpdateRatingController />
+      </form>
+    </FormProvider>
   );
 }

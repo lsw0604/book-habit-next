@@ -3,7 +3,7 @@ import { Book, BookCheck, BookOpen } from 'lucide-react';
 import { MyBookStatus } from '@/entities/my-book/model';
 import { ModeOption } from '@/shared/ui/mode-switch/types';
 
-export const MY_BOOK_STATUS_UPDATE_OPTIONS: ModeOption<MyBookStatus>[] = [
+export const UPDATE_MY_BOOK_STATUS_OPTIONS: ModeOption<MyBookStatus>[] = [
   { value: MyBookStatus.WANT_TO_READ, label: '읽고 싶은 책', icon: Book },
   {
     value: MyBookStatus.CURRENTLY_READING,

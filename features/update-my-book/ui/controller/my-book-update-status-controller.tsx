@@ -1,16 +1,13 @@
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { ErrorMessage } from '@/shared/ui/error-message';
 import { ModeSwitch } from '@/shared/ui/mode-switch';
 
-import {
-  type MyBookUpdateControllerProps,
-  MY_BOOK_STATUS_UPDATE_OPTIONS,
-} from '../model';
+import { UPDATE_MY_BOOK_STATUS_OPTIONS } from '../../constants';
+import type { UpdateMyBookType } from '../../schemas';
 
-export default function MyBookUpdateStatusController({
-  control,
-}: MyBookUpdateControllerProps) {
+export function MyBookUpdateStatusController() {
+  const { control } = useFormContext<UpdateMyBookType>();
   return (
     <Controller
       control={control}
@@ -18,8 +15,7 @@ export default function MyBookUpdateStatusController({
       render={({ field: { value, onChange }, formState: { errors } }) => (
         <>
           <ModeSwitch
-            className="mt-2"
-            options={MY_BOOK_STATUS_UPDATE_OPTIONS}
+            options={UPDATE_MY_BOOK_STATUS_OPTIONS}
             value={value}
             onValueChange={onChange}
           />
