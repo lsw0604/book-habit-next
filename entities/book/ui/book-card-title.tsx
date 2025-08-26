@@ -1,27 +1,29 @@
+import { HTMLAttributes } from 'react';
+
 import { cn } from '@/shared/utils/class-name';
 
-import { BookCardTitleProps } from './types';
+import { Book } from '../model';
 
-const BOOK_CARD_TITLE_STYLE = {
-  base: 'font-bold text-foreground text-base mt-1 line-clamp-1 text-lg',
-  hover: 'hover:underline',
-} as const;
+interface BookCardTitleProps extends HTMLAttributes<HTMLHeadElement> {
+  className?: string;
+  book: Pick<Book, 'title'>;
+}
 
-export default function BookCardTitle({
+export function BookCardTitle({
   className,
-  children,
+  book,
   ...props
 }: BookCardTitleProps) {
   return (
     <h3
       className={cn(
-        BOOK_CARD_TITLE_STYLE.base,
-        BOOK_CARD_TITLE_STYLE.hover,
+        'font-bold text-foreground text-base mt-1 line-clamp-1',
+        'hover:underline',
         className
       )}
       {...props}
     >
-      {children}
+      {book.title}
     </h3>
   );
 }

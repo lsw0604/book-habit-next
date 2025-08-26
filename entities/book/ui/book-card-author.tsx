@@ -1,24 +1,31 @@
+import { HTMLAttributes } from 'react';
+
 import { cn } from '@/shared/utils/class-name';
 
 import { formattedAuthor, formattedTranslator } from '../lib';
+import { Book } from '../model';
 
-import type { BookCardAuthorProps } from './types';
+interface BookCardAuthorProps extends HTMLAttributes<HTMLParagraphElement> {
+  className?: string;
+  book: Pick<Book, 'authors' | 'translators'>;
+}
 
-const BOOK_CARD_AUTHOR_STYLE = {
-  base: 'line-clamp-2 overflow-hidden whitespace-normal break-all text-xs text-gray-800 my-1',
-} as const;
-
-export default function BookCardAuthor({
+export function BookCardAuthor({
   className,
-  authors,
-  translators,
+  book,
   ...props
 }: BookCardAuthorProps) {
   return (
-    <p className={cn(BOOK_CARD_AUTHOR_STYLE.base, className)} {...props}>
-      {formattedAuthor(authors)}
-      {translators.length !== 0 && ' | '}
-      {formattedTranslator(translators)}
+    <p
+      className={cn(
+        'line-clamp-2 overflow-hidden whitespace-normal break-all text-xs text-gray-800 my-1',
+        className
+      )}
+      {...props}
+    >
+      {formattedAuthor(book.authors)}
+      {book.translators.length !== 0 && ' | '}
+      {formattedTranslator(book.translators)}
     </p>
   );
 }

@@ -1,10 +1,17 @@
+import { HTMLAttributes } from 'react';
+
 import { cn } from '@/shared/utils/class-name';
 
-import type { BookCardContentProps } from './types';
+import { Book } from '../model';
 
-export default function BookCardContent({
+interface BookCardContentProps extends HTMLAttributes<HTMLParagraphElement> {
+  className?: string;
+  book: Pick<Book, 'contents'>;
+}
+
+export function BookCardContent({
+  book,
   className,
-  content,
   ...props
 }: BookCardContentProps) {
   return (
@@ -12,7 +19,9 @@ export default function BookCardContent({
       className={cn('text-sm font-normal text-gray-800', className)}
       {...props}
     >
-      {content === '' ? '해당 책의 정보가 등록되지 않았습니다.' : content}
+      {book.contents === ''
+        ? '해당 책의 정보가 등록되지 않았습니다.'
+        : book.contents}
     </p>
   );
 }

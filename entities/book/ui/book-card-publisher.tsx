@@ -1,13 +1,18 @@
+import { HTMLAttributes } from 'react';
+
 import { cn } from '@/shared/utils/class-name';
 
 import { formattedDatetime } from '../lib';
+import { Book } from '../model';
 
-import type { BookCardPublisherProps } from './types';
+interface BookCardPublisherProps extends HTMLAttributes<HTMLParagraphElement> {
+  className?: string;
+  book: Pick<Book, 'publisher' | 'datetime'>;
+}
 
-export default function BookCardPublisher({
+export function BookCardPublisher({
   className,
-  publisher,
-  datetime,
+  book,
   ...props
 }: BookCardPublisherProps) {
   return (
@@ -15,7 +20,7 @@ export default function BookCardPublisher({
       className={cn('line-clamp-1 flex break-all text-xs font-bold', className)}
       {...props}
     >
-      {publisher} · {formattedDatetime(datetime)}
+      {book.publisher} · {formattedDatetime(book.datetime)}
     </p>
   );
 }

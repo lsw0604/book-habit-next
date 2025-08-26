@@ -1,15 +1,21 @@
+import { HTMLAttributes } from 'react';
+
 import { cn } from '@/shared/utils/class-name';
 
 import { formattedPrice, calculateDiscountRate } from '../lib';
+import { Book } from '../model';
 
-import type { BookCardPriceProps } from './types';
+interface BookCardPriceProps extends HTMLAttributes<HTMLDivElement> {
+  className?: string;
+  book: Pick<Book, 'price' | 'salePrice'>;
+}
 
-export default function BookCardPrice({
-  price,
-  salePrice,
+export function BookCardPrice({
+  book,
   className,
   ...props
 }: BookCardPriceProps) {
+  const { price, salePrice } = book;
   const isNotForSale = salePrice === -1;
 
   if (isNotForSale) {
