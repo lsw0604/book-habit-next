@@ -6,7 +6,6 @@ import { useWatch } from 'react-hook-form';
 import { Button } from '@/shared/ui/button';
 import { Popover } from '@/shared/ui/popover';
 
-import { hasFormErrors } from '../../lib/has-error';
 import type { BookSearchControllerProps } from '../../model/types';
 
 import BookSearchSizeController from './book-search-size-controller';
@@ -24,13 +23,7 @@ export default function BookSearchPopover({
   });
 
   const shouldShowError =
-    formState &&
     formState.isSubmitted &&
-    hasFormErrors(formState) &&
-    (query.trim() !== '' ||
-      formState.errors.target ||
-      formState.errors.size ||
-      formState.errors.sort);
 
   return (
     <Popover>
