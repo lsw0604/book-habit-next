@@ -1,13 +1,13 @@
 import { BOOK_SEARCH_LIST_GRID_STYLE } from '@/shared/style/list-style';
 import { cn } from '@/shared/utils/class-name';
 
-import BookSearchItemLoader from './book-search-item-loader';
+import { BookSearchItemLoader } from './book-search-item-loader';
 
 interface BookSearchListLoaderProps {
   count?: number;
 }
 
-export default function BookSearchListLoader({
+export function BookSearchListLoader({
   count = 20,
 }: BookSearchListLoaderProps) {
   return (

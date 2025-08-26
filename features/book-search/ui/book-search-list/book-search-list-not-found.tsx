@@ -1,3 +1,5 @@
+'use client';
+
 import { InfoIcon } from 'lucide-react';
 
 import { ErrorMessage } from '@/shared/common/error-message';
@@ -10,7 +12,7 @@ interface BookSearchListNotFoundProps {
   refetch?: () => void;
 }
 
-export default function BookSearchListNotFound({
+export function BookSearchListNotFound({
   errorMessage,
   isError,
   query,

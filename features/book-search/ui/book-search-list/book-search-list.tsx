@@ -8,11 +8,11 @@ import { cn } from '@/shared/utils/class-name';
 
 import { useBookSearchModal, useBookSearchParams } from '../../hooks';
 
-import BookSearchItem from './book-search-item';
-import BookSearchListLoader from './book-search-list-loader';
-import BookSearchListNotFound from './book-search-list-not-found';
+import { BookSearchItem } from './book-search-item';
+import { BookSearchListLoader } from './book-search-list-loader';
+import { BookSearchListNotFound } from './book-search-list-not-found';
 
-export default function BookSearchList() {
+export function BookSearchList() {
   const { query, size, sort, target } = useBookSearchParams();
   const {
     data,
@@ -52,8 +52,8 @@ export default function BookSearchList() {
         {data.map(book => (
           <BookSearchItem
             key={book.isbns.join('-')}
-            item={book}
-            onClick={modalHandler}
+            book={book}
+            modalHandler={modalHandler}
           />
         ))}
       </ul>

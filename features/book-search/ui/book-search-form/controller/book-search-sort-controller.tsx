@@ -1,17 +1,15 @@
 'use client';
 
-import React from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
 
-import type { BookSearchControllerProps } from '../../model/types';
+import type { BookSearchParamsType } from '../../../schemas';
 
-export default function BookSearchSortController({
-  control,
-}: BookSearchControllerProps) {
+export function BookSearchSortController() {
+  const { control } = useFormContext<BookSearchParamsType>();
   return (
     <Controller
       name="sort"

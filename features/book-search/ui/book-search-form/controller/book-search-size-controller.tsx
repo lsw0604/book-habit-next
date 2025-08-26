@@ -1,17 +1,15 @@
 'use client';
 
-import React from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import { Slider } from '@/shared/ui/slider';
 
-import type { BookSearchControllerProps } from '../../model/types';
+import type { BookSearchParamsType } from '../../../schemas';
 
-export default function BookSearchSizeController({
-  control,
-}: BookSearchControllerProps) {
+export function BookSearchSizeController() {
+  const { control } = useFormContext<BookSearchParamsType>();
   return (
     <Controller
       name="size"

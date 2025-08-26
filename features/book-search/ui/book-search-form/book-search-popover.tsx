@@ -1,29 +1,23 @@
 'use client';
 
 import { DotIcon, ListFilterIcon } from 'lucide-react';
-import { useWatch } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import { Button } from '@/shared/ui/button';
 import { Popover } from '@/shared/ui/popover';
 
-import type { BookSearchControllerProps } from '../../model/types';
+import {
+  BookSearchSizeController,
+  BookSearchSortController,
+  BookSearchTargetController,
+} from './controller';
 
-import BookSearchSizeController from './book-search-size-controller';
-import BookSearchSortController from './book-search-sort-controller';
-import BookSearchTargetController from './book-search-target-controller';
-
-export default function BookSearchPopover({
-  control,
-  formState,
-}: BookSearchControllerProps) {
-  const query = useWatch({
-    control,
-    name: 'query',
-    defaultValue: '',
-  });
+export function BookSearchPopover() {
+  const { formState } = useFormContext();
 
   const shouldShowError =
     formState.isSubmitted &&
+    (formState.errors.target || formState.errors.size || formState.errors.sort);
 
   return (
     <Popover>
@@ -36,9 +30,9 @@ export default function BookSearchPopover({
         </Button>
       </Popover.Trigger>
       <Popover.Content className="top-12 right-0 px-2 py-4 z-9999">
-        <BookSearchTargetController control={control} />
-        <BookSearchSizeController control={control} />
-        <BookSearchSortController control={control} />
+        <BookSearchTargetController />
+        <BookSearchSizeController />
+        <BookSearchSortController />
       </Popover.Content>
     </Popover>
   );

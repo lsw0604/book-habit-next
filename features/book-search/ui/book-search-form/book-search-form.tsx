@@ -1,24 +1,32 @@
 'use client';
 
-import { useBookSearchFormHandler, useBookSearchFormSubmit } from '../../hooks';
+import { FormProvider } from 'react-hook-form';
 
-import BookSearchInputController from './book-search-input-controller';
-import BookSearchPopover from './book-search-popover';
+import {
+  useBookSearchForm,
+  useBookSearchFormSubmit,
+  useBookSearchParams,
+} from '../../hooks';
 
-export default function BookSearchForm() {
-  const { handleSubmit, control, formState, setIsRouting } =
-    useBookSearchFormHandler();
-  const { onSubmit } = useBookSearchFormSubmit(setIsRouting);
+import { BookSearchPopover } from './book-search-popover';
+import { BookSearchQueryController } from './controller';
+
+export function BookSearchForm() {
+  const params = useBookSearchParams();
+  const methods = useBookSearchForm(params);
+  const { onSubmit } = useBookSearchFormSubmit();
 
   return (
-    <form
-      className="w-full relative min-w-[240px]"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <div className="w-full h-auto shadow-lg flex gap-2 relative p-2 rounded-lg">
-        <BookSearchInputController control={control} />
-        <BookSearchPopover control={control} formState={formState} />
-      </div>
-    </form>
+    <FormProvider {...methods}>
+      <form
+        className="w-full relative min-w-[240px]"
+        onSubmit={methods.handleSubmit(onSubmit)}
+      >
+        <div className="w-full h-auto shadow-lg flex gap-2 relative p-2 rounded-lg">
+          <BookSearchQueryController />
+          <BookSearchPopover />
+        </div>
+      </form>
+    </FormProvider>
   );
 }
