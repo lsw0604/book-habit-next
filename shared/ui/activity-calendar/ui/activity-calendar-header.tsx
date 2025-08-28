@@ -1,26 +1,18 @@
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
 import { Button } from '../../button';
+import { useCalendarContext } from '../hooks';
 
-interface CalendarHeaderProps {
-  readonly year: number;
-  readonly month: number;
-  readonly onNavigateMonth: (direction: 'prev' | 'next') => void;
-  readonly onNavigateToToday: () => void;
-}
-
-export default function CalendarHeader({
-  year,
-  month,
-  onNavigateMonth,
-  onNavigateToToday,
-}: CalendarHeaderProps) {
+export function ActivityCalendarHeader() {
+  const { calendarState, navigateMonth, navigateToToday, onTodayClick } =
+    useCalendarContext();
+  const { year, month } = calendarState;
   return (
     <div className="flex items-center justify-between px-4">
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => onNavigateMonth('prev')}
+        onClick={() => navigateMonth('prev')}
         aria-label="이전 달"
       >
         <ArrowLeftIcon className="w-4 h-4" />
@@ -31,12 +23,16 @@ export default function CalendarHeader({
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => onNavigateMonth('next')}
+        onClick={() => navigateMonth('next')}
         aria-label="다음 달"
       >
         <ArrowRightIcon className="w-4 h-4" />
       </Button>
-      <Button variant="ghost" size="sm" onClick={onNavigateToToday}>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => navigateToToday(onTodayClick)}
+      >
         오늘
       </Button>
     </div>

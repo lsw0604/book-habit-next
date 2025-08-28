@@ -1,24 +1,17 @@
 import { getDate, getDay, isSameDay } from 'date-fns';
-import { type ComponentType, useContext } from 'react';
 
 import { cn } from '@/shared/utils/class-name';
 
-import { type DayComponentProps, CalendarContext } from '../model';
+import { useCalendarContext } from '../hooks';
+import type { CalendarDayProps } from '../types';
 
-interface CalendarDayProps<T> {
-  readonly date: Date;
-  readonly data?: readonly T[];
-  readonly isToday?: boolean;
-  readonly DayComponent?: ComponentType<DayComponentProps<T>>;
-}
-
-export function CalendarDay<T>({
+export function ActivityCalendarDay<T>({
   date,
   data,
   isToday,
   DayComponent,
 }: CalendarDayProps<T>) {
-  const { onDateClick, selectedDate } = useContext(CalendarContext);
+  const { onDateClick, selectedDate } = useCalendarContext();
 
   const dayNumber = getDate(date);
   const dayOfWeek = getDay(date);

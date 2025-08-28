@@ -89,8 +89,9 @@ export const useCalendar = ({ initialDate }: UseCalendarOptions = {}) => {
     );
   }, []);
 
-  const navigateToToday = useCallback(() => {
+  const navigateToToday = useCallback((callback?: () => void) => {
     setCurrentDate(new Date()); // 현재 날짜로 설정
+    callback?.();
   }, []);
 
   const navigateToDate = useCallback((date: string | Date) => {
