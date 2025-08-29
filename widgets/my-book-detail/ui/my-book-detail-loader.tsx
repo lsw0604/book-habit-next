@@ -1,8 +1,10 @@
+'use client';
+
 import { Separator } from '@/shared/ui/separator';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { IconStar } from '@/style/icon';
 
-export default function MyBookDetailLoader() {
+export function MyBookDetailLoader() {
   return (
     <div className="w-full h-auto border border-gray-300 rounded-lg bg-transparent p-2">
       <div className="flex flex-col">

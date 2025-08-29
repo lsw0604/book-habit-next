@@ -4,63 +4,58 @@ import { format } from 'date-fns';
 
 import {
   BookCardAuthor,
+  BookCardContent,
   BookCardImage,
   BookCardPublisher,
   BookCardTitle,
 } from '@/entities/book';
 import { useMyBook } from '@/entities/my-book/hooks';
 import { MyBookUpdateForm } from '@/features/update-my-book';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
-import { createMarkUp } from '@/shared/utils/create-mark-up';
 
-import MyBookDate from './my-book-date';
-import MyBookDetailLoader from './my-book-detail-loader';
+import { MyBookDetailDate } from './my-book-detail-date';
+import { MyBookDetailLoader } from './my-book-detail-loader';
 
-export default function MyBookDetail({ myBookId }: { myBookId: number }) {
+export function MyBookDetail({ myBookId }: { myBookId: number }) {
   const { data, isLoading } = useMyBook({ myBookId });
 
   if (!data || isLoading) return <MyBookDetailLoader />;
 
   const datetime = format(data.book.datetime, 'yyyy-MM-dd');
-  const { book, createdAt, updatedAt, rating, status } = data;
-  const { isbns, thumbnail, title, authors, publisher, translators, contents } =
-    book;
 
   return (
-    <div className="w-full h-auto border border-gray-300 rounded-lg shadow-lg bg-transparent px-2 py-4">
+    <Card className="px-2 py-4 border-gray-300 gap-0">
       <div className="flex">
-        <BookCardImage
-          item={{
-            isbns,
-            thumbnail,
-            title,
-          }}
-        />
-        <div className="ml-3 flex flex-col grow">
-          <BookCardTitle>{title}</BookCardTitle>
-          <BookCardAuthor authors={authors} translators={translators} />
-          <BookCardPublisher datetime={datetime} publisher={publisher} />
-          <MyBookUpdateForm myBookId={myBookId} data={{ rating, status }} />
-        </div>
+        <BookCardImage book={data.book} />
+        <CardContent className="ml-3 p-0 flex-grow">
+          <CardTitle>
+            <BookCardTitle book={data.book} />
+          </CardTitle>
+          <CardDescription>
+            <BookCardAuthor book={data.book} />
+            <BookCardPublisher
+              book={{
+                ...data.book,
+                datetime,
+              }}
+            />
+          </CardDescription>
+          <MyBookUpdateForm myBookId={myBookId} data={data} />
+        </CardContent>
       </div>
       <Separator className="mt-4 mb-2" />
-      <div className="w-full text-sm min-h-[140px] mt-2 h-auto">
-        <div className="min-h-[140px] h-auto w-full flex items-center p-1 bg-gray-100 rounded-lg">
-          {data.book.contents === '' ? (
-            <p className="text-gray-500 font-bold w-full text-center">
-              줄거리가 존재하지 않습니다.
-            </p>
-          ) : (
-            <p
-              className="text-gray-800 font-normal"
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={createMarkUp(contents)}
-            />
-          )}
+      <CardContent className="p-0 min-h-[140px] w-full h-auto">
+        <div className="min-h-[140px] w-full flex items-center justify-center p-2 bg-gray-100 rounded-lg">
+          <BookCardContent book={data.book} />
         </div>
-      </div>
-      <Separator className="mt-2 mb-4" />
-      <MyBookDate createdAt={createdAt} updatedAt={updatedAt} />
-    </div>
+      </CardContent>
+      <MyBookDetailDate data={data} />
+    </Card>
   );
 }

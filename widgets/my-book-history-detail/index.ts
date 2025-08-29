@@ -1,1 +1,2 @@
-export { default as MyBookHistoryDetail } from './ui/my-book-history-detail';
+export * from './hooks';
+export * from './ui';

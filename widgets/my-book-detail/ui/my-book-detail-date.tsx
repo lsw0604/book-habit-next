@@ -1,16 +1,17 @@
 import { format } from 'date-fns';
 import { Pen } from 'lucide-react';
 
+import { MyBookDetail } from '@/entities/my-book/model';
+
 interface MyBookDateProps {
-  createdAt: Date;
-  updatedAt: Date;
+  data: Pick<MyBookDetail, 'createdAt' | 'updatedAt'>;
 }
 
-export default function MyBookDate({ createdAt, updatedAt }: MyBookDateProps) {
-  const createdAtTime = format(new Date(createdAt), 'yyyy-MM-dd');
-  const updatedAtTime = format(new Date(updatedAt), 'yyyy-MM-dd');
+export function MyBookDetailDate({ data }: MyBookDateProps) {
+  const createdAtTime = format(new Date(data.createdAt), 'yyyy-MM-dd');
+  const updatedAtTime = format(new Date(data.updatedAt), 'yyyy-MM-dd');
 
-  const isTime = createdAt === updatedAt;
+  const isTime = data.createdAt === data.updatedAt;
 
   return (
     <div className="flex justify-between mt-4">

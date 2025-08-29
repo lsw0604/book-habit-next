@@ -1,59 +1,24 @@
 'use client';
 
-import { isSameDay } from 'date-fns';
-import { useCallback, useMemo, useState } from 'react';
+import { useMyBookHistoryDetail } from '../hooks';
 
-import { useMyBookHistories } from '@/entities/my-book-history/hooks';
-import { ActivityCalendar } from '@/shared/ui/activity-calendar';
-import { groupItemsByDate } from '@/shared/utils/group-items-by-date';
+import { MyBookHistoryDetailCalendar } from './my-book-history-detail-calendar';
+import { MyBookHistoryDetailList } from './my-book-history-detail-list';
 
-import MyBookHistoryDay from './my-book-history-day';
-import MyBookHistoryList from './my-book-history-list';
-
-function Legend() {
-  return (
-    <div className="flex items-center justify-end space-x-2 text-xs text-gray-500 mb-4">
-      <span>Less</span>
-      <div className="w-4 h-4 rounded-sm bg-green-400" />
-      <div className="w-4 h-4 rounded-sm bg-green-500" />
-      <div className="w-4 h-4 rounded-sm bg-green-600" />
-      <div className="w-4 h-4 rounded-sm bg-green-700" />
-      <span>More</span>
-    </div>
-  );
-}
-
-export default function MyBookHistoryDetail({
-  myBookId,
-}: {
-  myBookId: number;
-}) {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const { data } = useMyBookHistories({ myBookId });
-  const groupedData = useMemo(() => groupItemsByDate(data), [data]);
-
-  const handleSelectedDate = useCallback(
-    (date: Date) => {
-      if (selectedDate && isSameDay(selectedDate, date)) {
-        setSelectedDate(null);
-      } else {
-        setSelectedDate(date);
-      }
-    },
-    [setSelectedDate, selectedDate]
-  );
+export function MyBookHistoryDetail({ myBookId }: { myBookId: number }) {
+  const { groupedData, onDateClick, selectedDate, onTodayClick } =
+    useMyBookHistoryDetail(myBookId);
 
   return (
     <div className="px-2 pt-4 mt-4 border rounded-lg shadow-lg">
-      <ActivityCalendar
-        className="p-0 border-none shadow-none"
-        data={groupedData}
-        onDateClick={handleSelectedDate}
-        DayComponent={MyBookHistoryDay}
+      <MyBookHistoryDetailCalendar
+        groupedData={groupedData}
+        onDateClick={onDateClick}
         selectedDate={selectedDate}
+        onTodayClick={onTodayClick}
       />
-      <Legend />
-      <MyBookHistoryList
+      <MyBookHistoryDetailList
+        myBookId={myBookId}
         selectedDate={selectedDate}
         formattedData={groupedData}
       />
