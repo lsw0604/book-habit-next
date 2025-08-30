@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { useAddMyBook } from '@/entities/my-book/hooks';
 
-import { AddMyBookType } from '../model/schema';
+import { AddMyBookType } from '../schemas';
 
 export const useAddMyBookFormSubmit = () => {
   const { mutate, isPending } = useAddMyBook();
