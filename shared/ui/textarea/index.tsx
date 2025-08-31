@@ -8,6 +8,7 @@ import {
   Ref,
   ChangeEvent,
   useEffect,
+  useCallback,
 } from 'react';
 
 import { cn } from '@/shared/utils/class-name';
@@ -70,10 +71,13 @@ export const AutoSizeTextarea = forwardRef<
       setTriggerAutoSize(value as string);
     }, [props?.defaultValue, value]);
 
-    const handleOnChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-      setTriggerAutoSize(event.target.value);
-      onChange?.(event);
-    };
+    const handleOnChange = useCallback(
+      (event: ChangeEvent<HTMLTextAreaElement>) => {
+        setTriggerAutoSize(event.target.value);
+        onChange?.(event);
+      },
+      [onChange]
+    );
 
     return (
       <div className="group w-full space-y-1">

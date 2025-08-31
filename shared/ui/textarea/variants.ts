@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
 export const autoSizeTextareaVariants = cva(
-  'flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none',
+  'flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm scrollbar-none placeholder:text-muted-foreground focus:outline-none',
   {
     variants: {
       state: {

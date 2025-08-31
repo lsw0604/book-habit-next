@@ -15,29 +15,25 @@ export const useAutoSizeTextarea = ({
 }: UseAutoSizeTextareaProps) => {
   const [init, setInit] = useState<boolean>(true);
 
-  const offsetBorder = 6;
-  const textareaElement = textareaRef.current;
-
   useEffect(() => {
+    const textareaElement = textareaRef.current;
     if (textareaElement) {
       if (init) {
-        textareaElement.style.minHeight = `${minHeight + offsetBorder}px`;
-
+        textareaElement.style.minHeight = `${minHeight}px`;
         if (maxHeight > minHeight) {
           textareaElement.style.maxHeight = `${maxHeight}px`;
         }
-
         setInit(false);
       }
-      textareaElement.style.height = `${minHeight + offsetBorder}px`;
 
+      textareaElement.style.height = `${minHeight}px`;
       const { scrollHeight } = textareaElement;
 
       if (scrollHeight > maxHeight) {
         textareaElement.style.height = `${maxHeight}px`;
       } else {
-        textareaElement.style.height = `${scrollHeight + offsetBorder}px`;
+        textareaElement.style.height = `${scrollHeight}px`;
       }
     }
-  }, [textareaElement, init, minHeight, maxHeight, triggerAutoSize]);
+  }, [textareaRef, init, minHeight, maxHeight, triggerAutoSize]);
 };
