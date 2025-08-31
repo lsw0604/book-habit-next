@@ -33,7 +33,7 @@ export function MyBookDetail({ myBookId }: { myBookId: number }) {
     <Card className="px-2 py-4 border-gray-300 gap-0">
       <div className="flex">
         <BookCardImage book={data.book} />
-        <CardContent className="ml-3 p-0 flex-grow">
+        <CardContent className="ml-3 p-0 flex-grow flex flex-col gap-2">
           <CardTitle>
             <BookCardTitle book={data.book} />
           </CardTitle>
