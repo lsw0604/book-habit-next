@@ -10,10 +10,9 @@ import {
   BookCardTitle,
 } from '@/entities/book';
 import { RegisterMyBookProps } from '@/entities/modal/store';
-import { CARD_STYLES } from '@/shared/style/card-style';
 import { Button } from '@/shared/ui/button';
-import { Card } from '@/shared/ui/card';
-import { cn } from '@/shared/utils/class-name';
+import { Card, CardContent, CardFooter } from '@/shared/ui/card';
+import { Separator } from '@/shared/ui/separator';
 
 import { useAddMyBookForm, useAddMyBookFormSubmit } from '../hooks';
 
@@ -25,36 +24,41 @@ export function AddMyBookModal({ selectedBook }: RegisterMyBookProps) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card>
-        <div className="w-full text-left">
+      <Card className="shadow-none border-none">
+        <CardContent className="flex gap-4">
           <BookCardImage book={selectedBook} />
-          <div
-            className={cn(
-              CARD_STYLES.contentWrapper,
-              'p-1 ml-2 pl-2 bg-gray-100 rounded-md'
-            )}
-          >
-            <BookCardTitle book={selectedBook} />
-            <BookCardISBN book={selectedBook} />
-            <BookCardAuthor book={selectedBook} />
-            <BookCardPublisher book={selectedBook} />
-            <BookCardPrice book={selectedBook} />
+          <div className="flex flex-col flex-grow space-y-2">
+            <BookCardTitle
+              book={selectedBook}
+              className="text-lg font-semibold"
+            />
+            <Separator />
+            <div className="space-y-1 text-sm">
+              <BookCardISBN book={selectedBook} />
+              <BookCardAuthor book={selectedBook} />
+              <BookCardPublisher book={selectedBook} />
+              <BookCardPrice book={selectedBook} />
+            </div>
+            <Separator />
           </div>
-        </div>
-        <div className="p-1 bg-gray-100 rounded-md my-2">
-          <BookCardContent book={selectedBook} />
-        </div>
-        <div className="w-full flex flex-shrink-0 mt-2 gap-2">
-          <Button
-            type="submit"
-            className="w-full"
-            isLoading={isPending}
-            disabled={disabled}
-          >
-            내 서재에 등록하기
-          </Button>
-        </div>
+        </CardContent>
+        <CardFooter>
+          <BookCardContent
+            book={selectedBook}
+            className="text-sm text-muted-foreground"
+          />
+        </CardFooter>
       </Card>
+      <div className="py-4 px-6">
+        <Button
+          type="submit"
+          className="w-full"
+          isLoading={isPending}
+          disabled={disabled}
+        >
+          내 서재에 등록하기
+        </Button>
+      </div>
     </form>
   );
 }
