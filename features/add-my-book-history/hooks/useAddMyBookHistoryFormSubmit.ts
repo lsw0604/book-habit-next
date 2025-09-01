@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 
-import { useAddMyBookHistory } from '@/entities/my-book-history/hooks';
+import { useAddMyBookHistory } from '@/entities/my-book-history';
 
-import { AddMyBookHistoryType } from '../model/schema';
+import { AddMyBookHistoryType } from '../schemas';
 
 export const useAddMyBookHistoryFormSubmit = () => {
   const { mutate, isPending } = useAddMyBookHistory();

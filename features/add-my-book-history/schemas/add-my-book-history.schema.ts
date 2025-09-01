@@ -1,7 +1,7 @@
 import { startOfToday } from 'date-fns';
 import { z } from 'zod';
 
-import { ReadingMood } from '@/entities/my-book-history/model';
+import { ReadingMood } from '@/entities/my-book-history';
 
 const readingMoodSchema = z.nativeEnum(ReadingMood, {
   invalid_type_error: '독서 감정을 선택해주세요.',
