@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
 import {
@@ -12,6 +11,7 @@ import { Button } from '@/shared/ui/button';
 import { useMyBookHistoryDetailList } from '../hooks';
 
 import { MyBookHistoryDetailListEmpty } from './my-book-history-detail-list-empty';
+import { MyBookHistoryDetailListHeader } from './my-book-history-detail-list-header';
 
 interface MyBookHistoryDetailListProps {
   myBookId: number;
@@ -26,8 +26,13 @@ export function MyBookHistoryDetailList({
 }: MyBookHistoryDetailListProps) {
   const listRef = useRef<HTMLDivElement | null>(null);
 
-  const { representativeHistory, handleHistoryClick, handleAddHistoryModal } =
-    useMyBookHistoryDetailList({ formattedData, selectedDate });
+  const {
+    isExpanded,
+    formattedHistories,
+    handleHistoryClick,
+    handleToggleExpand,
+    handleAddHistoryModal,
+  } = useMyBookHistoryDetailList({ formattedData, selectedDate });
 
   useEffect(() => {
     if (selectedDate && listRef.current) {
@@ -40,32 +45,36 @@ export function MyBookHistoryDetailList({
       ref={listRef}
       className="w-full h-auto mt-2 mb-4 flex flex-col space-y-3"
     >
-      <div className="flex justify-between items-center px-1">
-        <h3 className="text-base font-bold">독서 기록</h3>
-        <Button asChild variant="ghost" size="sm" className="-mr-2">
-          <Link href={`/my_books/${myBookId}/history`}>전체 보기</Link>
+      <MyBookHistoryDetailListHeader
+        myBookId={myBookId}
+        onAdd={handleAddHistoryModal}
+        addDisabled={!selectedDate}
+      />
+      {formattedHistories.length > 0 ? (
+        <div className="space-y-2">
+          {formattedHistories
+            .slice(0, isExpanded ? formattedHistories.length : 1)
+            .map(history => (
+              <MyBookHistoryItem
+                key={history.id}
+                history={history}
+                onClick={handleHistoryClick}
+              />
+            ))}
+        </div>
+      ) : (
+        <MyBookHistoryDetailListEmpty selectedDate={selectedDate} />
+      )}
+      {formattedHistories.length > 1 && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleToggleExpand}
+          className="w-full"
+        >
+          {isExpanded ? '접기' : `더보기 (${formattedHistories.length}개)`}
         </Button>
-      </div>
-
-      <div>
-        {representativeHistory ? (
-          <MyBookHistoryItem
-            key={`my-book-history${representativeHistory.id}`}
-            history={representativeHistory}
-            onClick={handleHistoryClick}
-          />
-        ) : (
-          <MyBookHistoryDetailListEmpty selectedDate={selectedDate} />
-        )}
-      </div>
-
-      <Button
-        onClick={handleAddHistoryModal}
-        disabled={!selectedDate}
-        className="w-full mt-2"
-      >
-        독서 기록하기
-      </Button>
+      )}
     </div>
   );
 }

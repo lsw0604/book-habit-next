@@ -1,5 +1,7 @@
+'use client';
+
 import { format } from 'date-fns';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   openAddMyBookHistoryModal,
@@ -16,11 +18,22 @@ interface UseMyBookHistoryDetailListProps {
   selectedDate: Date | null;
 }
 
-export const useMyBookHistoryDetailList = ({
+interface ReturnMyBookHistoryDetailList {
+  isExpanded: boolean;
+  formattedHistories: MyBookHistory[];
+  handleHistoryClick: (selectedHistory: SerializedMyBookHistory) => void;
+  handleAddHistoryModal: () => void;
+  handleToggleExpand: () => void;
+}
+
+export const useMyBookHistoryDetailList: (
+  props: UseMyBookHistoryDetailListProps
+) => ReturnMyBookHistoryDetailList = ({
   formattedData,
   selectedDate,
-}: UseMyBookHistoryDetailListProps) => {
+}: UseMyBookHistoryDetailListProps): ReturnMyBookHistoryDetailList => {
   const dispatch = useAppDispatch();
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   const handleHistoryClick = useCallback(
     (selectedHistory: SerializedMyBookHistory) => {
@@ -36,19 +49,25 @@ export const useMyBookHistoryDetailList = ({
     );
   }, [dispatch, selectedDate]);
 
-  const { representativeHistory, formattedDate } = useMemo(() => {
-    const dateStr = selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '';
-    const histories = formattedData[dateStr] || [];
-    return {
-      representativeHistory: histories[0],
-      formattedDate: dateStr,
-    };
+  const handleToggleExpand = useCallback(() => {
+    setIsExpanded(prev => !prev);
+  }, []);
+
+  const formattedHistories = useMemo(() => {
+    if (!selectedDate) return [];
+    const dateStr = format(selectedDate, 'yyyy-MM-dd');
+    return formattedData[dateStr] || [];
   }, [formattedData, selectedDate]);
 
+  useEffect(() => {
+    setIsExpanded(false);
+  }, [selectedDate]);
+
   return {
-    representativeHistory,
-    formattedDate,
+    isExpanded,
+    formattedHistories,
     handleHistoryClick,
     handleAddHistoryModal,
+    handleToggleExpand,
   };
 };
