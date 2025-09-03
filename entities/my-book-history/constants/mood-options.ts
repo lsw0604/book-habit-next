@@ -1,5 +1,6 @@
-import { ReadingMood } from '@/entities/my-book-history/model';
 import { ChipSelectorOption } from '@/shared/ui/chip-selector';
+
+import { ReadingMood } from '../model';
 
 export const MOOD_SELECTOR_OPTIONS: ChipSelectorOption<ReadingMood>[] = [
   { value: ReadingMood.NEUTRAL, label: '😐 그냥 그래요' },
