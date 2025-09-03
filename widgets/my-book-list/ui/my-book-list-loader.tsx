@@ -1,7 +1,7 @@
 import { MyBookItemLoader } from '@/entities/my-book/ui';
 import { cn } from '@/shared/utils/class-name';
 
-export default function MyBookListLoader() {
+export function MyBookListLoader() {
   return (
     <div className={cn('w-full h-full overflow-scroll scrollbar-none')}>
       <ul

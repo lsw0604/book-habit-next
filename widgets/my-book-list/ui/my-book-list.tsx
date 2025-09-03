@@ -2,18 +2,18 @@
 
 import { useMyBooks } from '@/entities/my-book/hooks';
 import { MyBookItem } from '@/entities/my-book/ui';
-import { useMyBookFilterParams } from '@/features/filter-my-book/hooks';
+import { useFilterMyBookParams } from '@/features/filter-my-book/hooks';
 import Loader from '@/shared/common/loader';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { cn } from '@/shared/utils/class-name';
 
-import MyBookListEmpty from './my-book-list-empty';
-import MyBookListLoader from './my-book-list-loader';
-import MyBookListLoginError from './my-book-list-login-error';
-import MyBookListNotFound from './my-book-list-not-found';
+import { MyBookListEmpty } from './my-book-list-empty';
+import { MyBookListLoader } from './my-book-list-loader';
+import { MyBookListLoginError } from './my-book-list-login-error';
+import { MyBookListNotFound } from './my-book-list-not-found';
 
-export default function MyBookList() {
-  const { order, status } = useMyBookFilterParams();
+export function MyBookList() {
+  const { order, status } = useFilterMyBookParams();
   const {
     data,
     fetchNextPage,
