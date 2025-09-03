@@ -1,6 +1,6 @@
 'use client';
 
-import { isSameDay, startOfDay } from 'date-fns';
+import { isSameDay, isValid, startOfDay } from 'date-fns';
 import { useCallback, useMemo, useState } from 'react';
 
 import {
@@ -24,12 +24,16 @@ export const useMyBookHistoryDetail: (
 ) => ReturnUseMyBookHistoryDetail = (
   myBookId: number
 ): ReturnUseMyBookHistoryDetail => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const { data: histories } = useMyBookHistories({ myBookId });
-  const groupedData: GroupType<MyBookHistory> = useMemo(
-    (): GroupType<MyBookHistory> => groupItemsByDate(histories),
-    [histories]
-  );
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const groupedData: GroupType<MyBookHistory> =
+    useMemo((): GroupType<MyBookHistory> => {
+      const validHistories =
+        histories?.filter(history => history.date && isValid(history.date)) ||
+        [];
+      return groupItemsByDate(validHistories);
+    }, [histories]);
 
   const onDateClick = useCallback(
     (date: Date) => {

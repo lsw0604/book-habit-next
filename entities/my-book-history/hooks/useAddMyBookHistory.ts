@@ -1,22 +1,93 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
 import type { ErrorResponseDTO } from '@/shared/api/types/error';
+import { queryKeys } from '@/shared/query/keys';
 
-import { type CreateMyBookHistoryPayload, myBookHistoryService } from '../api';
+import {
+  type CreateMyBookHistoryPayload,
+  type MyBookHistoryDTO,
+  myBookHistoryService,
+} from '../api';
 import { type MyBookHistory, toMyBookHistoryViewModel } from '../model';
 
 export const useAddMyBookHistory = () => {
   const { addMyBookHistory } = myBookHistoryService;
+  const queryClient = useQueryClient();
 
   return useMutation<
     MyBookHistory,
     AxiosError<ErrorResponseDTO>,
-    CreateMyBookHistoryPayload
+    CreateMyBookHistoryPayload,
+    {
+      previousHistories: MyBookHistory[];
+      historiesQueryKey: readonly ['myBookHistory', 'list', string];
+      optimisticId: number;
+    }
   >({
     mutationFn: async (payload: CreateMyBookHistoryPayload) => {
       const response = await addMyBookHistory(payload);
       return toMyBookHistoryViewModel(response);
+    },
+    onMutate: async (payload: CreateMyBookHistoryPayload) => {
+      const { myBookId } = payload;
+      const historiesQueryKey = queryKeys.myBookHistory.list(myBookId).queryKey;
+
+      await queryClient.cancelQueries({ queryKey: historiesQueryKey });
+
+      const previousHistories =
+        queryClient.getQueryData<MyBookHistory[]>(historiesQueryKey) ?? [];
+
+      const now = new Date();
+      const optimisticDTO: MyBookHistoryDTO = {
+        id: now.getTime(),
+        myBookId: payload.myBookId,
+        startPage: payload.startPage,
+        endPage: payload.endPage,
+        startTime: (payload.startTime || now).toISOString(),
+        endTime: (payload.endTime || now).toISOString(),
+        date: (payload.date || now).toISOString(),
+        readingMinutes: payload.readingMinutes,
+        memo: payload.memo || null,
+        readingMood: payload.readingMood,
+        createdAt: now.toISOString(),
+        updatedAt: now.toISOString(),
+      };
+
+      const optimisticNewHistory = toMyBookHistoryViewModel(optimisticDTO);
+
+      queryClient.setQueryData<MyBookHistory[]>(
+        historiesQueryKey,
+        (oldHistories = []) => [...oldHistories, optimisticNewHistory]
+      );
+
+      return {
+        previousHistories,
+        historiesQueryKey,
+        optimisticId: optimisticNewHistory.id,
+      };
+    },
+    onError: (_err, _vars, context) => {
+      if (context) {
+        queryClient.setQueryData(
+          context.historiesQueryKey,
+          context.previousHistories
+        );
+      }
+    },
+    onSuccess: (realNewHistory, _vars, context) => {
+      queryClient.setQueryData<MyBookHistory[]>(
+        context.historiesQueryKey,
+        (old = []) =>
+          old.map(history =>
+            history.id === context.optimisticId ? realNewHistory : history
+          )
+      );
+    },
+    onSettled: (_data, _error, _vars, context) => {
+      if (context) {
+        queryClient.invalidateQueries({ queryKey: context.historiesQueryKey });
+      }
     },
   });
 };

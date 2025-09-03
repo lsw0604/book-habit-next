@@ -1,5 +1,9 @@
 import { format } from 'date-fns';
 
+export interface GroupType<T> {
+  [date: string]: T[];
+}
+
 /**
  * 'date' 속성을 가진 객체들의 배열을 날짜별로 그룹화합니다.
  * 각 날짜는 'yyyy-MM-dd' 형식의 문자열 키로 사용됩니다.
@@ -28,19 +32,18 @@ import { format } from 'date-fns';
  *  }
  * ```
  */
-export function groupItemsByDate<T extends { date: Date }>(items: T[] = []) {
-  return items.reduce(
-    (acc, item) => {
-      const formattedDate = format(item.date, 'yyyy-MM-dd');
+export function groupItemsByDate<T extends { date: Date }>(
+  items: T[] = []
+): GroupType<T> {
+  return items.reduce((acc: GroupType<T>, item: T): GroupType<T> => {
+    const formattedDate: string = format(item.date, 'yyyy-MM-dd');
 
-      if (!acc[formattedDate]) {
-        acc[formattedDate] = [];
-      }
+    if (!acc[formattedDate]) {
+      acc[formattedDate] = [];
+    }
 
-      acc[formattedDate].push(item);
+    acc[formattedDate].push(item);
 
-      return acc;
-    },
-    {} as { [date: string]: T[] }
-  );
+    return acc;
+  }, {} as GroupType<T>);
 }
