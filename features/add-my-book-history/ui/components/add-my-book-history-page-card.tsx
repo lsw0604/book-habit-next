@@ -2,7 +2,10 @@ import { BookOpenIcon } from 'lucide-react';
 import { FocusEvent } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { calculatePages } from '@/entities/my-book-history';
+import {
+  type AddMyBookHistoryType,
+  calculatePages,
+} from '@/entities/my-book-history';
 import {
   Card,
   CardContent,
@@ -11,8 +14,6 @@ import {
   CardTitle,
 } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
-
-import type { AddMyBookHistoryType } from '../../schemas';
 
 export function AddMyBookHistoryPageCard() {
   const {

@@ -1,9 +1,8 @@
 import { useFormContext } from 'react-hook-form';
 
+import type { AddMyBookHistoryType } from '@/entities/my-book-history';
 import { Timer } from '@/shared/ui/timer';
 import { useTimer } from '@/shared/ui/timer/hooks';
-
-import { AddMyBookHistoryType } from '../../schemas';
 
 interface AddMyBookHistoryTimerControllerProps {
   date: Date;

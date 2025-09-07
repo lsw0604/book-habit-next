@@ -1,6 +1,9 @@
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { MOOD_SELECTOR_OPTIONS } from '@/entities/my-book-history';
+import {
+  type AddMyBookHistoryType,
+  MOOD_SELECTOR_OPTIONS,
+} from '@/entities/my-book-history';
 import {
   Card,
   CardContent,
@@ -10,8 +13,6 @@ import {
 } from '@/shared/ui/card';
 import { ChipSelector } from '@/shared/ui/chip-selector';
 import { ErrorMessage } from '@/shared/ui/error-message';
-
-import type { AddMyBookHistoryType } from '../../schemas';
 
 export function AddMyBookHistoryMoodCard() {
   const { control } = useFormContext<AddMyBookHistoryType>();

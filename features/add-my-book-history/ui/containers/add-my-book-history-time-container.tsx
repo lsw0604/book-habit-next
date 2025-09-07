@@ -5,9 +5,8 @@ import { ClockIcon } from 'lucide-react';
 import { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import type { AddMyBookHistoryType } from '@/entities/my-book-history';
 import { InputTimepicker } from '@/shared/ui/input-timepicker';
-
-import { AddMyBookHistoryType } from '../../schemas';
 
 export function AddMyBookHistoryTimeContainer() {
   const { watch, control, setValue } = useFormContext<AddMyBookHistoryType>();

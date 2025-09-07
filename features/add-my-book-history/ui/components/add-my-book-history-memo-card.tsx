@@ -1,9 +1,8 @@
 import { useFormContext, Controller } from 'react-hook-form';
 
+import type { AddMyBookHistoryType } from '@/entities/my-book-history';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { AutoSizeTextarea } from '@/shared/ui/textarea';
-
-import type { AddMyBookHistoryType } from '../../schemas';
 
 export function AddMyBookHistoryMemoCard() {
   const { control } = useFormContext<AddMyBookHistoryType>();

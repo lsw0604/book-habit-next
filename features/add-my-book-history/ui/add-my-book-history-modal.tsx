@@ -3,14 +3,12 @@
 import { parseISO } from 'date-fns';
 import { useParams } from 'next/navigation';
 
-import { RegisterMyBookHistoryProps } from '@/entities/modal/store/types';
+import { AddMyBookHistoryProps } from '@/entities/modal';
 
 import { AddMyBookHistoryForm } from './add-my-book-history-form';
 import { AddMyBookHistoryProvider } from './add-my-book-history-provider';
 
-export function AddMyBookHistoryModal({
-  selectedDate,
-}: RegisterMyBookHistoryProps) {
+export function AddMyBookHistoryModal({ selectedDate }: AddMyBookHistoryProps) {
   const params = useParams();
   const { my_book_id: myBookId } = params;
 

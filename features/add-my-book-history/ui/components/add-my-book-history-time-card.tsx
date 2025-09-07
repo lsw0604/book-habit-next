@@ -2,6 +2,7 @@ import { Clock, Edit3 } from 'lucide-react';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { AddMyBookHistoryType } from '@/entities/my-book-history';
 import {
   Card,
   CardContent,
@@ -13,7 +14,6 @@ import { ErrorMessage } from '@/shared/ui/error-message';
 import { ModeSwitch } from '@/shared/ui/mode-switch';
 import type { ModeOption } from '@/shared/ui/mode-switch/types';
 
-import { AddMyBookHistoryType } from '../../schemas';
 import {
   AddMyBookHistoryTimeContainer,
   AddMyBookHistoryTimerContainer,

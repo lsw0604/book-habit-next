@@ -1,11 +1,12 @@
 import { useFormContext } from 'react-hook-form';
 
 import { closeModal } from '@/entities/modal/store';
-import { useAddMyBookHistory } from '@/entities/my-book-history';
+import {
+  type AddMyBookHistoryType,
+  useAddMyBookHistory,
+} from '@/entities/my-book-history';
 import { useAppDispatch } from '@/shared/redux/store';
 import { Button } from '@/shared/ui/button';
-
-import { AddMyBookHistoryType } from '../schemas';
 
 import {
   AddMyBookHistoryMemoCard,
