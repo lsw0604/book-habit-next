@@ -37,7 +37,7 @@ export const baseMyBookHistorySchema = z.object({
     .int()
     .min(1, { message: '독서 시간(분)은 1분 이상이어야 합니다.' })
     .max(1440, { message: '하루(1440분)를 초과하여 기록할 수 없습니다.' }),
-  memo: z.string().optional(), // 선택적 필드
+  memo: z.string().max(500, '메모는 500자 이하로 입력해주세요.').optional(), // 선택적 필드
   readingMood: readingMoodSchema, // 위에서 정의한 ReadingMood enum 스키마 사용
 });
 

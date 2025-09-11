@@ -8,7 +8,7 @@ export function calculatePages(startPage: number, endPage: number): number {
   return endPage - startPage + 1;
 }
 
-export function pickRandomMessage(messages: string[]): string {
+export function pickRandomMessage<T>(messages: T[]): T {
   return messages[Math.floor(Math.random() * messages.length)];
 }
 
@@ -65,7 +65,4 @@ export const parseMoodLabel = (
   return { emoji, label: labelParts.join(' ') };
 };
 
-export const truncateMemo = (memo?: string, maxLength = 70): string => {
-  if (!memo) return '등록된 메모가 없습니다.';
-  return memo.length > maxLength ? `${memo.substring(0, maxLength)}...` : memo;
-};
+

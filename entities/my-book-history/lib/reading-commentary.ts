@@ -2,7 +2,11 @@ import { getHours, isWeekend as validWeekend } from 'date-fns';
 
 import { normalizedDate } from '@/shared/utils/date';
 
-import { COMMENTARY_MESSAGES } from '../constants';
+import {
+  COMMENTARY_COLOR_MAP,
+  COMMENTARY_MESSAGES,
+  DEFAULT_STYLE,
+} from '../constants';
 import { MyBookHistory, ReadingMood, SerializedMyBookHistory } from '../model';
 
 import {
@@ -19,11 +23,73 @@ type ReadingCommentaryPick =
   | 'readingMood'
   | 'readingMinutes';
 
-export const generateReadingCommentary = (
-  history:
-    | Pick<MyBookHistory, ReadingCommentaryPick>
-    | Pick<SerializedMyBookHistory, ReadingCommentaryPick>
+type ReadingCommentaryType =
+  | Pick<MyBookHistory, ReadingCommentaryPick>
+  | Pick<SerializedMyBookHistory, ReadingCommentaryPick>;
+
+export interface ReadingStyle {
+  bgColor: string;
+  borderColor: string;
+  textColor: string;
+}
+
+export const generateReadingCommentaryColor = (
+  history: ReadingCommentaryType
 ) => {
+  const readPages = calculatePages(history.startPage, history.endPage);
+  const pagesPerMInutes = calculatePagesPerMinute(
+    readPages,
+    history.readingMinutes
+  );
+  const startDate = normalizedDate(history.startTime);
+  const endDate = normalizedDate(history.endTime);
+  const startHour = getHours(startDate);
+  const endHour = getHours(endDate);
+  const isWeekend = validWeekend(startHour);
+  const mood = history.readingMood;
+
+  // ======================================================
+  // 1. 최우선 순위 특별 케이스 (시간의 흐름)
+  // ======================================================
+  if (startDate.getDate() !== endDate.getDate()) {
+    return COMMENTARY_COLOR_MAP.SPECIAL_CASES.OVERNIGHT_READING;
+  }
+  if (startHour < 5 && endHour >= 5) {
+    return COMMENTARY_COLOR_MAP.SPECIAL_CASES.GREETING_THE_DAWN;
+  }
+
+  // ======================================================
+  // 2. 이스터 에그 (감정 + 특정 조건 조합)
+  // ======================================================
+  if (
+    mood === ReadingMood.THOUGHTFUL &&
+    startHour >= 22 &&
+    pagesPerMInutes >= 4
+  ) {
+    return COMMENTARY_COLOR_MAP.EASTER_EGGS.THOUGHTFUL_NIGHT;
+  }
+  if (
+    mood === ReadingMood.EXCITED &&
+    isWeekend &&
+    history.readingMinutes >= 120
+  ) {
+    return COMMENTARY_COLOR_MAP.EASTER_EGGS.EXCITED_WEEKEND;
+  }
+
+  // ======================================================
+  // 3. Mood 기반 스타일
+  // ======================================================
+  if (mood && COMMENTARY_COLOR_MAP.MOOD[mood]) {
+    return COMMENTARY_COLOR_MAP.MOOD[mood];
+  }
+
+  // ======================================================
+  // 4. Mood가 없거나 매칭되는 스타일이 없을 때의 Fallback
+  // ======================================================
+  return DEFAULT_STYLE;
+};
+
+export const generateReadingCommentary = (history: ReadingCommentaryType) => {
   const readPages = calculatePages(history.startPage, history.endPage);
   const pagesPerMInutes = calculatePagesPerMinute(
     readPages,

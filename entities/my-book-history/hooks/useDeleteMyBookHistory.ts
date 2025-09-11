@@ -18,5 +18,13 @@ export const useDeleteMyBookHistory = () => {
       const response = await deleteMyBookHistory(payload);
       return toMyBookHistoryViewModel(response);
     },
+    onMutate: () => {},
+    onError: () => {},
+    onSettled: () => {},
+    onSuccess: () => {
+      /**
+       * TODO : 토스트 알람을 호출하는 함수를 넣을
+       */
+    },
   });
 };
