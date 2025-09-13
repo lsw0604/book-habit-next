@@ -1,14 +1,17 @@
 'use client';
 
-import { useLoginForm, useLoginFormSubmit } from '@/features/login-form/hooks';
+import { useFormContext } from 'react-hook-form';
 
-import LoginButtons from './login-buttons';
-import LoginEmailController from './login-email-controller';
-import LoginFormError from './login-form-error';
-import LoginPasswordController from './login-password-controller';
+import { ErrorMessage } from '@/shared/ui/error-message';
 
-export default function LoginForm() {
-  const { control, handleSubmit } = useLoginForm();
+import { useLoginFormSubmit } from '../hooks';
+import type { LoginType } from '../schemas';
+
+import { LoginEmailContainer, LoginPasswordContainer } from './containers';
+import { LoginButtons } from './login-buttons';
+
+export function LoginForm() {
+  const { handleSubmit } = useFormContext<LoginType>();
   const { onSubmit, isError, isPending, error } = useLoginFormSubmit();
 
   return (
@@ -16,9 +19,11 @@ export default function LoginForm() {
       className="flex flex-col max-w-sm p-4 w-full"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <LoginEmailController control={control} />
-      <LoginPasswordController control={control} />
-      <LoginFormError isError={isError} error={error} />
+      <LoginEmailContainer />
+      <LoginPasswordContainer />
+      {isError && error?.response?.data?.message && (
+        <ErrorMessage>{error.response.data.message}</ErrorMessage>
+      )}
       <LoginButtons isLoading={isPending} />
     </form>
   );

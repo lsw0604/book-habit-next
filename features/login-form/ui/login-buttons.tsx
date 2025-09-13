@@ -1,11 +1,14 @@
+'use client';
+
 import Link from 'next/link';
 
-import { useKakaoRouter } from '@/features/login-form/hooks';
+import { KakaoIcon } from '@/shared/assets';
 import { Button } from '@/shared/ui/button';
 import { Separator } from '@/shared/ui/separator';
-import { IconKakao } from '@/style/icon';
 
-export default function LoginButtons({ isLoading }: { isLoading: boolean }) {
+import { useKakaoRouter } from '../hooks';
+
+export function LoginButtons({ isLoading }: { isLoading: boolean }) {
   const { pushToKakaoLogin } = useKakaoRouter();
   return (
     <>
@@ -24,6 +27,7 @@ export default function LoginButtons({ isLoading }: { isLoading: boolean }) {
       </p>
       <Separator className="my-4" />
       <Button
+        key="login-submit-btn"
         type="submit"
         role="button"
         isLoading={isLoading}
@@ -32,6 +36,7 @@ export default function LoginButtons({ isLoading }: { isLoading: boolean }) {
         로그인하기
       </Button>
       <Button
+        key="kakao-login-router-btn"
         role="button"
         onClick={pushToKakaoLogin}
         type="button"
@@ -40,7 +45,7 @@ export default function LoginButtons({ isLoading }: { isLoading: boolean }) {
         variant="yellow"
         className="mt-4 bg-yellow-300 hover:bg-yellow-300"
       >
-        <IconKakao className="w-5 h-5 mr-4 fill-yellow-300" />
+        <KakaoIcon className="w-5 h-5 mr-4 fill-yellow-300" />
         카카오로 로그인
       </Button>
     </>

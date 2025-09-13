@@ -1,9 +1,6 @@
-import {
-  type LoginType,
-  loginSchema,
-  DEFAULT_LOGIN,
-} from '@/entities/auth/model';
 import { useFormWithSchema } from '@/shared/hooks/form/useFormWithSchema';
+
+import { type LoginType, DEFAULT_LOGIN, loginSchema } from '../schemas';
 
 export const useLoginForm = (initialValue?: LoginType) =>
   useFormWithSchema(loginSchema, {

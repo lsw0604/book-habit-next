@@ -1,15 +1,14 @@
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { useCallback, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { Input } from '@/shared/ui/input';
 
-import { LoginControllerProps } from './types';
+import type { LoginType } from '../../schemas';
 
-export default function LoginPasswordController({
-  control,
-}: LoginControllerProps) {
+export function LoginPasswordContainer() {
   const [isEyeOpen, setIsEyeOpen] = useState<boolean>(false);
+  const { control } = useFormContext<LoginType>();
 
   const onClick = useCallback(() => {
     setIsEyeOpen(prev => !prev);
