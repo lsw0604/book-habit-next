@@ -1,11 +1,14 @@
-import type { RegisterControllerProps } from './types';
-import { Controller } from 'react-hook-form';
+'use client';
+
 import { UserIcon } from 'lucide-react';
+import { Controller, useFormContext } from 'react-hook-form';
+
 import { Input } from '@/shared/ui/input';
 
-export default function RegisterNameController({
-  control,
-}: RegisterControllerProps) {
+import type { RegisterType } from '../../schemas';
+
+export function RegisterNameContainer() {
+  const { control } = useFormContext<RegisterType>();
   return (
     <Controller
       name="name"

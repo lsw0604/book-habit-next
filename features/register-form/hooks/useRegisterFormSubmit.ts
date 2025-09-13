@@ -1,7 +1,11 @@
-import type { User } from '@/entities/user/model';
-import { type RegisterType, authEvents } from '@/entities/auth/model';
 import { useCallback } from 'react';
+
+import type { RegisterPayload } from '@/entities/auth/api';
 import { useRegister } from '@/entities/auth/hooks';
+import { authEvents } from '@/entities/auth/model';
+import type { User } from '@/entities/user/model';
+
+import type { RegisterType } from '../schemas';
 
 export const useRegisterFormSubmit = () => {
   const { mutate, isPending } = useRegister();
@@ -12,8 +16,10 @@ export const useRegisterFormSubmit = () => {
 
   const onSubmit = useCallback(
     (data: RegisterType) => {
+      // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unused-vars
       const { checkPassword: _, ...payload } = data;
-      mutate({ ...payload }, { onSuccess });
+
+      mutate({ ...(payload as RegisterPayload) }, { onSuccess });
     },
     [mutate, onSuccess]
   );

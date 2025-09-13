@@ -1,6 +1,7 @@
-import { Gender } from '@/entities/user/model';
 import { isBefore, startOfDay } from 'date-fns';
 import { z } from 'zod';
+
+import { Gender } from '@/entities/user/model';
 
 export const registerSchema = z
   .object({

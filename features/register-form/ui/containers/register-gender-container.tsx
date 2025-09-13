@@ -1,13 +1,16 @@
-import type { RegisterControllerProps } from './types';
-import { Controller } from 'react-hook-form';
-import { Label } from '@/shared/ui/label';
-import { ErrorMessage } from '@/shared/ui/error-message';
-import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
-import { IconFemale, IconMale } from '@/style/icon';
+'use client';
 
-export default function RegisterGenderController({
-  control,
-}: RegisterControllerProps) {
+import { Controller, useFormContext } from 'react-hook-form';
+
+import { MaleIcon, FemaleIcon } from '@/shared/assets';
+import { ErrorMessage } from '@/shared/ui/error-message';
+import { Label } from '@/shared/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
+
+import type { RegisterType } from '../../schemas';
+
+export function RegisterGenderContainer() {
+  const { control } = useFormContext<RegisterType>();
   return (
     <Controller
       name="gender"
@@ -22,12 +25,12 @@ export default function RegisterGenderController({
           >
             <div className="w-full flex gap-2 justify-center">
               <RadioGroupItem id="MALE" className="mr-2" value="MALE" />
-              <IconMale className="w-5 h-5" />
+              <MaleIcon className="w-5 h-5" />
               <Label htmlFor="MALE">남성</Label>
             </div>
             <div className="w-full flex gap-2 justify-center">
               <RadioGroupItem className="mr-2" value="FEMALE" id="FEMALE" />
-              <IconFemale className="w-5 h-5" />
+              <FemaleIcon className="w-5 h-5" />
               <Label htmlFor="FEMALE">여성</Label>
             </div>
           </RadioGroup>

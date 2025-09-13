@@ -1,13 +1,16 @@
-import type { RegisterControllerProps } from './types';
-import { useCallback, useState } from 'react';
+'use client';
+
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
-import { Controller } from 'react-hook-form';
+import { useCallback, useState } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+
 import { Input } from '@/shared/ui/input';
 
-export default function RegisterPasswordController({
-  control,
-}: RegisterControllerProps) {
+import type { RegisterType } from '../../schemas';
+
+export function RegisterPasswordContainer() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { control } = useFormContext<RegisterType>();
 
   const passwordHandler = useCallback(() => {
     setIsOpen(prev => !prev);

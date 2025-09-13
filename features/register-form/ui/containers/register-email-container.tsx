@@ -1,25 +1,28 @@
-import type { RegisterControllerProps } from './types';
-import { Controller } from 'react-hook-form';
-import { LockIcon } from 'lucide-react';
+'use client';
+
+import { MailIcon } from 'lucide-react';
+import { Controller, useFormContext } from 'react-hook-form';
+
 import { Input } from '@/shared/ui/input';
 
-export default function RegisterCheckPasswordController({
-  control,
-}: RegisterControllerProps) {
+import type { RegisterType } from '../../schemas';
+
+export function RegisterEmailContainer() {
+  const { control } = useFormContext<RegisterType>();
+
   return (
     <Controller
-      name="checkPassword"
+      name="email"
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div className="w-full relative mb-2">
           <Input
             {...field}
-            label="비밀번호 확인"
-            type="password"
+            label="이메일"
             autoComplete="off"
+            icon={MailIcon}
             error={!!error}
             errorMessage={error?.message}
-            icon={LockIcon}
           />
         </div>
       )}
