@@ -1,17 +1,18 @@
 'use client';
 
-import { format } from 'date-fns';
+import { formatISO } from 'date-fns';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   openAddMyBookHistoryModal,
-  openSelectedMyBookHistoryModal,
+  openViewMyBookHistoryModal,
 } from '@/entities/modal/store';
 import type {
   MyBookHistory,
   SerializedMyBookHistory,
 } from '@/entities/my-book-history';
 import { useAppDispatch } from '@/shared/redux/store';
+import { formatDate } from '@/shared/utils';
 
 interface UseMyBookHistoryDetailListProps {
   formattedData: { [date: string]: MyBookHistory[] };
@@ -37,7 +38,8 @@ export const useMyBookHistoryDetailList: (
 
   const handleHistoryClick = useCallback(
     (selectedHistory: SerializedMyBookHistory) => {
-      dispatch(openSelectedMyBookHistoryModal({ selectedHistory }));
+      // dispatch(openEditMyBookHistory({ selectedHistory }));
+      dispatch(openViewMyBookHistoryModal({ selectedHistory }));
     },
     [dispatch]
   );
@@ -45,7 +47,7 @@ export const useMyBookHistoryDetailList: (
   const handleAddHistoryModal = useCallback(() => {
     if (!selectedDate) return;
     dispatch(
-      openAddMyBookHistoryModal({ selectedDate: selectedDate.toISOString() })
+      openAddMyBookHistoryModal({ selectedDate: formatISO(selectedDate) })
     );
   }, [dispatch, selectedDate]);
 
@@ -55,7 +57,7 @@ export const useMyBookHistoryDetailList: (
 
   const formattedHistories = useMemo(() => {
     if (!selectedDate) return [];
-    const dateStr = format(selectedDate, 'yyyy-MM-dd');
+    const dateStr = formatDate(selectedDate, 'short');
     return formattedData[dateStr] || [];
   }, [formattedData, selectedDate]);
 

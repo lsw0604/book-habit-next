@@ -1,9 +1,10 @@
 'use client';
 
-import { MyBookHistoryDay } from '@/entities/my-book-history';
 import { ActivityCalendar } from '@/shared/ui/activity-calendar';
 
 import type { ReturnUseMyBookHistoryDetail } from '../hooks';
+
+import { MyBookHistoryDay } from './my-book-history-day';
 
 interface MyBookHistoryDetailCalendarProps
   extends ReturnUseMyBookHistoryDetail {}

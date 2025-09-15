@@ -11,7 +11,7 @@ export function MyBookHistoryDetailListEmpty({
   selectedDate,
 }: MyBookHistoryListEmptyProps) {
   return (
-    <div className="flex h-[333.4px] flex-col items-center justify-center rounded-lg border-2 border-dashed bg-muted/50 p-8 text-center">
+    <div className="flex h-[301.4px] flex-col items-center justify-center rounded-lg border-2 border-dashed bg-muted/50 p-8 text-center">
       <ClipboardList className="h-10 w-10 text-muted-foreground" />
       <h3 className="mt-4 text-lg font-semibold">
         {selectedDate ? MESSAGE_NOT_SELECTED_DATE : MESSAGE_NOT_EXIST_HISTORY}
