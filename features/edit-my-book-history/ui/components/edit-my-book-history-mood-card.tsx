@@ -7,7 +7,6 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -25,7 +24,6 @@ export function EditMyBookHistoryMoodCard() {
         <Card className="gap-2 hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
             <CardTitle>독서 감정 수정</CardTitle>
-            <CardDescription>선택 사항</CardDescription>
           </CardHeader>
           <CardContent>
             <ChipSelector

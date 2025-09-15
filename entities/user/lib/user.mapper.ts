@@ -1,7 +1,8 @@
 import { parseISO } from 'date-fns';
+
 import { UserDTO } from '../api';
-import { Gender, Provider, User } from '../model';
 import { DEFAULT_USER_PROFILE } from '../constant';
+import { Gender, Provider, User } from '../model';
 
 const stringToGender = (genderStr: string | null): Gender => {
   if (genderStr && Object.values(Gender).includes(genderStr as Gender)) {

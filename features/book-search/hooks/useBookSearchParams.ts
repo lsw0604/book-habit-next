@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 
 import { Sort, Target } from '@/entities/book';
-import { parseParam } from '@/shared/utils/parse-param';
+import { parseParam } from '@/shared/utils';
 
 import {
   BOOK_SEARCH_MIN_SIZE,

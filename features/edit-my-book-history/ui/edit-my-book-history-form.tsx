@@ -1,12 +1,17 @@
 import { useFormContext } from 'react-hook-form';
 
-import { closeModal } from '@/entities/modal';
+import {
+  closeModal,
+  EditMyBookHistoryProps,
+  modalSelector,
+  openViewMyBookHistoryModal,
+} from '@/entities/modal';
 import {
   EditMyBookHistoryType,
   UpdateMyBookHistoryPayload,
   useUpdateMyBookHistory,
 } from '@/entities/my-book-history';
-import { useAppDispatch } from '@/shared/redux/store';
+import { useAppDispatch, useAppSelector } from '@/shared/redux/store';
 import { Button } from '@/shared/ui/button';
 import { extractDirtyValues } from '@/shared/utils';
 
@@ -25,8 +30,17 @@ export function EditMyBookHistoryForm() {
     formState: { isSubmitting, isDirty, dirtyFields },
   } = useFormContext<EditMyBookHistoryType>();
   const dispatch = useAppDispatch();
+  const { props } = useAppSelector(modalSelector);
+  const { selectedHistory } = props as EditMyBookHistoryProps;
 
   const { mutate } = useUpdateMyBookHistory();
+
+  const openViewModal = () =>
+    dispatch(
+      openViewMyBookHistoryModal({
+        selectedHistory,
+      })
+    );
 
   const onSubmit = (data: EditMyBookHistoryType) => {
     if (!isDirty) return null;
@@ -66,13 +80,22 @@ export function EditMyBookHistoryForm() {
         <EditMyBookHistoryMoodCard />
         <EditMyBookHistoryMemoCard />
       </div>
-      <div className="mt-auto p-4">
+      <div className="mt-auto p-4 flex gap-4">
+        <Button
+          key="view-modal-btn"
+          type="button"
+          className="flex-1"
+          variant="outline"
+          onClick={openViewModal}
+        >
+          뒤로가기
+        </Button>
         <Button
           key="submit-btn"
           type="submit"
           disabled={isSubmitting || !isDirty}
           isLoading={isSubmitting}
-          className="w-full"
+          className="flex-1"
         >
           {isSubmitting ? '수정 중...' : '수정하기'}
         </Button>

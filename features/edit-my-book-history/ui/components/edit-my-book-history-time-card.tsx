@@ -4,7 +4,6 @@ import { EditMyBookHistoryType } from '@/entities/my-book-history';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -22,7 +21,6 @@ export function EditMyBookHistoryTimeCard() {
     <Card className="gap-2 hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
         <CardTitle>독서 시간 수정</CardTitle>
-        <CardDescription>선택 사항</CardDescription>
       </CardHeader>
       <CardContent>
         <EditMyBookHistoryTimeContainer />

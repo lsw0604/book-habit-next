@@ -9,7 +9,6 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -32,7 +31,6 @@ export function EditMyBookHistoryPageCard() {
     <Card className="gap-2 hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
         <CardTitle>독서 페이지 수정</CardTitle>
-        <CardDescription>선택 사항</CardDescription>
       </CardHeader>
       <CardContent className="grid grid-cols-2 gap-4">
         <Input
