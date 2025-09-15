@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import type {
+import {
   Modal,
-  RegisterMyBookHistoryProps,
-  RegisterMyBookProps,
-  SelectedMyBookHistoryProps,
-} from './types';
+  AddMyBookProps,
+  AddMyBookHistoryProps,
+  EditMyBookHistoryProps,
+  ViewMyBookHistoryProps,
+  DeleteMyBookHistoryProps,
+} from '../types';
 
 const initialState: Modal = {
   isOpen: false,
@@ -22,25 +24,41 @@ const modalSlice = createSlice({
       state.type = action.payload.type;
       state.props = action.payload.props;
     },
-    openAddMyBookModal: (state, action: PayloadAction<RegisterMyBookProps>) => {
+    openAddMyBookModal: (state, action: PayloadAction<AddMyBookProps>) => {
       state.isOpen = true;
-      state.type = 'REGISTER_MY_BOOK';
+      state.type = 'ADD_MY_BOOK';
       state.props = action.payload;
     },
     openAddMyBookHistoryModal: (
       state,
-      action: PayloadAction<RegisterMyBookHistoryProps>
+      action: PayloadAction<AddMyBookHistoryProps>
     ) => {
       state.isOpen = true;
-      state.type = 'REGISTER_MY_BOOK_HISTORY';
+      state.type = 'ADD_MY_BOOK_HISTORY';
       state.props = action.payload;
     },
-    openSelectedMyBookHistoryModal: (
+    openViewMyBookHistoryModal: (
       state,
-      action: PayloadAction<SelectedMyBookHistoryProps>
+      action: PayloadAction<ViewMyBookHistoryProps>
     ) => {
       state.isOpen = true;
-      state.type = 'SELECTED_MY_BOOK_HISTORY';
+      state.type = 'VIEW_MY_BOOK_HISTORY';
+      state.props = action.payload;
+    },
+    openEditMyBookHistory: (
+      state,
+      action: PayloadAction<EditMyBookHistoryProps>
+    ) => {
+      state.isOpen = true;
+      state.type = 'EDIT_MY_BOOK_HISTORY';
+      state.props = action.payload;
+    },
+    openDeleteMyBookHistory: (
+      state,
+      action: PayloadAction<DeleteMyBookHistoryProps>
+    ) => {
+      state.isOpen = true;
+      state.type = 'DELETE_MY_BOOK_HISTORY';
       state.props = action.payload;
     },
     closeModal: state => {
@@ -52,11 +70,13 @@ const modalSlice = createSlice({
 });
 
 export const {
+  closeModal,
   setModalState,
   openAddMyBookModal,
+  openEditMyBookHistory,
+  openDeleteMyBookHistory,
   openAddMyBookHistoryModal,
-  openSelectedMyBookHistoryModal,
-  closeModal,
+  openViewMyBookHistoryModal,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;
