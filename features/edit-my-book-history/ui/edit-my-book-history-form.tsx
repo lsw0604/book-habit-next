@@ -1,21 +1,19 @@
 import { useFormContext } from 'react-hook-form';
 
 import {
+  type EditMyBookHistoryProps,
   closeModal,
-  EditMyBookHistoryProps,
   modalSelector,
   openViewMyBookHistoryModal,
 } from '@/entities/modal';
 import {
-  EditMyBookHistoryType,
-  UpdateMyBookHistoryPayload,
+  type EditMyBookHistoryType,
+  type UpdateMyBookHistoryPayload,
   useUpdateMyBookHistory,
 } from '@/entities/my-book-history';
 import { useAppDispatch, useAppSelector } from '@/shared/redux/store';
 import { Button } from '@/shared/ui/button';
 import { extractDirtyValues } from '@/shared/utils';
-
-import { UpdatableFields } from '../types';
 
 import {
   EditMyBookHistoryMemoCard,
@@ -24,7 +22,24 @@ import {
   EditMyBookHistoryTimeCard,
 } from './components';
 
-export function EditMyBookHistoryForm() {
+type UpdatableFields = keyof Pick<
+  EditMyBookHistoryType,
+  | 'startPage'
+  | 'endPage'
+  | 'startTime'
+  | 'endTime'
+  | 'readingMinutes'
+  | 'readingMood'
+  | 'memo'
+>;
+
+interface EditMyBookHistoryFormProps {
+  myBookId: number;
+}
+
+export function EditMyBookHistoryForm({
+  myBookId,
+}: EditMyBookHistoryFormProps) {
   const {
     handleSubmit,
     formState: { isSubmitting, isDirty, dirtyFields },
@@ -33,7 +48,7 @@ export function EditMyBookHistoryForm() {
   const { props } = useAppSelector(modalSelector);
   const { selectedHistory } = props as EditMyBookHistoryProps;
 
-  const { mutate } = useUpdateMyBookHistory();
+  const { mutate } = useUpdateMyBookHistory({ myBookId });
 
   const openViewModal = () =>
     dispatch(

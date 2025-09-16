@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { FormProvider } from 'react-hook-form';
 
 import {
@@ -8,7 +9,7 @@ import {
 import { useEditMyBookHistoryForm } from '../hooks';
 
 interface EditMyBookHistoryProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
   selectedHistory: SerializedMyBookHistory;
 }
 
