@@ -3,7 +3,7 @@
 import { parseISO } from 'date-fns';
 import { useParams } from 'next/navigation';
 
-import { AddMyBookHistoryProps } from '@/entities/modal';
+import type { AddMyBookHistoryProps } from '@/entities/modal';
 
 import { AddMyBookHistoryForm } from './add-my-book-history-form';
 import { AddMyBookHistoryProvider } from './add-my-book-history-provider';
@@ -22,7 +22,7 @@ export function AddMyBookHistoryModal({ selectedDate }: AddMyBookHistoryProps) {
   return (
     <div className="h-[75vh]">
       <AddMyBookHistoryProvider myBookId={parsedMyBookId} date={date}>
-        <AddMyBookHistoryForm date={date} />
+        <AddMyBookHistoryForm />
       </AddMyBookHistoryProvider>
     </div>
   );

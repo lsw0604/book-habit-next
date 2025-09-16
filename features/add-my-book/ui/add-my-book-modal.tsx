@@ -9,14 +9,14 @@ import {
   BookCardPublisher,
   BookCardTitle,
 } from '@/entities/book';
-import { RegisterMyBookProps } from '@/entities/modal/store';
+import type { AddMyBookProps } from '@/entities/modal';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardFooter } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
 
 import { useAddMyBookForm, useAddMyBookFormSubmit } from '../hooks';
 
-export function AddMyBookModal({ selectedBook }: RegisterMyBookProps) {
+export function AddMyBookModal({ selectedBook }: AddMyBookProps) {
   const { onSubmit, isPending } = useAddMyBookFormSubmit();
   const { handleSubmit } = useAddMyBookForm({ ...selectedBook });
 

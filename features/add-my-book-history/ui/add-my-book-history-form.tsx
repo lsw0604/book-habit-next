@@ -15,18 +15,18 @@ import {
   AddMyBookHistoryTimeCard,
 } from './components';
 
-interface AddMyBookHistoryFormProps {
-  date: Date;
-}
-
-export function AddMyBookHistoryForm({ date }: AddMyBookHistoryFormProps) {
+export function AddMyBookHistoryForm() {
   const {
     formState: { isSubmitting },
     handleSubmit,
+    getValues,
   } = useFormContext<AddMyBookHistoryType>();
   const dispatch = useAppDispatch();
 
-  const { mutate } = useAddMyBookHistory();
+  const myBookId = getValues('myBookId');
+  const date = getValues('date');
+
+  const { mutate } = useAddMyBookHistory({ myBookId });
 
   const onSubmit = (data: AddMyBookHistoryType) => {
     mutate(data, {

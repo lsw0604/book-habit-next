@@ -11,9 +11,16 @@ import {
 } from '../api';
 import { type MyBookHistory, toMyBookHistoryViewModel } from '../model';
 
-export const useAddMyBookHistory = () => {
+interface UseAddMyBookHistoryParams {
+  myBookId: number;
+}
+
+export const useAddMyBookHistory = ({
+  myBookId,
+}: UseAddMyBookHistoryParams) => {
   const { addMyBookHistory } = myBookHistoryService;
   const queryClient = useQueryClient();
+  const historiesQueryKey = queryKeys.myBookHistory.list(myBookId).queryKey;
 
   return useMutation<
     MyBookHistory,
@@ -21,7 +28,6 @@ export const useAddMyBookHistory = () => {
     CreateMyBookHistoryPayload,
     {
       previousHistories: MyBookHistory[];
-      historiesQueryKey: readonly ['myBookHistory', 'list', string];
       optimisticId: number;
     }
   >({
@@ -30,9 +36,6 @@ export const useAddMyBookHistory = () => {
       return toMyBookHistoryViewModel(response);
     },
     onMutate: async (payload: CreateMyBookHistoryPayload) => {
-      const { myBookId } = payload;
-      const historiesQueryKey = queryKeys.myBookHistory.list(myBookId).queryKey;
-
       await queryClient.cancelQueries({ queryKey: historiesQueryKey });
 
       const previousHistories =
@@ -63,30 +66,24 @@ export const useAddMyBookHistory = () => {
 
       return {
         previousHistories,
-        historiesQueryKey,
         optimisticId: optimisticNewHistory.id,
       };
     },
     onError: (_err, _vars, context) => {
       if (context) {
-        queryClient.setQueryData(
-          context.historiesQueryKey,
-          context.previousHistories
-        );
+        queryClient.setQueryData(historiesQueryKey, context.previousHistories);
       }
     },
     onSuccess: (realNewHistory, _vars, context) => {
-      queryClient.setQueryData<MyBookHistory[]>(
-        context.historiesQueryKey,
-        (old = []) =>
-          old.map(history =>
-            history.id === context.optimisticId ? realNewHistory : history
-          )
+      queryClient.setQueryData<MyBookHistory[]>(historiesQueryKey, (old = []) =>
+        old.map(history =>
+          history.id === context.optimisticId ? realNewHistory : history
+        )
       );
     },
     onSettled: (_data, _error, _vars, context) => {
       if (context) {
-        queryClient.invalidateQueries({ queryKey: context.historiesQueryKey });
+        queryClient.invalidateQueries({ queryKey: historiesQueryKey });
       }
     },
   });
