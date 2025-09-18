@@ -42,6 +42,7 @@ export function ViewMyBookHistoryModal({
         <Button
           key="edit-modal-btn"
           type="button"
+          variant="outline"
           onClick={openEditModal}
           className="flex-1"
         >

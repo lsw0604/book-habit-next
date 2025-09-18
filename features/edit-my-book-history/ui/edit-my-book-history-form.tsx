@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import {
@@ -50,39 +51,54 @@ export function EditMyBookHistoryForm({
 
   const { mutate } = useUpdateMyBookHistory({ myBookId });
 
-  const openViewModal = () =>
+  const handleClickGoBack = () =>
     dispatch(
       openViewMyBookHistoryModal({
         selectedHistory,
       })
     );
 
-  const onSubmit = (data: EditMyBookHistoryType) => {
-    if (!isDirty) return null;
+  const onSubmit = useCallback(
+    (data: EditMyBookHistoryType) => {
+      if (!isDirty) return null;
 
-    const allowedFields: UpdatableFields[] = [
-      'startPage',
-      'endPage',
-      'startTime',
-      'endTime',
-      'readingMinutes',
-      'readingMood',
-      'memo',
-    ];
+      const allowedFields: UpdatableFields[] = [
+        'startPage',
+        'endPage',
+        'startTime',
+        'endTime',
+        'readingMinutes',
+        'readingMood',
+        'memo',
+      ];
 
-    const changedFields = extractDirtyValues(data, dirtyFields, allowedFields);
+      const changedFields = extractDirtyValues(
+        data,
+        dirtyFields,
+        allowedFields
+      );
 
-    const payload: UpdateMyBookHistoryPayload = {
-      id: data.id,
-      ...changedFields,
-    };
+      const payload: UpdateMyBookHistoryPayload = {
+        id: data.id,
+        ...changedFields,
+      };
 
-    mutate(payload, {
-      onSuccess: () => {
-        dispatch(closeModal());
-      },
-    });
-  };
+      mutate(payload, {
+        onSuccess: () => {
+          /**
+           * TODO 토스트 추가하기
+           */
+          dispatch(closeModal());
+        },
+        onError: () => {
+          /**
+           * TODO 토스트 추가하기
+           */
+        },
+      });
+    },
+    [mutate, dispatch, isDirty, dirtyFields]
+  );
 
   return (
     <form
@@ -101,7 +117,7 @@ export function EditMyBookHistoryForm({
           type="button"
           className="flex-1"
           variant="outline"
-          onClick={openViewModal}
+          onClick={handleClickGoBack}
         >
           뒤로가기
         </Button>
