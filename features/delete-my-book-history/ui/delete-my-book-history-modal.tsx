@@ -13,8 +13,11 @@ export function DeleteMyBookHistoryModal({
   selectedHistory,
 }: DeleteMyBookHistoryProps) {
   const dispatch = useAppDispatch();
+  const { id } = selectedHistory;
 
-  const { mutate } = useDeleteMyBookHistory();
+  const { mutate } = useDeleteMyBookHistory({
+    myBookId: selectedHistory.myBookId,
+  });
 
   const handleClickGoBack = () => {
     dispatch(
@@ -26,7 +29,7 @@ export function DeleteMyBookHistoryModal({
 
   const handleClickDelete = () => {
     mutate(
-      { id: selectedHistory.id },
+      { id },
       {
         onSuccess: () => {
           /**
