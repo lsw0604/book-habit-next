@@ -1,8 +1,9 @@
-import { AuthService, LoginPayload, RegisterPayload } from './types';
 import { UserDTO } from '@/entities/user/api';
+import { authAxiosInstance, authClient } from '@/shared/api/clients/auth';
 import { API_ENDPOINTS } from '@/shared/api/constant';
 import { ResponseDTO } from '@/shared/api/types/response';
-import { authAxiosInstance, authClient } from '@/shared/api/clients';
+
+import { AuthService, LoginPayload, RegisterPayload } from './types';
 
 export const authService: AuthService = {
   login: async (payload: LoginPayload) => {

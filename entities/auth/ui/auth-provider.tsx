@@ -1,14 +1,11 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { authEvents } from '../model';
-import { useAuthProvider } from '../hooks/useAuthProvider';
+import { useEffect, ReactNode } from 'react';
 
-export default function AuthProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import { useAuthProvider } from '../hooks';
+import { authEvents } from '../model';
+
+export function AuthProvider({ children }: { children: ReactNode }) {
   const {
     handleError,
     handleExpired,
@@ -29,5 +26,5 @@ export default function AuthProvider({
     return () => unsubscribes.forEach(unsubscribe => unsubscribe());
   }, [handleError, handleExpired, handleLogin, handleLogout, handleRegister]);
 
-  return <>{children}</>;
+  return children;
 }

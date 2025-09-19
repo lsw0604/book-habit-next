@@ -1,6 +1,6 @@
-import { User } from '@/entities/user/model';
+import type { SerializedUser } from '@/entities/user/model';
 
 export interface Auth {
-  user: User | null;
+  user: SerializedUser | null;
   isAuthenticated: boolean;
 }

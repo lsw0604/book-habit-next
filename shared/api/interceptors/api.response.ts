@@ -33,11 +33,11 @@ export const setupApiResponseInterceptor = (
         return Promise.reject(error);
       }
 
-      if (error.response?.status === 401 || error.response?.status === 403) {
-        if (
-          error.response?.status === 401 &&
-          originalRequest.url === '/api/auth/refresh'
-        ) {
+      if (error.response?.status === 401) {
+        /**
+         * * 401 에러가 발생했다는 것은 UnAuthorized 인증실패 즉, 당신이 누군지 모르겠으니 다시 요청을 보내시오라는 의미로 봐야함
+         */
+        if (originalRequest.url === '/api/auth/refresh') {
           /**
            * TODO 리프레쉬 토큰에서 401에러가 발생 => 로그아웃 처리
            */
@@ -47,12 +47,15 @@ export const setupApiResponseInterceptor = (
 
         try {
           const response = await refreshFn();
-          const newToken = response.headers['authorization']?.split(' ')[1];
+          const newToken: string | undefined =
+            response.headers['authorization']?.split(' ')[1];
 
           if (!newToken) {
             /**
              * TODO refreshAPI로 부터 토큰을 받아 오지 못함 => 에러처리
              */
+            authEvents.emitExpired('no new token');
+            return Promise.reject(error);
           }
 
           extractAndSaveToken(response);
@@ -64,7 +67,7 @@ export const setupApiResponseInterceptor = (
 
           return instance(originalRequest);
         } catch (refreshError) {
-          authEvents.emitLogout();
+          authEvents.emitExpired('refresh failed');
           return Promise.reject(refreshError);
         }
       }

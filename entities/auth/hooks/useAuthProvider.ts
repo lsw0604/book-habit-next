@@ -1,13 +1,18 @@
+'use client';
+
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback } from 'react';
-import { AuthEventData } from '../model';
+
+import { serializeUser } from '@/entities/user/model';
+import { useAppDispatch } from '@/shared/redux/store';
+import { isClient } from '@/shared/utils/is-client';
+
 import {
   DEFAULT_AUTHENTICATED_ROUTE,
   DEFAULT_UNAUTHENTICATED_ROUTE,
   AUTH_ROUTES,
 } from '../constant';
-import { isClient } from '@/shared/utils/is-client';
-import { useAppDispatch } from '@/shared/redux/store';
+import { AuthEventData } from '../model';
 import { clearAuthState, setAuthState } from '../store';
 
 /**
@@ -24,7 +29,10 @@ export const useAuthProvider = () => {
         if (data.user) {
           // 사용자 상태 업데이트
           dispatch(
-            setAuthState({ user: { ...data.user }, isAuthenticated: true })
+            setAuthState({
+              user: { ...serializeUser(data.user) },
+              isAuthenticated: true,
+            })
           );
           // 현재 인증 관련 페이지에 있으면 리디렉션
           if (AUTH_ROUTES.some(route => pathname.includes(route))) {
@@ -37,7 +45,7 @@ export const useAuthProvider = () => {
         }
       }
     },
-    [router, pathname]
+    [router, pathname, dispatch]
   );
 
   const handleRegister = useCallback(
@@ -46,29 +54,45 @@ export const useAuthProvider = () => {
         if (data.user) {
           // 사용자 상태 업데이트
           dispatch(
-            setAuthState({ user: { ...data.user }, isAuthenticated: true })
+            setAuthState({
+              user: { ...serializeUser(data.user) },
+              isAuthenticated: true,
+            })
           );
           if (AUTH_ROUTES.some(route => pathname.includes(route))) {
-            router.push(DEFAULT_AUTHENTICATED_ROUTE);
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectTo =
+              urlParams.get('redirectTo') || DEFAULT_AUTHENTICATED_ROUTE;
+            router.push(redirectTo);
           }
         }
       }
     },
-    [router, pathname]
+    [router, pathname, dispatch]
   );
 
   const handleLogout = useCallback(() => {
     // 상태 초기화
     dispatch(clearAuthState());
     router.push(DEFAULT_UNAUTHENTICATED_ROUTE);
-  }, [router]);
+  }, [router, dispatch]);
 
   const handleExpired = useCallback(() => {
     dispatch(clearAuthState());
-    router.push(DEFAULT_UNAUTHENTICATED_ROUTE);
-  }, [router]);
 
-  const handleError = useCallback((data: AuthEventData) => {}, []);
+    const isAuthRoute = AUTH_ROUTES.some(route => pathname.includes(route));
+    const redirectUrl = isAuthRoute
+      ? DEFAULT_UNAUTHENTICATED_ROUTE
+      : `${DEFAULT_UNAUTHENTICATED_ROUTE}?redirectTo=${pathname}`;
+
+    router.push(redirectUrl);
+  }, [dispatch, router, pathname]);
+
+  const handleError = useCallback((data: AuthEventData) => {
+    /**
+     * TODO 토스트 알람 추가하기
+     */
+  }, []);
 
   return {
     handleError,

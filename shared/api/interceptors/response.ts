@@ -1,11 +1,13 @@
 import { AxiosError, AxiosInstance } from 'axios';
-import { API_ENDPOINTS, MAX_RETRY_COUNT } from '../constant';
+
 import { authService } from '@/entities/auth/api';
-import { extractAndSaveToken } from '../utils/extract-and-save-token';
+import { authEvents } from '@/entities/auth/model';
 import { isClient } from '@/shared/utils/is-client';
+
+import { API_ENDPOINTS, MAX_RETRY_COUNT } from '../constant';
 import { CustomAxiosRequestConfig } from '../types/axios';
 import { ErrorResponseDTO } from '../types/error';
-import { authEvents } from '@/entities/auth/model';
+import { extractAndSaveToken } from '../utils/extract-and-save-token';
 
 let isRefreshing = false;
 let requestQueue: ((token: string) => void)[] = [];
@@ -30,21 +32,18 @@ const rejectQueue = (error: Error) => {
 const isAuthEndPoint = (url?: string) =>
   Object.values(API_ENDPOINTS.AUTH).some(endPoint => url?.includes(endPoint));
 
-export const setupAuthResponseInterceptor = (client: AxiosInstance) => {
-  return client.interceptors.response.use(
+export const setupAuthResponseInterceptor = (client: AxiosInstance) =>
+  client.interceptors.response.use(
     response => {
       extractAndSaveToken(response);
 
       return response;
     },
-    async (error: AxiosError<ErrorResponseDTO>) => {
-      return Promise.reject(error);
-    }
+    async (error: AxiosError<ErrorResponseDTO>) => Promise.reject(error)
   );
-};
 
-export const setupApiResponseInterceptor = (client: AxiosInstance) => {
-  return client.interceptors.response.use(
+export const setupApiResponseInterceptor = (client: AxiosInstance) =>
+  client.interceptors.response.use(
     response => {
       extractAndSaveToken(response);
 
@@ -79,13 +78,13 @@ export const setupApiResponseInterceptor = (client: AxiosInstance) => {
       if (
         error.response?.status === 401 &&
         !isAuthEndPoint(originalRequest.url) &&
-        !originalRequest._retry
+        !originalRequest.retry
       ) {
-        originalRequest._retry = true;
-        originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
+        originalRequest.retry = true;
+        originalRequest.retryCount = (originalRequest.retryCount || 0) + 1;
 
         // 최대 재시도 횟수 초과 검사
-        if (originalRequest._retryCount > MAX_RETRY_COUNT) {
+        if (originalRequest.retryCount > MAX_RETRY_COUNT) {
           await authService.logout();
           authEvents.emitLogout();
           return Promise.reject(error);
@@ -110,7 +109,7 @@ export const setupApiResponseInterceptor = (client: AxiosInstance) => {
         try {
           // 토큰 갱신 요청
           const response = await authService.refresh();
-          const newToken = response.headers['authorization']?.split(' ')[1];
+          const newToken = response.headers.authorization?.split(' ')[1];
 
           if (!newToken) {
             throw new Error('No Authorization header returned');
@@ -131,13 +130,13 @@ export const setupApiResponseInterceptor = (client: AxiosInstance) => {
           processQueue(newToken);
 
           // 원래 요청 재시도
-          return client(originalRequest);
+          return await client(originalRequest);
         } catch (refreshError) {
           // 토큰 갱신 실패 - 로그아웃 처리
           authEvents.emitLogout();
           await authService.logout();
           rejectQueue(refreshError as Error);
-          return Promise.reject(refreshError);
+          return await Promise.reject(refreshError);
         } finally {
           isRefreshing = false;
         }
@@ -146,4 +145,3 @@ export const setupApiResponseInterceptor = (client: AxiosInstance) => {
       return Promise.reject(error);
     }
   );
-};

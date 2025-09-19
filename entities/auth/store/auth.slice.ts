@@ -1,6 +1,8 @@
-import type { Auth } from '../model';
-import type { RootState } from '@/shared/redux/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import type { RootState } from '@/shared/redux/store';
+
+import type { Auth } from '../model';
 
 const initialState: Auth = {
   user: null,
