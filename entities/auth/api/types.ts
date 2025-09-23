@@ -1,6 +1,7 @@
-import { AxiosResponse } from 'axios';
-import { UserDTO } from '@/entities/user/api';
-import { ResponseDTO } from '@/shared/api/types/response';
+import type { AxiosResponse } from 'axios';
+
+import type { UserDTO } from '@/entities/user/api';
+import type { ResponseDTO } from '@/shared/api/types/response';
 
 export interface AuthService {
   login: (payload: LoginPayload) => Promise<UserDTO>;
