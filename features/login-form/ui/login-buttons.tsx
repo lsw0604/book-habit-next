@@ -10,6 +10,7 @@ import { useKakaoRouter } from '../hooks';
 
 export function LoginButtons({ isLoading }: { isLoading: boolean }) {
   const { pushToKakaoLogin } = useKakaoRouter();
+
   return (
     <>
       <p className="text-sm mt-4">
@@ -31,7 +32,6 @@ export function LoginButtons({ isLoading }: { isLoading: boolean }) {
         type="submit"
         role="button"
         isLoading={isLoading}
-        disabled={isLoading}
       >
         로그인하기
       </Button>
@@ -41,7 +41,6 @@ export function LoginButtons({ isLoading }: { isLoading: boolean }) {
         onClick={pushToKakaoLogin}
         type="button"
         isLoading={isLoading}
-        disabled={isLoading}
         variant="yellow"
         className="mt-4 bg-yellow-300 hover:bg-yellow-300"
       >
