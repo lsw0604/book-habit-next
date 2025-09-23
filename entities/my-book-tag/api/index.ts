@@ -1,11 +1,12 @@
+import { apiClient } from '@/shared/api/clients';
+import { API_ENDPOINTS } from '@/shared/api/constant';
+
 import type {
   MyBookTag,
   MyBookTagService,
   CreateMyBookTagPayload,
   ResponseDeleteMyBookTag,
 } from './types';
-import { apiClient } from '@/shared/api/clients';
-import { API_ENDPOINTS } from '@/shared/api/constant';
 
 export const myBookTagService: MyBookTagService = {
   add: async (payload: CreateMyBookTagPayload): Promise<MyBookTag> => {

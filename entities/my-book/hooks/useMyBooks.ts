@@ -8,11 +8,9 @@ import { type GetMyBooksPayload, type MyBooksDTO, myBookService } from '../api';
 import { MyBooks, toMyBooksViewModel } from '../model';
 
 export const useMyBooks = (
-  params: Pick<GetMyBooksPayload, 'order' | 'status'>,
-  option: { forceRefetch?: boolean } = {}
+  params: Pick<GetMyBooksPayload, 'order' | 'status'>
 ) => {
   const { getMyBooks } = myBookService;
-  const { forceRefetch = false } = option;
 
   return useInfiniteQuery<MyBooksDTO, AxiosError<ErrorResponseDTO>, MyBooks>({
     queryKey: queryKeys.myBook.list(params).queryKey,
@@ -40,7 +38,8 @@ export const useMyBooks = (
     },
     gcTime: 5 * 60 * 1000,
     staleTime: 1 * 60 * 1000,
-    refetchOnMount: forceRefetch,
-    refetchOnWindowFocus: forceRefetch,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
   });
 };
