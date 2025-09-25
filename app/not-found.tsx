@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 
-import IconCharacter from '@/public/icons/characters/sub_disappointment.svg'; // 사용하시는 SVG 파일 경로
-import PageContainer from '@/shared/common/page-container'; // 공통 페이지 컨테이너
+import { CharacterSad } from '@/shared/assets';
 import { Button } from '@/shared/ui/button';
+import { PageContainer } from '@/shared/ui/page-container'; // 공통 페이지 컨테이너
 
 export default function NotFound() {
   return (
@@ -52,7 +52,7 @@ export default function NotFound() {
 
           {/* 오른쪽: 캐릭터 이미지 */}
           <div className="flex-shrink-0 w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
-            <IconCharacter className="w-full h-full object-contain" />
+            <CharacterSad className="w-full h-full object-contain" />
           </div>
         </div>
       </div>

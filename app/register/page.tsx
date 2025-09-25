@@ -1,5 +1,5 @@
 import { RegisterFormCard } from '@/features/register-form';
-import PageContainer from '@/shared/common/page-container';
+import { PageContainer } from '@/shared/ui/page-container';
 
 export default function RegisterPage() {
   return (

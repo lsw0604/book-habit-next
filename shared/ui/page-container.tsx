@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import { cn } from '@/shared/utils/class-name';
+
+import { cn } from '@/shared/utils';
 
 interface PageContainerProps {
   children: ReactNode;
@@ -7,11 +8,11 @@ interface PageContainerProps {
   variant?: 'default' | 'vertical' | 'horizontal';
 }
 
-const PageContainer = ({
+export function PageContainer({
   children,
   className,
   variant = 'default',
-}: PageContainerProps) => {
+}: PageContainerProps) {
   return (
     <div
       className={cn(
@@ -24,6 +25,4 @@ const PageContainer = ({
       {children}
     </div>
   );
-};
-
-export default PageContainer;
+}
