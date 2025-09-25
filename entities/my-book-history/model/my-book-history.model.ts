@@ -1,4 +1,4 @@
-import { Replace } from '@/shared/types/replace';
+import { Replace } from '@/shared/types';
 
 export interface MyBookHistory {
   id: number;
