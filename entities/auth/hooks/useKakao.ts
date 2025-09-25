@@ -3,8 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
-import { toUserViewModel } from '@/entities/user/lib';
-import type { User } from '@/entities/user/model';
+import { type User, toUserViewModel } from '@/entities/user';
 import type { ErrorResponseDTO } from '@/shared/api/types/error';
 import { queryKeys } from '@/shared/query/keys';
 

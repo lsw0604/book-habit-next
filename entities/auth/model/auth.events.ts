@@ -1,4 +1,4 @@
-import { User } from '@/entities/user/model';
+import type { User } from '@/entities/user';
 import { EventEmitter } from '@/shared/events';
 
 export type AuthEventData = {

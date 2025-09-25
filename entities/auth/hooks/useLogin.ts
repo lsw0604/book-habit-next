@@ -1,8 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
-import { toUserViewModel } from '@/entities/user/lib';
-import { User } from '@/entities/user/model';
+import { type User, toUserViewModel } from '@/entities/user';
 import type { ErrorResponseDTO } from '@/shared/api/types/error';
 
 import { type LoginPayload, authService } from '../api';

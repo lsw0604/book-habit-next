@@ -1,4 +1,4 @@
-import { UserDTO } from '@/entities/user/api';
+import { UserDTO } from '@/entities/user';
 import { authAxiosInstance, authClient } from '@/shared/api/clients/auth';
 import { API_ENDPOINTS } from '@/shared/api/constant';
 import { ResponseDTO } from '@/shared/api/types/response';

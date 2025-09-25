@@ -1,6 +1,6 @@
 import type { AxiosResponse } from 'axios';
 
-import type { UserDTO } from '@/entities/user/api';
+import type { UserDTO } from '@/entities/user';
 import type { ResponseDTO } from '@/shared/api/types/response';
 
 export interface AuthService {

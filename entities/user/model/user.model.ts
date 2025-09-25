@@ -1,14 +1,4 @@
-export enum Gender {
-  MALE = 'MALE',
-  FEMALE = 'FEMALE',
-  UNKNOWN = 'UNKNOWN',
-}
-
-export enum Provider {
-  LOCAL = 'LOCAL',
-  KAKAO = 'KAKAO',
-  UNKNOWN = 'UNKNOWN',
-}
+import { Gender, Provider } from './user.enum';
 
 export interface User {
   id: number;
@@ -18,4 +8,8 @@ export interface User {
   profile: string;
   gender: Gender;
   provider: Provider;
+}
+
+export interface SerializedUser extends Omit<User, 'birthday'> {
+  birthday: string | null;
 }
