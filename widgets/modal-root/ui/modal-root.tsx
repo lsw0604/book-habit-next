@@ -2,11 +2,11 @@
 
 import { closeModal, modalSelector } from '@/entities/modal/store';
 import { useAppDispatch, useAppSelector } from '@/shared/redux/store';
-import ModalPortal from '@/shared/ui/modal/modal-portal';
+import { ModalPortal } from '@/shared/ui/modal-portal';
 
-import ModalManager from './modal-manager';
+import { ModalManager } from './modal-manager';
 
-export default function ModalRoot() {
+export function ModalRoot() {
   const { isOpen } = useAppSelector(modalSelector);
   const dispatch = useAppDispatch();
 
