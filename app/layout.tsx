@@ -13,7 +13,10 @@ import { cn } from '@/utils/class-name';
 import './global.css';
 
 const ToastPortal = dynamic(() => import('@/components/toast/toast-portal'));
-const ModalPortal = dynamic(() => import('@/components/modal/modal-portal'));
+const ModalRoot = dynamic(
+  () => import('@/widgets/modal-root').then(module => module.ModalRoot),
+  { ssr: false }
+);
 
 export default function RootLayout({
   children,
@@ -29,7 +32,6 @@ export default function RootLayout({
           <QueryProvider>
             <>
               <ToastPortal />
-              <ModalPortal />
               <div id="root-toast" />
               <div id="root-modal" />
               <Header />
@@ -43,6 +45,7 @@ export default function RootLayout({
               </main>
               <Bottom />
             </>
+                <ModalRoot />
           </QueryProvider>
         </ReduxProvider>
       </body>

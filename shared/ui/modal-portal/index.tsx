@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { X } from 'lucide-react';
 import {
   KeyboardEvent,
   MouseEvent,
@@ -12,6 +13,9 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 
+import { getModalTitle, modalSelector } from '@/entities/modal';
+import { useAppSelector } from '@/shared/redux/store';
+
 import { BACKDROP_VARIANT, MODAL_VARIANT } from './variants';
 
 interface Props {
@@ -19,11 +23,12 @@ interface Props {
   onClose: () => void;
 }
 
-export default function ModalPortal({
+export function ModalPortal({
   isOpen,
   onClose,
   children,
 }: PropsWithChildren<Props>) {
+  const { type } = useAppSelector(modalSelector);
   const [mounted, setMounted] = useState<boolean>(false);
   const [shouldRender, setShouldRender] = useState<boolean>(false);
   const ref = useRef<Element | null>(null);
@@ -93,8 +98,21 @@ export default function ModalPortal({
         variants={MODAL_VARIANT}
         initial="initial"
         animate={isOpen ? 'animate' : 'exit'}
-        className="absolute z-9999 w-full h-auto min-h-[10%] bottom-0 rounded-tl-lg rounded-tr-lg p-4 bg-white"
+        className="absolute z-9999 w-full h-auto min-h-[10%] max-h-[80%] bottom-0 rounded-tl-lg rounded-tr-lg bg-white flex flex-col"
       >
+        <div className="flex justify-between items-center p-4 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900">
+            {getModalTitle(type)}
+          </h2>
+          <button
+            type="button"
+            key="close-btn"
+            onClick={onClickHandle}
+            className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <X className="h-5 w-5 text-gray-500" />
+          </button>
+        </div>
         {children}
       </motion.div>
     </div>,
