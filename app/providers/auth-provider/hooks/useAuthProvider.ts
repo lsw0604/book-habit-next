@@ -13,7 +13,7 @@ import {
   clearAuthState,
   setAuthState,
 } from '@/entities/auth';
-import { serializeUser } from '@/entities/user/model';
+import { serializeUser } from '@/entities/user';
 import { useAppDispatch } from '@/shared/redux/store';
 import { isClient } from '@/shared/utils';
 

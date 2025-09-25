@@ -6,8 +6,12 @@ import { usePathname } from 'next/navigation';
 import Header from '@/components/header';
 import Bottom from '@/components/bottom';
 
-import ReduxProvider from '@/providers/redux-provider';
-import QueryProvider from '@/providers/query-provider';
+import {
+  ApiProvider,
+  QueryProvider,
+  ReduxProvider,
+  AuthProvider,
+} from './providers';
 
 import { cn } from '@/utils/class-name';
 import './global.css';
@@ -30,10 +34,6 @@ export default function RootLayout({
       <body>
         <ReduxProvider>
           <QueryProvider>
-            <>
-              <ToastPortal />
-              <div id="root-toast" />
-              <div id="root-modal" />
               <Header />
               <main
                 className={cn(
@@ -44,8 +44,13 @@ export default function RootLayout({
                 {children}
               </main>
               <Bottom />
-            </>
+            <ApiProvider>
+              <AuthProvider>
                 <ModalRoot />
+                <div id="root-toast" />
+                <div id="root-modal" />
+              </AuthProvider>
+            </ApiProvider>
           </QueryProvider>
         </ReduxProvider>
       </body>
