@@ -1,8 +1,10 @@
+'use client';
+
 import { useCallback, MouseEvent, useId } from 'react';
 
 import { cn } from '@/shared/utils/class-name';
 
-import Star from './star';
+import { Star } from './star';
 
 interface RatingProps {
   rating: number;
@@ -12,7 +14,7 @@ interface RatingProps {
 
 const STAR_SIZE = 5;
 
-export default function Rating({ rating, onChange, className }: RatingProps) {
+export function Rating({ rating, onChange, className }: RatingProps) {
   const id = useId();
   const handleStar = useCallback(
     (event: MouseEvent<HTMLDivElement>, index: number) => {

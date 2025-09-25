@@ -16,6 +16,7 @@ interface TimePickerProps {
   className?: string;
   label?: string;
   errorMessage?: string;
+  isError?: boolean;
 }
 
 export default function InputTimepicker({
@@ -24,6 +25,7 @@ export default function InputTimepicker({
   className,
   label,
   errorMessage,
+  isError,
 }: TimePickerProps) {
   const hourRef = useRef<HTMLInputElement>(null);
   const minuteRef = useRef<HTMLInputElement>(null);
@@ -47,7 +49,7 @@ export default function InputTimepicker({
   };
 
   return (
-    <div className={cn('flex flex-col group')}>
+    <div className={cn('flex flex-col group', className)}>
       {label && (
         <Label
           htmlFor={`${label}-hours`}
@@ -56,9 +58,7 @@ export default function InputTimepicker({
           {label}
         </Label>
       )}
-      <div
-        className={timepickerVariants({ error: !!errorMessage, className })}
-      >
+      <div className={timepickerVariants({ error: isError })}>
         <ClockIcon className="mr-2" size={16} />
         <div className="flex w-full items-center h-full">
           <TimeInput
@@ -98,7 +98,7 @@ export default function InputTimepicker({
           />
         </div>
       </div>
-      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      {isError && errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </div>
   );
 }

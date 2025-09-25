@@ -7,8 +7,6 @@ import { useOnClickOutside } from 'usehooks-ts';
 
 import { cn } from '@/shared/utils/class-name';
 
-import FallbackComponent from './error/fallback-component';
-
 type SelectContextType = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -192,7 +190,7 @@ function SelectOption({
 }
 
 function SelectErrorFallback({ error }: { error: Error }) {
-  return <FallbackComponent error={error} />;
+  return <div>{error.message}</div>;
 }
 
 function SelectErrorBoundary({ children }: { children: React.ReactNode }) {
