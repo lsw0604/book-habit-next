@@ -1,4 +1,4 @@
-import { PaginationMeta } from '@/shared/pagination/types';
+import { PaginationMeta } from '@/shared/types';
 
 export interface MyBook {
   id: number;

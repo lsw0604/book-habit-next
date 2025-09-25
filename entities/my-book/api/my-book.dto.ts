@@ -1,4 +1,4 @@
-import type { PaginationMeta } from '@/shared/pagination/types';
+import type { PaginationMeta } from '@/shared/types';
 
 export interface MyBookDTO {
   id: number;
