@@ -1,27 +1,16 @@
+import { MyBookReviewDTO } from './my-book-review.dto';
+
 export interface MyBookReviewService {
   addMyBookReview: (
     payload: CreateMyBookReviewPayload
-  ) => Promise<MyBookReview>;
-  getMyBookReview: (myBookId: number) => Promise<MyBookReview>;
+  ) => Promise<MyBookReviewDTO>;
+  getMyBookReview: (myBookId: number) => Promise<MyBookReviewDTO>;
   updateMyBookReview: (
     payload: UpdateMyBookReviewPayload
-  ) => Promise<MyBookReview>;
+  ) => Promise<MyBookReviewDTO>;
   deleteMyBookReview: (
     myBookReviewId: number
   ) => Promise<ResponseDeleteMyBookReview>;
-}
-
-export interface MyBookReview {
-  id: number;
-  myBookId: number;
-  review: string;
-  isPublic: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  _count: {
-    reviewLike: number;
-    reviewComment: number;
-  };
 }
 
 export interface CreateMyBookReviewPayload {
