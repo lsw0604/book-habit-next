@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { useLogin, authEvents } from '@/entities/auth';
-import type { User } from '@/entities/user/model';
+import type { User } from '@/entities/user';
 
 import type { LoginType } from '../schemas';
 

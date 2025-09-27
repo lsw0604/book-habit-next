@@ -1,10 +1,10 @@
 'use client';
 
 import { useBookQuery } from '@/entities/book/hooks/useBook';
-import Loader from '@/shared/common/loader';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { BOOK_SEARCH_LIST_GRID_STYLE } from '@/shared/style/list-style';
-import { cn } from '@/shared/utils/class-name';
+import { Spinner } from '@/shared/ui/spinner';
+import { cn } from '@/shared/utils';
 
 import { useBookSearchModal, useBookSearchParams } from '../../hooks';
 
@@ -61,7 +61,7 @@ export function BookSearchList() {
         {isFetching && (
           <div role="status">
             <span className="sr-only">추가 결과 로딩 중...</span>
-            <Loader size={2} className="border-gray-800" />
+            <Spinner />
           </div>
         )}
       </div>

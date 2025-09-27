@@ -1,9 +1,7 @@
 import { useCallback } from 'react';
 
-import type { RegisterPayload } from '@/entities/auth/api';
-import { useRegister } from '@/entities/auth/hooks';
-import { authEvents } from '@/entities/auth/model';
-import type { User } from '@/entities/user/model';
+import { type RegisterPayload, useRegister, authEvents } from '@/entities/auth';
+import type { User } from '@/entities/user';
 
 import type { RegisterType } from '../schemas';
 
