@@ -3,20 +3,26 @@
 import { useEffect, type ReactNode } from 'react';
 
 import { authEvents, authService } from '@/entities/auth';
-import type { UserDTO } from '@/entities/user';
-import { apiAxiosInstance } from '@/shared/api/clients';
-import { setupApiResponseInterceptor } from '@/shared/api/interceptors';
+import { apiAxiosInstance, authAxiosInstance } from '@/shared/api/clients';
+import {
+  setupApiResponseInterceptor,
+  setupAuthResponseInterceptor,
+  setupRequestInterceptor,
+} from '@/shared/api/interceptors';
 
 export function ApiProvider({ children }: { children: ReactNode }) {
   const { refresh } = authService;
 
   useEffect(() => {
-    setupApiResponseInterceptor<UserDTO>(apiAxiosInstance, {
+    setupRequestInterceptor(apiAxiosInstance);
+    setupRequestInterceptor(authAxiosInstance);
+    setupApiResponseInterceptor(apiAxiosInstance, {
       refreshFn: () => refresh(),
-      emitExpiredFn: reason => authEvents.emitExpired(reason),
-      logoutFn: () => authEvents.emitLogout(),
+      onRefreshFailed: reason => authEvents.emitExpired(reason),
     });
-  }, [refresh]);
+    setupAuthResponseInterceptor(authAxiosInstance);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return children;
 }

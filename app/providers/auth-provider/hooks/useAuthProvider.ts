@@ -25,52 +25,35 @@ export const useAuthProvider = () => {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
 
-  const handleLogin = useCallback(
+  const handleAuthSuccess = useCallback(
     (data: AuthEventData) => {
-      if (isClient) {
-        if (data.user) {
-          // 사용자 상태 업데이트
-          dispatch(
-            setAuthState({
-              user: { ...serializeUser(data.user) },
-              isAuthenticated: true,
-            })
-          );
-          // 현재 인증 관련 페이지에 있으면 리디렉션
-          if (AUTH_ROUTES.some(route => pathname.includes(route))) {
-            // URL 파라미터에서 리디렉션 경로 추천 (있는 경우)
-            const urlParams = new URLSearchParams(window.location.search);
-            const redirectTo =
-              urlParams.get('redirectTo') || DEFAULT_AUTHENTICATED_ROUTE;
-            router.push(redirectTo);
-          }
-        }
+      if (isClient && data.user) {
+        dispatch(
+          setAuthState({
+            user: { ...serializeUser(data.user) },
+            isAuthenticated: true,
+          })
+        );
+      }
+
+      if (AUTH_ROUTES.some(route => pathname.startsWith(route))) {
+        const urlParams = new URLSearchParams(window.location.pathname);
+        const redirectTo =
+          urlParams.get('redirectTo') || DEFAULT_AUTHENTICATED_ROUTE;
+        router.push(redirectTo);
       }
     },
     [router, pathname, dispatch]
   );
 
+  const handleLogin = useCallback(
+    (data: AuthEventData) => handleAuthSuccess(data),
+    [handleAuthSuccess]
+  );
+
   const handleRegister = useCallback(
-    (data: AuthEventData) => {
-      if (isClient) {
-        if (data.user) {
-          // 사용자 상태 업데이트
-          dispatch(
-            setAuthState({
-              user: { ...serializeUser(data.user) },
-              isAuthenticated: true,
-            })
-          );
-          if (AUTH_ROUTES.some(route => pathname.includes(route))) {
-            const urlParams = new URLSearchParams(window.location.search);
-            const redirectTo =
-              urlParams.get('redirectTo') || DEFAULT_AUTHENTICATED_ROUTE;
-            router.push(redirectTo);
-          }
-        }
-      }
-    },
-    [router, pathname, dispatch]
+    (data: AuthEventData) => handleAuthSuccess(data),
+    [handleAuthSuccess]
   );
 
   const handleLogout = useCallback(() => {
@@ -81,12 +64,10 @@ export const useAuthProvider = () => {
 
   const handleExpired = useCallback(() => {
     dispatch(clearAuthState());
-
-    const isAuthRoute = AUTH_ROUTES.some(route => pathname.includes(route));
+    const isAuthRoute = AUTH_ROUTES.some(route => pathname.startsWith(route));
     const redirectUrl = isAuthRoute
       ? DEFAULT_UNAUTHENTICATED_ROUTE
       : `${DEFAULT_UNAUTHENTICATED_ROUTE}?redirectTo=${pathname}`;
-
     router.push(redirectUrl);
   }, [dispatch, router, pathname]);
 

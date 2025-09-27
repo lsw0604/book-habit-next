@@ -3,20 +3,19 @@
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 
-import Header from '@/components/header';
-import Bottom from '@/components/bottom';
+import { cn } from '@/shared/utils';
+import { BottomNavBar } from '@/widgets/bottom-nav-bar';
+import { HeaderBar } from '@/widgets/header-bar';
 
 import {
-  ApiProvider,
   QueryProvider,
   ReduxProvider,
   AuthProvider,
+  ApiProvider,
 } from './providers';
 
-import { cn } from '@/utils/class-name';
 import './global.css';
 
-const ToastPortal = dynamic(() => import('@/components/toast/toast-portal'));
 const ModalRoot = dynamic(
   () => import('@/widgets/modal-root').then(module => module.ModalRoot),
   { ssr: false }
@@ -34,21 +33,21 @@ export default function RootLayout({
       <body>
         <ReduxProvider>
           <QueryProvider>
-              <Header />
-              <main
-                className={cn(
-                  'w-screen h-screen min-h-screen px-4 box-border flex flex-col',
-                  pathname !== '/' && 'py-16'
-                )}
-              >
-                {children}
-              </main>
-              <Bottom />
             <ApiProvider>
               <AuthProvider>
                 <ModalRoot />
                 <div id="root-toast" />
                 <div id="root-modal" />
+                <HeaderBar />
+                <main
+                  className={cn(
+                    'w-screen h-screen min-h-screen box-border flex flex-col',
+                    pathname !== '/' && 'py-16'
+                  )}
+                >
+                  {children}
+                </main>
+                <BottomNavBar />
               </AuthProvider>
             </ApiProvider>
           </QueryProvider>
