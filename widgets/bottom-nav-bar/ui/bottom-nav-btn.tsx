@@ -1,8 +1,11 @@
-import type { NavigationBtnProps } from '@/features/navigation/model';
+'use client';
+
 import Link from 'next/link';
+
+import type { NavigationBtnProps } from '@/features/navigation/model';
 import { cn } from '@/shared/utils/class-name';
 
-export default function BottomNavBtn({
+export function BottomNavBtn({
   isActive,
   onClick,
   href,
