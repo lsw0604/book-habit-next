@@ -37,7 +37,7 @@ export const useAuthProvider = () => {
       }
 
       if (AUTH_ROUTES.some(route => pathname.startsWith(route))) {
-        const urlParams = new URLSearchParams(window.location.pathname);
+        const urlParams = new URLSearchParams(window.location.search);
         const redirectTo =
           urlParams.get('redirectTo') || DEFAULT_AUTHENTICATED_ROUTE;
         router.push(redirectTo);
