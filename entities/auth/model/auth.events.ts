@@ -1,8 +1,9 @@
-import type { User } from '@/entities/user';
 import { EventEmitter } from '@/shared/events';
 
+import { Auth } from './auth.model';
+
 export type AuthEventData = {
-  user?: User;
+  auth?: Auth;
   error?: Error;
   reason?: string;
 };
@@ -28,10 +29,11 @@ export const authEvents = {
     authEventEmitter.on(AUTH_EVENTS.EXPIRED, callback),
   onError: (callback: (data: AuthEventData) => void) =>
     authEventEmitter.on(AUTH_EVENTS.ERROR, callback),
-  emitLogin: (user: User) => authEventEmitter.emit(AUTH_EVENTS.LOGIN, { user }),
-  emitLogout: () => authEventEmitter.emit(AUTH_EVENTS.LOGOUT, {}),
-  emitRegister: (user: User) =>
-    authEventEmitter.emit(AUTH_EVENTS.REGISTER, { user }),
+  emitLogin: (auth: Auth) => authEventEmitter.emit(AUTH_EVENTS.LOGIN, { auth }),
+  emitLogout: (auth: Auth) =>
+    authEventEmitter.emit(AUTH_EVENTS.LOGOUT, { auth }),
+  emitRegister: (auth: Auth) =>
+    authEventEmitter.emit(AUTH_EVENTS.REGISTER, { auth }),
   emitExpired: (reason: string) =>
     authEventEmitter.emit(AUTH_EVENTS.EXPIRED, { reason }),
   emitError: (error: Error) =>

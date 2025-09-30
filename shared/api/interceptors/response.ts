@@ -39,7 +39,7 @@ export const setupAuthResponseInterceptor = (client: AxiosInstance) =>
 
       return response;
     },
-    async (error: AxiosError<ErrorResponseDTO>) => Promise.reject(error)
+    async (error: AxiosError<ErrorDTO>) => Promise.reject(error)
   );
 
 export const setupApiResponseInterceptor = (client: AxiosInstance) =>
@@ -49,7 +49,7 @@ export const setupApiResponseInterceptor = (client: AxiosInstance) =>
 
       return response;
     },
-    async (error: AxiosError<ErrorResponseDTO>) => {
+    async (error: AxiosError<ErrorDTO>) => {
       // 브라우저 환경이 아니면 처리하지 않음
       if (!isClient) {
         console.log('isClient');

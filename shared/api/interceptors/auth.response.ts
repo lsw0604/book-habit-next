@@ -10,5 +10,5 @@ export const setupAuthResponseInterceptor = (instance: AxiosInstance) =>
 
       return response;
     },
-    async (error: AxiosError<ErrorResponseDTO>) => Promise.reject(error)
+    async (error: AxiosError<ErrorDTO>) => Promise.reject(error)
   );

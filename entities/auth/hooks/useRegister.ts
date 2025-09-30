@@ -1,15 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
-import { type User, toUserViewModel } from '@/entities/user';
-import type { ErrorResponseDTO } from '@/shared/api/types/error';
+import type { ErrorDTO } from '@/shared/api/dto';
 
 import { type RegisterPayload, authService } from '../api';
+import { type Auth, toAuthViewModel } from '../model';
 
 export const useRegister = () =>
-  useMutation<User, AxiosError<ErrorResponseDTO>, RegisterPayload>({
+  useMutation<Auth, AxiosError<ErrorDTO>, RegisterPayload>({
     mutationFn: async payload => {
       const response = await authService.register(payload);
-      return toUserViewModel(response);
+      return toAuthViewModel(response);
     },
   });

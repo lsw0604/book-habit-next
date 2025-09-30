@@ -1,79 +1,48 @@
-import type { ResponseDTO } from '../types/response';
-import { AxiosInstance, AxiosRequestConfig } from 'axios';
+import {
+  type AxiosInstance,
+  type AxiosRequestConfig,
+  type AxiosResponse,
+  isAxiosError,
+} from 'axios';
 
-export const createApiWrapper = (client: AxiosInstance) => {
-  return {
-    get: async <T>(url: string, config?: AxiosRequestConfig): Promise<T> => {
-      const response = await client.get<ResponseDTO<T>>(url, config);
+import type { ResponseDTO, ErrorDTO } from '../dto';
+import { APIError } from '../errors';
 
-      if (!response.data.success) {
-        const error = new Error(response.data.message);
-        (error as any).statusCode = response.data.statusCode;
-        (error as any).error = response.data.error;
-        throw error;
-      }
+async function handleRequest<T>(
+  request: Promise<AxiosResponse<ResponseDTO<T>>>
+): Promise<T> {
+  try {
+    const response = await request;
 
-      return response.data.data as T;
-    },
-    post: async <T>(
-      url: string,
-      data?: any,
-      config?: AxiosRequestConfig
-    ): Promise<T> => {
-      const response = await client.post<ResponseDTO<T>>(url, data, config);
+    return response.data.data;
+  } catch (err) {
+    if (isAxiosError<ErrorDTO>(err) && err.response) {
+      throw new APIError(err.response.data);
+    }
+    throw err;
+  }
+}
 
-      if (!response.data.success) {
-        const error = new Error(response.data.message);
-        (error as any).statusCode = response.data.statusCode;
-        (error as any).error = response.data.error;
-        throw error;
-      }
-
-      return response.data.data as T;
-    },
-    patch: async <T>(
-      url: string,
-      data?: any,
-      config?: AxiosRequestConfig
-    ): Promise<T> => {
-      const response = await client.patch<ResponseDTO<T>>(url, data, config);
-
-      if (!response.data.success) {
-        const error = new Error(response.data.message);
-        (error as any).statusCode = response.data.statusCode;
-        (error as any).error = response.data.error;
-        throw error;
-      }
-
-      return response.data.data as T;
-    },
-    put: async <T>(
-      url: string,
-      data?: any,
-      config?: AxiosRequestConfig
-    ): Promise<T> => {
-      const response = await client.put<ResponseDTO<T>>(url, data, config);
-
-      if (!response.data.success) {
-        const error = new Error(response.data.message);
-        (error as any).statusCode = response.data.statusCode;
-        (error as any).error = response.data.error;
-        throw error;
-      }
-
-      return response.data.data as T;
-    },
-    delete: async <T>(url: string, config?: AxiosRequestConfig): Promise<T> => {
-      const response = await client.delete<ResponseDTO<T>>(url, config);
-
-      if (!response.data.success) {
-        const error = new Error(response.data.message);
-        (error as any).statusCode = response.data.statusCode;
-        (error as any).error = response.data.error;
-        throw error;
-      }
-
-      return response.data.data as T;
-    },
-  };
-};
+export const createApiWrapper = (client: AxiosInstance) => ({
+  get: async <T>(url: string, config?: AxiosRequestConfig): Promise<T> =>
+    handleRequest(client.get<ResponseDTO<T>>(url, config)),
+  delete: async <T>(url: string, config?: AxiosRequestConfig): Promise<T> =>
+    handleRequest(client.delete<ResponseDTO<T>>(url, config)),
+  post: async <T, D = unknown>(
+    url: string,
+    data?: D,
+    config?: AxiosRequestConfig
+  ): Promise<T> =>
+    handleRequest(client.post<ResponseDTO<T>>(url, data, config)),
+  patch: async <T, D = unknown>(
+    url: string,
+    data?: D,
+    config?: AxiosRequestConfig
+  ): Promise<T> =>
+    handleRequest(client.patch<ResponseDTO<T>>(url, data, config)),
+  put: async <T, D = unknown>(
+    url: string,
+    data?: D,
+    config?: AxiosRequestConfig
+  ): Promise<T> => handleRequest(client.put<ResponseDTO<T>>(url, data, config)),
+});

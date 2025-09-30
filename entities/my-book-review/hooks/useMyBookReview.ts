@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
-import type { ErrorResponseDTO } from '@/shared/api/types/error';
+import type { ErrorDTO } from '@/shared/api/dto';
 import { queryKeys } from '@/shared/query';
 
 import { type MyBookReviewDTO, myBookReviewService } from '../api';
@@ -11,7 +11,7 @@ import type { MyBookReview } from '../model/my-book-review.model';
 export const useMyBookReview = (myBookId: number) => {
   const { getMyBookReview } = myBookReviewService;
 
-  return useQuery<MyBookReviewDTO, AxiosError<ErrorResponseDTO>, MyBookReview>({
+  return useQuery<MyBookReviewDTO, AxiosError<ErrorDTO>, MyBookReview>({
     queryKey: queryKeys.myBookReview.detail(myBookId).queryKey,
     queryFn: () => getMyBookReview(myBookId),
     select: response => toMyBookReviewViewModel(response),

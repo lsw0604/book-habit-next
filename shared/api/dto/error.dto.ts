@@ -1,4 +1,4 @@
-export interface ErrorResponseDTO {
+export interface ErrorDTO {
   statusCode: number;
   timestamp: string;
   path: string;

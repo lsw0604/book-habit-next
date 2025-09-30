@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
 import type { CreateMyBookPayload } from '@/entities/my-book/api/types';
-import type { ErrorResponseDTO } from '@/shared/api/types/error';
+import type { ErrorDTO } from '@/shared/api/dto';
 import { queryKeys } from '@/shared/query/keys';
 
 import { type MyBookDTO, myBookService } from '../api';
@@ -14,16 +14,14 @@ export const useAddMyBook = () => {
   // eslint-disable-next-line no-underscore-dangle
   const myBookListQueryKey = queryKeys.myBook.list._def;
 
-  return useMutation<MyBook, AxiosError<ErrorResponseDTO>, CreateMyBookPayload>(
-    {
-      mutationFn: async (payload: CreateMyBookPayload) => {
-        const myBookDTO: MyBookDTO = await addMyBook(payload);
-        return toMyBookViewModel(myBookDTO);
-      },
-      onSuccess: () => {
-        // eslint-disable-next-line no-underscore-dangle
-        queryClient.invalidateQueries({ queryKey: myBookListQueryKey });
-      },
-    }
-  );
+  return useMutation<MyBook, AxiosError<ErrorDTO>, CreateMyBookPayload>({
+    mutationFn: async (payload: CreateMyBookPayload) => {
+      const myBookDTO: MyBookDTO = await addMyBook(payload);
+      return toMyBookViewModel(myBookDTO);
+    },
+    onSuccess: () => {
+      // eslint-disable-next-line no-underscore-dangle
+      queryClient.invalidateQueries({ queryKey: myBookListQueryKey });
+    },
+  });
 };

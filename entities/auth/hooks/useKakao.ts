@@ -3,18 +3,18 @@
 import { useQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
-import { type User, toUserViewModel } from '@/entities/user';
-import type { ErrorResponseDTO } from '@/shared/api/types/error';
+import type { ErrorDTO } from '@/shared/api/dto';
 import { queryKeys } from '@/shared/query/keys';
 
 import { authService } from '../api';
+import { type Auth, toAuthViewModel } from '../model';
 
 export const useKakao = (code: string) =>
-  useQuery<User, AxiosError<ErrorResponseDTO>>({
+  useQuery<Auth, AxiosError<ErrorDTO>>({
     queryKey: queryKeys.auth.kakao(code).queryKey,
     queryFn: async () => {
       const response = await authService.kakao(code);
-      return toUserViewModel(response);
+      return toAuthViewModel(response);
     },
     enabled: !!code,
     retry: false,

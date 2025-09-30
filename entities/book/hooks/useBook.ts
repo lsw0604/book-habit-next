@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
-import type { ErrorResponseDTO } from '@/shared/api/types/error';
+import type { ErrorDTO } from '@/shared/api/dto';
 import { queryKeys } from '@/shared/query/keys';
 
 import type { ResponseSearchDTO } from '../api/book.dto';
@@ -16,7 +16,7 @@ export const useBookQuery = ({
   sort,
   target,
 }: Omit<SearchPayload, 'page'>) =>
-  useInfiniteQuery<ResponseSearchDTO, AxiosError<ErrorResponseDTO>, Book[]>({
+  useInfiniteQuery<ResponseSearchDTO, AxiosError<ErrorDTO>, Book[]>({
     queryKey: queryKeys.search.book({ query, size, sort, target }).queryKey,
     queryFn: ({ pageParam = 1 }) =>
       bookService.search({

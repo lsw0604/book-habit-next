@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
-import type { ErrorResponseDTO } from '@/shared/api/types/error';
+import type { ErrorDTO } from '@/shared/api/dto';
 import { queryKeys } from '@/shared/query/keys';
 
 import {
@@ -13,7 +13,7 @@ import { MyBookDetail, toMyBookDetailViewModel } from '../model';
 
 export const useMyBook = (payload: GetMyBookPayload) => {
   const { getMyBook } = myBookService;
-  return useQuery<MyBookDetailDTO, AxiosError<ErrorResponseDTO>, MyBookDetail>({
+  return useQuery<MyBookDetailDTO, AxiosError<ErrorDTO>, MyBookDetail>({
     queryKey: queryKeys.myBook.detail(payload.myBookId).queryKey,
     queryFn: () => getMyBook(payload),
     gcTime: 30 * 60 * 1000,

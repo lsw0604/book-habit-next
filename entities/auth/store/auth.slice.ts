@@ -2,9 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import type { RootState } from '@/shared/redux/store';
 
-import type { Auth } from '../model';
+import type { SerializedAuth } from '../model';
 
-const initialState: Auth = {
+const initialState: SerializedAuth = {
   user: null,
   isAuthenticated: false,
 };
@@ -13,7 +13,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setAuthState(state, action: PayloadAction<Auth>) {
+    setAuthState(state, action: PayloadAction<SerializedAuth>) {
       Object.assign(state, action.payload);
     },
     clearAuthState(state) {

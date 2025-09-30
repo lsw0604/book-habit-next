@@ -1,17 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
-import type { ErrorResponseDTO } from '@/shared/api/types/error';
+import type { ErrorDTO } from '@/shared/api/dto';
 
 import { DeleteMyBookPayload, myBookService } from '../api';
 
 export const useDeleteMyBook = () => {
   const { deleteMyBook } = myBookService;
-  return useMutation<
-    { id: number },
-    AxiosError<ErrorResponseDTO>,
-    DeleteMyBookPayload
-  >({
-    mutationFn: (payload: DeleteMyBookPayload) => deleteMyBook(payload),
-  });
+  return useMutation<{ id: number }, AxiosError<ErrorDTO>, DeleteMyBookPayload>(
+    {
+      mutationFn: (payload: DeleteMyBookPayload) => deleteMyBook(payload),
+    }
+  );
 };
