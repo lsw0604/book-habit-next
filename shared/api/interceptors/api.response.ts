@@ -1,73 +1,54 @@
-import { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
-import { extractAndSaveToken } from '../utils/extract-and-save-token';
-import { ErrorResponseDTO } from '../types/error';
-import { CustomAxiosRequestConfig } from '../types/axios';
-import { authEvents } from '@/entities/auth/model';
-import { UserDTO } from '@/entities/user/api';
-import { ResponseDTO } from '../types/response';
+import { AxiosError, AxiosInstance } from 'axios';
 
-export const setupApiResponseInterceptor = (
+import type { ErrorDTO } from '../dto';
+import type { CustomAxiosRequestConfig } from '../types';
+
+interface InterceptorOptions<T> {
+  refreshFn: () => Promise<T>;
+  onRefreshFailed: (reason: string) => void;
+  extractToken: (response: T) => string | undefined;
+}
+
+export const setupApiResponseInterceptor = <T>(
   instance: AxiosInstance,
-  refreshFn: () => Promise<AxiosResponse<ResponseDTO<UserDTO>>>
-) => {
-  return instance.interceptors.response.use(
-    response => {
-      extractAndSaveToken(response);
-
-      return response;
-    },
-    async (error: AxiosError<ErrorResponseDTO>) => {
+  options: InterceptorOptions<T>
+): number => {
+  const { refreshFn, onRefreshFailed, extractToken } = options;
+  const interceptorId = instance.interceptors.response.use(
+    response => response,
+    async (error: AxiosError<ErrorDTO>) => {
       if (typeof window === 'undefined') {
-        /**
-         * TODO 브라우저 환경이 아니면 에러 처리
-         */
         return Promise.reject(error);
       }
 
       const originalRequest = error.config as CustomAxiosRequestConfig;
-
       if (!originalRequest) {
-        /**
-         * TODO originalRequest가 없으면 에러치리
-         */
         return Promise.reject(error);
       }
 
       if (error.response?.status === 401) {
-        /**
-         * * 401 에러가 발생했다는 것은 UnAuthorized 인증실패 즉, 당신이 누군지 모르겠으니 다시 요청을 보내시오라는 의미로 봐야함
-         */
+        // 토큰 갱신 요청 자체가 401 에러를 받은 경우
         if (originalRequest.url === '/api/auth/refresh') {
-          /**
-           * TODO 리프레쉬 토큰에서 401에러가 발생 => 로그아웃 처리
-           */
-          authEvents.emitLogout();
+          onRefreshFailed('Refresh API returned 401');
           return Promise.reject(error);
         }
 
         try {
-          const response = await refreshFn();
-          const newToken: string | undefined =
-            response.headers['authorization']?.split(' ')[1];
+          const response: T = await refreshFn();
+          const accessToken = extractToken(response);
 
-          if (!newToken) {
-            /**
-             * TODO refreshAPI로 부터 토큰을 받아 오지 못함 => 에러처리
-             */
-            authEvents.emitExpired('no new token');
-            return Promise.reject(error);
+          if (accessToken) {
+            window.localStorage.setItem('accessToken', accessToken);
+            originalRequest.headers = {
+              ...originalRequest.headers,
+              Authorization: `Bearer ${accessToken}`,
+            };
           }
 
-          extractAndSaveToken(response);
-
-          originalRequest.headers = {
-            ...originalRequest.headers,
-            Authorization: `Bearer ${newToken}`,
-          };
-
-          return instance(originalRequest);
+          return await instance(originalRequest);
         } catch (refreshError) {
-          authEvents.emitExpired('refresh failed');
+          // 갱신 요청 중 네트워크 오류 등 예외가 발생한 경우
+          onRefreshFailed('Refresh failed');
           return Promise.reject(refreshError);
         }
       }
@@ -75,4 +56,6 @@ export const setupApiResponseInterceptor = (
       return Promise.reject(error);
     }
   );
+
+  return interceptorId;
 };

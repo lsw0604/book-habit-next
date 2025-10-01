@@ -1,14 +1,16 @@
 import { AxiosInstance } from 'axios';
 
-import { tokenService } from '@/entities/auth/lib/token';
+import { isClient } from '../constant';
 
 export const setupRequestInterceptor = (client: AxiosInstance) =>
   client.interceptors.request.use(
     config => {
-      const token = tokenService.getToken();
+      if (isClient) {
+        const accessToken = window.localStorage.getItem('accessToken');
 
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+        if (accessToken) {
+          config.headers.Authorization = `Bearer ${accessToken}`;
+        }
       }
 
       return config;
