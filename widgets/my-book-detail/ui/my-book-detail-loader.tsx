@@ -1,8 +1,9 @@
 'use client';
 
+import { Star } from 'lucide-react';
+
 import { Separator } from '@/shared/ui/separator';
 import { Skeleton } from '@/shared/ui/skeleton';
-import { IconStar } from '@/style/icon';
 
 export function MyBookDetailLoader() {
   return (
@@ -24,7 +25,7 @@ export function MyBookDetailLoader() {
                       key={`star-skeleton-${index}`}
                       className="flex w-full justify-center items-center"
                     >
-                      <IconStar className="w-8 h-8 fill-muted animate-pulse" />
+                      <Star className="w-8 h-8 stroke-muted fill-muted animate-pulse" />
                     </i>
                   ))}
                 </div>
