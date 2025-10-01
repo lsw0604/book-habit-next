@@ -2,6 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import type { ErrorDTO } from '@/shared/api/dto';
+import { useApiStatus } from '@/shared/api/hooks';
 import { queryKeys } from '@/shared/query/keys';
 
 import { type GetMyBooksPayload, type MyBooksDTO, myBookService } from '../api';
@@ -11,6 +12,7 @@ export const useMyBooks = (
   params: Pick<GetMyBooksPayload, 'order' | 'status'>
 ) => {
   const { getMyBooks } = myBookService;
+  const { isInitialized } = useApiStatus();
 
   return useInfiniteQuery<MyBooksDTO, AxiosError<ErrorDTO>, MyBooks>({
     queryKey: queryKeys.myBook.list(params).queryKey,
@@ -23,6 +25,7 @@ export const useMyBooks = (
     },
     getNextPageParam: response => response.meta?.nextPage,
     initialPageParam: 1,
+    enabled: isInitialized,
     select: data => {
       if (data.pages.length === 0) {
         return { books: [], meta: { totalCount: 0, totalPages: 0 } };

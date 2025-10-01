@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
 import type { ErrorDTO } from '@/shared/api/dto';
+import { useApiStatus } from '@/shared/api/hooks';
 import { queryKeys } from '@/shared/query';
 
 import { type MyBookReviewDTO, myBookReviewService } from '../api';
@@ -10,11 +11,13 @@ import type { MyBookReview } from '../model/my-book-review.model';
 
 export const useMyBookReview = (myBookId: number) => {
   const { getMyBookReview } = myBookReviewService;
+  const { isInitialized } = useApiStatus();
 
   return useQuery<MyBookReviewDTO, AxiosError<ErrorDTO>, MyBookReview>({
     queryKey: queryKeys.myBookReview.detail(myBookId).queryKey,
     queryFn: () => getMyBookReview(myBookId),
     select: response => toMyBookReviewViewModel(response),
+    enabled: isInitialized,
     gcTime: 30 * 60 * 1000,
     staleTime: 10 * 60 * 1000,
     retry: false,
