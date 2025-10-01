@@ -1,15 +1,12 @@
-import type { AxiosResponse } from 'axios';
-
-import type { UserDTO } from '@/entities/user';
-import type { ResponseDTO } from '@/shared/api/types/response';
+import type { AuthDTO } from './auth.dto';
 
 export interface AuthService {
-  login: (payload: LoginPayload) => Promise<UserDTO>;
-  register: (payload: RegisterPayload) => Promise<UserDTO>;
-  kakao: (code: string) => Promise<UserDTO>;
-  access: () => Promise<UserDTO>;
-  refresh: () => Promise<AxiosResponse<ResponseDTO<UserDTO>>>;
-  logout: () => Promise<void>;
+  login: (payload: LoginPayload) => Promise<AuthDTO>;
+  register: (payload: RegisterPayload) => Promise<AuthDTO>;
+  kakao: (code: string) => Promise<AuthDTO>;
+  access: () => Promise<AuthDTO>;
+  refresh: () => Promise<AuthDTO>;
+  logout: () => Promise<AuthDTO>;
 }
 
 export interface LoginPayload {

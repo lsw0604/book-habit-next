@@ -12,8 +12,8 @@ import {
   type AuthEventData,
   clearAuthState,
   setAuthState,
+  serializeAuth,
 } from '@/entities/auth';
-import { serializeUser } from '@/entities/user';
 import { useAppDispatch } from '@/shared/redux/store';
 import { isClient } from '@/shared/utils';
 
@@ -27,13 +27,8 @@ export const useAuthProvider = () => {
 
   const handleAuthSuccess = useCallback(
     (data: AuthEventData) => {
-      if (isClient && data.user) {
-        dispatch(
-          setAuthState({
-            user: { ...serializeUser(data.user) },
-            isAuthenticated: true,
-          })
-        );
+      if (isClient && data.auth) {
+        dispatch(setAuthState(serializeAuth(data.auth)));
       }
 
       if (AUTH_ROUTES.some(route => pathname.startsWith(route))) {

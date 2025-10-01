@@ -1,49 +1,53 @@
-import { UserDTO } from '@/entities/user';
-import { authAxiosInstance, authClient } from '@/shared/api/clients/auth';
+import { authClient } from '@/shared/api/clients/auth';
 import { API_ENDPOINTS } from '@/shared/api/constant';
-import { ResponseDTO } from '@/shared/api/types/response';
 
+import { AuthDTO } from './auth.dto';
 import { AuthService, LoginPayload, RegisterPayload } from './types';
 
 export const authService: AuthService = {
-  login: async (payload: LoginPayload) => {
-    const response = await authClient.post<UserDTO>(
+  login: async (payload: LoginPayload): Promise<AuthDTO> => {
+    const response: AuthDTO = await authClient.post<AuthDTO>(
       API_ENDPOINTS.AUTH.SIGNIN,
       payload
     );
     return response;
   },
-  register: async (payload: RegisterPayload) => {
+  register: async (payload: RegisterPayload): Promise<AuthDTO> => {
     const { birthday, ...rest } = payload;
     const apiPayload = {
       ...rest,
       birthday: birthday.toISOString(),
     };
-    const response = await authClient.post<UserDTO>(
+    const response: AuthDTO = await authClient.post<AuthDTO>(
       API_ENDPOINTS.AUTH.SIGNUP,
       apiPayload
     );
 
     return response;
   },
-  kakao: async (code: string) => {
-    const response = await authClient.get<UserDTO>(
+  kakao: async (code: string): Promise<AuthDTO> => {
+    const response: AuthDTO = await authClient.get<AuthDTO>(
       `${API_ENDPOINTS.AUTH.KAKAO}?code=${code}`
     );
 
     return response;
   },
-  access: async () => {
-    const response = await authClient.get<UserDTO>(API_ENDPOINTS.AUTH.ACCESS);
+  access: async (): Promise<AuthDTO> => {
+    const response: AuthDTO = await authClient.get<AuthDTO>(
+      API_ENDPOINTS.AUTH.ACCESS
+    );
     return response;
   },
-  refresh: async () => {
-    const response = await authAxiosInstance.post<ResponseDTO<UserDTO>>(
+  refresh: async (): Promise<AuthDTO> => {
+    const response: AuthDTO = await authClient.post<AuthDTO>(
       API_ENDPOINTS.AUTH.REFRESH
     );
     return response;
   },
-  logout: async () => {
-    await authClient.post(API_ENDPOINTS.AUTH.LOGOUT);
+  logout: async (): Promise<AuthDTO> => {
+    const response: AuthDTO = await authClient.post<AuthDTO>(
+      API_ENDPOINTS.AUTH.LOGOUT
+    );
+    return response;
   },
 };

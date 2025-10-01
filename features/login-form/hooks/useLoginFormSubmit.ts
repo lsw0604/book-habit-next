@@ -1,14 +1,13 @@
 import { useCallback } from 'react';
 
-import { useLogin, authEvents } from '@/entities/auth';
-import type { User } from '@/entities/user';
+import { useLogin, authEvents, type Auth } from '@/entities/auth';
 
 import type { LoginType } from '../schemas';
 
 export const useLoginFormSubmit = () => {
   const { mutate, isPending, isError, error } = useLogin();
 
-  const onSuccess = useCallback((response: User) => {
+  const onSuccess = useCallback((response: Auth) => {
     authEvents.emitLogin({ ...response });
   }, []);
 
