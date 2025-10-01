@@ -1,8 +1,4 @@
-import {
-  configureStore,
-  combineReducers,
-  createListenerMiddleware,
-} from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
   TypedUseSelectorHook,
   useSelector as useReduxSelector,
@@ -11,28 +7,13 @@ import {
 
 import authSlice from '@/entities/auth/store/auth.slice';
 import modalSlice from '@/entities/modal/store/modal.slice';
+import toastSlice from '@/entities/toast/model/toast.slice';
 
 const rootReducer = combineReducers({
   auth: authSlice,
   modal: modalSlice,
+  toast: toastSlice,
 });
-
-const listenerMiddleware = createListenerMiddleware();
-
-// listenerMiddleware.startListening({
-//   actionCreator: closeModal,
-//   effect: async (action, listenerApi) => {
-//     const stateBefore = listenerApi.getOriginalState() as RootState;
-
-//     if (stateBefore.modal.type === 'REGISTER_MY_BOOK') {
-//       listenerApi.dispatch(clearSelectedBook());
-//     }
-
-//     if (stateBefore.modal.type === 'SELECTED_MY_BOOK_HISTORY') {
-//       listenerApi.dispatch(clearSelectedHistory());
-//     }
-//   },
-// });
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
@@ -42,7 +23,9 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().prepend(listenerMiddleware.middleware),
-  devTools: true,
+  devTools: process.env.NODE_ENV !== 'production' && {
+    name: 'MyApp Store', // 고유한 이름 지정
+    trace: true,
+    traceLimit: 25,
+  },
 });
