@@ -38,7 +38,12 @@ export function ApiProvider({ children }: { children: ReactNode }) {
           extractToken: response => extractToken(response),
         }
       );
-      authResponseInterceptor = setupAuthResponseInterceptor(authAxiosInstance);
+      authResponseInterceptor = setupAuthResponseInterceptor<AuthDTO>(
+        authAxiosInstance,
+        {
+          extractToken: response => extractToken(response),
+        }
+      );
     } finally {
       setIsInitialized(true);
     }
