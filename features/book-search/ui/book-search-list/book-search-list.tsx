@@ -2,11 +2,10 @@
 
 import { useBookQuery } from '@/entities/book/hooks/useBook';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
-import { BOOK_SEARCH_LIST_GRID_STYLE } from '@/shared/style/list-style';
 import { Spinner } from '@/shared/ui/spinner';
-import { cn } from '@/shared/utils';
 
 import { useBookSearchModal, useBookSearchParams } from '../../hooks';
+import { BookSearchListGrid } from '../layout';
 
 import { BookSearchItem } from './book-search-item';
 import { BookSearchListLoader } from './book-search-list-loader';
@@ -29,7 +28,6 @@ export function BookSearchList() {
     threshold: 0.3,
   });
   const { modalHandler } = useBookSearchModal();
-
   if (isLoading) return <BookSearchListLoader count={size} />;
   if (!data || !query || data.length === 0 || isError)
     return (
@@ -42,13 +40,8 @@ export function BookSearchList() {
     );
 
   return (
-    <div className={cn('w-full h-full overflow-scroll scrollbar-none')}>
-      <ul
-        className={cn(
-          'w-full px-4 flex flex-col gap-4 mb-2', // 기본 모바일 레이아웃
-          BOOK_SEARCH_LIST_GRID_STYLE
-        )}
-      >
+    <div className="w-full h-full overflow-scroll scrollbar-none">
+      <BookSearchListGrid className="pb-4">
         {data.map(book => (
           <BookSearchItem
             key={book.isbns.join('-')}
@@ -56,7 +49,7 @@ export function BookSearchList() {
             modalHandler={modalHandler}
           />
         ))}
-      </ul>
+      </BookSearchListGrid>
       <div className="w-full flex justify-center p-4" ref={ref}>
         {isFetching && (
           <div role="status">
