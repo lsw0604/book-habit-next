@@ -4,7 +4,7 @@ export interface MyBookReviewService {
   addMyBookReview: (
     payload: CreateMyBookReviewPayload
   ) => Promise<MyBookReviewDTO>;
-  getMyBookReview: (myBookId: number) => Promise<MyBookReviewDTO>;
+  getMyBookReview: (myBookId: number) => Promise<MyBookReviewDTO | null>;
   updateMyBookReview: (
     payload: UpdateMyBookReviewPayload
   ) => Promise<MyBookReviewDTO>;

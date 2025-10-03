@@ -13,10 +13,14 @@ export const useMyBookReview = (myBookId: number) => {
   const { getMyBookReview } = myBookReviewService;
   const { isInitialized } = useApiStatus();
 
-  return useQuery<MyBookReviewDTO, AxiosError<ErrorDTO>, MyBookReview>({
+  return useQuery<
+    MyBookReviewDTO | null,
+    AxiosError<ErrorDTO>,
+    MyBookReview | null
+  >({
     queryKey: queryKeys.myBookReview.detail(myBookId).queryKey,
     queryFn: () => getMyBookReview(myBookId),
-    select: response => toMyBookReviewViewModel(response),
+    select: response => (response ? toMyBookReviewViewModel(response) : null),
     enabled: isInitialized,
     gcTime: 30 * 60 * 1000,
     staleTime: 10 * 60 * 1000,
