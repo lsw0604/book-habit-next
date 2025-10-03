@@ -2,36 +2,27 @@
 
 import { useMyBooks } from '@/entities/my-book/hooks';
 import { MyBookItem } from '@/entities/my-book/ui';
-import { useFilterMyBookParams } from '@/features/filter-my-book/hooks';
-import Loader from '@/shared/common/loader';
-import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
+import { useFilterMyBookParams } from '@/features/filter-my-book';
+import { useApiStatus } from '@/shared/api/hooks';
+import { useInfiniteScroll } from '@/shared/hooks';
+import { Spinner } from '@/shared/ui/spinner';
 import { cn } from '@/shared/utils/class-name';
 
 import { MyBookListEmpty } from './my-book-list-empty';
 import { MyBookListLoader } from './my-book-list-loader';
-import { MyBookListLoginError } from './my-book-list-login-error';
-import { MyBookListNotFound } from './my-book-list-not-found';
 
 export function MyBookList() {
   const { order, status } = useFilterMyBookParams();
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isLoading,
-    isFetching,
-    isError,
-    error,
-  } = useMyBooks({ order, status });
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
+    useMyBooks({ order, status });
+  const { isInitialized } = useApiStatus();
   const ref = useInfiniteScroll(fetchNextPage, hasNextPage);
 
-  if (isLoading) return <MyBookListLoader />;
-  if (isError && error.status === 401) return <MyBookListLoginError />;
-  if (!data) return <MyBookListEmpty />;
-  if (data.books.length === 0) return <MyBookListNotFound />;
+  if (!isInitialized || isLoading) return <MyBookListLoader />;
+  if (!data || data.books.length === 0) return <MyBookListEmpty />;
 
   return (
-    <div className={cn('w-full h-full overflow-scroll scrollbar-none')}>
+    <div className="w-full h-full overflow-scroll scrollbar-none">
       <ul
         className={cn(
           'w-full gap-2 grid px-2 grid-cols-3 flex-col', // 기본 모바일 레이아웃
@@ -47,7 +38,7 @@ export function MyBookList() {
         ))}
       </ul>
       <div className="w-full flex justify-center p-4" ref={ref}>
-        {isFetching && <Loader size={2} className="border-gray-800" />}
+        {isFetching && <Spinner size="sm" className="border-gray-800" />}
       </div>
     </div>
   );
