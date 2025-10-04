@@ -8,6 +8,7 @@ import type {
   ViewMyBookHistoryProps,
   EditMyBookHistoryProps,
   DeleteMyBookHistoryProps,
+  AddMyBookReviewProps,
 } from '../types';
 
 // Props 타입 가드 함수들
@@ -19,6 +20,12 @@ export function isAddMyBookHistoryProps(
   props: ModalProps
 ): props is AddMyBookHistoryProps {
   return 'selectedDate' in props;
+}
+
+export function isAddMyBookReviewProps(
+  props: ModalProps
+): props is AddMyBookReviewProps {
+  return 'myBookId' in props;
 }
 
 export function isViewMyBookHistoryProps(

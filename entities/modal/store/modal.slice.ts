@@ -7,6 +7,7 @@ import {
   EditMyBookHistoryProps,
   ViewMyBookHistoryProps,
   DeleteMyBookHistoryProps,
+  AddMyBookReviewProps,
 } from '../types';
 
 const initialState: Modal = {
@@ -35,6 +36,14 @@ const modalSlice = createSlice({
     ) => {
       state.isOpen = true;
       state.type = 'ADD_MY_BOOK_HISTORY';
+      state.props = action.payload;
+    },
+    openAddMyBookReviewModal: (
+      state,
+      action: PayloadAction<AddMyBookReviewProps>
+    ) => {
+      state.isOpen = true;
+      state.type = 'ADD_MY_BOOK_REVIEW';
       state.props = action.payload;
     },
     openViewMyBookHistoryModal: (
@@ -76,6 +85,7 @@ export const {
   openEditMyBookHistory,
   openDeleteMyBookHistory,
   openAddMyBookHistoryModal,
+  openAddMyBookReviewModal,
   openViewMyBookHistoryModal,
 } = modalSlice.actions;
 

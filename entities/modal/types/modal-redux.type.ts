@@ -9,6 +9,10 @@ export interface AddMyBookHistoryProps {
   selectedDate: string;
 }
 
+export interface AddMyBookReviewProps {
+  myBookId: number;
+}
+
 export interface ViewMyBookHistoryProps {
   selectedHistory: SerializedMyBookHistory;
 }
@@ -24,6 +28,7 @@ export interface DeleteMyBookHistoryProps {
 export type ModalType =
   | 'ADD_MY_BOOK'
   | 'ADD_MY_BOOK_HISTORY'
+  | 'ADD_MY_BOOK_REVIEW'
   | 'VIEW_MY_BOOK_HISTORY'
   | 'EDIT_MY_BOOK_HISTORY'
   | 'DELETE_MY_BOOK_HISTORY';
@@ -31,6 +36,7 @@ export type ModalType =
 export type ModalProps =
   | AddMyBookProps
   | AddMyBookHistoryProps
+  | AddMyBookReviewProps
   | ViewMyBookHistoryProps
   | EditMyBookHistoryProps
   | DeleteMyBookHistoryProps;
@@ -38,6 +44,7 @@ export type ModalProps =
 export type ModalPropsMap = {
   ADD_MY_BOOK: AddMyBookProps;
   ADD_MY_BOOK_HISTORY: AddMyBookHistoryProps;
+  ADD_MY_BOOK_REVIEW: AddMyBookReviewProps;
   VIEW_MY_BOOK_HISTORY: ViewMyBookHistoryProps;
   EDIT_MY_BOOK_HISTORY: EditMyBookHistoryProps;
   DELETE_MY_BOOK_HISTORY: DeleteMyBookHistoryProps;
