@@ -14,7 +14,7 @@ import {
 import { createPortal } from 'react-dom';
 
 import { getModalTitle, modalSelector } from '@/entities/modal';
-import { useAppSelector } from '@/shared/redux/store';
+import { useAppSelector } from '@/shared/redux';
 
 import { BACKDROP_VARIANT, MODAL_VARIANT } from './variants';
 

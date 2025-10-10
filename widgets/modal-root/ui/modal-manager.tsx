@@ -12,7 +12,7 @@ import {
   isViewMyBookHistoryProps,
   isDeleteMyBookHistoryProps,
 } from '@/entities/modal';
-import { useAppSelector } from '@/shared/redux/store';
+import { useAppSelector } from '@/shared/redux';
 
 import { ModalErrorFallback } from './modal-error-fallback';
 import { ModalLoader } from './modal-loader';

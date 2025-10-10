@@ -12,7 +12,7 @@ import {
   type UpdateMyBookHistoryPayload,
   useUpdateMyBookHistory,
 } from '@/entities/my-book-history';
-import { useAppDispatch, useAppSelector } from '@/shared/redux/store';
+import { useAppDispatch, useAppSelector } from '@/shared/redux';
 import { Button } from '@/shared/ui/button';
 import { extractDirtyValues } from '@/shared/utils';
 

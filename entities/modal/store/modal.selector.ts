@@ -1,3 +1,4 @@
-import { RootState } from '@/shared/redux/store';
+import { Modal } from '../types';
 
-export const modalSelector = (state: RootState) => state.modal;
+export const modalSelector = <T extends { modal: Modal }>(state: T) =>
+  state.modal;

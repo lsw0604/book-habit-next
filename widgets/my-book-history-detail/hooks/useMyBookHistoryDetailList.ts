@@ -11,7 +11,7 @@ import type {
   MyBookHistory,
   SerializedMyBookHistory,
 } from '@/entities/my-book-history';
-import { useAppDispatch } from '@/shared/redux/store';
+import { useAppDispatch } from '@/shared/redux';
 import { formatDate } from '@/shared/utils';
 
 interface UseMyBookHistoryDetailListProps {

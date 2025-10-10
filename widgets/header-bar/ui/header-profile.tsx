@@ -1,5 +1,5 @@
 import { authSelector } from '@/entities/auth';
-import { useAppSelector } from '@/shared/redux/store';
+import { useAppSelector } from '@/shared/redux';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { Skeleton } from '@/shared/ui/skeleton';
 

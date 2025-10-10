@@ -1,7 +1,9 @@
-import { type MouseEvent, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
-import { authSelector } from '@/entities/auth/store';
-import { useAppSelector } from '@/shared/redux/store';
+import { type MouseEvent, useCallback } from 'react';
+
+import { authSelector } from '@/entities/auth';
+import { useAppSelector } from '@/shared/redux';
+
 import { NavigationOption } from '../model';
 
 export const useNavigation = (onAuthenticated?: () => void) => {
@@ -15,7 +17,7 @@ export const useNavigation = (onAuthenticated?: () => void) => {
       const isActive =
         href === '/'
           ? pathname === href
-          : pathname === href || pathname.startsWith(href + '/');
+          : pathname === href || pathname.startsWith(`${href}/`);
 
       const canNavigate = !isAuth || isAuthenticated;
 

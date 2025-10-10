@@ -1,18 +1,16 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
-  TypedUseSelectorHook,
+  type TypedUseSelectorHook,
   useSelector as useReduxSelector,
   useDispatch,
 } from 'react-redux';
 
 import authSlice from '@/entities/auth/store/auth.slice';
 import modalSlice from '@/entities/modal/store/modal.slice';
-import toastSlice from '@/entities/toast/model/toast.slice';
 
 const rootReducer = combineReducers({
   auth: authSlice,
   modal: modalSlice,
-  toast: toastSlice,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -1,1 +1,1 @@
-export * from './store';
+export { useAppDispatch, useAppSelector } from '@/app/store';

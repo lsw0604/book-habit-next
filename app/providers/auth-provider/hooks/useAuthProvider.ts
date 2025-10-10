@@ -14,7 +14,7 @@ import {
   setAuthState,
   serializeAuth,
 } from '@/entities/auth';
-import { useAppDispatch } from '@/shared/redux/store';
+import { useAppDispatch } from '@/shared/redux';
 import { isClient } from '@/shared/utils';
 
 /**

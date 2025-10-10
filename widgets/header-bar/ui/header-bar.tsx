@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { authSelector } from '@/entities/auth';
-import { useAppSelector } from '@/shared/redux/store';
+import { useAppSelector } from '@/shared/redux';
 
 import { HeaderAuth } from './header-auth';
 import { HeaderProfile } from './header-profile';

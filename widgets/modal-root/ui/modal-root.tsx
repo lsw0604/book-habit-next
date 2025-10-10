@@ -1,7 +1,7 @@
 'use client';
 
-import { closeModal, modalSelector } from '@/entities/modal/store';
-import { useAppDispatch, useAppSelector } from '@/shared/redux/store';
+import { closeModal, modalSelector } from '@/entities/modal';
+import { useAppDispatch, useAppSelector } from '@/shared/redux';
 import { ModalPortal } from '@/shared/ui/modal-portal';
 
 import { ModalManager } from './modal-manager';

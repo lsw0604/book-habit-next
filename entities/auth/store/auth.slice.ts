@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import type { RootState } from '@/shared/redux/store';
-
 import type { SerializedAuth } from '../model';
 
 const initialState: SerializedAuth = {
@@ -21,8 +19,6 @@ const authSlice = createSlice({
     },
   },
 });
-
-export const authSelector = (state: RootState) => state.auth;
 
 export const { setAuthState, clearAuthState } = authSlice.actions;
 export default authSlice.reducer;

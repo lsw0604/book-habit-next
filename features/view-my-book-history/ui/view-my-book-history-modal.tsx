@@ -12,7 +12,7 @@ import {
   MyBookHistoryReadingMood,
   MyBookHistoryDateLabel,
 } from '@/entities/my-book-history';
-import { useAppDispatch } from '@/shared/redux/store';
+import { useAppDispatch } from '@/shared/redux';
 import { Button } from '@/shared/ui/button';
 
 export function ViewMyBookHistoryModal({

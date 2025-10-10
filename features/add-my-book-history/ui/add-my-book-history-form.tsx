@@ -5,7 +5,7 @@ import {
   type AddMyBookHistoryType,
   useAddMyBookHistory,
 } from '@/entities/my-book-history';
-import { useAppDispatch } from '@/shared/redux/store';
+import { useAppDispatch } from '@/shared/redux';
 import { Button } from '@/shared/ui/button';
 
 import {
