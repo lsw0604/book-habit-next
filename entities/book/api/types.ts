@@ -1,6 +1,4 @@
-import { Sort, Target } from '../model/book.model';
-
-import { ResponseSearchDTO } from './book.dto';
+import type { ResponseSearchDTO } from './book.dto';
 
 export interface BookService {
   search: (payload: SearchPayload) => Promise<ResponseSearchDTO>;
@@ -8,8 +6,8 @@ export interface BookService {
 
 export interface SearchPayload {
   query: string;
-  sort?: Sort;
+  sort?: string;
   page?: number;
   size?: number;
-  target?: Target;
+  target?: string;
 }
