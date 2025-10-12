@@ -1,2 +1,2 @@
 export * from './book.model';
-export * from './book.mapper';
+export * from './book-search-params.model';

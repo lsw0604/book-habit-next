@@ -3,7 +3,9 @@
 import type { ReactNode } from 'react';
 import { FormProvider } from 'react-hook-form';
 
-import { useBookSearchForm, useBookSearchParams } from '../hooks';
+import { useBookSearchParams } from '@/entities/book';
+
+import { useBookSearchForm } from '../hooks';
 
 export function BookSearchFormProvider({ children }: { children: ReactNode }) {
   const params = useBookSearchParams();

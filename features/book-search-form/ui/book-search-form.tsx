@@ -4,8 +4,9 @@ import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import type { BookSearchParamsType } from '@/entities/book/schemas';
+
 import { buildBookSearchURL } from '../lib';
-import type { BookSearchParamsType } from '../schemas';
 
 import { BookSearchPopover } from './book-search-popover';
 import { BookSearchQueryField } from './book-search-query-field';

@@ -5,18 +5,20 @@ import type { ErrorDTO } from '@/shared/api/dto';
 import { useApiStatus } from '@/shared/api/hooks';
 import { queryKeys } from '@/shared/query/keys';
 
-import type { ResponseSearchDTO } from '../api/book.dto';
-import { bookService } from '../api/service';
-import type { SearchPayload } from '../api/types';
+import {
+  type BookSearchPayload,
+  type ResponseSearchDTO,
+  bookService,
+} from '../api';
+import { toBookViewModel } from '../lib';
 import type { Book } from '../model';
-import { toBookViewModel } from '../model/book.mapper';
 
-export const useBookQuery = ({
+export const useBookSearch = ({
   query,
   size,
   sort,
   target,
-}: Omit<SearchPayload, 'page'>) => {
+}: Omit<BookSearchPayload, 'page'>) => {
   const { isInitialized } = useApiStatus();
   return useInfiniteQuery<ResponseSearchDTO, AxiosError<ErrorDTO>, Book[]>({
     queryKey: queryKeys.search.book({ query, size, sort, target }).queryKey,

@@ -2,9 +2,8 @@
 
 import { Controller, useFormContext } from 'react-hook-form';
 
+import type { BookSearchParamsType } from '@/entities/book';
 import { Input } from '@/shared/ui/input';
-
-import type { BookSearchParamsType } from '../schemas';
 
 export function BookSearchQueryField() {
   const {

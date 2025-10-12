@@ -1,10 +1,10 @@
 import type { ResponseSearchDTO } from './book.dto';
 
 export interface BookService {
-  search: (payload: SearchPayload) => Promise<ResponseSearchDTO>;
+  search: (payload: BookSearchPayload) => Promise<ResponseSearchDTO>;
 }
 
-export interface SearchPayload {
+export interface BookSearchPayload {
   query: string;
   sort?: string;
   page?: number;

@@ -1,4 +1,4 @@
-import { Target } from '../model';
+import { Target } from '@/entities/book';
 
 export const BOOK_SEARCH_TARGET_SELECT_OPTIONS = [
   { label: '제목', value: Target.TITLE },

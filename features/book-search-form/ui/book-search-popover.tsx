@@ -3,10 +3,9 @@
 import { DotIcon, ListFilterIcon } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
 
+import type { BookSearchParamsType } from '@/entities/book';
 import { Button } from '@/shared/ui/button';
 import { Popover } from '@/shared/ui/popover';
-
-import type { BookSearchParamsType } from '../schemas';
 
 import { BookSearchSizeField } from './book-search-size-field';
 import { BookSearchSortField } from './book-search-sort-field';

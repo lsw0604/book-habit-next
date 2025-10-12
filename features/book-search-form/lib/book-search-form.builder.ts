@@ -1,4 +1,4 @@
-import { BookSearchParamsType } from '../schemas';
+import type { BookSearchParamsType } from '@/entities/book';
 
 export const buildBookSearchURL = (data: BookSearchParamsType): string => {
   const searchParams = new URLSearchParams();

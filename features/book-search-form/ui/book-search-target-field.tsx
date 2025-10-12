@@ -1,12 +1,12 @@
 import { Controller, useFormContext } from 'react-hook-form';
 
+import type { BookSearchParamsType } from '@/entities/book';
 import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import Select from '@/shared/ui/select';
 
 import { BOOK_SEARCH_TARGET_SELECT_OPTIONS } from '../constants';
 import { getTargetLabel } from '../lib';
-import type { BookSearchParamsType } from '../schemas';
 
 export function BookSearchTargetField() {
   const { control } = useFormContext<BookSearchParamsType>();
