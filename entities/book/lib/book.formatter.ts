@@ -29,4 +29,4 @@ export const formattedPrice = (price: number) =>
   new Intl.NumberFormat('ko-kr').format(price);
 
 export const formattedDatetime = (datetime: string) =>
-  format(parseISO(datetime), 'yyyy.MM.dd');
+  datetime ? format(parseISO(datetime), 'yyyy.MM.dd') : '알 수 없음';
