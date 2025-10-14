@@ -1,10 +1,12 @@
 'use client';
 
+import { SearchIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import type { BookSearchParamsType } from '@/entities/book/schemas';
+import { Button } from '@/shared/ui/button';
 
 import { buildBookSearchURL } from '../lib';
 
@@ -30,8 +32,11 @@ export function BookSearchForm() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="w-full h-auto shadow-lg flex gap-2 relative p-2 rounded-lg">
-        <BookSearchQueryField />
         <BookSearchPopover />
+        <BookSearchQueryField />
+        <Button key="search-btn" type="submit">
+          <SearchIcon />
+        </Button>
       </div>
     </form>
   );

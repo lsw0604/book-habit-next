@@ -31,7 +31,7 @@ export function BookSearchPopover() {
           <ListFilterIcon className="w-4 h-4" />
         </Button>
       </Popover.Trigger>
-      <Popover.Content className="top-12 right-0 px-2 py-4 z-9999">
+      <Popover.Content className="top-12 left-0 px-2 py-4 z-9999">
         <BookSearchTargetField />
         <BookSearchSizeField />
         <BookSearchSortField />
