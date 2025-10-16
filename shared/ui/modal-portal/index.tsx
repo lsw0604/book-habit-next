@@ -13,22 +13,20 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 
-import { getModalTitle, modalSelector } from '@/entities/modal';
-import { useAppSelector } from '@/shared/redux';
-
 import { BACKDROP_VARIANT, MODAL_VARIANT } from './variants';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  title: string;
 }
 
 export function ModalPortal({
   isOpen,
   onClose,
+  title,
   children,
 }: PropsWithChildren<Props>) {
-  const { type } = useAppSelector(modalSelector);
   const [mounted, setMounted] = useState<boolean>(false);
   const [shouldRender, setShouldRender] = useState<boolean>(false);
   const ref = useRef<Element | null>(null);
@@ -101,9 +99,7 @@ export function ModalPortal({
         className="absolute z-9999 w-full h-auto min-h-[10%] max-h-[80%] bottom-0 rounded-tl-lg rounded-tr-lg bg-white flex flex-col"
       >
         <div className="flex justify-between items-center p-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">
-            {getModalTitle(type)}
-          </h2>
+          <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
           <button
             type="button"
             key="close-btn"
