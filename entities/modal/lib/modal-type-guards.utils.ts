@@ -3,6 +3,7 @@ import type {
   ModalType,
   ModalProps,
   ModalPropsMap,
+  AddBookProps,
   AddMyBookProps,
   AddMyBookHistoryProps,
   ViewMyBookHistoryProps,
@@ -10,6 +11,10 @@ import type {
   DeleteMyBookHistoryProps,
   AddMyBookReviewProps,
 } from '../types';
+
+export function isAddBookProps(props: ModalProps): props is AddBookProps {
+  return 'serializedSearchBook' in props;
+}
 
 // Props 타입 가드 함수들
 export function isAddMyBookProps(props: ModalProps): props is AddMyBookProps {

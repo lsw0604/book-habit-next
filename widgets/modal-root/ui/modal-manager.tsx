@@ -7,10 +7,11 @@ import {
   modalSelector,
   getTypedModalState,
   isAddMyBookHistoryProps,
-  isAddMyBookProps,
   isEditMyBookHistoryProps,
   isViewMyBookHistoryProps,
   isDeleteMyBookHistoryProps,
+  isAddMyBookReviewProps,
+  isAddBookProps,
 } from '@/entities/modal';
 import { useAppSelector } from '@/shared/redux';
 
@@ -18,14 +19,19 @@ import { ModalErrorFallback } from './modal-error-fallback';
 import { ModalLoader } from './modal-loader';
 
 // Dynamically import modal components
-const AddMyBookModal = lazy(() =>
-  import('@/features/add-my-book/ui').then(module => ({
-    default: module.AddMyBookModal,
+const AddBookModal = lazy(() =>
+  import('@/features/add-book/ui').then(module => ({
+    default: module.AddBookModal,
   }))
 );
 const AddMyBookHistoryModal = lazy(() =>
   import('@/features/add-my-book-history').then(module => ({
     default: module.AddMyBookHistoryModal,
+  }))
+);
+const AddMyBookReviewModal = lazy(() =>
+  import('@/features/add-my-book-review').then(module => ({
+    default: module.AddMyBookReviewModal,
   }))
 );
 const EditMyBookHistoryModal = lazy(() =>
@@ -43,7 +49,6 @@ const ViewMyBookHistoryModal = lazy(() =>
     default: module.ViewMyBookHistoryModal,
   }))
 );
-// const ViewMyBookHistoryModal = lazy(() => import('@/features/'));
 
 const LazyRegisterMyBookHistoryModal = lazy(async () => {
   // 1. 시간 지연
@@ -71,15 +76,15 @@ export function ModalManager() {
 
   const renderModal = () => {
     switch (type) {
-      case 'ADD_MY_BOOK': {
+      case 'ADD_BOOK': {
         if (
-          getTypedModalState({ isOpen, type, props }, 'ADD_MY_BOOK') &&
-          isAddMyBookProps(props)
+          getTypedModalState({ isOpen, type, props }, 'ADD_BOOK') &&
+          isAddBookProps(props)
         ) {
-          return <AddMyBookModal {...props} />;
+          return <AddBookModal {...props} />;
         }
         throw new Error(
-          `ADD_MY_BOOK modal: Invalid props type. Expected AddMyBookProps but received: ${JSON.stringify(props)}`
+          `ADD_BOOK modal: Invalid props type. Expected AddBookProps but received: ${JSON.stringify(props)}`
         );
       }
       case 'ADD_MY_BOOK_HISTORY': {
@@ -91,6 +96,17 @@ export function ModalManager() {
         }
         throw new Error(
           `ADD_MY_BOOK_HISTORY modal: Invalid props type. Expected AddMyBookHistoryProps but received: ${JSON.stringify(props)}`
+        );
+      }
+      case 'ADD_MY_BOOK_REVIEW': {
+        if (
+          getTypedModalState({ isOpen, type, props }, 'ADD_MY_BOOK_REVIEW') &&
+          isAddMyBookReviewProps(props)
+        ) {
+          return <AddMyBookReviewModal {...props} />;
+        }
+        throw new Error(
+          `ADD_MY_BOOK_Review modal: Invalid props type. Expected AddMyBookReviewProps but received: ${JSON.stringify(props)}`
         );
       }
       case 'EDIT_MY_BOOK_HISTORY': {
@@ -135,8 +151,8 @@ export function ModalManager() {
   };
 
   return (
-    // <ErrorBoundary FallbackComponent={ModalErrorFallback}>
-    <Suspense fallback={<ModalLoader />}>{renderModal()}</Suspense>
-    // </ErrorBoundary>
+    <ErrorBoundary FallbackComponent={ModalErrorFallback}>
+      <Suspense fallback={<ModalLoader />}>{renderModal()}</Suspense>
+    </ErrorBoundary>
   );
 }

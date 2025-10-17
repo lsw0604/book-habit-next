@@ -1,8 +1,8 @@
-import { Book } from '@/entities/book';
-import { SerializedMyBookHistory } from '@/entities/my-book-history';
+import type { SerializedSearchBook } from '@/entities/book';
+import type { SerializedMyBookHistory } from '@/entities/my-book-history';
 
-export interface AddMyBookProps {
-  selectedBook: Book;
+export interface AddBookProps {
+  serializedSearchBook: SerializedSearchBook;
 }
 
 export interface AddMyBookHistoryProps {
@@ -26,7 +26,7 @@ export interface DeleteMyBookHistoryProps {
 }
 
 export type ModalType =
-  | 'ADD_MY_BOOK'
+  | 'ADD_BOOK'
   | 'ADD_MY_BOOK_HISTORY'
   | 'ADD_MY_BOOK_REVIEW'
   | 'VIEW_MY_BOOK_HISTORY'
@@ -34,7 +34,7 @@ export type ModalType =
   | 'DELETE_MY_BOOK_HISTORY';
 
 export type ModalProps =
-  | AddMyBookProps
+  | AddBookProps
   | AddMyBookHistoryProps
   | AddMyBookReviewProps
   | ViewMyBookHistoryProps
@@ -42,7 +42,7 @@ export type ModalProps =
   | DeleteMyBookHistoryProps;
 
 export type ModalPropsMap = {
-  ADD_MY_BOOK: AddMyBookProps;
+  ADD_BOOK: AddBookProps;
   ADD_MY_BOOK_HISTORY: AddMyBookHistoryProps;
   ADD_MY_BOOK_REVIEW: AddMyBookReviewProps;
   VIEW_MY_BOOK_HISTORY: ViewMyBookHistoryProps;

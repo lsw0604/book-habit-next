@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
   Modal,
-  AddMyBookProps,
+  AddBookProps,
   AddMyBookHistoryProps,
   EditMyBookHistoryProps,
   ViewMyBookHistoryProps,
@@ -25,9 +25,9 @@ const modalSlice = createSlice({
       state.type = action.payload.type;
       state.props = action.payload.props;
     },
-    openAddMyBookModal: (state, action: PayloadAction<AddMyBookProps>) => {
+    openAddBookModal: (state, action: PayloadAction<AddBookProps>) => {
       state.isOpen = true;
-      state.type = 'ADD_MY_BOOK';
+      state.type = 'ADD_BOOK';
       state.props = action.payload;
     },
     openAddMyBookHistoryModal: (
@@ -81,7 +81,7 @@ const modalSlice = createSlice({
 export const {
   closeModal,
   setModalState,
-  openAddMyBookModal,
+  openAddBookModal,
   openEditMyBookHistory,
   openDeleteMyBookHistory,
   openAddMyBookHistoryModal,
