@@ -10,8 +10,8 @@ import {
   type ResponseSearchDTO,
   bookService,
 } from '../api';
-import { toBookViewModel } from '../lib';
-import type { Book } from '../model';
+import { toSearchBookViewModel } from '../lib';
+import type { SearchBook } from '../model';
 
 export const useBookSearch = ({
   query,
@@ -20,8 +20,12 @@ export const useBookSearch = ({
   target,
 }: Omit<BookSearchPayload, 'page'>) => {
   const { isInitialized } = useApiStatus();
-  return useInfiniteQuery<ResponseSearchDTO, AxiosError<ErrorDTO>, Book[]>({
-    queryKey: queryKeys.search.book({ query, size, sort, target }).queryKey,
+  return useInfiniteQuery<
+    ResponseSearchDTO,
+    AxiosError<ErrorDTO>,
+    SearchBook[]
+  >({
+    queryKey: queryKeys.book.search({ query, size, sort, target }).queryKey,
     queryFn: ({ pageParam = 1 }) =>
       bookService.search({
         query,
@@ -37,6 +41,8 @@ export const useBookSearch = ({
     initialPageParam: 1,
     enabled: isInitialized && !!query,
     select: data =>
-      data.pages.flatMap(page => page.documents.map(i => toBookViewModel(i))),
+      data.pages.flatMap(page =>
+        page.documents.map(i => toSearchBookViewModel(i))
+      ),
   });
 };
