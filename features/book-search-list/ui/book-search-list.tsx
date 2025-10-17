@@ -2,8 +2,13 @@
 
 import { useCallback } from 'react';
 
-import { Book, useBookSearch, useBookSearchParams } from '@/entities/book';
-import { openAddMyBookModal } from '@/entities/modal';
+import {
+  type SearchBook,
+  serializeSearchBook,
+  useBookSearch,
+  useBookSearchParams,
+} from '@/entities/book';
+import { openAddBookModal } from '@/entities/modal';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { useAppDispatch } from '@/shared/redux';
 import { Spinner } from '@/shared/ui/spinner';
@@ -34,10 +39,11 @@ export function BookSearchList() {
   });
 
   const modalHandler = useCallback(
-    (selectedBook: Book) => {
-      dispatch(openAddMyBookModal({ selectedBook }));
+    (searchBook: SearchBook) => {
+      const serializedSearchBook = serializeSearchBook(searchBook);
+      dispatch(openAddBookModal({ serializedSearchBook }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   if (!params.query) return <BookSearchEmptyQuery />;
@@ -48,10 +54,10 @@ export function BookSearchList() {
   return (
     <div className="w-full h-full overflow-scroll scrollbar-none">
       <BookSearchListGrid>
-        {data?.map(book => (
+        {data?.map(searchBook => (
           <BookSearchItem
-            key={book.isbns.join('-')}
-            book={book}
+            key={searchBook.isbns.join('-')}
+            searchBook={searchBook}
             modalHandler={modalHandler}
           />
         ))}
