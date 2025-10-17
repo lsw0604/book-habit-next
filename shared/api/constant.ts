@@ -13,6 +13,9 @@ export const API_ENDPOINTS = {
   MY_BOOK_TAG: 'api/my-book-tag',
   PUBLIC_REVIEW: 'api/public-review',
   SEARCH: 'api/search',
+  BOOK: {
+    FIND_OR_CREATE: 'api/book/find-or-create',
+  },
 } as const;
 
 export const MAX_RETRY_COUNT = 1;

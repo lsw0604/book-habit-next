@@ -1,14 +1,26 @@
-export interface Book {
+export interface SearchBook {
   title: string;
-  thumbnail: string;
-  status: string;
   price: number;
-  salePrice: number;
+  sale_price: number;
+  publisher: string;
+  url: string;
+  thumbnail: string | null;
+  status: string | null;
+  contents: string | null;
+  datetime: Date | null;
   authors: string[];
   isbns: string[];
   translators: string[];
-  contents: string;
-  datetime: string;
-  publisher: string;
-  url: string;
+}
+
+export interface Book extends SearchBook {
+  id: number;
+}
+
+export interface SerializedSearchBook extends Omit<SearchBook, 'datetime'> {
+  datetime: string | null;
+}
+
+export interface SerializedBook extends SerializedSearchBook {
+  id: number;
 }

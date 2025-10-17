@@ -1,17 +1,15 @@
-import { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
 
-import { cn } from '@/shared/utils/class-name';
-
-import { Book } from '../model';
+import { cn } from '@/shared/utils';
 
 interface BookCardTitleProps extends HTMLAttributes<HTMLHeadElement> {
   className?: string;
-  book: Pick<Book, 'title'>;
+  title: string;
 }
 
 export function BookCardTitle({
   className,
-  book,
+  title,
   ...props
 }: BookCardTitleProps) {
   return (
@@ -23,7 +21,7 @@ export function BookCardTitle({
       )}
       {...props}
     >
-      {book.title}
+      {title}
     </h3>
   );
 }

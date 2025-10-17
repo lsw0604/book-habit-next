@@ -1,4 +1,4 @@
-export interface BookDTO {
+export interface SearchBookDTO {
   title: string; //	도서 제목
   contents: string; //	도서 소개
   url: string; //	도서 상세 URL
@@ -19,5 +19,21 @@ export interface ResponseSearchDTO {
     pageable_count: number;
     is_end: boolean;
   };
-  documents: BookDTO[];
+  documents: SearchBookDTO[];
+}
+
+export interface BookDTO {
+  id: number;
+  title: string;
+  publisher: string;
+  price: number;
+  sale_price: number;
+  thumbnail: string | null;
+  contents: string | null;
+  url: string;
+  datetime: string;
+  status: string | null;
+  isbns: string[];
+  authors: string[];
+  translators: string[];
 }

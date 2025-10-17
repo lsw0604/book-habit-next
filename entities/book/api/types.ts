@@ -1,7 +1,10 @@
-import type { ResponseSearchDTO } from './book.dto';
+import type { SearchBook } from '../model';
+
+import type { BookDTO, ResponseSearchDTO } from './book.dto';
 
 export interface BookService {
   search: (payload: BookSearchPayload) => Promise<ResponseSearchDTO>;
+  findOrCreate: (payload: FindOrCreatePayload) => Promise<BookDTO>;
 }
 
 export interface BookSearchPayload {
@@ -11,3 +14,5 @@ export interface BookSearchPayload {
   size?: number;
   target?: string;
 }
+
+export interface FindOrCreatePayload extends SearchBook {}

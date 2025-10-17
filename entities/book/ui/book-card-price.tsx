@@ -1,22 +1,22 @@
-import { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
 
-import { cn } from '@/shared/utils/class-name';
+import { cn } from '@/shared/utils';
 
 import { formattedPrice, calculateDiscountRate } from '../lib';
-import { Book } from '../model';
 
 interface BookCardPriceProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
-  book: Pick<Book, 'price' | 'salePrice'>;
+  price: number;
+  sale_price: number;
 }
 
 export function BookCardPrice({
-  book,
+  price,
+  sale_price,
   className,
   ...props
 }: BookCardPriceProps) {
-  const { price, salePrice } = book;
-  const isNotForSale = salePrice === -1;
+  const isNotForSale = sale_price === -1;
 
   if (isNotForSale) {
     return (
@@ -31,7 +31,7 @@ export function BookCardPrice({
     );
   }
 
-  const hasDiscount = salePrice > 0 && salePrice < price;
+  const hasDiscount = sale_price > 0 && sale_price < price;
 
   return (
     <div
@@ -40,11 +40,11 @@ export function BookCardPrice({
     >
       {hasDiscount && (
         <span className="bg-rose-100 text-rose-700 font-semibold text-xs px-2 py-0.5 rounded">
-          {calculateDiscountRate(price, salePrice)}%
+          {calculateDiscountRate(price, sale_price)}%
         </span>
       )}
       <span className="font-bold text-gray-900 ml-1">
-        {formattedPrice(salePrice)}원
+        {formattedPrice(sale_price)}원
       </span>
       {hasDiscount && (
         <span className="text-gray-500 text-xs line-through ml-1">

@@ -1,4 +1,4 @@
-import { parseISO, format } from 'date-fns';
+import { format } from 'date-fns';
 
 export const formattedAuthor = (authors: string[]): string => {
   if (authors.length === 0) {
@@ -28,5 +28,5 @@ export const calculateDiscountRate = (price: number, sale_price: number) => {
 export const formattedPrice = (price: number) =>
   new Intl.NumberFormat('ko-kr').format(price);
 
-export const formattedDatetime = (datetime: string) =>
-  datetime ? format(parseISO(datetime), 'yyyy.MM.dd') : '알 수 없음';
+export const formattedDatetime = (datetime: Date | null) =>
+  datetime ? format(datetime, 'yyyy.MM.dd') : '알 수 없음';

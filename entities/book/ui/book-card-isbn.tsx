@@ -1,18 +1,20 @@
-import { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
 
-import { cn } from '@/shared/utils/class-name';
-
-import { Book } from '../model';
+import { cn } from '@/shared/utils';
 
 interface BookCardISBNProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
-  book: Pick<Book, 'isbns'>;
+  isbns: string[];
 }
 
-export function BookCardISBN({ className, book, ...props }: BookCardISBNProps) {
+export function BookCardISBN({
+  className,
+  isbns,
+  ...props
+}: BookCardISBNProps) {
   return (
     <div className="flex gap-2">
-      {book.isbns.map(isbn => (
+      {isbns.map(isbn => (
         <div
           key={isbn}
           className={cn(
