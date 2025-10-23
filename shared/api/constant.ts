@@ -14,6 +14,7 @@ export const API_ENDPOINTS = {
   PUBLIC_REVIEW: 'api/public-review',
   SEARCH: 'api/search',
   BOOK: {
+    DEFAULT: 'api/book',
     FIND_OR_CREATE: 'api/book/find-or-create',
   },
 } as const;

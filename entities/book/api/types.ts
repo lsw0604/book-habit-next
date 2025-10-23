@@ -5,6 +5,7 @@ import type { BookDTO, ResponseSearchDTO } from './book.dto';
 export interface BookService {
   search: (payload: BookSearchPayload) => Promise<ResponseSearchDTO>;
   findOrCreate: (payload: FindOrCreatePayload) => Promise<BookDTO>;
+  findById: (bookId: number) => Promise<BookDTO>;
 }
 
 export interface BookSearchPayload {

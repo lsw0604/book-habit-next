@@ -34,4 +34,10 @@ export const bookService: BookService = {
 
     return response;
   },
+  findById: async (bookId: number) => {
+    const response = await apiClient.get<BookDTO>(
+      `${API_ENDPOINTS.BOOK.DEFAULT}/${bookId}`
+    );
+    return response;
+  },
 };
