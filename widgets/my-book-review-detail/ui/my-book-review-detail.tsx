@@ -1,30 +1,32 @@
 'use client';
 
+import { openAddMyBookReviewModal } from '@/entities/modal';
 import { useMyBookReview } from '@/entities/my-book-review';
 import { useApiStatus } from '@/shared/api/hooks';
+import { useAppDispatch } from '@/shared/redux';
+import { createMarkUp } from '@/shared/utils';
 
-interface MyBookReviewDetailProps {
-  myBookId: number;
-}
+import { MyBookReviewDetailEmpty } from './my-book-review-detail-empty';
+import { MyBookReviewDetailLoader } from './my-book-review-detail-loader';
 
-export function MyBookReviewDetail({ myBookId }: MyBookReviewDetailProps) {
+export function MyBookReviewDetail({ myBookId }: { myBookId: number }) {
   const { data, isLoading } = useMyBookReview(myBookId);
   const { isInitialized } = useApiStatus();
+  const dispatch = useAppDispatch();
 
-  if (!isInitialized || isLoading)
-    return (
-      <div className="px-2 pt-4 mt-4 border rounded-lg shadow-lg">
-        Loading...
-      </div>
-    );
+  const onClickEmpty = () => dispatch(openAddMyBookReviewModal({ myBookId }));
+
+  if (!isInitialized || isLoading) return <MyBookReviewDetailLoader />;
   if (!data || data === null)
-    return (
-      <div className="px-2 pt-4 mt-4 border rounded-lg shadow-lg">empty</div>
-    );
+    return <MyBookReviewDetailEmpty onClick={onClickEmpty} />;
 
   return (
-    <div className="px-2 pt-4 mt-4 border rounded-lg shadow-lg">
-      myBookReview
+    <div className="pt-7 pb-8 border rounded-lg shadow-lg">
+      <div className="px-8">
+        <p className="text-xs text-foreground leading-relaxed whitespace-pre-wrap break-words">
+          {data.review}
+        </p>
+      </div>
     </div>
   );
 }
