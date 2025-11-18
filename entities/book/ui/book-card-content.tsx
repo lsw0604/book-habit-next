@@ -17,7 +17,7 @@ export function BookCardContent({
   if (hasContent)
     return (
       <p
-        className={cn('text-sm font-normal text-gray-800', className)}
+        className={cn('text-sm font-normal text-gray-800 h-20', className)}
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={createMarkUp(bookContent)}
       />
@@ -25,7 +25,7 @@ export function BookCardContent({
 
   return (
     <p
-      className={cn('text-sm font-normal text-gray-800', className)}
+      className={cn('text-sm font-normal text-gray-800 h-20', className)}
       {...props}
     >
       해당 책의 정보가 등록되지 않았습니다.

@@ -2,18 +2,18 @@ import type { HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/utils';
 
-import { formattedAuthor } from '../lib';
+import { formattedTranslator } from '../lib';
 
-interface BookCardAuthorProps extends HTMLAttributes<HTMLParagraphElement> {
+interface BookCardTranslatorProps extends HTMLAttributes<HTMLParagraphElement> {
   className?: string;
-  authors: string[];
+  translators: string[];
 }
 
-export function BookCardAuthor({
+export function BookCardTranslator({
   className,
-  authors,
+  translators,
   ...props
-}: BookCardAuthorProps) {
+}: BookCardTranslatorProps) {
   return (
     <p
       className={cn(
@@ -22,7 +22,7 @@ export function BookCardAuthor({
       )}
       {...props}
     >
-      {formattedAuthor(authors)}
+      {formattedTranslator(translators)}
     </p>
   );
 }
