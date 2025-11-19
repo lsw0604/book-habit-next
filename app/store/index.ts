@@ -1,9 +1,4 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import {
-  type TypedUseSelectorHook,
-  useSelector as useReduxSelector,
-  useDispatch,
-} from 'react-redux';
 
 import authSlice from '@/entities/auth/store/auth.slice';
 import modalSlice from '@/entities/modal/store/modal.slice';
@@ -15,9 +10,6 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
-
-export const useAppSelector: TypedUseSelectorHook<RootState> = useReduxSelector;
-export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 export const store = configureStore({
   reducer: rootReducer,
