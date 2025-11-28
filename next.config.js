@@ -34,6 +34,11 @@ const nextConfig = {
         hostname: 'search1.kakaocdn.net',
         pathname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: 'image.aladin.co.kr',
+        pathname: '**',
+      },
     ],
   },
 };

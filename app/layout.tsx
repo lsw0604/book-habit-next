@@ -41,7 +41,7 @@ export default function RootLayout({
                 <HeaderBar />
                 <main
                   className={cn(
-                    'w-screen h-screen min-h-screen box-border flex flex-col',
+                    'min-h-screen box-border flex flex-col',
                     pathname !== '/' && 'py-16'
                   )}
                 >
