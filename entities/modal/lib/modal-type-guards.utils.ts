@@ -3,22 +3,18 @@ import type {
   ModalType,
   ModalProps,
   ModalPropsMap,
-  AddBookProps,
-  AddMyBookProps,
   AddMyBookHistoryProps,
   ViewMyBookHistoryProps,
   EditMyBookHistoryProps,
   DeleteMyBookHistoryProps,
   AddMyBookReviewProps,
+  PreviewBookProps,
 } from '../types';
 
-export function isAddBookProps(props: ModalProps): props is AddBookProps {
-  return 'serializedSearchBook' in props;
-}
-
-// Props 타입 가드 함수들
-export function isAddMyBookProps(props: ModalProps): props is AddMyBookProps {
-  return 'selectedBook' in props;
+export function isPreviewBookProps(
+  props: ModalProps
+): props is PreviewBookProps {
+  return 'kakaoSearchBook' in props;
 }
 
 export function isAddMyBookHistoryProps(
