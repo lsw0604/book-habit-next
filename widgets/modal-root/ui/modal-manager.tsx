@@ -11,7 +11,7 @@ import {
   isViewMyBookHistoryProps,
   isDeleteMyBookHistoryProps,
   isAddMyBookReviewProps,
-  isAddBookProps,
+  isPreviewBookProps,
 } from '@/entities/modal';
 import { useAppSelector } from '@/shared/redux';
 
@@ -19,9 +19,9 @@ import { ModalErrorFallback } from './modal-error-fallback';
 import { ModalLoader } from './modal-loader';
 
 // Dynamically import modal components
-const AddBookModal = lazy(() =>
-  import('@/features/add-book/ui').then(module => ({
-    default: module.AddBookModal,
+const PreviewBookModal = lazy(() =>
+  import('@/features/preview-book/ui').then(module => ({
+    default: module.PreviewBookModal,
   }))
 );
 const AddMyBookHistoryModal = lazy(() =>
@@ -76,15 +76,15 @@ export function ModalManager() {
 
   const renderModal = () => {
     switch (type) {
-      case 'ADD_BOOK': {
+      case 'PREVIEW_BOOK': {
         if (
-          getTypedModalState({ isOpen, type, props }, 'ADD_BOOK') &&
-          isAddBookProps(props)
+          getTypedModalState({ isOpen, type, props }, 'PREVIEW_BOOK') &&
+          isPreviewBookProps(props)
         ) {
-          return <AddBookModal {...props} />;
+          return <PreviewBookModal {...props} />;
         }
         throw new Error(
-          `ADD_BOOK modal: Invalid props type. Expected AddBookProps but received: ${JSON.stringify(props)}`
+          `PREVIEW_BOOK modal: Invalid props type. Expected PreviewBookProps but received: ${JSON.stringify(props)}`
         );
       }
       case 'ADD_MY_BOOK_HISTORY': {
