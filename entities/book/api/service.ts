@@ -1,18 +1,18 @@
 import { apiClient } from '@/shared/api/clients';
 import { API_ENDPOINTS } from '@/shared/api/constant';
 
-import type { ResponseSearchDTO, BookDTO } from './book.dto';
 import type {
-  BookService,
-  BookSearchPayload,
-  FindOrCreatePayload,
-} from './types';
+  ResponseKakaoDTO,
+  ResponseAladinDTO,
+  BookDetailDTO,
+} from './book.dto';
+import type { BookService, KakaoPayload } from './types';
 
 export const bookService: BookService = {
-  search: async (payload: BookSearchPayload) => {
+  kakaoSearch: async (payload: KakaoPayload) => {
     const { query, page, size, sort, target } = payload;
-    const response = await apiClient.get<ResponseSearchDTO>(
-      API_ENDPOINTS.SEARCH,
+    const response = await apiClient.get<ResponseKakaoDTO>(
+      API_ENDPOINTS.SEARCH.KAKAO,
       {
         params: {
           query,
@@ -26,18 +26,18 @@ export const bookService: BookService = {
 
     return response;
   },
-  findOrCreate: async (payload: FindOrCreatePayload) => {
-    const response = await apiClient.post<BookDTO>(
-      API_ENDPOINTS.BOOK.FIND_OR_CREATE,
-      payload
+  aladinSearch: async (isbn: string) => {
+    const response = await apiClient.get<ResponseAladinDTO>(
+      `${API_ENDPOINTS.SEARCH.ALADIN}/${isbn}`
     );
-
     return response;
   },
-  findById: async (bookId: number) => {
-    const response = await apiClient.get<BookDTO>(
-      `${API_ENDPOINTS.BOOK.DEFAULT}/${bookId}`
+  findOrCreate: async (isbn: string) => {
+    const response = await apiClient.post<BookDetailDTO>(
+      API_ENDPOINTS.BOOK.FIND_OR_CREATE,
+      isbn
     );
+
     return response;
   },
 };
