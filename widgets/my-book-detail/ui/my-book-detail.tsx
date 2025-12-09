@@ -1,7 +1,5 @@
 'use client';
 
-import { format } from 'date-fns';
-
 import {
   BookCardAuthor,
   BookCardContent,
@@ -27,23 +25,25 @@ export function MyBookDetail({ myBookId }: { myBookId: number }) {
 
   if (!data || isLoading) return <MyBookDetailLoader />;
 
-  const datetime = format(data.book.datetime, 'yyyy-MM-dd');
-
   return (
     <Card className="px-2 py-4 border-gray-300 gap-0">
       <div className="flex">
-        <BookCardImage book={data.book} />
+        <BookCardImage
+          thumbnail={data.book.thumbnail}
+          isbns={data.book.isbns}
+        />
         <CardContent className="ml-3 p-0 flex-grow flex flex-col gap-2">
           <CardTitle>
-            <BookCardTitle book={data.book} />
+            <BookCardTitle title={data.book.title} />
           </CardTitle>
           <CardDescription>
-            <BookCardAuthor book={data.book} />
+            <BookCardAuthor
+              authors={data.book.authors}
+              translators={data.book.translators}
+            />
             <BookCardPublisher
-              book={{
-                ...data.book,
-                datetime,
-              }}
+              datetime={data.book.datetime}
+              publisher={data.book.publisher}
             />
           </CardDescription>
           <MyBookUpdateForm myBookId={myBookId} data={data} />
@@ -52,7 +52,7 @@ export function MyBookDetail({ myBookId }: { myBookId: number }) {
       <Separator className="mt-4 mb-2" />
       <CardContent className="p-0 min-h-[140px] w-full h-auto">
         <div className="min-h-[140px] w-full flex items-center justify-center p-2 bg-gray-100 rounded-lg">
-          <BookCardContent book={data.book} />
+          <BookCardContent bookContent={data.book.contents} />
         </div>
       </CardContent>
       <MyBookDetailDate data={data} />
