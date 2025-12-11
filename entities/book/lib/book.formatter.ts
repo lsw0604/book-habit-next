@@ -1,5 +1,6 @@
-import { format } from 'date-fns';
 import isbn3 from 'isbn3';
+
+import { formatDate } from '@/shared/utils';
 
 export const formattedAuthor = (authors: string[]): string => {
   if (authors.length === 0) {
@@ -21,8 +22,8 @@ export const formattedTranslator = (translator: string[]) => {
   return `${translator[0]} 외 ${translator.length - 1}명 역`;
 };
 
-export const formattedPubDate = (datetime: Date | null) =>
-  datetime ? format(datetime, 'yyyy.MM.dd') : '알 수 없음'; // 혹은 사용하시는 라이브러리 import
+export const formattedPubDate = (pubDate: string | null) =>
+  pubDate ? formatDate(pubDate, 'medium') : '알 수 없음';
 
 export const formattedISBN = (rawISBN: string): string => {
   if (!rawISBN) return '';
