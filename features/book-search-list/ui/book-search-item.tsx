@@ -3,69 +3,63 @@
 import { memo, useState } from 'react';
 
 import {
-  type SearchBook,
+  BookCardThumbnail,
+  BookCardStatus,
   BookCardAuthor,
-  BookCardContent,
-  BookCardImage,
-  BookCardPrice,
   BookCardPublisher,
+  BookCardTranslator,
+  BookCardPubDate,
+  BookSummary,
 } from '@/entities/book';
 import { useOnceVisible } from '@/shared/hooks';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardTitle,
-} from '@/shared/ui/card';
+import { Card, CardDescription, CardTitle } from '@/shared/ui/card';
 
 import { BookSearchItemLoader } from './book-search-item-loader';
 
 interface BookSearchItemProps {
-  searchBook: SearchBook;
-  modalHandler?: (serializedSearchBook: SearchBook) => void;
+  item: BookSummary;
+  modalHandler?: (item: BookSummary) => void;
 }
 
-function BookComponent({ searchBook, modalHandler }: BookSearchItemProps) {
+function BookComponent({ item, modalHandler }: BookSearchItemProps) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const ref = useOnceVisible(() => setIsVisible(true), { threshold: 0.1 });
 
   if (!isVisible) return <BookSearchItemLoader ref={ref} />;
 
+  const { thumbnail, title, authors, translators, publisher, pubDate, status } =
+    item;
+
   return (
     <li ref={ref}>
       <button
         type="button"
-        onClick={() => modalHandler?.(searchBook)}
+        onClick={() => modalHandler?.(item)}
         className="w-full text-left"
       >
-        <Card className="flex-row items-start gap-4 py-4 px-2 transition-shadow hover:shadow-xl">
-          <BookCardImage
-            thumbnail={searchBook.thumbnail}
-            isbns={searchBook.isbns}
-          />
-          <div className="flex flex-col grow">
-            <CardTitle className="mt-1 text-base line-clamp-1">
-              {searchBook.title}
+        <Card className="flex-row items-start gap-4 p-3 transition-shadow hover:shadow-xl">
+          <div className="w-[80px] h-[116px] flex-shrink-0">
+            <BookCardThumbnail thumbnail={thumbnail} />
+          </div>
+          <div className="w-full h-[116px] flex flex-col">
+            <CardTitle className="text-sm font-bold line-clamp-2 mb-2">
+              {title}
             </CardTitle>
-            <CardDescription className="text-xs">
-              <BookCardAuthor
-                authors={searchBook.authors}
-                translators={searchBook.translators}
+            <div className="h-auto mt-auto flex flex-row flex-grow-0 justify-between">
+              <CardDescription className="text-xs">
+                <span className="mb-2 flex flex-row gap-1">
+                  <BookCardAuthor authors={authors} />
+                  {translators.length !== 0 && '|'}
+                  <BookCardTranslator translators={translators} />
+                </span>
+                <BookCardPublisher className="mb-2" publisher={publisher} />
+                <BookCardPubDate pubDate={pubDate} />
+              </CardDescription>
+              <BookCardStatus
+                className="items-center justify-center"
+                status={status}
               />
-            </CardDescription>
-            <CardDescription className="flex-col flex text-sm">
-              <BookCardPublisher
-                publisher={searchBook.publisher}
-                datetime={searchBook.datetime}
-              />
-              <BookCardPrice
-                price={searchBook.price}
-                sale_price={searchBook.sale_price}
-              />
-            </CardDescription>
-            <CardContent className="px-0 line-clamp-4 break-words">
-              <BookCardContent bookContent={searchBook.contents} />
-            </CardContent>
+            </div>
           </div>
         </Card>
       </button>
