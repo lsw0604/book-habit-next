@@ -1,73 +1,58 @@
 'use client';
 
-
-
 import {
   BookCardDescription,
   BookCardThumbnail,
-  useAladinBookSearch,
+  type BookDetail,
 } from '@/entities/book';
-import { BookDetailHero } from './book-detail-hero';
+import { CardContent } from '@/shared/ui/card';
 
-interface MyBookDetailProps {
-  isbn: string;
+interface BookDetailProps {
+  book: BookDetail;
+  actions?: React.ReactNode;
 }
-
-export function MyBookDetail({ isbn }: MyBookDetailProps) {
-  const { data: book, isLoading, isError, error } = useAladinBookSearch(isbn);
-
-  if (isLoading)
-    return (
-      <div className="h-screen flex items-center justify-center">
-        Loading...
-      </div>
-    );
-  if (isError)
-    return (
-      <div className="h-screen flex items-center justify-center text-red-500">
-        {error?.message}
-      </div>
-    );
-  if (!book)
-    return (
-      <div className="h-screen flex items-center justify-center">정보 없음</div>
-    );
-
+/**
+ * TODO 이 컴포넌트 완성시키기
+ */
+export function BookDetailView({ book, actions }: BookDetailProps) {
   return (
-    <div className="relative min-h-screen bg-white dark:bg-gray-900 pb-20">
-      {/* 1. Hero Background Section (왓챠 스타일 배경) */}
-      <BookDetailHero book={book} />
-
-      {/* 2. Body Content (스크롤 내리면 보이는 상세 내용) */}
-      <div className="container mx-auto px-4 mt-8 md:mt-12">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-          {/* 모바일에서만 보이는 썸네일 (필요하다면) */}
-          <div className="md:hidden flex justify-center -mt-20 relative z-20 mb-6">
+    <div className="relative">
+      <div className="absolute inset-0 h-72">
+        <div
+          className="h-full w-full bg-cover bg-center blur-xl"
+          style={{ backgroundImage: `url(${book.thumbnail})` }}
+        />
+      </div>
+      <div className="relative container mx-auto px-4 mt-8 md:mt-12">
+        <div>
+          <div className="flex justify-center relative z-20">
             <div className="w-40 h-60 relative shadow-2xl rounded-lg overflow-hidden border border-white/20">
-              <BookCardThumbnail thumbnail={book.thumbnail || ''} />
+              <BookCardThumbnail thumbnail={book.thumbnail} />
             </div>
           </div>
-
-          {/* 좌측 상세 정보 */}
-          <div className="md:col-span-8 lg:col-span-9 space-y-8">
+          {actions && <div className="mt-4 flex justify-center">{actions}</div>}
+          <div className="space-y-8">
             <section>
-              <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
-                책 소개
-              </h3>
-              <div className="prose prose-slate dark:prose-invert max-w-none">
-                <BookCardDescription description={book.description} />
+              <h3 className="text-xl font-bold mb-4 text-gray-900">책 소개</h3>
+              <div className="prose prose-slate max-w-none">
+                <CardContent className="px-0 min-h-[140px] w-full h-auto mb-auto flex flex-col">
+                  <div className="flex-1 flex items-center justify-center p-2 bg-gray-100 rounded-lg">
+                    <BookCardDescription
+                      description={book.description}
+                      className="text-sm text-muted-foreground h-auto"
+                    />
+                  </div>
+                </CardContent>
               </div>
             </section>
-
-            {/* 추가 섹션 (리뷰, 목차 등)이 들어갈 자리 */}
-            <section className="pt-8 border-t border-gray-200 dark:border-gray-800">
-              <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+            <section className="border-gray-200">
+              <h3 className="text-xl font-bold mb-4 text-gray-900">
                 상세 정보
               </h3>
               <dl className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <dt className="text-gray-500">ISBN</dt>
-                  <dd className="font-medium">{isbn}</dd>
+                  <dd className="font-medium">{book.isbn}</dd>
                 </div>
                 <div>
                   <dt className="text-gray-500">페이지</dt>
@@ -75,11 +60,6 @@ export function MyBookDetail({ isbn }: MyBookDetailProps) {
                 </div>
               </dl>
             </section>
-          </div>
-
-          {/* 우측 사이드바 (구매 버튼, 액션 버튼 등) */}
-          <div className="md:col-span-4 lg:col-span-3">
-            <div className="sticky top-24 space-y-4" />
           </div>
         </div>
       </div>
