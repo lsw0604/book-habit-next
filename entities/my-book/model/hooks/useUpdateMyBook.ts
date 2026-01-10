@@ -4,8 +4,9 @@ import type { AxiosError } from 'axios';
 import type { ErrorDTO } from '@/shared/api/dto';
 import { queryKeys } from '@/shared/query/keys';
 
-import { type UpdateMyBookPayload, myBookService } from '../api';
-import { type MyBookDetail, toMyBookDetailViewModel } from '../model';
+import { type UpdateMyBookPayload, myBookService } from '../../api';
+import { toMyBookDetailViewModel } from '../mapper';
+import type { MyBookDetail } from '../types';
 
 interface UseUpdateMyBook {
   myBookId: number;

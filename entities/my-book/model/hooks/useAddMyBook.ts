@@ -5,8 +5,9 @@ import type { CreateMyBookPayload } from '@/entities/my-book/api/types';
 import type { ErrorDTO } from '@/shared/api/dto';
 import { queryKeys } from '@/shared/query/keys';
 
-import { type MyBookDTO, myBookService } from '../api';
-import { type MyBook, toMyBookViewModel } from '../model';
+import { type MyBookDTO, myBookService } from '../../api';
+import { toMyBookViewModel } from '../mapper';
+import type { MyBook } from '../types';
 
 export const useAddMyBook = () => {
   const { addMyBook } = myBookService;

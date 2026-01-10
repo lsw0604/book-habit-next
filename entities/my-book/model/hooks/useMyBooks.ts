@@ -5,8 +5,13 @@ import type { ErrorDTO } from '@/shared/api/dto';
 import { useApiStatus } from '@/shared/api/hooks';
 import { queryKeys } from '@/shared/query/keys';
 
-import { type GetMyBooksPayload, type MyBooksDTO, myBookService } from '../api';
-import { MyBooks, toMyBooksViewModel } from '../model';
+import {
+  type GetMyBooksPayload,
+  type MyBooksDTO,
+  myBookService,
+} from '../../api';
+import { toMyBooksViewModel } from '../mapper';
+import type { MyBooks } from '../types';
 
 export const useMyBooks = (
   params: Pick<GetMyBooksPayload, 'order' | 'status'>

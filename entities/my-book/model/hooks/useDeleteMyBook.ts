@@ -3,7 +3,7 @@ import type { AxiosError } from 'axios';
 
 import type { ErrorDTO } from '@/shared/api/dto';
 
-import { DeleteMyBookPayload, myBookService } from '../api';
+import { type DeleteMyBookPayload, myBookService } from '../../api';
 
 export const useDeleteMyBook = () => {
   const { deleteMyBook } = myBookService;

@@ -9,8 +9,9 @@ import {
   type GetMyBookPayload,
   type MyBookDetailDTO,
   myBookService,
-} from '../api';
-import { MyBookDetail, toMyBookDetailViewModel } from '../model';
+} from '../../api';
+import { toMyBookDetailViewModel } from '../mapper';
+import { MyBookDetail } from '../types';
 
 export const useMyBook = (payload: GetMyBookPayload) => {
   const { getMyBook } = myBookService;
