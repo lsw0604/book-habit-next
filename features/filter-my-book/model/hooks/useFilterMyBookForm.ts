@@ -1,8 +1,8 @@
 import { useFormWithSchema } from '@/shared/hooks/form/useFormWithSchema';
 
 import {
+  type FilterMyBookType,
   DEFAULT_FILTER_MY_BOOK,
-  FilterMyBookType,
   filterMyBookSchema,
 } from '../schemas';
 

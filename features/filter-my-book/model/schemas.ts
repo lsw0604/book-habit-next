@@ -1,8 +1,9 @@
 import { z } from 'zod';
 
-import { myBookStatusSchema } from '@/entities/my-book/schemas';
+import { myBookStatusSchema } from '@/entities/my-book';
 
-import { AllFilterMyBookStatus, FilterMyBookOrder } from '../model';
+import { FILTER_BOOK_STATUS_OPTIONS } from './constants';
+import { FilterMyBookOrder } from './types';
 
 const orderSchema = z.nativeEnum(FilterMyBookOrder, {
   errorMap: () => ({
@@ -12,7 +13,10 @@ const orderSchema = z.nativeEnum(FilterMyBookOrder, {
 
 const statusSchema = z.union([myBookStatusSchema, z.literal('ALL')], {
   errorMap: () => {
-    const availableStatus = Object.values(AllFilterMyBookStatus).join(', ');
+    // 굳이 객체를 새로 만들지 말고, UI용 상수를 재활용해서 메시지 생성
+    const availableStatus = FILTER_BOOK_STATUS_OPTIONS.map(o => o.value).join(
+      ', '
+    );
     return {
       message: `검색 상태는 [${availableStatus}] 중 하나여야 합니다.`,
     };

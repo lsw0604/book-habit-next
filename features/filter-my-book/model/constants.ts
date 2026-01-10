@@ -1,7 +1,10 @@
-import { MY_BOOK_STATUS_OPTIONS } from '@/entities/my-book/constants';
+import { MY_BOOK_STATUS_OPTIONS } from '@/entities/my-book';
 
-import { FilterMyBookOrder } from '../model';
-import type { FilterBookOrderOption, FilterBookStatusOption } from '../types';
+import {
+  type FilterBookOrderOption,
+  type FilterBookStatusOption,
+  FilterMyBookOrder,
+} from './types';
 
 export const FILTER_BOOK_STATUS_OPTIONS: readonly FilterBookStatusOption[] = [
   { value: 'ALL', label: '전체보기' },

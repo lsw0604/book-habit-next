@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 
-import { FilterMyBookType } from '../schemas';
+import type { FilterMyBookType } from '../schemas';
 
 export function useFilterMyBookFormSubmit() {
   const router = useRouter();

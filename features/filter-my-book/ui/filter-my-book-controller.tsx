@@ -5,7 +5,7 @@ import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import { ErrorMessage } from '@/shared/ui/error-message';
 import Select from '@/shared/ui/select';
 
-import { FilterBookOrderOption, FilterBookStatusOption } from '../types';
+import type { FilterBookOrderOption, FilterBookStatusOption } from '../model';
 
 interface FilterMyBookControllerProps<T extends FieldValues> {
   control: Control<T>;
