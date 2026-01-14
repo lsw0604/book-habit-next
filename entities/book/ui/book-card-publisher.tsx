@@ -2,9 +2,12 @@ import type { HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/utils';
 
-interface BookCardPublisherProps extends HTMLAttributes<HTMLParagraphElement> {
+import { BookDetail } from '../model';
+
+interface BookCardPublisherProps
+  extends HTMLAttributes<HTMLParagraphElement>,
+    Pick<BookDetail, 'publisher'> {
   className?: string;
-  publisher: string;
 }
 
 export function BookCardPublisher({

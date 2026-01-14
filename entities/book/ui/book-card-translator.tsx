@@ -2,11 +2,12 @@ import type { HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/utils';
 
-import { formattedTranslator } from '../lib';
+import { BookDetail } from '../model';
 
-interface BookCardTranslatorProps extends HTMLAttributes<HTMLParagraphElement> {
+interface BookCardTranslatorProps
+  extends HTMLAttributes<HTMLParagraphElement>,
+    Pick<BookDetail, 'translators'> {
   className?: string;
-  translators: string[];
 }
 
 export function BookCardTranslator({
@@ -22,7 +23,7 @@ export function BookCardTranslator({
       )}
       {...props}
     >
-      {formattedTranslator(translators)}
+      {translators}
     </p>
   );
 }

@@ -4,30 +4,27 @@ import type { AxiosError } from 'axios';
 import type { ErrorDTO } from '@/shared/api/dto';
 import { useApiStatus } from '@/shared/api/hooks';
 import { queryKeys } from '@/shared/query/keys';
+import { ResponsePagination } from '@/shared/types';
 
-import {
-  type BookSearchPayload,
-  type ResponseSearchDTO,
-  bookService,
-} from '../api';
-import { toSearchBookViewModel } from '../lib';
-import type { SearchBook } from '../model';
+import { type KakaoPayload, type BookSummaryDTO, bookService } from '../api';
+import { toSummaryBookViewModel } from '../lib';
+import type { BookSummary } from '../model';
 
-export const useBookSearch = ({
+export const useKakaoBookSearch = ({
   query,
   size,
   sort,
   target,
-}: Omit<BookSearchPayload, 'page'>) => {
+}: Omit<KakaoPayload, 'page'>) => {
   const { isInitialized } = useApiStatus();
   return useInfiniteQuery<
-    ResponseSearchDTO,
+    ResponsePagination<BookSummaryDTO>,
     AxiosError<ErrorDTO>,
-    SearchBook[]
+    BookSummary[]
   >({
     queryKey: queryKeys.book.search({ query, size, sort, target }).queryKey,
     queryFn: ({ pageParam = 1 }) =>
-      bookService.search({
+      bookService.kakaoSearch({
         query,
         size,
         sort,
@@ -36,13 +33,13 @@ export const useBookSearch = ({
       }),
     getNextPageParam: (response, allPage) => {
       const nextPage = allPage.length + 1;
-      return response.meta.is_end ? undefined : nextPage;
+      return response.meta.hasNextPage ? nextPage : undefined;
     },
     initialPageParam: 1,
     enabled: isInitialized && !!query,
     select: data =>
       data.pages.flatMap(page =>
-        page.documents.map(i => toSearchBookViewModel(i))
+        page.items.map(i => toSummaryBookViewModel(i))
       ),
   });
 };

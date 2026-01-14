@@ -2,9 +2,12 @@ import { HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/utils';
 
-interface BookCardStatusProps extends HTMLAttributes<HTMLParagraphElement> {
+import { BookDetail } from '../model';
+
+interface BookCardStatusProps
+  extends HTMLAttributes<HTMLParagraphElement>,
+    Pick<BookDetail, 'status'> {
   className?: string;
-  status: string | null;
 }
 
 export function BookCardStatus({

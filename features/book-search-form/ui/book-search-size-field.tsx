@@ -2,13 +2,14 @@
 
 import { Controller, useFormContext } from 'react-hook-form';
 
-import type { BookSearchParamsType } from '@/entities/book';
 import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import { Slider } from '@/shared/ui/slider';
 
+import type { BookSearchFormType } from '../model';
+
 export function BookSearchSizeField() {
-  const { control } = useFormContext<BookSearchParamsType>();
+  const { control } = useFormContext<BookSearchFormType>();
 
   return (
     <Controller

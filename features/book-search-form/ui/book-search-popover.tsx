@@ -3,9 +3,10 @@
 import { DotIcon, ListFilterIcon } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
 
-import type { BookSearchParamsType } from '@/entities/book';
 import { Button } from '@/shared/ui/button';
 import { Popover } from '@/shared/ui/popover';
+
+import type { BookSearchFormType } from '../model';
 
 import { BookSearchSizeField } from './book-search-size-field';
 import { BookSearchSortField } from './book-search-sort-field';
@@ -17,7 +18,7 @@ export function BookSearchPopover() {
       isSubmitted,
       errors: { target, size, sort },
     },
-  } = useFormContext<BookSearchParamsType>();
+  } = useFormContext<BookSearchFormType>();
 
   const shouldShowError = isSubmitted && (target || size || sort);
 

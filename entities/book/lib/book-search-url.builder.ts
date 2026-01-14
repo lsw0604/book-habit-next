@@ -1,6 +1,6 @@
-import type { BookSearchParamsType } from '@/entities/book';
+import type { BookSearchParams } from '../model';
 
-export const buildBookSearchURL = (data: BookSearchParamsType): string => {
+export const buildBookSearchURL = (data: BookSearchParams): string => {
   const searchParams = new URLSearchParams();
 
   if (data.query) searchParams.set('query', data.query);

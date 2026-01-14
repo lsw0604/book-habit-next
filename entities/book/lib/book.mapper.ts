@@ -1,5 +1,5 @@
-import type { BookSummaryDTO } from '../api';
-import type { BookSummary } from '../model';
+import type { BookDetailDTO, BookSummaryDTO } from '../api';
+import type { BookDetail, BookSummary } from '../model';
 
 import {
   formattedAuthor,
@@ -24,5 +24,18 @@ export const toSummaryBookViewModel = (dto: BookSummaryDTO): BookSummary => {
     status: dto.status ?? '',
     description: dto.description ?? '',
     thumbnail: dto.thumbnail,
+  };
+};
+
+export const toDetailBookViewModel = (dto: BookDetailDTO): BookDetail => {
+  const { coverImage, totalPage, subTitle, url, ...rest } = dto;
+  const bookSummary = toSummaryBookViewModel(rest);
+
+  return {
+    ...bookSummary,
+    coverImage,
+    totalPage,
+    subTitle,
+    url,
   };
 };

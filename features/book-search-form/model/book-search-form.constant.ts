@@ -1,6 +1,6 @@
 import { Target } from '@/entities/book';
 
-export const BOOK_SEARCH_TARGET_SELECT_OPTIONS = [
+export const BOOK_SEARCH_FORM_SELECT_OPTIONS = [
   { label: '제목', value: Target.TITLE },
   { label: 'ISBN', value: Target.ISBN },
   { label: '작가', value: Target.PERSON },

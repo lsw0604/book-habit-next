@@ -9,3 +9,10 @@ export enum Target {
   PUBLISHER = 'publisher',
   PERSON = 'person',
 }
+
+export interface BookSearchParams {
+  query: string;
+  size: number;
+  sort: Sort;
+  target: Target;
+}

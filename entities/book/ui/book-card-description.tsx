@@ -2,24 +2,27 @@ import type { HTMLAttributes } from 'react';
 
 import { cn, createMarkUp } from '@/shared/utils';
 
-interface BookCardContentProps extends HTMLAttributes<HTMLParagraphElement> {
+import { BookDetail } from '../model';
+
+interface BookCardDescriptionProps
+  extends HTMLAttributes<HTMLParagraphElement>,
+    Pick<BookDetail, 'description'> {
   className?: string;
-  bookContent: string | null;
 }
 
-export function BookCardContent({
-  bookContent,
+export function BookCardDescription({
+  description,
   className,
   ...props
-}: BookCardContentProps) {
-  const hasContent = !!bookContent;
+}: BookCardDescriptionProps) {
+  const hasContent = !!description;
 
   if (hasContent)
     return (
       <p
         className={cn('text-sm font-normal text-gray-800 h-20', className)}
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={createMarkUp(bookContent)}
+        dangerouslySetInnerHTML={createMarkUp(description)}
       />
     );
 

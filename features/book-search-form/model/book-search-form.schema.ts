@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-import { Sort, Target } from '../model';
+import { Sort, Target, BookSearchParams } from '@/entities/book/model';
 
-export const bookSearchParamsSchema = z.object({
+export const bookSearchFormSchema = z.object({
   query: z.string().min(1, {
     message: '검색어를 입력해주세요.',
   }),
@@ -27,9 +27,12 @@ export const bookSearchParamsSchema = z.object({
   }),
 });
 
-export type BookSearchParamsType = z.infer<typeof bookSearchParamsSchema>;
+export type BookSearchFormType = z.infer<typeof bookSearchFormSchema>;
 
-export const DEFAULT_BOOK_SEARCH_PARAMS: BookSearchParamsType = {
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention
+const _checkType: BookSearchParams = {} as BookSearchFormType;
+
+export const DEFAULT_BOOK_SEARCH_FORM: BookSearchFormType = {
   query: '',
   size: 10,
   sort: Sort.ACCURACY,

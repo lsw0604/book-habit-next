@@ -2,18 +2,19 @@ import type { HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/utils';
 
-import { formattedDatetime } from '../lib';
+import { BookDetail } from '../model';
 
-interface BookCardDatetimeProps extends HTMLAttributes<HTMLParagraphElement> {
+interface BookCardPubDateProps
+  extends HTMLAttributes<HTMLParagraphElement>,
+    Pick<BookDetail, 'pubDate'> {
   className?: string;
-  datetime: Date | null;
 }
 
-export function BookCardDatetime({
+export function BookCardPubDate({
   className,
-  datetime,
+  pubDate,
   ...props
-}: BookCardDatetimeProps) {
+}: BookCardPubDateProps) {
   return (
     <p
       className={cn(
@@ -22,7 +23,7 @@ export function BookCardDatetime({
       )}
       {...props}
     >
-      {formattedDatetime(datetime)}
+      {pubDate}
     </p>
   );
 }

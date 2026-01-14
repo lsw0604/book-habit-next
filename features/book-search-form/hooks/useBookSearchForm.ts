@@ -1,14 +1,15 @@
 'use client';
 
-import {
-  bookSearchParamsSchema,
-  BookSearchParamsType,
-  DEFAULT_BOOK_SEARCH_PARAMS,
-} from '@/entities/book';
 import { useFormWithSchema } from '@/shared/hooks';
 
-export const useBookSearchForm = (initialValue?: BookSearchParamsType) =>
-  useFormWithSchema(bookSearchParamsSchema, {
-    defaultValues: DEFAULT_BOOK_SEARCH_PARAMS,
+import {
+  type BookSearchFormType,
+  bookSearchFormSchema,
+  DEFAULT_BOOK_SEARCH_FORM,
+} from '../model';
+
+export const useBookSearchForm = (initialValue?: BookSearchFormType) =>
+  useFormWithSchema(bookSearchFormSchema, {
+    defaultValues: DEFAULT_BOOK_SEARCH_FORM,
     values: initialValue,
   });

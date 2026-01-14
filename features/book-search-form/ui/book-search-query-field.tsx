@@ -2,14 +2,15 @@
 
 import { Controller, useFormContext } from 'react-hook-form';
 
-import type { BookSearchParamsType } from '@/entities/book';
 import { Input } from '@/shared/ui/input';
+
+import type { BookSearchFormType } from '../model';
 
 export function BookSearchQueryField() {
   const {
     control,
     formState: { isSubmitting },
-  } = useFormContext<BookSearchParamsType>();
+  } = useFormContext<BookSearchFormType>();
 
   return (
     <Controller

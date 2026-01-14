@@ -5,20 +5,20 @@ import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import type { BookSearchParamsType } from '@/entities/book/schemas';
+import { buildBookSearchURL } from '@/entities/book/lib';
 import { Button } from '@/shared/ui/button';
 
-import { buildBookSearchURL } from '../lib';
+import type { BookSearchFormType } from '../model';
 
 import { BookSearchPopover } from './book-search-popover';
 import { BookSearchQueryField } from './book-search-query-field';
 
 export function BookSearchForm() {
   const router = useRouter();
-  const { handleSubmit } = useFormContext<BookSearchParamsType>();
+  const { handleSubmit } = useFormContext<BookSearchFormType>();
 
   const onSubmit = useCallback(
-    (data: BookSearchParamsType) => {
+    (data: BookSearchFormType) => {
       router.push(buildBookSearchURL(data));
     },
     [router]
