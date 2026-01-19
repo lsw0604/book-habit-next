@@ -1,8 +1,8 @@
-import type { KakaoSearchBook } from '@/entities/book';
+import type { BookSummary } from '@/entities/book';
 import type { SerializedMyBookHistory } from '@/entities/my-book-history';
 
 export interface PreviewBookProps {
-  kakaoSearchBook: KakaoSearchBook;
+  bookSummary: BookSummary;
 }
 
 export interface AddMyBookHistoryProps {
@@ -25,14 +25,6 @@ export interface DeleteMyBookHistoryProps {
   selectedHistory: SerializedMyBookHistory;
 }
 
-export type ModalType =
-  | 'PREVIEW_BOOK'
-  | 'ADD_MY_BOOK_HISTORY'
-  | 'ADD_MY_BOOK_REVIEW'
-  | 'VIEW_MY_BOOK_HISTORY'
-  | 'EDIT_MY_BOOK_HISTORY'
-  | 'DELETE_MY_BOOK_HISTORY';
-
 export type ModalProps =
   | PreviewBookProps
   | AddMyBookHistoryProps
@@ -50,8 +42,28 @@ export type ModalPropsMap = {
   DELETE_MY_BOOK_HISTORY: DeleteMyBookHistoryProps;
 };
 
-export interface Modal {
-  isOpen: boolean;
-  type: ModalType | null;
-  props?: ModalPropsMap[ModalType];
-}
+export type ModalType = keyof ModalPropsMap;
+
+export type CloseModalState = { isOpen: false; type: null; props: undefined };
+
+export type OpenModalState =
+  | { isOpen: true; type: 'PREVIEW_BOOK'; props: PreviewBookProps }
+  | { isOpen: true; type: 'ADD_MY_BOOK_HISTORY'; props: AddMyBookHistoryProps }
+  | { isOpen: true; type: 'ADD_MY_BOOK_REVIEW'; props: AddMyBookReviewProps }
+  | {
+      isOpen: true;
+      type: 'VIEW_MY_BOOK_HISTORY';
+      props: ViewMyBookHistoryProps;
+    }
+  | {
+      isOpen: true;
+      type: 'EDIT_MY_BOOK_HISTORY';
+      props: EditMyBookHistoryProps;
+    }
+  | {
+      isOpen: true;
+      type: 'DELETE_MY_BOOK_HISTORY';
+      props: DeleteMyBookHistoryProps;
+    };
+
+export type Modal = CloseModalState | OpenModalState;

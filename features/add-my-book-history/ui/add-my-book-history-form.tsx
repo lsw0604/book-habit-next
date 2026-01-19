@@ -1,11 +1,10 @@
 import { useFormContext } from 'react-hook-form';
 
-import { closeModal } from '@/entities/modal/store';
+import { useModal } from '@/entities/modal';
 import {
   type AddMyBookHistoryType,
   useAddMyBookHistory,
 } from '@/entities/my-book-history';
-import { useAppDispatch } from '@/shared/redux';
 import { Button } from '@/shared/ui/button';
 
 import {
@@ -21,7 +20,7 @@ export function AddMyBookHistoryForm() {
     handleSubmit,
     getValues,
   } = useFormContext<AddMyBookHistoryType>();
-  const dispatch = useAppDispatch();
+  const { close } = useModal();
 
   const myBookId = getValues('myBookId');
   const date = getValues('date');
@@ -31,7 +30,7 @@ export function AddMyBookHistoryForm() {
   const onSubmit = (data: AddMyBookHistoryType) => {
     mutate(data, {
       onSuccess: () => {
-        dispatch(closeModal());
+        close();
       },
     });
   };

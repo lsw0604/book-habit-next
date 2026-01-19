@@ -1,4 +1,4 @@
-import { ModalType } from '../types';
+import { ModalType } from './modal.model';
 
 export const MODAL_TITLE_CONSTANT: Record<ModalType, string> = {
   PREVIEW_BOOK: '책 미리보기',

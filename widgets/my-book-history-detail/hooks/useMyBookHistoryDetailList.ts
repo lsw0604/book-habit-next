@@ -3,15 +3,11 @@
 import { formatISO } from 'date-fns';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import {
-  openAddMyBookHistoryModal,
-  openViewMyBookHistoryModal,
-} from '@/entities/modal/store';
+import { useModal } from '@/entities/modal';
 import type {
   MyBookHistory,
   SerializedMyBookHistory,
 } from '@/entities/my-book-history';
-import { useAppDispatch } from '@/shared/redux';
 import { formatDate } from '@/shared/utils';
 
 interface UseMyBookHistoryDetailListProps {
@@ -33,23 +29,20 @@ export const useMyBookHistoryDetailList: (
   formattedData,
   selectedDate,
 }: UseMyBookHistoryDetailListProps): ReturnMyBookHistoryDetailList => {
-  const dispatch = useAppDispatch();
+  const { open } = useModal();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   const handleHistoryClick = useCallback(
     (selectedHistory: SerializedMyBookHistory) => {
-      // dispatch(openEditMyBookHistory({ selectedHistory }));
-      dispatch(openViewMyBookHistoryModal({ selectedHistory }));
+      open('VIEW_MY_BOOK_HISTORY', { selectedHistory });
     },
-    [dispatch]
+    [open]
   );
 
   const handleAddHistoryModal = useCallback(() => {
     if (!selectedDate) return;
-    dispatch(
-      openAddMyBookHistoryModal({ selectedDate: formatISO(selectedDate) })
-    );
-  }, [dispatch, selectedDate]);
+    open('ADD_MY_BOOK_HISTORY', { selectedDate: formatISO(selectedDate) });
+  }, [open, selectedDate]);
 
   const handleToggleExpand = useCallback(() => {
     setIsExpanded(prev => !prev);

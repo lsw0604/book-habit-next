@@ -3,16 +3,7 @@
 import { Suspense, lazy } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import {
-  modalSelector,
-  getTypedModalState,
-  isAddMyBookHistoryProps,
-  isEditMyBookHistoryProps,
-  isViewMyBookHistoryProps,
-  isDeleteMyBookHistoryProps,
-  isAddMyBookReviewProps,
-  isPreviewBookProps,
-} from '@/entities/modal';
+import { modalSelector } from '@/entities/modal';
 import { useAppSelector } from '@/shared/redux';
 
 import { ModalErrorFallback } from './modal-error-fallback';
@@ -77,73 +68,22 @@ export function ModalManager() {
   const renderModal = () => {
     switch (type) {
       case 'PREVIEW_BOOK': {
-        if (
-          getTypedModalState({ isOpen, type, props }, 'PREVIEW_BOOK') &&
-          isPreviewBookProps(props)
-        ) {
-          return <PreviewBookModal {...props} />;
-        }
-        throw new Error(
-          `PREVIEW_BOOK modal: Invalid props type. Expected PreviewBookProps but received: ${JSON.stringify(props)}`
-        );
+        return <PreviewBookModal {...props} />;
       }
       case 'ADD_MY_BOOK_HISTORY': {
-        if (
-          getTypedModalState({ isOpen, type, props }, 'ADD_MY_BOOK_HISTORY') &&
-          isAddMyBookHistoryProps(props)
-        ) {
-          return <AddMyBookHistoryModal {...props} />;
-        }
-        throw new Error(
-          `ADD_MY_BOOK_HISTORY modal: Invalid props type. Expected AddMyBookHistoryProps but received: ${JSON.stringify(props)}`
-        );
+        return <AddMyBookHistoryModal {...props} />;
       }
       case 'ADD_MY_BOOK_REVIEW': {
-        if (
-          getTypedModalState({ isOpen, type, props }, 'ADD_MY_BOOK_REVIEW') &&
-          isAddMyBookReviewProps(props)
-        ) {
-          return <AddMyBookReviewModal {...props} />;
-        }
-        throw new Error(
-          `ADD_MY_BOOK_Review modal: Invalid props type. Expected AddMyBookReviewProps but received: ${JSON.stringify(props)}`
-        );
+        return <AddMyBookReviewModal {...props} />;
       }
       case 'EDIT_MY_BOOK_HISTORY': {
-        if (
-          getTypedModalState({ isOpen, type, props }, 'EDIT_MY_BOOK_HISTORY') &&
-          isEditMyBookHistoryProps(props)
-        ) {
-          return <EditMyBookHistoryModal {...props} />;
-        }
-        throw new Error(
-          `EDIT_MY_BOOK_HISTORY modal: Invalid props type. Expected EditMyBookHistoryProps but received: ${JSON.stringify(props)}`
-        );
+        return <EditMyBookHistoryModal {...props} />;
       }
       case 'VIEW_MY_BOOK_HISTORY': {
-        if (
-          getTypedModalState({ isOpen, type, props }, 'VIEW_MY_BOOK_HISTORY') &&
-          isViewMyBookHistoryProps(props)
-        ) {
-          return <ViewMyBookHistoryModal {...props} />;
-        }
-        throw new Error(
-          `VIEW_MY_BOOK_HISTORY modal: Invalid props type. Excepted ViewMyBookHistoryProps but received: ${JSON.stringify(props)}`
-        );
+        return <ViewMyBookHistoryModal {...props} />;
       }
       case 'DELETE_MY_BOOK_HISTORY': {
-        if (
-          getTypedModalState(
-            { isOpen, type, props },
-            'DELETE_MY_BOOK_HISTORY'
-          ) &&
-          isDeleteMyBookHistoryProps(props)
-        ) {
-          return <DeleteMyBookHistoryModal {...props} />;
-        }
-        throw new Error(
-          `VIEW_MY_BOOK_HISTORY modal: Invalid props type. Excepted ViewMyBookHistoryProps but received: ${JSON.stringify(props)}`
-        );
+        return <DeleteMyBookHistoryModal {...props} />;
       }
       default:
         return null;

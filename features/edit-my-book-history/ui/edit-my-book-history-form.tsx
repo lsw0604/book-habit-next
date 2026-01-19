@@ -3,16 +3,15 @@ import { useFormContext } from 'react-hook-form';
 
 import {
   type EditMyBookHistoryProps,
-  closeModal,
   modalSelector,
-  openViewMyBookHistoryModal,
+  useModal,
 } from '@/entities/modal';
 import {
   type EditMyBookHistoryType,
   type UpdateMyBookHistoryPayload,
   useUpdateMyBookHistory,
 } from '@/entities/my-book-history';
-import { useAppDispatch, useAppSelector } from '@/shared/redux';
+import { useAppSelector } from '@/shared/redux';
 import { Button } from '@/shared/ui/button';
 import { extractDirtyValues } from '@/shared/utils';
 
@@ -45,18 +44,14 @@ export function EditMyBookHistoryForm({
     handleSubmit,
     formState: { isSubmitting, isDirty, dirtyFields },
   } = useFormContext<EditMyBookHistoryType>();
-  const dispatch = useAppDispatch();
+  const { open, close } = useModal();
   const { props } = useAppSelector(modalSelector);
   const { selectedHistory } = props as EditMyBookHistoryProps;
 
   const { mutate } = useUpdateMyBookHistory({ myBookId });
 
   const handleClickGoBack = () =>
-    dispatch(
-      openViewMyBookHistoryModal({
-        selectedHistory,
-      })
-    );
+    open('VIEW_MY_BOOK_HISTORY', { selectedHistory });
 
   const onSubmit = useCallback(
     (data: EditMyBookHistoryType) => {
@@ -88,7 +83,7 @@ export function EditMyBookHistoryForm({
           /**
            * TODO 토스트 추가하기
            */
-          dispatch(closeModal());
+          close();
         },
         onError: () => {
           /**
@@ -97,7 +92,7 @@ export function EditMyBookHistoryForm({
         },
       });
     },
-    [mutate, dispatch, isDirty, dirtyFields]
+    [mutate, close, isDirty, dirtyFields]
   );
 
   return (

@@ -1,18 +1,13 @@
 import { AlertTriangle } from 'lucide-react';
 
-import {
-  type DeleteMyBookHistoryProps,
-  closeModal,
-  openViewMyBookHistoryModal,
-} from '@/entities/modal';
+import { type DeleteMyBookHistoryProps, useModal } from '@/entities/modal';
 import { useDeleteMyBookHistory } from '@/entities/my-book-history';
-import { useAppDispatch } from '@/shared/redux';
 import { Button } from '@/shared/ui/button';
 
 export function DeleteMyBookHistoryModal({
   selectedHistory,
 }: DeleteMyBookHistoryProps) {
-  const dispatch = useAppDispatch();
+  const { open, close } = useModal();
   const { id } = selectedHistory;
 
   const { mutate } = useDeleteMyBookHistory({
@@ -20,11 +15,7 @@ export function DeleteMyBookHistoryModal({
   });
 
   const handleClickGoBack = () => {
-    dispatch(
-      openViewMyBookHistoryModal({
-        selectedHistory,
-      })
-    );
+    open('VIEW_MY_BOOK_HISTORY', { selectedHistory });
   };
 
   const handleClickDelete = () => {
@@ -35,7 +26,7 @@ export function DeleteMyBookHistoryModal({
           /**
            * TODO 토스트 알람 추가하기
            */
-          dispatch(closeModal());
+          close();
         },
       }
     );

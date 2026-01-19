@@ -1,11 +1,10 @@
 import { useFormContext } from 'react-hook-form';
 
-import { closeModal } from '@/entities/modal';
+import { useModal } from '@/entities/modal';
 import {
   AddMyBookReviewType,
   useAddMyBookReview,
 } from '@/entities/my-book-review';
-import { useAppDispatch } from '@/shared/redux';
 
 import { AddMyBookReviewButtons } from './add-my-book-review-buttons';
 import { AddMyBookReviewFields } from './add-my-book-review-fields';
@@ -15,14 +14,14 @@ interface AddMyBookReviewFormProps {
 }
 
 export function AddMyBookReviewForm({ myBookId }: AddMyBookReviewFormProps) {
-  const dispatch = useAppDispatch();
+  const { close } = useModal();
   const { handleSubmit } = useFormContext<AddMyBookReviewType>();
 
   const { mutate } = useAddMyBookReview(myBookId);
 
   const onSubmit = (data: AddMyBookReviewType) => {
     mutate(data, {
-      onSuccess: () => dispatch(closeModal()),
+      onSuccess: () => close(),
     });
   };
 

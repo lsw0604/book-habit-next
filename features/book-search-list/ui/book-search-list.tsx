@@ -7,9 +7,8 @@ import {
   useBookSearchParams,
   BookSummary,
 } from '@/entities/book';
-import { openPreviewBookModal } from '@/entities/modal';
+import { useModal } from '@/entities/modal';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
-import { useAppDispatch } from '@/shared/redux';
 import { Spinner } from '@/shared/ui/spinner';
 
 import { BookSearchEmptyQuery } from './book-search-empty-query';
@@ -20,7 +19,7 @@ import { BookSearchNotFound } from './book-search-not-found';
 import { BookSearchListGrid } from './layout';
 
 export function BookSearchList() {
-  const dispatch = useAppDispatch();
+  const { open } = useModal();
   const params = useBookSearchParams();
   const {
     data,
@@ -39,9 +38,9 @@ export function BookSearchList() {
 
   const modalHandler = useCallback(
     (bookSummary: BookSummary) => {
-      dispatch(openPreviewBookModal({ bookSummary }));
+      open('PREVIEW_BOOK', { bookSummary });
     },
-    [dispatch]
+    [open]
   );
 
   const renderContent = () => {
