@@ -4,7 +4,7 @@ import {
   type FilterBookOrderOption,
   type FilterBookStatusOption,
   FilterMyBookOrder,
-} from './types';
+} from './filter-my-book.model';
 
 export const FILTER_BOOK_STATUS_OPTIONS: readonly FilterBookStatusOption[] = [
   { value: 'ALL', label: '전체보기' },

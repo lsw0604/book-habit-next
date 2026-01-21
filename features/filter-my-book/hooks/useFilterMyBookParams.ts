@@ -4,8 +4,7 @@ import { useSearchParams } from 'next/navigation';
 
 import { MyBookStatus } from '@/entities/my-book';
 
-import { filterMyBookSchema } from '../schemas';
-import { FilterMyBookOrder } from '../types';
+import { FilterMyBookOrder, filterMyBookSchema } from '../model';
 
 export const useFilterMyBookParams = (): {
   order: FilterMyBookOrder;

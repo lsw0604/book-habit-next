@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 import { myBookStatusSchema } from '@/entities/my-book';
 
-import { FILTER_BOOK_STATUS_OPTIONS } from './constants';
-import { FilterMyBookOrder } from './types';
+import { FILTER_BOOK_STATUS_OPTIONS } from './filter-my-book.constant';
+import { FilterMyBookOrder } from './filter-my-book.model';
 
 const orderSchema = z.nativeEnum(FilterMyBookOrder, {
   errorMap: () => ({
