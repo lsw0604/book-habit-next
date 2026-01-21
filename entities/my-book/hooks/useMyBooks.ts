@@ -5,13 +5,9 @@ import type { ErrorDTO } from '@/shared/api/dto';
 import { useApiStatus } from '@/shared/api/hooks';
 import { queryKeys } from '@/shared/query/keys';
 
-import {
-  type GetMyBooksPayload,
-  type MyBooksDTO,
-  myBookService,
-} from '../../api';
-import { toMyBooksViewModel } from '../mapper';
-import type { MyBooks } from '../types';
+import { type GetMyBooksPayload, type MyBooksDTO, myBookService } from '../api';
+import { toMyBooksViewModel } from '../lib';
+import type { MyBooks } from '../model';
 
 export const useMyBooks = (
   params: Pick<GetMyBooksPayload, 'order' | 'status'>
@@ -33,11 +29,20 @@ export const useMyBooks = (
     enabled: isInitialized,
     select: data => {
       if (data.pages.length === 0) {
-        return { books: [], meta: { totalCount: 0, totalPages: 0 } };
+        return {
+          books: [],
+          meta: {
+            totalCount: 0,
+            totalPages: 0,
+            currentPage: 0,
+            hasNextPage: false,
+            hasPrevPage: false,
+          },
+        };
       }
 
       const lastPage = data.pages[data.pages.length - 1];
-      const lastMeta = lastPage.meta || { totalCount: 0, totalPages: 0 };
+      const lastMeta = lastPage.meta;
 
       return toMyBooksViewModel({
         books: data.pages.flatMap(page => page.books || []),

@@ -1,4 +1,4 @@
-import { PaginationMeta } from '@/shared/types';
+import type { PaginationMeta } from '@/shared/types';
 
 export enum MyBookStatus {
   WANT_TO_READ = 'WANT_TO_READ',
@@ -31,16 +31,11 @@ export interface MyBookDetail {
     thumbnail: string;
     contents: string;
     publisher: string;
-    datetime: Date;
+    datetime: string;
     isbns: string[];
     authors: string[];
     translators: string[];
   };
-}
-
-export interface BookStatusOption {
-  readonly value: MyBookStatus;
-  readonly label: string;
 }
 
 export interface MyBookStatusOption {

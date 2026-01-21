@@ -13,7 +13,7 @@ import {
 } from '@/shared/ui/tooltip';
 import { cn } from '@/shared/utils/class-name';
 
-import { getStatusLabel } from '../lib';
+import { getMyBookStatusLabel } from '../lib';
 import { MyBook } from '../model';
 
 interface MyBookItemProps extends HTMLAttributes<HTMLLIElement> {
@@ -49,7 +49,7 @@ export function MyBookItem({ book, className, ...props }: MyBookItemProps) {
             <div className="absolute top-2 left-1 text-xs">
               <div className="w-full h-auto mb-2">
                 <span className="px-2 py-1 rounded font-bold text-primary-foreground bg-primary opacity-70">
-                  {getStatusLabel(book.status)}
+                  {getMyBookStatusLabel(book.status)}
                 </span>
               </div>
               <div className="px-2 py-1 rounded bg-primary opacity-70 w-3/5">

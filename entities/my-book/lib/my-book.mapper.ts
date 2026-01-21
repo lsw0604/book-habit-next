@@ -1,8 +1,7 @@
 import { parseISO } from 'date-fns';
 
 import { MyBookDTO, MyBooksDTO, MyBookDetailDTO } from '../api/my-book.dto'; // DTO 타입 임포트
-
-import { MyBook, MyBooks, MyBookDetail, MyBookStatus } from './my-book.model';
+import { MyBook, MyBooks, MyBookDetail, MyBookStatus } from '../model';
 
 export const toMyBookViewModel = (dto: MyBookDTO): MyBook => ({
   ...dto,
@@ -23,6 +22,5 @@ export const toMyBookDetailViewModel = (
   updatedAt: parseISO(dto.updatedAt),
   book: {
     ...dto.book,
-    datetime: parseISO(dto.book.datetime),
   },
 });
