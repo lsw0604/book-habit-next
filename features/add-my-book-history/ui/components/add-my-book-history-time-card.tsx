@@ -11,8 +11,7 @@ import {
   CardTitle,
 } from '@/shared/ui/card';
 import { ErrorMessage } from '@/shared/ui/error-message';
-import { ModeSwitch } from '@/shared/ui/mode-switch';
-import type { ModeOption } from '@/shared/ui/mode-switch/types';
+import { ModeSwitch, type ModeOption } from '@/shared/ui/mode-switch';
 
 import {
   AddMyBookHistoryTimeContainer,
