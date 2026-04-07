@@ -14,7 +14,7 @@ export const formattedAuthor = (authors: string[]): string => {
 
 export const formattedTranslator = (translator: string[]) => {
   if (translator.length === 0) {
-    return '';
+    return '-';
   }
   if (translator.length === 1) {
     return `${translator[0]} 역`;

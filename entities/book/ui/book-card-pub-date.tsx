@@ -2,17 +2,11 @@ import type { HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/utils';
 
-import { BookDetail } from '../model';
-
-interface BookCardPubDateProps
-  extends HTMLAttributes<HTMLParagraphElement>,
-    Pick<BookDetail, 'pubDate'> {
-  className?: string;
-}
+interface BookCardPubDateProps extends HTMLAttributes<HTMLParagraphElement> {}
 
 export function BookCardPubDate({
   className,
-  pubDate,
+  children,
   ...props
 }: BookCardPubDateProps) {
   return (
@@ -23,7 +17,7 @@ export function BookCardPubDate({
       )}
       {...props}
     >
-      {pubDate}
+      {children}
     </p>
   );
 }

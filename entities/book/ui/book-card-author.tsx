@@ -2,17 +2,11 @@ import type { HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/utils';
 
-import { BookDetail } from '../model';
-
-interface BookCardAuthorProps
-  extends HTMLAttributes<HTMLParagraphElement>,
-    Pick<BookDetail, 'authors'> {
-  className?: string;
-}
+interface BookCardAuthorProps extends HTMLAttributes<HTMLParagraphElement> {}
 
 export function BookCardAuthor({
   className,
-  authors,
+  children,
   ...props
 }: BookCardAuthorProps) {
   return (
@@ -23,7 +17,7 @@ export function BookCardAuthor({
       )}
       {...props}
     >
-      {authors}
+      {children}
     </p>
   );
 }

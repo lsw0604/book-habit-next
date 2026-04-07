@@ -5,3 +5,5 @@ export * from './book-card-author';
 export * from './book-card-translator';
 export * from './book-card-publisher';
 export * from './book-card-pub-date';
+
+export * from './book-info-list';

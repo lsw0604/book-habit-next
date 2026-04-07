@@ -2,29 +2,23 @@ import { HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/utils';
 
-import { BookDetail } from '../model';
-
-interface BookCardStatusProps
-  extends HTMLAttributes<HTMLParagraphElement>,
-    Pick<BookDetail, 'status'> {
-  className?: string;
-}
+interface BookCardStatusProps extends HTMLAttributes<HTMLParagraphElement> {}
 
 export function BookCardStatus({
   className,
-  status,
+  children,
   ...props
 }: BookCardStatusProps) {
-  const isDiscontinued = status !== '정상판매';
+  if (!children) return null;
 
-  return isDiscontinued ? (
+  return (
     <div
       className={cn('flex items-baseline gap-1 mt-1 mb-1', className)}
       {...props}
     >
       <span className="bg-black text-xs px-2 py-0.5 font-semibold text-white rounded">
-        절판
+        {children}
       </span>
     </div>
-  ) : null;
+  );
 }

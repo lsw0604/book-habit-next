@@ -1,25 +1,18 @@
 import type { BookDetailDTO, BookSummaryDTO } from '../api';
 import type { BookDetail, BookSummary } from '../model';
 
-import {
-  formattedAuthor,
-  formattedISBN,
-  formattedPubDate,
-  formattedTranslator,
-} from './book.formatter';
+import { formattedISBN, formattedPubDate } from './book.formatter';
 
 export const toSummaryBookViewModel = (dto: BookSummaryDTO): BookSummary => {
   const isbn = formattedISBN(dto.isbn);
-  const authors = formattedAuthor(dto.authors);
-  const translators = formattedTranslator(dto.translators);
   const pubDate = formattedPubDate(dto.pubDate);
 
   return {
     isbn,
     title: dto.title,
-    authors,
+    authors: dto.authors,
     pubDate,
-    translators,
+    translators: dto.translators,
     publisher: dto.publisher ?? '',
     status: dto.status ?? '',
     description: dto.description ?? '',
