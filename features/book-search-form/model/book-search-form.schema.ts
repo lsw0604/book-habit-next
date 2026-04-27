@@ -1,6 +1,12 @@
 import { z } from 'zod';
 
-import { Sort, Target, BookSearchParams } from '@/entities/book/model';
+import {
+  Sort,
+  Target,
+  BookSearchParams,
+  BOOK_SEARCH_MIN_SIZE,
+  BOOK_SEARCH_MAX_SIZE,
+} from '@/entities/book/model';
 
 export const bookSearchFormSchema = z.object({
   query: z.string().min(1, {
@@ -9,11 +15,11 @@ export const bookSearchFormSchema = z.object({
   size: z
     .number()
     .int()
-    .min(10, {
-      message: '검색 결과 크기는 최소 10이여야 합니다.',
+    .min(BOOK_SEARCH_MIN_SIZE, {
+      message: `검색 결과 크기는 최소 ${BOOK_SEARCH_MIN_SIZE}이어야 합니다.`,
     })
-    .max(50, {
-      message: '검색 결과 크기는 최대 50까지 가능합니다.',
+    .max(BOOK_SEARCH_MAX_SIZE, {
+      message: `검색 결과 크기는 최대 ${BOOK_SEARCH_MAX_SIZE}까지 가능합니다.`,
     }),
   sort: z.enum([Sort.ACCURACY, Sort.LATEST], {
     errorMap: () => ({
@@ -34,7 +40,7 @@ const _checkType: BookSearchParams = {} as BookSearchFormType;
 
 export const DEFAULT_BOOK_SEARCH_FORM: BookSearchFormType = {
   query: '',
-  size: 10,
+  size: BOOK_SEARCH_MIN_SIZE,
   sort: Sort.ACCURACY,
   target: Target.TITLE,
 };

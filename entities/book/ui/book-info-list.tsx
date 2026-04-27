@@ -19,10 +19,10 @@ export function BookInfoList({
 }: BookInfoListProps) {
   const infoItems = [
     { label: '작가', value: authors },
-    { label: '엮은이', value: translators },
+    { label: '역자', value: translators },
     { label: '출판일', value: pubDate },
     { label: '출판사', value: publisher },
-    { label: '책 페이지', value: `${totalPage}쪽` },
+    { label: '책 페이지', value: totalPage },
   ];
 
   return (

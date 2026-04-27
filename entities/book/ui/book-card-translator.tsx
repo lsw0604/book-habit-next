@@ -1,18 +1,17 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 
 import { cn } from '@/shared/utils';
 
-import { BookDetail } from '../model';
 
 interface BookCardTranslatorProps
-  extends HTMLAttributes<HTMLParagraphElement>,
-    Pick<BookDetail, 'translators'> {
+  extends HTMLAttributes<HTMLParagraphElement> {
   className?: string;
+  children: ReactNode;
 }
 
 export function BookCardTranslator({
   className,
-  translators,
+  children,
   ...props
 }: BookCardTranslatorProps) {
   return (
@@ -23,7 +22,7 @@ export function BookCardTranslator({
       )}
       {...props}
     >
-      {translators}
+      {children}
     </p>
   );
 }

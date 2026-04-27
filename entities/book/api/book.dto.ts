@@ -16,7 +16,7 @@ export interface BookDetailDTO extends BookSummaryDTO {
   coverImage: string | null;
   subTitle: string;
   url: string;
-  totalPage: number;
+  totalPage: number | null;
 }
 
 export type ResponseKakaoDTO = ResponsePagination<BookSummaryDTO>;

@@ -1,8 +1,8 @@
 export interface BookSummary {
   isbn: string;
   title: string;
-  authors: string[];
-  translators: string[];
+  authors: string;
+  translators: string;
   status: string;
   pubDate: string;
   publisher: string;
@@ -14,5 +14,5 @@ export interface BookDetail extends BookSummary {
   coverImage: string | null;
   subTitle: string | null;
   url: string | null;
-  totalPage: number;
+  totalPage: string;
 }

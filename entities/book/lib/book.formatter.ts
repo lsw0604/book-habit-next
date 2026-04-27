@@ -67,3 +67,6 @@ export const formattedISBN = (rawISBN: string): string => {
 
   return '';
 };
+
+export const formattedTotalPage = (page: number | null): string =>
+  page ? `${page}쪽` : '알 수 없음';

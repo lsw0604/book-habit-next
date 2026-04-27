@@ -35,31 +35,35 @@ export function PreviewBookModal({ bookSummary }: PreviewBookProps) {
     <Card className="shadow-none border-none p-3 gap-2">
       <div className="flex flex-row items-start gap-4">
         <div className="w-[120px] h-[174px] flex-shrink-0">
-          <BookCardThumbnail thumbnail={bookSummary.thumbnail} />
+          <BookCardThumbnail src={bookSummary.thumbnail} alt={bookSummary.title} />
         </div>
         <div className="h-[174px] w-full flex flex-col">
           <CardTitle className="text-lg font-bold mb-2">
             {bookSummary.title}
           </CardTitle>
           <CardDescription className="text-xs">
-            <span className="mb-2 flex flex-row gap-1">
-              <BookCardAuthor authors={bookSummary.authors} />
-              {bookSummary.translators.length !== 0 && '|'}
-              <BookCardTranslator translators={bookSummary.translators} />
+            <span className="mb-2 flex gap-1">
+              <BookCardAuthor>{bookSummary.authors}</BookCardAuthor>
+              {bookSummary.translators !== '-' && (
+                <>
+                  {' '}
+                  {'|'}
+                  <BookCardTranslator>{bookSummary.translators}</BookCardTranslator>
+                </>
+              )}
             </span>
-            <BookCardPublisher
-              className="mb-2"
-              publisher={bookSummary.publisher}
-            />
-            <BookCardPubDate className="mb-2" pubDate={bookSummary.pubDate} />
-            <BookCardStatus status={bookSummary.status} />
+            <BookCardPublisher className="mb-2">
+              {bookSummary.publisher}
+            </BookCardPublisher>
+            <BookCardPubDate className="mb-2">{bookSummary.pubDate}</BookCardPubDate>
+            {bookSummary.status !== '정상판매' && <BookCardStatus>절판</BookCardStatus>}
           </CardDescription>
         </div>
       </div>
       <CardContent className="px-0 min-h-[140px] w-full h-auto mb-auto flex flex-col">
         <div className="flex-1 flex items-center justify-center p-2 bg-gray-100 rounded-lg">
           <BookCardDescription
-            description={bookSummary.description}
+            content={bookSummary.description}
             className="text-sm text-muted-foreground h-auto"
           />
         </div>
