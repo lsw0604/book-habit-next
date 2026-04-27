@@ -1,12 +1,15 @@
 import type { BookSearchParams } from '../model';
 
-export const buildBookSearchURL = (data: BookSearchParams): string => {
+export const buildBookSearchURL = (data: Partial<BookSearchParams>): string => {
   const searchParams = new URLSearchParams();
 
-  if (data.query) searchParams.set('query', data.query);
-  if (data.size) searchParams.set('size', data.size.toString());
-  if (data.sort) searchParams.set('sort', data.sort);
-  if (data.target) searchParams.set('target', data.target);
+  Object.entries(data).reduce((acc, [key, value]) => {
+    if (value) {
+      acc.set(key, value.toString());
+    }
+
+    return acc;
+  }, searchParams);
 
   return `/search?${searchParams.toString()}`;
 };
