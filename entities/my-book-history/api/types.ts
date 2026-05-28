@@ -23,10 +23,6 @@ type UpdateMyBookHistoryPick =
   | 'memo'
   | 'readingMood';
 
-export interface GetMyBookHistoriesPayload {
-  myBookId: number;
-}
-
 export interface CreateMyBookHistoryPayload
   extends Pick<MyBookHistory, CreateMyBookHistoryPick> {}
 
@@ -44,12 +40,12 @@ export interface MyBookHistoryService {
     payload: CreateMyBookHistoryPayload
   ) => Promise<MyBookHistoryDTO>;
   getMyBookHistories: (
-    payload: GetMyBookHistoriesPayload
+    myBookId: number
   ) => Promise<MyBookHistoryDTO[]>;
   updateMyBookHistory: (
     payload: UpdateMyBookHistoryPayload
   ) => Promise<MyBookHistoryDTO>;
   deleteMyBookHistory: (
-    payload: DeleteMyBookHistoryPayload
+    myBookHistoryId: number 
   ) => Promise<MyBookHistoryDTO>;
 }

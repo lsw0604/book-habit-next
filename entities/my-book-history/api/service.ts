@@ -4,16 +4,13 @@ import { API_ENDPOINTS } from '@/shared/api/constant';
 import { MyBookHistoryDTO } from './my-book-history.dto';
 import type {
   MyBookHistoryService,
-  GetMyBookHistoriesPayload,
   CreateMyBookHistoryPayload,
   DeleteMyBookHistoryPayload,
   UpdateMyBookHistoryPayload,
 } from './types';
 
 export const myBookHistoryService: MyBookHistoryService = {
-  getMyBookHistories: async (payload: GetMyBookHistoriesPayload) => {
-    const { myBookId } = payload;
-
+  getMyBookHistories: async (myBookId: number) => {
     const response = await apiClient.get<MyBookHistoryDTO[]>(
       `${API_ENDPOINTS.MY_BOOK_HISTORY}`,
       { params: { myBookId } }
@@ -54,9 +51,7 @@ export const myBookHistoryService: MyBookHistoryService = {
 
     return response;
   },
-  deleteMyBookHistory: async (payload: DeleteMyBookHistoryPayload) => {
-    const { id: myBookHistoryId } = payload;
-
+  deleteMyBookHistory: async (myBookHistoryId: number) => {
     const response = await apiClient.delete<MyBookHistoryDTO>(
       `${API_ENDPOINTS.MY_BOOK_HISTORY}/${myBookHistoryId}`
     );
