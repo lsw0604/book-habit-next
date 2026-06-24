@@ -3,7 +3,7 @@ import { parseISO } from 'date-fns';
 import { MyBookDTO, MyBooksDTO, MyBookDetailDTO } from '../api/my-book.dto'; // DTO 타입 임포트
 import { MyBook, MyBooks, MyBookDetail } from '../model';
 import { formattedISBN } from '@/shared/utils';
-import { formattedAuthor, formattedTranslator,formattedTotalPage } from './my-book.formatter';
+import { formattedAuthor, formattedTranslator, formattedTotalPage, formattedPubDate } from '@/entities/book';
 import { calculateProgressPercentage } from './my-book.utils';
 
 export const toMyBookViewModel = (dto: MyBookDTO): MyBook => {
@@ -34,7 +34,8 @@ export const toMyBookDetailViewModel = (
     subTitle, 
     description, 
     stockStatus, 
-    thumbnail, 
+    thumbnail,
+    pubDate,
     ...restBookDto
    } = book;
 
@@ -53,6 +54,7 @@ export const toMyBookDetailViewModel = (
       coverImage: coverImage ?? '',
       stockStatus: stockStatus ?? '',
       thumbnail: thumbnail ?? '',
+      pubDate: formattedPubDate(pubDate),
       ...restBookDto
     },
   }
