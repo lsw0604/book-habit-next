@@ -9,9 +9,10 @@ export enum MyBookStatus {
 export interface MyBook {
   id: number;
   title: string;
-  thumbnail: string;
+  thumbnail: string | null;
   rating: number;
   status: MyBookStatus;
+  progressPercentage: number | null;
 }
 
 export interface MyBooks {
@@ -21,24 +22,30 @@ export interface MyBooks {
 
 export interface MyBookDetail {
   id: number;
+  userId: number;
+  bookId: number;
   status: MyBookStatus;
   rating: number;
+  currentPage: number;
   createdAt: Date;
   updatedAt: Date;
   book: {
-    url: string;
     title: string;
-    thumbnail: string;
-    contents: string;
+    subTitle: string;
+    isbn: string;
+    authors: string;
+    translators: string;
     publisher: string;
-    datetime: string;
-    isbns: string[];
-    authors: string[];
-    translators: string[];
+    thumbnail: string;
+    coverImage: string;
+    description: string;
+    url: string;
+    pubDate: string;
+    totalPage: string;
+    stockStatus: string;
   };
-}
-
-export interface MyBookStatusOption {
-  readonly value: MyBookStatus;
-  readonly label: string;
+  _count: {
+    review: number;
+    history: number;
+  }
 }

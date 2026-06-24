@@ -1,6 +1,7 @@
-import { MyBookStatus, MyBookStatusOption } from './my-book.model';
+import { SelectOption } from '@/shared/ui/select-controller';
+import { MyBookStatus } from './my-book.model';
 
-export const MY_BOOK_STATUS_OPTIONS: readonly MyBookStatusOption[] = [
+export const MY_BOOK_STATUS_OPTIONS: readonly SelectOption<MyBookStatus>[] = [
   { value: MyBookStatus.WANT_TO_READ, label: '읽고 싶은 책' },
   { value: MyBookStatus.CURRENTLY_READING, label: '읽는 책' },
   { value: MyBookStatus.READ, label: '읽은 책' },
