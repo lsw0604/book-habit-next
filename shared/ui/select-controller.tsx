@@ -5,19 +5,22 @@ import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import { ErrorMessage } from '@/shared/ui/error-message';
 import Select from '@/shared/ui/select';
 
-import type { FilterBookOrderOption, FilterBookStatusOption } from '../model';
-
-interface FilterMyBookControllerProps<T extends FieldValues> {
-  control: Control<T>;
-  name: Path<T>;
-  options: readonly FilterBookOrderOption[] | readonly FilterBookStatusOption[];
+export interface SelectOption<T> {
+  readonly value: T;
+  readonly label: string;
 }
 
-export function FilterMyBookController<T extends FieldValues>({
+interface SelectControllerProps<T extends FieldValues, V extends string> {
+  control: Control<T>;
+  name: Path<T>;
+  options: readonly SelectOption<V>[];
+}
+
+export function SelectController<T extends FieldValues, V extends string>({
   control,
   name,
   options,
-}: FilterMyBookControllerProps<T>) {
+}: SelectControllerProps<T, V>) {
   return (
     <Controller
       name={name}
@@ -32,7 +35,7 @@ export function FilterMyBookController<T extends FieldValues>({
                 <Select.Trigger>{currentLabel}</Select.Trigger>
                 <Select.Content>
                   {options.map(({ value: optionValue, label }) => (
-                    <Select.Option key={optionValue} value={optionValue}>
+                    <Select.Option key={String(optionValue)} value={optionValue}>
                       {label}
                     </Select.Option>
                   ))}

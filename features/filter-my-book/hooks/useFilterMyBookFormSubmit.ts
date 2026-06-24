@@ -11,9 +11,15 @@ export function useFilterMyBookFormSubmit() {
   const onSubmit = useCallback(
     (data: FilterMyBookType) => {
       const searchParams = new URLSearchParams();
-      if (data.status) searchParams.set('status', data.status);
-      if (data.order) searchParams.set('order', data.order);
-      router.push(`/my_books?${searchParams.toString()}`);
+
+      if (data.status !== 'ALL') {
+        searchParams.set('status', data.status);
+      }
+
+      if (data.order !== 'desc') {
+        searchParams.set('order', data.order);
+      }
+      router.replace(`/my_books?${searchParams.toString()}`, { scroll: false});
     },
     [router]
   );

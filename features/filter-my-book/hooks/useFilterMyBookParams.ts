@@ -2,22 +2,20 @@
 
 import { useSearchParams } from 'next/navigation';
 
-import { MyBookStatus } from '@/entities/my-book';
-
 import { FilterMyBookOrder, filterMyBookSchema } from '../model';
+import { MyBookStatus } from '@/entities/my-book';
 
 export const useFilterMyBookParams = (): {
   order: FilterMyBookOrder;
   status: 'ALL' | MyBookStatus;
 } => {
   const searchParams = useSearchParams();
-
-  const rawData = {
+  const params = {
     order: searchParams.get('order'),
-    status: searchParams.get('status'),
+    status: searchParams.get('status') || 'ALL',
   };
 
-  const result = filterMyBookSchema.safeParse(rawData);
+  const result = filterMyBookSchema.safeParse(params);
 
   if (!result.success) {
     return { order: FilterMyBookOrder.desc, status: 'ALL' };
