@@ -11,7 +11,7 @@ import { ModalLoader } from './modal-loader';
 
 // Dynamically import modal components
 const PreviewBookModal = lazy(() =>
-  import('@/features/preview-book/ui').then(module => ({
+  import('@/widgets/preview-book-modal').then(module => ({
     default: module.PreviewBookModal,
   }))
 );
