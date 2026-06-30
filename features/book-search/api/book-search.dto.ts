@@ -1,4 +1,6 @@
-export interface BookDetailDTO {
+import { ResponsePagination } from "@/shared/types";
+
+export interface BookSummaryDTO {
   title: string;
   isbn: string;
   authors: string[];
@@ -8,8 +10,7 @@ export interface BookDetailDTO {
   publisher: string;
   thumbnail: string | null;
   description: string;
-  coverImage: string | null;
-  subTitle: string;
-  url: string;
-  totalPage: number | null;
 }
+
+export interface BookSearchsDTO extends ResponsePagination<BookSummaryDTO> {}
+  

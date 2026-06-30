@@ -1,4 +1,4 @@
-export interface BookSummary {
+export interface BookDetail {
   isbn: string;
   title: string;
   authors: string;
@@ -8,9 +8,6 @@ export interface BookSummary {
   publisher: string;
   thumbnail: string | null;
   description: string;
-}
-
-export interface BookDetail extends BookSummary {
   coverImage: string | null;
   subTitle: string | null;
   url: string | null;

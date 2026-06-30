@@ -1,8 +1,8 @@
-import isbn3 from 'isbn3';
+import * as isbn3 from 'isbn3';
 
 import { formatDate } from '@/shared/utils';
 
-export const formattedAuthor = (authors: string[]): string => {
+export const formatAuthor = (authors: string[]): string => {
   if (authors.length === 0) {
     return '미상';
   }
@@ -12,7 +12,7 @@ export const formattedAuthor = (authors: string[]): string => {
   return `${authors[0]} 외 ${authors.length - 1}명`;
 };
 
-export const formattedTranslator = (translator: string[]) => {
+export const formatTranslator = (translator: string[]) => {
   if (translator.length === 0) {
     return '-';
   }
@@ -22,10 +22,13 @@ export const formattedTranslator = (translator: string[]) => {
   return `${translator[0]} 외 ${translator.length - 1}명 역`;
 };
 
-export const formattedPubDate = (pubDate: string | null) =>
+export const formatPubDate = (pubDate: string | null) =>
   pubDate ? formatDate(pubDate, 'medium') : '알 수 없음';
 
-export const formattedISBN = (rawISBN: string): string => {
+export const formatTotalPage = (page: number | null): string =>
+  page ? `${page}쪽` : '알 수 없음';
+
+export const formatISBN = (rawISBN: string): string => {
   if (!rawISBN) return '';
 
   const parts = rawISBN.split(' ');
@@ -67,6 +70,3 @@ export const formattedISBN = (rawISBN: string): string => {
 
   return '';
 };
-
-export const formattedTotalPage = (page: number | null): string =>
-  page ? `${page}쪽` : '알 수 없음';

@@ -1,37 +1,36 @@
-import type { BookDetailDTO, BookSummaryDTO } from '../api';
-import type { BookDetail, BookSummary } from '../model';
+import type { BookDetailDTO } from '../api';
+import type { BookDetail } from '../model';
 
-import { formattedAuthor, formattedISBN, formattedPubDate, formattedTotalPage, formattedTranslator } from './book.formatter';
+import {
+  formatAuthor,
+  formatISBN,
+  formatPubDate,
+  formatTotalPage,
+  formatTranslator,
+} from './book.formatter';
 
-export const toSummaryBookViewModel = (dto: BookSummaryDTO): BookSummary => {
-  const isbn = formattedISBN(dto.isbn);
-  const pubDate = formattedPubDate(dto.pubDate);
-  const authors = formattedAuthor(dto.authors);
-  const translators = formattedTranslator(dto.translators);
-
-  return {
+export const toDetailBookViewModel = (dto: BookDetailDTO): BookDetail => {
+  const {
+    totalPage,
     isbn,
-    title: dto.title,
     pubDate,
     authors,
     translators,
-    publisher: dto.publisher ?? '',
-    status: dto.status ?? '',
-    description: dto.description ?? '',
-    thumbnail: dto.thumbnail,
-  };
-};
+    ...rest
+  } = dto;
 
-export const toDetailBookViewModel = (dto: BookDetailDTO): BookDetail => {
-  const { coverImage, subTitle, url, totalPage: totalPageDTO, ...rest } = dto;
-  const bookSummary = toSummaryBookViewModel(rest);
-  const totalPage = formattedTotalPage(totalPageDTO);
+  const formattedTotalPage = formatTotalPage(totalPage);
+  const formattedISBN = formatISBN(isbn);
+  const formattedPubDate = formatPubDate(pubDate);
+  const formattedAuthor = formatAuthor(authors);
+  const formattedTranslator = formatTranslator(translators);
 
   return {
-    ...bookSummary,
-    coverImage,
-    totalPage,
-    subTitle,
-    url,
+    isbn: formattedISBN,
+    pubDate: formattedPubDate,
+    authors: formattedAuthor,
+    translators: formattedTranslator,
+    totalPage: formattedTotalPage,
+    ...rest,
   };
 };

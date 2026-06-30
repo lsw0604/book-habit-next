@@ -2,19 +2,23 @@ import type { HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/utils';
 
-import type { BookDetail } from '../model';
 
 interface BookInfoListProps extends HTMLAttributes<HTMLDivElement> {
-  book: Pick<
-    BookDetail,
-    'authors' | 'translators' | 'pubDate' | 'publisher' | 'totalPage'
-  >;
+  authors: string;
+  translators?: string;
+  pubDate: string;
+  publisher: string;
+  totalPage: string;
   className?: string;
 }
 
 export function BookInfoList({
   className,
-  book: { authors, translators, pubDate, publisher, totalPage },
+  authors,
+  translators = '',
+  pubDate,
+  publisher,
+  totalPage,
   ...props
 }: BookInfoListProps) {
   const infoItems = [
