@@ -4,23 +4,11 @@ import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 
 import {
-  BookCardAuthor,
   BookCardDescription,
   BookCardThumbnail,
-  BookCardPubDate,
-  BookCardPublisher,
-  BookCardStatus,
-  BookCardTranslator,
 } from '@/entities/book';
 import { useModal, type PreviewBookProps } from '@/entities/modal';
 import { Button } from '@/shared/ui/button';
-import {
-  CardContent,
-  CardFooter,
-  CardDescription,
-  CardTitle,
-  Card,
-} from '@/shared/ui/card';
 
 export function PreviewBookModal({ bookSummary }: PreviewBookProps) {
   const router = useRouter();
@@ -32,49 +20,52 @@ export function PreviewBookModal({ bookSummary }: PreviewBookProps) {
   }, [router, close, bookSummary.isbn]);
 
   return (
-    <Card className="shadow-none border-none p-3 gap-2">
+    <div className="p-3 flex flex-col gap-2">
       <div className="flex flex-row items-start gap-4">
         <div className="w-[120px] h-[174px] flex-shrink-0">
           <BookCardThumbnail src={bookSummary.thumbnail} alt={bookSummary.title} />
         </div>
         <div className="h-[174px] w-full flex flex-col">
-          <CardTitle className="text-lg font-bold mb-2">
+          <h2 className="text-lg font-bold mb-2 text-gray-900">
             {bookSummary.title}
-          </CardTitle>
-          <CardDescription className="text-xs">
-            <span className="mb-2 flex gap-1">
-              <BookCardAuthor>{bookSummary.authors}</BookCardAuthor>
+          </h2>
+          <div className="text-xs text-gray-500 space-y-1">
+            <span className="flex gap-1 font-medium">
+              <span className="line-clamp-1 break-all">{bookSummary.authors}</span>
               {bookSummary.translators !== '-' && (
                 <>
-                  {' '}
-                  {'|'}
-                  <BookCardTranslator>{bookSummary.translators}</BookCardTranslator>
+                  {' | '}
+                  <span className="line-clamp-1 break-all">{bookSummary.translators}</span>
                 </>
               )}
             </span>
-            <BookCardPublisher className="mb-2">
-              {bookSummary.publisher}
-            </BookCardPublisher>
-            <BookCardPubDate className="mb-2">{bookSummary.pubDate}</BookCardPubDate>
-            {bookSummary.status !== '정상판매' && <BookCardStatus>절판</BookCardStatus>}
-          </CardDescription>
+            <p className="line-clamp-1 break-all font-medium">{bookSummary.publisher}</p>
+            <p className="line-clamp-1 break-all font-medium">{bookSummary.pubDate}</p>
+            {bookSummary.status !== '정상판매' && (
+              <div className="flex items-baseline gap-1 mt-1 mb-1">
+                <span className="bg-black text-[10px] px-2 py-0.5 font-semibold text-white rounded">
+                  절판
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      <CardContent className="px-0 min-h-[140px] w-full h-auto mb-auto flex flex-col">
+      <div className="px-0 min-h-[140px] w-full h-auto mb-auto flex flex-col">
         <div className="flex-1 flex items-center justify-center p-2 bg-gray-100 rounded-lg">
           <BookCardDescription
-            content={bookSummary.description}
+            description={bookSummary.description}
             className="text-sm text-muted-foreground h-auto"
           />
-        </div>
-      </CardContent>
-      <CardFooter className="px-0">
+        </div>  
+      </div>
+      <div className="px-0">
         <div className="pb-3 w-full">
           <Button type="button" className="w-full" onClick={handleNavigate}>
             상세페이지로 이동하기
           </Button>
         </div>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }

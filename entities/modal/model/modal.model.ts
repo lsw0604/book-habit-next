@@ -1,4 +1,4 @@
-import type { BookSummary } from '@/entities/book';
+import { BookSummary } from '@/features/book-search';
 import type { SerializedMyBookHistory } from '@/entities/my-book-history';
 
 export interface PreviewBookProps {
