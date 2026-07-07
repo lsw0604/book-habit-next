@@ -1,3 +1,2 @@
 export * from './user.model';
-export * from './user.enum';
-export * from './user.mapper';
+export * from './user.events'
