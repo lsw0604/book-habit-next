@@ -4,9 +4,9 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Input } from '@/shared/ui/input';
 
-import type { BookSearchParams } from '../../../model';
+import type { BookSearchParams } from '../../model';
 
-export function BookSearchQueryField() {
+export function BookSearchQueryController() {
   const {
     control,
     formState: { isSubmitting },

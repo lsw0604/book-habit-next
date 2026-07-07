@@ -8,11 +8,9 @@ import { Popover } from '@/shared/ui/popover';
 
 import type { BookSearchParams } from '../../model';
 
-import {
-  BookSearchSizeField,
-  BookSearchSortField,
-  BookSearchTargetField,
-} from './fields';
+import { BookSearchTargetController } from './target-controller';
+import { BookSearchSizeController } from './size-controller';
+import { BookSearchSortController } from './sort-controller'
 
 export function BookSearchPopover() {
   const {
@@ -35,9 +33,9 @@ export function BookSearchPopover() {
         </Button>
       </Popover.Trigger>
       <Popover.Content className="top-12 left-0 px-2 py-4 z-9999">
-        <BookSearchTargetField />
-        <BookSearchSizeField />
-        <BookSearchSortField />
+        <BookSearchTargetController />
+        <BookSearchSizeController />
+        <BookSearchSortController />
       </Popover.Content>
     </Popover>
   );

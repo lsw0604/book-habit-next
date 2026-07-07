@@ -1,15 +1,11 @@
-import { BookSearchList } from '@/features/book-search-list';
-import { StickyHeaderPageLayout } from '@/shared/ui/sticky-header-page-layout';
-import { BookSearchBar } from '@/widgets/book-search-bar';
+import { BookSearchList } from '@/widgets/book-search-list';
+import { BookSearchBar } from '@/features/book-search';
+import { FixedHeaderPageLayout } from '@/shared/ui/fixed-header-page-layout';
 
 export default function SearchPage() {
   return (
-    <StickyHeaderPageLayout
-      header={<BookSearchBar />}
-      headerClassName="p-4"
-      contentClassName="px-4"
-    >
+    <FixedHeaderPageLayout header={<BookSearchBar />}>
       <BookSearchList />
-    </StickyHeaderPageLayout>
+    </FixedHeaderPageLayout>
   );
 }

@@ -6,9 +6,9 @@ import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import Select from '@/shared/ui/select';
 
-import type { BookSearchParams } from '../../../model';
+import type { BookSearchParams } from '../../model';
 
-import { BOOK_SEARCH_SELECT_OPTIONS } from '../../../constants';
+import { BOOK_SEARCH_SELECT_OPTIONS } from '../../constants';
 
 function getTargetLabel(value: BookSearchParams['target']): string {
   return (
@@ -17,7 +17,7 @@ function getTargetLabel(value: BookSearchParams['target']): string {
   );
 }
 
-export function BookSearchTargetField() {
+export function BookSearchTargetController() {
   const { control } = useFormContext<BookSearchParams>();
 
   return (
