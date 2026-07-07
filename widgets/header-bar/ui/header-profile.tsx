@@ -1,10 +1,10 @@
-import { authSelector } from '@/entities/auth';
+import { userSelector } from '@/entities/user';
 import { useAppSelector } from '@/shared/redux';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { Skeleton } from '@/shared/ui/skeleton';
 
 export function HeaderProfile() {
-  const { user } = useAppSelector(authSelector);
+  const { user } = useAppSelector(userSelector);
 
   if (!user) {
     return (

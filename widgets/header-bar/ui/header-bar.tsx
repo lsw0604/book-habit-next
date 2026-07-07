@@ -1,13 +1,13 @@
 import Link from 'next/link';
 
-import { authSelector } from '@/entities/auth';
+import { userSelector } from '@/entities/user';
 import { useAppSelector } from '@/shared/redux';
 
 import { HeaderAuth } from './header-auth';
 import { HeaderProfile } from './header-profile';
 
 export function HeaderBar() {
-  const { isAuthenticated } = useAppSelector(authSelector);
+  const { isAuthenticated } = useAppSelector(userSelector);
 
   return (
     <header className="fixed top-0 z-50 h-16 w-screen border-b bg-background">

@@ -1,14 +1,14 @@
 import { usePathname } from 'next/navigation';
 import { type MouseEvent, useCallback } from 'react';
 
-import { authSelector } from '@/entities/auth';
+import { userSelector } from '@/entities/user';
 import { useAppSelector } from '@/shared/redux';
 
 import { NavigationOption } from '../model';
 
 export const useNavigation = (onAuthenticated?: () => void) => {
   const pathname = usePathname();
-  const { isAuthenticated } = useAppSelector(authSelector);
+  const { isAuthenticated } = useAppSelector(userSelector);
 
   const getNavProps = useCallback(
     (option: NavigationOption) => {
