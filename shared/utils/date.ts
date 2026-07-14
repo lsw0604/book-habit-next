@@ -41,11 +41,18 @@ interface DurationPart {
  * ```
  */
 export const normalizedDate = (date: string | Date): Date => {
+  let parsedDate: Date;
   if (typeof date === 'string') {
-    return parseISO(date);
+    parsedDate = parseISO(date);
+  } else {
+    parsedDate = date;
   }
 
-  return date;
+  if (isNaN(parsedDate.getTime())) {
+    return new Date();
+  }
+
+  return parsedDate;
 };
 
 /**
