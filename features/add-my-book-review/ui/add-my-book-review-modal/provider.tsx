@@ -1,18 +1,17 @@
 import { FormProvider } from 'react-hook-form';
 
-import { DEFAULT_ADD_MY_BOOK_REVIEW } from '@/entities/my-book-review';
+import { DEFAULT_ADD_MY_BOOK_REVIEW } from '../../schema';
+import { useAddMyBookReviewForm } from '../../hooks';
 
-import { useAddMyBookReviewForm } from '../hooks';
-
-interface AddMyBookReviewProviderProps {
+interface AddMyBookReviewModalProviderProps {
   children: React.ReactNode;
   myBookId: number;
 }
 
-export function AddMyBookReviewProvider({
+export function AddMyBookReviewModalProvider({
   children,
   myBookId,
-}: AddMyBookReviewProviderProps) {
+}: AddMyBookReviewModalProviderProps) {
   const methods = useAddMyBookReviewForm({
     ...DEFAULT_ADD_MY_BOOK_REVIEW,
     myBookId,
