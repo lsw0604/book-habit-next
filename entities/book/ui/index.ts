@@ -2,4 +2,4 @@ export * from './book-card-description';
 export * from './book-card-thumbnail';
 
 export * from './book-info-list';
-export * from './book-detail-view-compound';
+export * from './book-view-compound';

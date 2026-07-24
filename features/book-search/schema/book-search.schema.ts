@@ -2,8 +2,9 @@
 
 import { z } from 'zod';
 
+import { Sort, Target } from '../model';
+
 import { BOOK_SEARCH_MAX_SIZE, BOOK_SEARCH_MIN_SIZE } from '../constants';
-import { Sort, Target } from './book-search.model';
 
 export const bookSearchParamsSchema = z.object({
   query: z.string().default(''),

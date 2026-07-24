@@ -1,5 +1,4 @@
-import type { BookSummaryDTO } from "../api";
-import type { BookSummary } from "../model";
+import type { BookSummaryDTO, BookSummary } from "@/entities/book";
 
 import { formatAuthor, formatISBN, formatPubDate, formatTranslator } from "@/entities/book";
 

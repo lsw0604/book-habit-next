@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { BookSearchParams } from "../model";
+import type { BookSearchParams } from "../schema";
 import { useCallback } from "react";
 import { bookSearchUrlBuilder } from "../lib";
 

@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 import { Button } from '@/shared/ui/button';
 import { Popover } from '@/shared/ui/popover';
 
-import type { BookSearchParams } from '../../model';
+import type { BookSearchParams } from '../../schema';
 
 import { BookSearchTargetController } from './target-controller';
 import { BookSearchSizeController } from './size-controller';

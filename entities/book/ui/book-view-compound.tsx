@@ -1,17 +1,16 @@
 import { CardTitle } from '@/shared/ui/card';
 
-import type { BookDetail } from '../model';
 import { BookInfoList } from './book-info-list';
 import { BookCardThumbnail } from './book-card-thumbnail';
 import { BookCardDescription } from './book-card-description';
 
-interface BookDetailViewCompoundProps {
+interface BookViewCompoundProps {
   children: React.ReactNode;
 }
 
-export function BookDetailViewCompound({
+export function BookViewCompound({
   children,
-}: BookDetailViewCompoundProps) {
+}: BookViewCompoundProps) {
   return (
     <div className="flex-1 overflow-y-auto bg-white px-4 py-6 items-center flex flex-col">
       {children}
@@ -19,7 +18,7 @@ export function BookDetailViewCompound({
   );
 }
 
-BookDetailViewCompound.Thumbnail = function BookDetailThumbnail({
+BookViewCompound.Thumbnail = function BookDetailThumbnail({
   coverImage,
   title,
 }: {
@@ -36,7 +35,7 @@ BookDetailViewCompound.Thumbnail = function BookDetailThumbnail({
   );
 };
 
-BookDetailViewCompound.MainInfo = function BookDetailMainInfo({
+BookViewCompound.MainInfo = function BookDetailMainInfo({
   title,
   authors,
   translators,
@@ -67,7 +66,7 @@ BookDetailViewCompound.MainInfo = function BookDetailMainInfo({
   );
 };
 
-BookDetailViewCompound.Actions = function BookDetailActions({
+BookViewCompound.Actions = function BookDetailActions({
   children,
 }: {
   children: React.ReactNode;
@@ -79,7 +78,7 @@ BookDetailViewCompound.Actions = function BookDetailActions({
   );
 };
 
-BookDetailViewCompound.Description = function BookDetailDescription({
+BookViewCompound.Description = function BookDetailDescription({
   description,
 }: {
   description: string;

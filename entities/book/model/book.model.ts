@@ -13,3 +13,15 @@ export interface BookDetail {
   url: string | null;
   totalPage: string;
 }
+
+export interface BookSummary {
+  isbn: string;
+  title: string;
+  authors: string;
+  translators: string;
+  status: string;
+  pubDate: string;
+  publisher: string;
+  thumbnail: string | null;
+  description: string;
+}

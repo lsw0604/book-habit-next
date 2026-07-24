@@ -1,4 +1,4 @@
-import { BookSearchParams } from "../model";
+import type { BookSearchParams } from "../schema";
 
 export function bookSearchUrlBuilder(data: BookSearchParams) {
   const params = new URLSearchParams();
@@ -8,4 +8,4 @@ export function bookSearchUrlBuilder(data: BookSearchParams) {
   });
 
   return `/search?${params.toString()}`;
-}
+} 

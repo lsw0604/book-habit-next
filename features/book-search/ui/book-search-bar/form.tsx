@@ -7,7 +7,7 @@ import { Button } from '@/shared/ui/button';
 
 import { BookSearchPopover } from './popover';
 import { BookSearchQueryController } from './query-controller';
-import type { BookSearchParams } from '../../model';
+import type { BookSearchParams } from '../../schema';
 import { useBookSearchFormSubmit } from '../../hooks';
 
 export function BookSearchForm() {

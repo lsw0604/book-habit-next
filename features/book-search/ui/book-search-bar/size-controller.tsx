@@ -6,7 +6,7 @@ import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import { Slider } from '@/shared/ui/slider';
 
-import type { BookSearchParams } from '../../model';
+import type { BookSearchParams } from '../../schema';
 
 export function BookSearchSizeController() {
   const { control } = useFormContext<BookSearchParams>();

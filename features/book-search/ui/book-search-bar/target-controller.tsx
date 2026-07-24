@@ -6,7 +6,7 @@ import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import Select from '@/shared/ui/select';
 
-import type { BookSearchParams } from '../../model';
+import type { BookSearchParams } from '../../schema';
 
 import { BOOK_SEARCH_SELECT_OPTIONS } from '../../constants';
 

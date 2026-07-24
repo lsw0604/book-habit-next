@@ -6,7 +6,7 @@ import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
 
-import type { BookSearchParams } from '../../model';
+import type { BookSearchParams } from '../../schema';
 
 export function BookSearchSortController() {
   const { control } = useFormContext<BookSearchParams>();

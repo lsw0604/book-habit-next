@@ -1,11 +1,12 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
+import type { BookSummary } from '@/entities/book';
 import type { ErrorDTO } from '@/shared/api/dto';
 import { useApiStatus } from '@/shared/api/hooks';
 import { queryKeys } from '@/shared/query/keys';
 
-import type { BookSearchParams, BookSummary } from '../model';
+import type { BookSearchParams } from '../schema';
 import type { BookSearchsDTO } from '../api';
 import { bookSearchService } from '../api';
 import { toSummaryBookViewModel } from '../lib';
