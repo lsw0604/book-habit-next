@@ -1,28 +1,21 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 
-import type { FilterMyBookType } from '../model';
+import type { FilterMyBookType } from '../schema';
 
 export function useFilterMyBookFormSubmit() {
   const router = useRouter();
+  const pathname = usePathname();
 
-  const onSubmit = useCallback(
-    (data: FilterMyBookType) => {
-      const searchParams = new URLSearchParams();
+  const onSubmit = (data: FilterMyBookType) => {
+    const searchParams = new URLSearchParams();
 
-      if (data.status !== 'ALL') {
-        searchParams.set('status', data.status);
-      }
+    if (data.status !== 'ALL') searchParams.set('status', data.status);
+    if (data.order !== 'desc') searchParams.set('order', data.order);
 
-      if (data.order !== 'desc') {
-        searchParams.set('order', data.order);
-      }
-      router.replace(`/my_books?${searchParams.toString()}`, { scroll: false});
-    },
-    [router]
-  );
+    router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
+  };
 
   return {
     onSubmit,

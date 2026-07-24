@@ -1,4 +1,4 @@
-import { MyBookStatus } from '@/entities/my-book';
+import { MyBookStatus } from '@/entities/my-book/model';
 
 export type FilterMyBookStatus = MyBookStatus | 'ALL';
 

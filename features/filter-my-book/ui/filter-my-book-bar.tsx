@@ -7,11 +7,8 @@ import {
   useFilterMyBookForm,
   useFilterMyBookFormSubmit,
 } from '../hooks';
-import {
-  type FilterMyBookType,
-  FILTER_BOOK_ORDER_OPTIONS,
-  FILTER_BOOK_STATUS_OPTIONS,
-} from '../model';
+import { FILTER_BOOK_ORDER_OPTIONS, FILTER_BOOK_STATUS_OPTIONS } from '../constants';
+import type { FilterMyBookType } from '../schema';
 
 import { SelectController } from '@/shared/ui/select-controller';
 
@@ -23,7 +20,7 @@ export function FilterMyBookBar() {
   useAutoSubmit<FilterMyBookType>({
     watch,
     onSubmit,
-    dependencies: [watch, onSubmit],
+    dependencies: [],
   });
 
   return (
