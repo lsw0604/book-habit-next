@@ -1,5 +1,5 @@
 import { z } from 'zod';
 
-import { MyBookStatus } from './my-book.model';
+import { MyBookStatus } from '../model';
 
 export const myBookStatusSchema = z.nativeEnum(MyBookStatus);

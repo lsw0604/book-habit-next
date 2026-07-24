@@ -3,48 +3,37 @@ import { stringify } from 'querystring';
 import { apiClient } from '@/shared/api/clients';
 import { API_ENDPOINTS } from '@/shared/api/constant';
 
-import type { MyBookDTO, MyBooksDTO, MyBookDetailDTO } from './my-book.dto';
-import type {
-  MyBookService,
-  GetMyBookPayload,
-  GetMyBooksPayload,
-  CreateMyBookPayload,
-  UpdateMyBookPayload,
-  DeleteMyBookPayload,
-} from './types';
+import type { MyBooksDTO, MyBookDetailDTO } from './my-book.dto';
 
-export const myBookService: MyBookService = {
-  getMyBook: async ({ myBookId }: GetMyBookPayload) => {
+export interface MyBookService {
+  getMyBook: (myBookId: number) => Promise<MyBookDetailDTO>;
+  getMyBooks: (payload: GetMyBooksPayload) => Promise<MyBooksDTO>;
+  findByIsbn: (isbn: string) => Promise<MyBookDetailDTO | null>;
+}
+
+export interface GetMyBooksPayload {
+  page: number;
+  status: string;
+  order: string;
+}
+
+export const myBookService = {
+  getMyBook: async (myBookId: number) => {
     const response = await apiClient.get<MyBookDetailDTO>(
-      `${API_ENDPOINTS.MY_BOOK}/${myBookId}`
+      `${API_ENDPOINTS.MY_BOOK.DEFAULT}/${myBookId}`
     );
     return response;
   },
   getMyBooks: async (payload: GetMyBooksPayload) => {
     const queryString = stringify({ ...payload });
     const response = await apiClient.get<MyBooksDTO>(
-      `${API_ENDPOINTS.MY_BOOK}?${queryString}`
+      `${API_ENDPOINTS.MY_BOOK.DEFAULT}?${queryString}`
     );
     return response;
   },
-  addMyBook: async (payload: CreateMyBookPayload) => {
-    const response = await apiClient.post<MyBookDTO>(
-      API_ENDPOINTS.MY_BOOK,
-      payload
-    );
-    return response;
-  },
-  updateMyBook: async (payload: UpdateMyBookPayload) => {
-    const { myBookId, ...data } = payload;
-    const response = await apiClient.patch<MyBookDetailDTO>(
-      `${API_ENDPOINTS.MY_BOOK}/${myBookId}`,
-      data
-    );
-    return response;
-  },
-  deleteMyBook: async ({ myBookId }: DeleteMyBookPayload) => {
-    const response = await apiClient.delete<{ id: number }>(
-      `${API_ENDPOINTS.MY_BOOK}/${myBookId}`
+  findByIsbn: async (isbn: string) => {
+    const response = await apiClient.get<MyBookDetailDTO | null> (
+      `${API_ENDPOINTS.MY_BOOK.DEFAULT}/is-exist/${isbn}`
     );
     return response;
   },

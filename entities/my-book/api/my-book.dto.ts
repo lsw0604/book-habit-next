@@ -1,11 +1,14 @@
 import type { PaginationMeta } from '@/shared/types';
+import { MyBookStatus } from '../model';
 
 export interface MyBookDTO {
   id: number;
-  title: string;
-  thumbnail: string;
+  status: MyBookStatus;
   rating: number;
-  status: string;
+  currentPage: number;
+  title: string;
+  thumbnail: string | null;
+  totalPage: number | null;
 }
 
 export interface MyBooksDTO {
@@ -15,19 +18,31 @@ export interface MyBooksDTO {
 
 export interface MyBookDetailDTO {
   id: number;
-  status: string;
+  userId: number;
+  bookId: number;
+  status: MyBookStatus;
   rating: number;
+  currentPage: number;
   createdAt: string;
   updatedAt: string;
   book: {
-    url: string;
     title: string;
-    thumbnail: string;
-    contents: string;
+    subTitle: string | null;
+    thumbnail: string | null;
+    coverImage: string | null;
+    url: string | null;
+    description: string;
     publisher: string;
-    datetime: string;
-    isbns: string[];
+    pubDate: string;
+    totalPage: number | null;
+    stockStatus: string | null;
+    isbn: string;
     authors: string[];
     translators: string[];
   };
+  _count: {
+    review: number;
+    history: number;
+  }
 }
+
