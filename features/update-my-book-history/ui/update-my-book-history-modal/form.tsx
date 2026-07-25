@@ -2,28 +2,32 @@ import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import {
-  type EditMyBookHistoryProps,
+  type UpdateMyBookHistoryProps,
   modalSelector,
   useModal,
 } from '@/entities/modal';
-import {
-  type EditMyBookHistoryType,
-  type UpdateMyBookHistoryPayload,
-  useUpdateMyBookHistory,
-} from '@/entities/my-book-history';
 import { useAppSelector } from '@/shared/redux';
 import { Button } from '@/shared/ui/button';
 import { extractDirtyValues } from '@/shared/utils';
 
 import {
-  EditMyBookHistoryMemoCard,
-  EditMyBookHistoryMoodCard,
-  EditMyBookHistoryPageCard,
-  EditMyBookHistoryTimeCard,
+  UpdateMyBookHistoryMemoCard,
+  UpdateMyBookHistoryMoodCard,
+  UpdateMyBookHistoryPageCard,
+  UpdateMyBookHistoryTimeCard,
 } from './components';
 
+
+import type {
+  UpdateMyBookHistoryType,
+  UpdateMyBookHistoryPayload
+} from '../../schema';
+import {
+  useUpdateMyBookHistory,
+} from '../../hooks';
+
 type UpdatableFields = keyof Pick<
-  EditMyBookHistoryType,
+  UpdateMyBookHistoryType,
   | 'startPage'
   | 'endPage'
   | 'startTime'
@@ -37,24 +41,24 @@ interface EditMyBookHistoryFormProps {
   myBookId: number;
 }
 
-export function EditMyBookHistoryForm({
+export function UpdateMyBookHistoryForm({
   myBookId,
 }: EditMyBookHistoryFormProps) {
   const {
     handleSubmit,
     formState: { isSubmitting, isDirty, dirtyFields },
-  } = useFormContext<EditMyBookHistoryType>();
+  } = useFormContext<UpdateMyBookHistoryType>();
   const { open, close } = useModal();
   const { props } = useAppSelector(modalSelector);
-  const { selectedHistory } = props as EditMyBookHistoryProps;
+  const { selectedHistory } = props as UpdateMyBookHistoryProps;
 
-  const { mutate } = useUpdateMyBookHistory({ myBookId });
+  const { mutate } = useUpdateMyBookHistory(myBookId);
 
   const handleClickGoBack = () =>
     open('VIEW_MY_BOOK_HISTORY', { selectedHistory });
 
   const onSubmit = useCallback(
-    (data: EditMyBookHistoryType) => {
+    (data: UpdateMyBookHistoryType) => {
       if (!isDirty) return null;
 
       const allowedFields: UpdatableFields[] = [
@@ -98,33 +102,40 @@ export function EditMyBookHistoryForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col flex-grow h-full"
+      className="flex-1 flex flex-col min-h-0"
     >
-      <div className="flex-grow space-y-4 overflow-y-auto scrollbar-none gap-4 p-4">
-        <EditMyBookHistoryTimeCard />
-        <EditMyBookHistoryPageCard />
-        <EditMyBookHistoryMoodCard />
-        <EditMyBookHistoryMemoCard />
+      <div className="flex-1 min-h-0 overflow-y-auto scrollbar-none p-4 flex flex-col gap-y-4">
+        <UpdateMyBookHistoryTimeCard />
+        <UpdateMyBookHistoryPageCard />
+        <UpdateMyBookHistoryMoodCard />
+        <UpdateMyBookHistoryMemoCard />
       </div>
-      <div className="mt-auto p-4 flex gap-4">
-        <Button
-          key="view-modal-btn"
-          type="button"
-          className="flex-1"
-          variant="outline"
-          onClick={handleClickGoBack}
-        >
-          뒤로가기
-        </Button>
-        <Button
-          key="submit-btn"
-          type="submit"
-          disabled={isSubmitting || !isDirty}
-          isLoading={isSubmitting}
-          className="flex-1"
-        >
-          {isSubmitting ? '수정 중...' : '수정하기'}
-        </Button>
+      <div className="p-4 border-t border-gray-100 flex flex-col gap-4">
+        {!isDirty && (
+          <p className="text-xs text-gray-400 text-center">
+            수정된 내용이 없습니다. 하나 이상 변경해 주세요.
+          </p>
+        )}
+        <div className='flex gap-4'>
+          <Button
+            key="submit-btn"
+            type="submit"
+            disabled={isSubmitting || !isDirty}
+            isLoading={isSubmitting}
+            className="flex-1"
+          >
+            {isSubmitting ? '수정 중...' : '수정하기'}
+          </Button>
+          <Button
+            key="view-modal-btn"
+            type="button"
+            className="flex-1"
+            variant="outline"
+            onClick={handleClickGoBack}
+          >
+            뒤로가기
+          </Button>
+        </div>
       </div>
     </form>
   );

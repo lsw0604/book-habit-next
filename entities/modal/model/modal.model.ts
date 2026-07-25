@@ -22,7 +22,7 @@ export interface AddMyBookReviewProps {
   isbn?: string;
 }
 
-export interface EditMyBookHistoryProps {
+export interface UpdateMyBookHistoryProps {
   selectedHistory: SerializedMyBookHistory;
 }
 
@@ -43,7 +43,7 @@ export type ModalProps =
   | ViewMyBookHistoryProps
   | AddMyBookHistoryProps
   | AddMyBookReviewProps
-  | EditMyBookHistoryProps
+  | UpdateMyBookHistoryProps
   | DeleteMyBookProps
   | DeleteMyBookHistoryProps;
 
@@ -53,7 +53,7 @@ export type ModalPropsMap = {
   ADD_MY_BOOK_HISTORY: AddMyBookHistoryProps;
   ADD_MY_BOOK_REVIEW: AddMyBookReviewProps;
   VIEW_MY_BOOK_HISTORY: ViewMyBookHistoryProps;
-  EDIT_MY_BOOK_HISTORY: EditMyBookHistoryProps;
+  UPDATE_MY_BOOK_HISTORY: UpdateMyBookHistoryProps;
   UPDATE_MY_BOOK_REVIEW: UpdateMyBookReviewProps;
   DELETE_MY_BOOK: DeleteMyBookProps;
   DELETE_MY_BOOK_HISTORY: DeleteMyBookHistoryProps;
@@ -75,8 +75,8 @@ export type OpenModalState =
   }
   | {
     isOpen: true;
-    type: 'EDIT_MY_BOOK_HISTORY';
-    props: EditMyBookHistoryProps;
+    type: 'UPDATE_MY_BOOK_HISTORY';
+    props: UpdateMyBookHistoryProps;
   }
   | {
     isOpen: true;

@@ -6,18 +6,18 @@ import {
   deserializeMyBookHistory,
 } from '@/entities/my-book-history';
 
-import { useEditMyBookHistoryForm } from '../hooks';
+import { useUpdateMyBookHistoryForm } from '../../hooks';
 
-interface EditMyBookHistoryProviderProps {
+interface UpdateMyBookHistoryProviderProps {
   children: ReactNode;
   selectedHistory: SerializedMyBookHistory;
 }
 
-export function EditMyBookHistoryProvider({
+export function UpdateMyBookHistoryProvider({
   children,
   selectedHistory,
-}: EditMyBookHistoryProviderProps) {
-  const methods = useEditMyBookHistoryForm(
+}: UpdateMyBookHistoryProviderProps) {
+  const methods = useUpdateMyBookHistoryForm(
     deserializeMyBookHistory(selectedHistory)
   );
 

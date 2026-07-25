@@ -1,31 +1,25 @@
 import { useFormContext } from 'react-hook-form';
 
-import { EditMyBookHistoryType } from '@/entities/my-book-history';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/shared/ui/card';
 import { ErrorMessage } from '@/shared/ui/error-message';
 
-import { EditMyBookHistoryTimeContainer } from '../containers';
+import { UpdateMyBookHistoryTimeContainer } from '../containers';
 
-export function EditMyBookHistoryTimeCard() {
+import type { UpdateMyBookHistoryType } from '../../../schema';
+
+export function UpdateMyBookHistoryTimeCard() {
   const {
     formState: { errors },
-  } = useFormContext<EditMyBookHistoryType>();
+  } = useFormContext<UpdateMyBookHistoryType>();
 
   return (
-    <Card className="gap-2 hover:shadow-lg transition-shadow duration-300">
-      <CardHeader>
-        <CardTitle>독서 시간 수정</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <EditMyBookHistoryTimeContainer />
-      </CardContent>
-      <CardFooter className="flex-col">
+    <div className="border border-gray-200 rounded-lg p-4 space-y-3">
+      <h3 className="text-sm font-semibold text-foreground flex items-center">
+        독서 시간 수정
+      </h3>
+      <div>
+        <UpdateMyBookHistoryTimeContainer />
+      </div>
+      <div className="flex flex-col gap-1">
         {errors.endTime?.message && (
           <ErrorMessage className="mr-auto">
             {errors.endTime.message}
@@ -41,7 +35,8 @@ export function EditMyBookHistoryTimeCard() {
             {errors.readingMinutes.message}
           </ErrorMessage>
         )}
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }
+
