@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, MouseEvent, useId } from 'react';
+import { useCallback, MouseEvent } from 'react';
 
 import { cn } from '@/shared/utils/class-name';
 
@@ -15,7 +15,6 @@ interface RatingProps {
 const STAR_SIZE = 5;
 
 export function Rating({ rating, onChange, className }: RatingProps) {
-  const id = useId();
   const handleStar = useCallback(
     (event: MouseEvent<HTMLDivElement>, index: number) => {
       event.stopPropagation();
@@ -29,8 +28,7 @@ export function Rating({ rating, onChange, className }: RatingProps) {
       <div className="w-full h-full grid grid-cols-5 text-[1rem]">
         {[...Array(STAR_SIZE)].map((_, index) => (
           <Star
-            // eslint-disable-next-line react/no-array-index-key
-            key={`${id}-${index}`}
+            key={`star-${index + 1}`}
             index={index + 1}
             isClicked={rating >= index + 1}
             onClick={handleStar}
@@ -40,3 +38,4 @@ export function Rating({ rating, onChange, className }: RatingProps) {
     </div>
   );
 }
+

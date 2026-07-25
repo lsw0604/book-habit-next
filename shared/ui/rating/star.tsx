@@ -22,11 +22,13 @@ function star({ index, isClicked, onClick }: StarProps) {
         'relative w-auto flex justify-center items-center cursor-pointer'
       )}
       onClick={event => onClick(event, index)}
+      whileTap={{ scale: 0.85 }}
     >
       <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-gray-300 cursor-pointer" />
       <motion.i
         variants={STAR_VARIANTS}
-        animate={isClicked ? 'animate' : 'exit'}
+        initial="hidden"
+        animate={isClicked ? 'visible' : 'exit'}
         custom={index}
         className="relative z-10 cursor-pointer w-auto text-yellow-300"
       >
@@ -37,3 +39,5 @@ function star({ index, isClicked, onClick }: StarProps) {
 }
 
 export const Star = memo(star);
+
+

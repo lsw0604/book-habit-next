@@ -1,24 +1,28 @@
 import { Variants } from 'framer-motion';
 
 export const STAR_VARIANTS: Variants = {
-  initial: {
+  hidden: {
     scale: 0,
+    opacity: 0,
   },
-  animate: (i: number) => ({
+  visible: (i: number) => ({
     scale: 1,
+    opacity: 1,
     transition: {
-      delay: i * 0.04,
+      delay: i * 0.03,
       duration: 0.25,
       type: 'spring',
-      stiffness: 175,
+      stiffness: 220,
+      damping: 15,
     },
   }),
-  exit: (i: number) => ({
+  exit: {
     scale: 0,
     opacity: 0,
     transition: {
-      duration: 0.25,
-      delay: 0.2 - i * 0.04,
+      duration: 0.15,
     },
-  }),
+  },
 };
+
+
