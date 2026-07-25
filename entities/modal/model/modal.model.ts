@@ -5,6 +5,10 @@ export interface ViewSearchedBookProps {
   bookSummary: BookSummary;
 }
 
+export interface ViewMyBookHistoryProps {
+  selectedHistory: SerializedMyBookHistory;
+}
+
 export interface AddMyBookWithReviewProps {
   isbn: string;
 }
@@ -16,10 +20,6 @@ export interface AddMyBookHistoryProps {
 export interface AddMyBookReviewProps {
   myBookId: number;
   isbn?: string;
-}
-
-export interface ViewMyBookHistoryProps {
-  selectedHistory: SerializedMyBookHistory;
 }
 
 export interface EditMyBookHistoryProps {
@@ -40,9 +40,9 @@ export interface DeleteMyBookProps {
 
 export type ModalProps =
   | ViewSearchedBookProps
+  | ViewMyBookHistoryProps
   | AddMyBookHistoryProps
   | AddMyBookReviewProps
-  | ViewMyBookHistoryProps
   | EditMyBookHistoryProps
   | DeleteMyBookProps
   | DeleteMyBookHistoryProps;

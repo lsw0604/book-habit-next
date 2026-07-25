@@ -15,6 +15,9 @@ const ViewSearchedBookModal = lazy(() =>
     default: module.ViewSearchedBookModal,
   }))
 );
+const ViewMyBookHistoryModal = lazy(() =>
+  import('@/features/view-my-book-history').then(module => ({
+    default: module.ViewMyBookHistoryModal,
   }))
 );
 const AddMyBookHistoryModal = lazy(() =>
@@ -37,11 +40,7 @@ const DeleteMyBookHistoryModal = lazy(() =>
     default: module.DeleteMyBookHistoryModal,
   }))
 );
-const ViewMyBookHistoryModal = lazy(() =>
-  import('@/features/view-my-book-history').then(module => ({
-    default: module.ViewMyBookHistoryModal,
-  }))
-);
+
 
 const LazyRegisterMyBookHistoryModal = lazy(async () => {
   // 1. 시간 지연
@@ -72,6 +71,8 @@ export function ModalManager() {
       case 'VIEW_SEARCHED_BOOK': {
         return <ViewSearchedBookModal {...props} />;
       }
+      case 'VIEW_MY_BOOK_HISTORY': {
+        return <ViewMyBookHistoryModal {...props} />;
       }
       case 'ADD_MY_BOOK_HISTORY': {
         return <AddMyBookHistoryModal {...props} />;
@@ -82,8 +83,6 @@ export function ModalManager() {
       case 'EDIT_MY_BOOK_HISTORY': {
         return <EditMyBookHistoryModal {...props} />;
       }
-      case 'VIEW_MY_BOOK_HISTORY': {
-        return <ViewMyBookHistoryModal {...props} />;
       }
       case 'DELETE_MY_BOOK_HISTORY': {
         return <DeleteMyBookHistoryModal {...props} />;

@@ -1,8 +1,4 @@
-import {
-  openDeleteMyBookHistory,
-  openEditMyBookHistory,
-} from '@/entities/modal';
-import { ViewMyBookHistoryProps } from '@/entities/modal/types';
+import { type ViewMyBookHistoryProps, useModal } from '@/entities/modal';
 import {
   MyBookHistoryMemo,
   MyBookHistoryReadPage,
@@ -12,18 +8,16 @@ import {
   MyBookHistoryReadingMood,
   MyBookHistoryDateLabel,
 } from '@/entities/my-book-history';
-import { useAppDispatch } from '@/shared/redux';
 import { Button } from '@/shared/ui/button';
 
 export function ViewMyBookHistoryModal({
   selectedHistory,
 }: ViewMyBookHistoryProps) {
-  const dispatch = useAppDispatch();
+  const { open } = useModal();
 
-  const openEditModal = () =>
-    dispatch(openEditMyBookHistory({ selectedHistory }));
+  const openEditModal = () => open('UPDATE_MY_BOOK_HISTORY', { selectedHistory });
   const openDeleteModal = () =>
-    dispatch(openDeleteMyBookHistory({ selectedHistory }));
+    open('DELETE_MY_BOOK_HISTORY', { selectedHistory });
 
   return (
     <div className="flex flex-col max-h-[75vh] gap-4 p-4">
@@ -42,7 +36,7 @@ export function ViewMyBookHistoryModal({
         <Button
           key="edit-modal-btn"
           type="button"
-          variant="outline"
+          variant="default"
           onClick={openEditModal}
           className="flex-1"
         >
@@ -53,7 +47,7 @@ export function ViewMyBookHistoryModal({
           variant="outline"
           type="button"
           onClick={openDeleteModal}
-          className="flex-1"
+          className="flex-1 text-gray-700 border-gray-200 hover:bg-gray-100"
         >
           삭제하기
         </Button>
