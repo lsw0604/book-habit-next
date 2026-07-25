@@ -1,8 +1,7 @@
 import { FormProvider } from 'react-hook-form';
 
-import { DEFAULT_ADD_MY_BOOK_HISTORY } from '@/entities/my-book-history';
-
-import { useAddMyBookHistoryForm } from '../hooks';
+import { DEFAULT_ADD_MY_BOOK_HISTORY } from '../../schema';
+import { useAddMyBookHistoryForm } from '../../hooks';
 
 interface AddMyBookHistoryProviderProps {
   children: React.ReactNode;

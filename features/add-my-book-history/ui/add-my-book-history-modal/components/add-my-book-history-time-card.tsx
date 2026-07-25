@@ -2,16 +2,10 @@ import { Clock, Edit3 } from 'lucide-react';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { AddMyBookHistoryType } from '@/entities/my-book-history';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/shared/ui/card';
 import { ErrorMessage } from '@/shared/ui/error-message';
 import { ModeSwitch, type ModeOption } from '@/shared/ui/mode-switch';
+
+import type { AddMyBookHistoryType } from '../../../schema';
 
 import {
   AddMyBookHistoryTimeContainer,
@@ -38,13 +32,11 @@ export function AddMyBookHistoryTimeCard({
   } = useFormContext<AddMyBookHistoryType>();
 
   return (
-    <Card className="gap-2 hover:shadow-lg transition-shadow duration-300">
-      <CardHeader>
-        <CardTitle>
-          독서 시간 기록<span className="ml-2 text-red-500">*</span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
+    <div className="border border-gray-200 rounded-lg p-4 space-y-3">
+      <h3 className="text-sm font-semibold text-foreground flex items-center">
+        독서 시간 기록<span className="ml-1 text-red-500">*</span>
+      </h3>
+      <div>
         <ModeSwitch
           options={modeOptions}
           value={mode}
@@ -53,8 +45,8 @@ export function AddMyBookHistoryTimeCard({
         />
         {mode === 'timer' && <AddMyBookHistoryTimerContainer date={date} />}
         {mode === 'manual' && <AddMyBookHistoryTimeContainer />}
-      </CardContent>
-      <CardFooter className="flex-col">
+      </div>
+      <div className="flex flex-col gap-1">
         {errors.endTime?.message && (
           <ErrorMessage className="mr-auto">
             {errors.endTime.message}
@@ -70,7 +62,8 @@ export function AddMyBookHistoryTimeCard({
             {errors.readingMinutes.message}
           </ErrorMessage>
         )}
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }
+

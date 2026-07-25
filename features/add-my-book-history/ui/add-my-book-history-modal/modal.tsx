@@ -5,8 +5,8 @@ import { useParams } from 'next/navigation';
 
 import type { AddMyBookHistoryProps } from '@/entities/modal';
 
-import { AddMyBookHistoryForm } from './add-my-book-history-form';
-import { AddMyBookHistoryProvider } from './add-my-book-history-provider';
+import { AddMyBookHistoryForm } from './form';
+import { AddMyBookHistoryProvider } from './provider';
 
 export function AddMyBookHistoryModal({ selectedDate }: AddMyBookHistoryProps) {
   const params = useParams();
@@ -20,7 +20,7 @@ export function AddMyBookHistoryModal({ selectedDate }: AddMyBookHistoryProps) {
   const date = selectedDate ? parseISO(selectedDate) : new Date();
 
   return (
-    <div className="h-[75vh]">
+    <div className="flex-1 flex flex-col min-h-0">
       <AddMyBookHistoryProvider myBookId={parsedMyBookId} date={date}>
         <AddMyBookHistoryForm />
       </AddMyBookHistoryProvider>

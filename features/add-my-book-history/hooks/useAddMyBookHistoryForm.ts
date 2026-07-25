@@ -1,9 +1,10 @@
+import { useFormWithSchema } from '@/shared/hooks/form';
+
 import {
   type AddMyBookHistoryType,
   DEFAULT_ADD_MY_BOOK_HISTORY,
   addMyBookHistorySchema,
-} from '@/entities/my-book-history';
-import { useFormWithSchema } from '@/shared/hooks/form';
+} from '../schema';
 
 export const useAddMyBookHistoryForm = (initialValue?: AddMyBookHistoryType) =>
   useFormWithSchema(addMyBookHistorySchema, {

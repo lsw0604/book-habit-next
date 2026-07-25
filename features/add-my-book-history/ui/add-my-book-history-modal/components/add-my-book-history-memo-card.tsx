@@ -1,8 +1,8 @@
 import { useFormContext, Controller } from 'react-hook-form';
 
-import type { AddMyBookHistoryType } from '@/entities/my-book-history';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { AutoSizeTextarea } from '@/shared/ui/textarea';
+
+import type { AddMyBookHistoryType } from '../../../schema';
 
 export function AddMyBookHistoryMemoCard() {
   const { control } = useFormContext<AddMyBookHistoryType>();
@@ -12,11 +12,11 @@ export function AddMyBookHistoryMemoCard() {
       name="memo"
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <Card className="gap-2 hover:shadow-lg transition-shadow duration-300">
-          <CardHeader>
-            <CardTitle>독서 메모 기록</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="border border-gray-200 rounded-lg p-4 space-y-3">
+          <h3 className="text-sm font-semibold text-foreground flex items-center">
+            독서 메모 기록
+          </h3>
+          <div>
             <AutoSizeTextarea
               id="memo"
               placeholder="여기에 메모를 입력하세요..."
@@ -25,9 +25,10 @@ export function AddMyBookHistoryMemoCard() {
               errorMessage={error?.message}
               {...field}
             />
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
     />
   );
 }
+

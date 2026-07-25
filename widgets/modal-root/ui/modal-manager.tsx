@@ -30,9 +30,6 @@ const AddMyBookReviewModal = lazy(() =>
     default: module.AddMyBookReviewModal,
   }))
 );
-const EditMyBookHistoryModal = lazy(() =>
-  import('@/features/edit-my-book-history').then(module => ({
-    default: module.EditMyBookHistoryModal,
   }))
 );
 const DeleteMyBookHistoryModal = lazy(() =>
@@ -80,8 +77,8 @@ export function ModalManager() {
       case 'ADD_MY_BOOK_REVIEW': {
         return <AddMyBookReviewModal {...props} />;
       }
-      case 'EDIT_MY_BOOK_HISTORY': {
-        return <EditMyBookHistoryModal {...props} />;
+      case 'UPDATE_MY_BOOK_HISTORY': {
+        return <UpdateMyBookHistoryModal {...props} />;
       }
       }
       case 'DELETE_MY_BOOK_HISTORY': {
