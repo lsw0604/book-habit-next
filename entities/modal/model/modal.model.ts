@@ -36,6 +36,10 @@ export interface DeleteMyBookHistoryProps {
 
 export interface DeleteMyBookProps {
   myBookId: number;
+  _count: {
+    review: number;
+    history: number;
+  }
 }
 
 export type ModalProps =
@@ -87,6 +91,11 @@ export type OpenModalState =
     isOpen: true;
     type: 'UPDATE_MY_BOOK_REVIEW';
     props: UpdateMyBookReviewProps;
+  }
+  | {
+    isOpen: true;
+    type: 'DELETE_MY_BOOK';
+    props: DeleteMyBookProps;
   }
 
 export type Modal = CloseModalState | OpenModalState;
