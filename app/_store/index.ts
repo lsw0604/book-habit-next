@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import authSlice from '@/entities/auth/store/auth.slice';
-import modalSlice from '@/entities/modal/store/modal.slice';
+import userSlice from '@/entities/user/store/user.slice';
+import modalSlice from '@/entities/modal/model/modal.slice';
 
 const rootReducer = combineReducers({
-  auth: authSlice,
+  auth: userSlice,
   modal: modalSlice,
 });
 

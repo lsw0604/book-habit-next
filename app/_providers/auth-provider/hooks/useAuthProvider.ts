@@ -1,19 +1,19 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 
 import {
   AUTH_ROUTES,
   DEFAULT_AUTHENTICATED_ROUTE,
   DEFAULT_UNAUTHENTICATED_ROUTE,
-} from '@/app/config/routes';
+} from '@/app/_config';
 import {
-  type AuthEventData,
-  clearAuthState,
-  setAuthState,
-  serializeAuth,
-} from '@/entities/auth';
+  type UserEventData,
+  clearUserState,
+  setUserState,
+  serializeUser,
+} from '@/entities/user';
 import { useAppDispatch } from '@/shared/redux';
 import { isClient } from '@/shared/utils';
 
@@ -24,15 +24,17 @@ export const useAuthProvider = () => {
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
 
   const handleAuthSuccess = useCallback(
-    (data: AuthEventData) => {
-      if (isClient && data.auth) {
-        dispatch(setAuthState(serializeAuth(data.auth)));
+    (data: UserEventData) => {
+      if (isClient && data.user) {
+        const serialized = serializeUser(data.user);
+        dispatch(setUserState(serialized));
       }
 
       if (AUTH_ROUTES.some(route => pathname.startsWith(route))) {
-        const urlParams = new URLSearchParams(window.location.search);
+        const urlParams = new URLSearchParams(searchParams);
         const redirectTo =
           urlParams.get('redirectTo') || DEFAULT_AUTHENTICATED_ROUTE;
         router.push(redirectTo);
@@ -42,23 +44,23 @@ export const useAuthProvider = () => {
   );
 
   const handleLogin = useCallback(
-    (data: AuthEventData) => handleAuthSuccess(data),
+    (data: UserEventData) => handleAuthSuccess(data),
     [handleAuthSuccess]
   );
 
   const handleRegister = useCallback(
-    (data: AuthEventData) => handleAuthSuccess(data),
+    (data: UserEventData) => handleAuthSuccess(data),
     [handleAuthSuccess]
   );
 
   const handleLogout = useCallback(() => {
     // 상태 초기화
-    dispatch(clearAuthState());
+    dispatch(clearUserState());
     router.push(DEFAULT_UNAUTHENTICATED_ROUTE);
   }, [router, dispatch]);
 
   const handleExpired = useCallback(() => {
-    dispatch(clearAuthState());
+    dispatch(clearUserState());
     const isAuthRoute = AUTH_ROUTES.some(route => pathname.startsWith(route));
     const redirectUrl = isAuthRoute
       ? DEFAULT_UNAUTHENTICATED_ROUTE
@@ -66,7 +68,7 @@ export const useAuthProvider = () => {
     router.push(redirectUrl);
   }, [dispatch, router, pathname]);
 
-  const handleError = useCallback((data: AuthEventData) => {
+  const handleError = useCallback((data: UserEventData) => {
     /**
      * TODO 토스트 알람 추가하기
      */

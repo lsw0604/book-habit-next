@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 
-import { AuthDTO, authEvents, authService } from '@/entities/auth';
+import { type RefreshDTO, userService, userEvents } from '@/entities/user';
 import { apiAxiosInstance, authAxiosInstance } from '@/shared/api/clients';
 import { ApiStatusProvider } from '@/shared/api/hooks';
 import {
@@ -11,7 +11,7 @@ import {
   setupRequestInterceptor,
 } from '@/shared/api/interceptors';
 
-function extractToken(response: AuthDTO) {
+function extractToken(response: RefreshDTO) {
   const { accessToken } = response;
 
   return accessToken;
@@ -19,7 +19,8 @@ function extractToken(response: AuthDTO) {
 
 export function ApiProvider({ children }: { children: ReactNode }) {
   const [isInitialized, setIsInitialized] = useState(false);
-  const { refresh } = authService;
+
+  const { refresh } = userService;
 
   useEffect(() => {
     let apiRequestInterceptor: number | undefined;
@@ -30,15 +31,15 @@ export function ApiProvider({ children }: { children: ReactNode }) {
     try {
       apiRequestInterceptor = setupRequestInterceptor(apiAxiosInstance);
       authRequestInterceptor = setupRequestInterceptor(authAxiosInstance);
-      apiResponseInterceptor = setupApiResponseInterceptor<AuthDTO>(
+      apiResponseInterceptor = setupApiResponseInterceptor<RefreshDTO>(
         apiAxiosInstance,
         {
           refreshFn: () => refresh(),
-          onRefreshFailed: reason => authEvents.emitExpired(reason),
+          onRefreshFailed: reason => userEvents.emitExpired(reason),
           extractToken: response => extractToken(response),
         }
       );
-      authResponseInterceptor = setupAuthResponseInterceptor<AuthDTO>(
+      authResponseInterceptor = setupAuthResponseInterceptor<RefreshDTO>(
         authAxiosInstance,
         {
           extractToken: response => extractToken(response),
@@ -48,10 +49,18 @@ export function ApiProvider({ children }: { children: ReactNode }) {
       setIsInitialized(true);
     }
     return () => {
-      apiAxiosInstance.interceptors.request.eject(apiRequestInterceptor);
-      authAxiosInstance.interceptors.request.eject(authRequestInterceptor);
-      apiAxiosInstance.interceptors.response.eject(apiResponseInterceptor);
-      authAxiosInstance.interceptors.response.eject(authResponseInterceptor);
+      if (apiRequestInterceptor !== undefined) {
+        apiAxiosInstance.interceptors.request.eject(apiRequestInterceptor);
+      }
+      if (authRequestInterceptor !== undefined) {
+        authAxiosInstance.interceptors.request.eject(authRequestInterceptor);
+      }
+      if (apiResponseInterceptor !== undefined) {
+        apiAxiosInstance.interceptors.response.eject(apiResponseInterceptor);
+      }
+      if (authResponseInterceptor !== undefined) {
+        authAxiosInstance.interceptors.response.eject(authResponseInterceptor);
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
