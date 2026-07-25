@@ -6,7 +6,8 @@ import { useApiStatus } from '@/shared/api/hooks';
 import { queryKeys } from '@/shared/query/keys';
 
 import { type MyBookHistoryDTO, myBookHistoryService } from '../api';
-import { type MyBookHistory, toMyBookHistoryViewModel } from '../model';
+import { toMyBookHistoryViewModel } from '../lib';
+import type { MyBookHistory } from '../model';
 
 export const useMyBookHistories = (myBookId: number) => {
   const { getMyBookHistories } = myBookHistoryService;

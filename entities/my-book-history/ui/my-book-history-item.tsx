@@ -5,10 +5,11 @@ import { memo, useCallback } from 'react';
 
 import { Card, CardContent, CardFooter, CardHeader } from '@/shared/ui/card';
 
+import { serializeMyBookHistory } from '../lib'
+
 import {
   type MyBookHistory,
   type SerializedMyBookHistory,
-  serializeMyBookHistory,
 } from '../model';
 
 import {

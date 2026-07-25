@@ -1,12 +1,11 @@
 import { parseISO } from 'date-fns';
 
-import { MyBookHistoryDTO } from '../api/my-book-history.dto';
-
+import type { MyBookHistoryDTO } from '../api';
 import {
-  MyBookHistory,
-  SerializedMyBookHistory,
+  type MyBookHistory,
+  type SerializedMyBookHistory,
   ReadingMood,
-} from './my-book-history.model';
+} from '../model';
 
 const stringToReadingMood = (readingMoodStr: string) => {
   if (Object.values(ReadingMood).includes(readingMoodStr as ReadingMood)) {
