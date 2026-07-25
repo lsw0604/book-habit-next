@@ -1,7 +1,7 @@
 import { SearchX } from 'lucide-react';
 
 import { useQueryParams } from '@/shared/hooks';
-import { bookSearchParamsSchema } from '@/features/book-search/model';
+import { bookSearchParamsSchema } from '@/features/book-search';
 
 export function BookSearchNotFound() {
   const { query } = useQueryParams(bookSearchParamsSchema);

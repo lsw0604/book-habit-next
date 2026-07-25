@@ -3,14 +3,11 @@
 import { useCallback } from 'react';
 
 import { useModal } from '@/entities/modal';
+import type { BookSummary } from '@/entities/book';
 import { Spinner } from '@/shared/ui/spinner';
 import { useInfiniteScroll, useQueryParams } from '@/shared/hooks';
-import {
-  BookSearchItem,
-  bookSearchParamsSchema,
-  type BookSummary,
-  useBookSearch,
-} from '@/features/book-search';
+import { BookSearchItem, useBookSearch } from '@/features/book-search';
+import { bookSearchParamsSchema } from '@/features/book-search/schema';
 
 import { BookSearchEmptyQuery } from './book-search-empty-query';
 import { BookSearchError } from './book-search-error';
@@ -39,7 +36,7 @@ export function BookSearchList() {
 
   const modalHandler = useCallback(
     (bookSummary: BookSummary) => {
-      open('PREVIEW_BOOK', { bookSummary });
+      open('VIEW_SEARCHED_BOOK', { bookSummary });
     },
     [open]
   );
