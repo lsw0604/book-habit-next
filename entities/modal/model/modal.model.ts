@@ -1,7 +1,7 @@
 import type { BookSummary } from '@/entities/book';
 import type { SerializedMyBookHistory } from '@/entities/my-book-history';
 
-export interface PreviewBookProps {
+export interface ViewSearchedBookProps {
   bookSummary: BookSummary;
 }
 
@@ -39,7 +39,7 @@ export interface DeleteMyBookProps {
 }
 
 export type ModalProps =
-  | PreviewBookProps
+  | ViewSearchedBookProps
   | AddMyBookHistoryProps
   | AddMyBookReviewProps
   | ViewMyBookHistoryProps
@@ -48,7 +48,7 @@ export type ModalProps =
   | DeleteMyBookHistoryProps;
 
 export type ModalPropsMap = {
-  PREVIEW_BOOK: PreviewBookProps;
+  VIEW_SEARCHED_BOOK: ViewSearchedBookProps;
   ADD_MY_BOOK_WITH_REVIEW: AddMyBookWithReviewProps;
   ADD_MY_BOOK_HISTORY: AddMyBookHistoryProps;
   ADD_MY_BOOK_REVIEW: AddMyBookReviewProps;
@@ -64,7 +64,7 @@ export type ModalType = keyof ModalPropsMap;
 export type CloseModalState = { isOpen: false; type: null; props: undefined };
 
 export type OpenModalState =
-  | { isOpen: true; type: 'PREVIEW_BOOK'; props: PreviewBookProps }
+  | { isOpen: true; type: 'VIEW_SEARCHED_BOOK'; props: ViewSearchedBookProps }
   | { isOpen: true; type: 'ADD_MY_BOOK_WITH_REVIEW'; props: AddMyBookWithReviewProps }
   | { isOpen: true; type: 'ADD_MY_BOOK_HISTORY'; props: AddMyBookHistoryProps }
   | { isOpen: true; type: 'ADD_MY_BOOK_REVIEW'; props: AddMyBookReviewProps }

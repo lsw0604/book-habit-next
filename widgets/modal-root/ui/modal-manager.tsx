@@ -10,9 +10,11 @@ import { ModalErrorFallback } from './modal-error-fallback';
 import { ModalLoader } from './modal-loader';
 
 // Dynamically import modal components
-const PreviewBookModal = lazy(() =>
-  import('@/widgets/preview-book-modal').then(module => ({
-    default: module.PreviewBookModal,
+const ViewSearchedBookModal = lazy(() =>
+  import('@/features/view-searched-book').then(module => ({
+    default: module.ViewSearchedBookModal,
+  }))
+);
   }))
 );
 const AddMyBookHistoryModal = lazy(() =>
@@ -67,8 +69,9 @@ export function ModalManager() {
 
   const renderModal = () => {
     switch (type) {
-      case 'PREVIEW_BOOK': {
-        return <PreviewBookModal {...props} />;
+      case 'VIEW_SEARCHED_BOOK': {
+        return <ViewSearchedBookModal {...props} />;
+      }
       }
       case 'ADD_MY_BOOK_HISTORY': {
         return <AddMyBookHistoryModal {...props} />;

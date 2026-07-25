@@ -7,10 +7,10 @@ import {
   BookCardDescription,
   BookCardThumbnail,
 } from '@/entities/book';
-import { useModal, type PreviewBookProps } from '@/entities/modal';
+import { useModal, type ViewSearchedBookProps } from '@/entities/modal';
 import { Button } from '@/shared/ui/button';
 
-export function PreviewBookModal({ bookSummary }: PreviewBookProps) {
+export function ViewSearchedBookModal({ bookSummary }: ViewSearchedBookProps) {
   const router = useRouter();
   const { close } = useModal();
 
