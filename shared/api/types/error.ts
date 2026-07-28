@@ -1,10 +1,8 @@
-import { ErrorDTO } from '../dto';
+import { ErrorDTO } from './dto';
 
 export class APIError extends Error {
   public readonly statusCode: number;
-
   public readonly path: string;
-
   public readonly timestamp: string;
 
   constructor(dto: ErrorDTO) {

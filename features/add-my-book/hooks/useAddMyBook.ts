@@ -1,16 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AddFinishedPayload, addMyBookService } from "../api"
-import { APIError } from "@/shared/api/errors";
+
 import { MyBookDetail, toMyBookDetailViewModel } from "@/entities/my-book";
+import { APIError } from "@/shared/api";
 import { queryKeys } from "@/shared/query/keys";
+
+import { AddFinishedPayload, addMyBookService } from "../api"
 
 export const useAddWantToRead = () => {
   const { addWantToRead } = addMyBookService;
   const queryClient = useQueryClient();
-  
+
   return useMutation<
-    MyBookDetail, 
-    APIError, 
+    MyBookDetail,
+    APIError,
     string,
     { previous: MyBookDetail | null | undefined }
   >({
@@ -43,8 +45,8 @@ export const useAddReadingBook = () => {
   const queryClient = useQueryClient();
 
   return useMutation<
-    MyBookDetail, 
-    APIError, 
+    MyBookDetail,
+    APIError,
     string,
     { previous: MyBookDetail | null | undefined }
   >({
@@ -77,8 +79,8 @@ export const useAddFinishedBook = () => {
   const queryClient = useQueryClient();
 
   return useMutation<
-    MyBookDetail, 
-    APIError, 
+    MyBookDetail,
+    APIError,
     AddFinishedPayload,
     { previous: MyBookDetail | null | undefined }
   >({

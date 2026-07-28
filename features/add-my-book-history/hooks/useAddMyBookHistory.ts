@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { queryKeys } from '@/shared/query/keys';
-
-import type { APIError } from '@/shared/api/errors';
+import type { APIError } from '@/shared/api';
 import { toMyBookHistoryViewModel, type MyBookHistory, type MyBookHistoryDTO } from '@/entities/my-book-history';
 
 import type { AddMyBookHistoryType } from '../schema';

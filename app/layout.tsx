@@ -12,7 +12,7 @@ import {
   ReduxProvider,
   AuthProvider,
   ApiProvider,
-} from './providers';
+} from './_providers';
 
 import './global.css';
 

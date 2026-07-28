@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { APIError } from '@/shared/api/errors';
+import { APIError } from '@/shared/api';
 import { toUserViewModel, userEvents, type User } from '@/entities/user';
 
 import { loginService } from '../api';

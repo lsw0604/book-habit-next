@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { AxiosError } from 'axios';
 
-import type { ErrorDTO } from '@/shared/api/dto';
+import type { APIError } from '@/shared/api';
 import { queryKeys } from '@/shared/query/keys';
 import { type MyBookHistory, toMyBookHistoryViewModel } from '@/entities/my-book-history';
 
@@ -17,7 +16,7 @@ export const useUpdateMyBookHistory = (myBookId: number) => {
 
   return useMutation<
     MyBookHistory,
-    AxiosError<ErrorDTO>,
+    APIError,
     UpdateMyBookHistoryPayload,
     {
       previousHistories: MyBookHistory[];

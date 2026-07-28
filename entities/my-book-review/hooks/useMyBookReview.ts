@@ -1,13 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import type { AxiosError } from 'axios';
 
-import type { ErrorDTO } from '@/shared/api/dto';
-import { useApiStatus } from '@/shared/api/hooks';
+import { type APIError, useApiStatus } from '@/shared/api';
 import { queryKeys } from '@/shared/query';
 
 import { type MyBookReviewDTO, myBookReviewService } from '../api';
-import { toMyBookReviewViewModel } from '../model/my-book-review.mapper';
-import type { MyBookReview } from '../model/my-book-review.model';
+import { type MyBookReview, toMyBookReviewViewModel } from '../model';
 
 export const useMyBookReview = (myBookId: number) => {
   const { getMyBookReview } = myBookReviewService;
@@ -15,7 +12,7 @@ export const useMyBookReview = (myBookId: number) => {
 
   return useQuery<
     MyBookReviewDTO | null,
-    AxiosError<ErrorDTO>,
+    APIError,
     MyBookReview | null
   >({
     queryKey: queryKeys.myBookReview.detail(myBookId).queryKey,

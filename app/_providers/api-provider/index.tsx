@@ -3,13 +3,14 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 
 import { type RefreshDTO, userService, userEvents } from '@/entities/user';
-import { apiAxiosInstance, authAxiosInstance } from '@/shared/api/clients';
-import { ApiStatusProvider } from '@/shared/api/hooks';
 import {
   setupApiResponseInterceptor,
   setupAuthResponseInterceptor,
   setupRequestInterceptor,
-} from '@/shared/api/interceptors';
+  apiAxiosInstance, 
+  authAxiosInstance,
+  ApiStatusProvider
+} from '@/shared/api';
 
 function extractToken(response: RefreshDTO) {
   const { accessToken } = response;

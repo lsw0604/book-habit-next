@@ -1,6 +1,5 @@
 import { LoginDTO } from "./login.dto";
-import { authClient } from "@/shared/api/clients";
-import { API_ENDPOINTS } from "@/shared/api/constant";
+import { authClient, API_ENDPOINTS } from "@/shared/api";
 import { LoginType } from "../model";
 
 export interface LoginService {
@@ -10,16 +9,16 @@ export interface LoginService {
 
 export const loginService: LoginService = {
   login: async (payload: LoginType): Promise<LoginDTO> => {
-      const response: LoginDTO = await authClient.post<LoginDTO>(
-        API_ENDPOINTS.AUTH.SIGNIN,
-        payload
-      );
-      return response;
-    },
-    kakao: async (code: string): Promise<LoginDTO> => {
-      const response: LoginDTO = await authClient.get<LoginDTO>(
-        `${API_ENDPOINTS.AUTH.KAKAO}?code=${code}`
-      );
-      return response;
-    },
+    const response: LoginDTO = await authClient.post<LoginDTO>(
+      API_ENDPOINTS.AUTH.SIGNIN,
+      payload
+    );
+    return response;
+  },
+  kakao: async (code: string): Promise<LoginDTO> => {
+    const response: LoginDTO = await authClient.get<LoginDTO>(
+      `${API_ENDPOINTS.AUTH.KAKAO}?code=${code}`
+    );
+    return response;
+  },
 }

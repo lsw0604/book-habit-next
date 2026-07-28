@@ -1,6 +1,6 @@
 import { MyBookReviewDTO } from "@/entities/my-book-review";
-import { apiClient } from "@/shared/api/clients";
-import { API_ENDPOINTS } from "@/shared/api/constant";
+import { API_ENDPOINTS, apiClient } from "@/shared/api";
+
 import { UpdateMyBookReviewType } from "../schema";
 
 export interface UpdateMyBookReviewService {

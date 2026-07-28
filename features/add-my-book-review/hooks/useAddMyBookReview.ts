@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addMyBookReviewService } from "../api"
+
 import { queryKeys } from "@/shared/query";
-import { MyBookReview, MyBookReviewDTO, toMyBookReviewViewModel } from "@/entities/my-book-review";
-import { APIError } from "@/shared/api/errors";
-import { AddMyBookReviewType } from "../schema";
+import type { APIError } from "@/shared/api";
+import { type MyBookReview, MyBookReviewDTO, toMyBookReviewViewModel } from "@/entities/my-book-review";
+
+import { addMyBookReviewService } from "../api"
+import type { AddMyBookReviewType } from "../schema";
 
 export const useAddMyBookReview = (myBookId: number, isbn?: string) => {
   const { addMyBookReview } = addMyBookReviewService;

@@ -1,18 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import type { AxiosError } from 'axios';
 
-import type { ErrorDTO } from '@/shared/api/dto';
+import type { APIError } from '@/shared/api';
 import { queryKeys } from '@/shared/query';
 
-import type { BookDetailDTO } from '../api';
-import { bookService } from '../api';
+import { type BookDetailDTO, bookService } from '../api';
 import type { BookDetail } from '../model';
 import { toDetailBookViewModel } from '../lib';
 
 export const useFetchBookDetail = (isbn: string) => {
   const { fetchBookDetail } = bookService;
 
-  return useQuery<BookDetailDTO, AxiosError<ErrorDTO>, BookDetail>({
+  return useQuery<BookDetailDTO, APIError, BookDetail>({
     queryKey: queryKeys.book.isbn(isbn).queryKey,
     queryFn: () => fetchBookDetail(isbn),
     select: toDetailBookViewModel,

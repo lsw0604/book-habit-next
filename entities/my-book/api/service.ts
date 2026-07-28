@@ -1,7 +1,6 @@
 import { stringify } from 'querystring';
 
-import { apiClient } from '@/shared/api/clients';
-import { API_ENDPOINTS } from '@/shared/api/constant';
+import { apiClient, API_ENDPOINTS } from '@/shared/api';
 
 import type { MyBooksDTO, MyBookDetailDTO } from './my-book.dto';
 
@@ -32,7 +31,7 @@ export const myBookService = {
     return response;
   },
   findByIsbn: async (isbn: string) => {
-    const response = await apiClient.get<MyBookDetailDTO | null> (
+    const response = await apiClient.get<MyBookDetailDTO | null>(
       `${API_ENDPOINTS.MY_BOOK.DEFAULT}/is-exist/${isbn}`
     );
     return response;

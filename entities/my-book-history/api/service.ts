@@ -1,7 +1,6 @@
-import { apiClient } from '@/shared/api/clients';
-import { API_ENDPOINTS } from '@/shared/api/constant';
+import { API_ENDPOINTS, apiClient } from '@/shared/api';
 
-import { MyBookHistoryDTO } from './my-book-history.dto';
+import type { MyBookHistoryDTO } from './my-book-history.dto';
 
 export interface MyBookHistoryService {
   getMyBookHistories: (

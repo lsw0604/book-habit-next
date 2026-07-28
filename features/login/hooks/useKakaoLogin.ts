@@ -1,16 +1,15 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import type { AxiosError } from 'axios';
 
-import type { ErrorDTO } from '@/shared/api/dto';
-import { queryKeys } from '@/shared/query/keys';
-
-import { type LoginDTO, loginService } from '../api';
 import { toUserViewModel, type User } from '@/entities/user';
+import { queryKeys } from '@/shared/query';
+import type { APIError } from '@/shared/api';
+
+import { loginService } from '../api';
 
 export const useKakao = (code: string) =>
-  useQuery<User, AxiosError<ErrorDTO>, LoginDTO>({
+  useQuery<User, APIError>({
     queryKey: queryKeys.auth.kakao(code).queryKey,
     queryFn: async () => {
       const response = await loginService.kakao(code);
@@ -24,3 +23,4 @@ export const useKakao = (code: string) =>
     // 이 쿼리를 사용하는 컴포넌트가 언마운트되면 캐시를 바로 제거
     gcTime: 0,
   });
+

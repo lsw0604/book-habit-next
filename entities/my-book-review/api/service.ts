@@ -1,5 +1,4 @@
-import { apiClient } from '@/shared/api/clients';
-import { API_ENDPOINTS } from '@/shared/api/constant';
+import { API_ENDPOINTS, apiClient } from '@/shared/api';
 
 import type { MyBookReviewDTO } from './my-book-review.dto';
 import type {

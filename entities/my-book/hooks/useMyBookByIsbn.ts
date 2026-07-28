@@ -1,16 +1,17 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { MyBookDetailDTO, myBookService } from "../api"
-import { AxiosError } from "axios";
-import { ErrorDTO } from "@/shared/api/dto";
+
+import type { APIError } from "@/shared/api";
 import { queryKeys } from "@/shared/query";
+
+import { myBookService, type MyBookDetailDTO } from "../api"
 import { toMyBookDetailViewModel } from "../lib";
-import { MyBookDetail } from "../model";
+import type { MyBookDetail } from "../model";
 
 export const useMyBookIsbn = (isbn: string) => {
   const { findByIsbn } = myBookService;
   const queryClient = useQueryClient();
 
-  return useQuery<MyBookDetailDTO | null, AxiosError<ErrorDTO>, MyBookDetail | null>({
+  return useQuery<MyBookDetailDTO | null, APIError, MyBookDetail | null>({
     queryKey: queryKeys.myBook.exist(isbn).queryKey,
     queryFn: async () => {
       const response = await findByIsbn(isbn);

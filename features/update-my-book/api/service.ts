@@ -1,6 +1,5 @@
 import { MyBookDetailDTO, MyBookStatus } from "@/entities/my-book";
-import { apiClient } from "@/shared/api/clients";
-import { API_ENDPOINTS } from "@/shared/api/constant";
+import { API_ENDPOINTS, apiClient } from "@/shared/api";
 
 export interface UpdateMyBookService {
   updateMyBook: (payload: UpdateMyBookPayload) => Promise<MyBookDetailDTO>;

@@ -1,5 +1,4 @@
-import { apiClient } from "@/shared/api/clients";
-import { API_ENDPOINTS } from "@/shared/api/constant";
+import { API_ENDPOINTS, apiClient } from "@/shared/api";
 
 import type { MyBookHistoryDTO } from "@/entities/my-book-history";
 import type { AddMyBookHistoryType } from "../schema";

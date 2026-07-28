@@ -1,9 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import type { AxiosError } from 'axios';
 
 import type { BookSummary } from '@/entities/book';
-import type { ErrorDTO } from '@/shared/api/dto';
-import { useApiStatus } from '@/shared/api/hooks';
+import { type APIError, useApiStatus } from '@/shared/api';
 import { queryKeys } from '@/shared/query/keys';
 
 import type { BookSearchParams } from '../schema';
@@ -16,7 +14,7 @@ export const useBookSearch = ({ query, size, sort, target, }: BookSearchParams) 
   const { searchBook } = bookSearchService;
   return useInfiniteQuery<
     BookSearchsDTO,
-    AxiosError<ErrorDTO>,
+    APIError,
     BookSummary[]
   >({
     queryKey: queryKeys.book.search({ query, size, sort, target }).queryKey,

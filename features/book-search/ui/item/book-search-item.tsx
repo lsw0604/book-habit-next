@@ -2,7 +2,7 @@
 
 import { memo, useState } from 'react';
 
-import { type BookSummary,BookCardThumbnail } from '@/entities/book';
+import { type BookSummary, BookCardThumbnail } from '@/entities/book';
 import { useOnceVisible } from '@/shared/hooks';
 
 import { BookSearchItemLoader } from './book-search-item-loader';

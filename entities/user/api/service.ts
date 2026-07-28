@@ -1,6 +1,6 @@
-import { authClient } from "@/shared/api/clients";
-import { AccessDTO, RefreshDTO } from "./user.dto";
-import { API_ENDPOINTS } from "@/shared/api/constant";
+import { API_ENDPOINTS, authClient } from "@/shared/api";
+
+import type { AccessDTO, RefreshDTO } from "./user.dto";
 
 export interface UserService {
   access: () => Promise<AccessDTO>;

@@ -1,8 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 
-import type { ErrorDTO } from '@/shared/api/dto';
-import { useApiStatus } from '@/shared/api/hooks';
+import type { APIError } from '@/shared/api';
+import { useApiStatus } from '@/shared/api';
 import { queryKeys } from '@/shared/query/keys';
 
 import { type GetMyBooksPayload, type MyBooksDTO, myBookService } from '../api';
@@ -15,7 +14,7 @@ export const useMyBooks = (
   const { getMyBooks } = myBookService;
   const { isInitialized } = useApiStatus();
 
-  return useInfiniteQuery<MyBooksDTO, AxiosError<ErrorDTO>, MyBooks>({
+  return useInfiniteQuery<MyBooksDTO, APIError, MyBooks>({
     queryKey: queryKeys.myBook.list(params).queryKey,
     queryFn: async ({ pageParam = 1 }) => {
       const response = await getMyBooks({

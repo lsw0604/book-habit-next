@@ -5,8 +5,8 @@ import {
   isAxiosError,
 } from 'axios';
 
-import type { ResponseDTO, ErrorDTO } from '../dto';
-import { APIError } from '../errors';
+import type { ResponseDTO, ErrorDTO } from '../types';
+import { APIError } from '../types';
 
 async function handleRequest<T>(
   request: Promise<AxiosResponse<ResponseDTO<T>>>

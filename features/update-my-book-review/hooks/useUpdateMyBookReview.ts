@@ -5,7 +5,7 @@ import {
   type MyBookReviewDTO,
   toMyBookReviewViewModel,
 } from '@/entities/my-book-review';
-import { APIError } from '@/shared/api/errors';
+import { APIError } from '@/shared/api';
 import { queryKeys } from '@/shared/query';
 
 import { updateMyBookReviewService } from '../api';

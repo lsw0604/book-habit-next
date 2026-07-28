@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 
-import { isClient } from '../constant';
+import { isClient } from '../constants';
 
 export const setupRequestInterceptor = (client: AxiosInstance) =>
   client.interceptors.request.use(

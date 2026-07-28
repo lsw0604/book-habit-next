@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { APIError } from "@/shared/api/errors";
+import type { APIError } from "@/shared/api";
 import { queryKeys } from "@/shared/query/keys";
 import { MyBookDetail } from "@/entities/my-book";
 
@@ -11,8 +11,8 @@ export const useDeleteMyBook = () => {
   const queryClient = useQueryClient();
 
   return useMutation<
-    void, 
-    APIError, 
+    void,
+    APIError,
     number,
     {
       previousDetail: MyBookDetail | null | undefined;
@@ -23,7 +23,7 @@ export const useDeleteMyBook = () => {
     onMutate: async (id) => {
       const detailKey = queryKeys.myBook.detail(id).queryKey;
       await queryClient.cancelQueries({ queryKey: detailKey });
-      
+
       const previousDetail = queryClient.getQueryData<MyBookDetail>(detailKey);
 
       let isbn = previousDetail?.book.isbn;
@@ -35,7 +35,7 @@ export const useDeleteMyBook = () => {
         const found = existQueries.find(([_, data]) => data?.id === id);
         isbn = found?.[1]?.book?.isbn;
       }
-      
+
       if (isbn) {
         const existKey = queryKeys.myBook.exist(isbn).queryKey;
         await queryClient.cancelQueries({ queryKey: existKey });
@@ -69,13 +69,13 @@ export const useDeleteMyBook = () => {
       const { isbn } = context;
 
       queryClient.invalidateQueries({ queryKey: queryKeys.myBook.list._def });
-      
+
       if (isbn) {
         queryClient.setQueryData(queryKeys.myBook.exist(isbn).queryKey, null);
       }
 
-      queryClient.removeQueries({ queryKey: queryKeys.myBook.detail(id).queryKey})
-      queryClient.removeQueries({ queryKey: queryKeys.myBookReview.detail(id).queryKey})
+      queryClient.removeQueries({ queryKey: queryKeys.myBook.detail(id).queryKey })
+      queryClient.removeQueries({ queryKey: queryKeys.myBookReview.detail(id).queryKey })
       queryClient.removeQueries({ queryKey: queryKeys.myBookHistory.list(id).queryKey })
     }
   })

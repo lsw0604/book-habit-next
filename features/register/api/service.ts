@@ -1,5 +1,4 @@
-import { authClient } from "@/shared/api/clients";
-import { API_ENDPOINTS } from "@/shared/api/constant";
+import { API_ENDPOINTS, authClient } from "@/shared/api";
 import { RegisterType } from "../model";
 import { RegisterDTO } from "./register.dto";
 

@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { APIError } from '@/shared/api/errors';
+import { APIError } from '@/shared/api';
 
 import type { RegisterType } from '../model';
 import { registerService } from '../api';

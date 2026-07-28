@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { APIError } from "@/shared/api/errors";
+import { APIError } from "@/shared/api";
 import { queryKeys } from "@/shared/query/keys";
 import { MyBookDetail, toMyBookDetailViewModel } from "@/entities/my-book";
 
