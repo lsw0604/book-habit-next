@@ -1,4 +1,4 @@
-import type { PaginationMeta } from '@/shared/types';
+import type { PaginationMeta } from '@/shared/api';
 
 export enum MyBookStatus {
   WANT_TO_READ = 'WANT_TO_READ',

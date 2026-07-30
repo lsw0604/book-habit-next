@@ -1,4 +1,4 @@
-import type { PaginationMeta } from '@/shared/types';
+import type { PaginationMeta } from '@/shared/api';
 import { MyBookStatus } from '../model';
 
 export interface MyBookDTO {
