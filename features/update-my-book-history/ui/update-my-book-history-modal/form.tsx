@@ -1,14 +1,4 @@
-import { useCallback } from 'react';
-import { useFormContext } from 'react-hook-form';
-
-import {
-  type UpdateMyBookHistoryProps,
-  modalSelector,
-  useModal,
-} from '@/entities/modal';
-import { useAppSelector } from '@/shared/redux';
 import { Button } from '@/shared/ui/button';
-import { extractDirtyValues } from '@/shared/utils';
 
 import {
   UpdateMyBookHistoryMemoCard,
@@ -17,25 +7,9 @@ import {
   UpdateMyBookHistoryTimeCard,
 } from './components';
 
-
-import type {
-  UpdateMyBookHistoryType,
-  UpdateMyBookHistoryPayload
-} from '../../schema';
 import {
-  useUpdateMyBookHistory,
+  useUpdateMyBookHistorySubmit,
 } from '../../hooks';
-
-type UpdatableFields = keyof Pick<
-  UpdateMyBookHistoryType,
-  | 'startPage'
-  | 'endPage'
-  | 'startTime'
-  | 'endTime'
-  | 'readingMinutes'
-  | 'readingMood'
-  | 'memo'
->;
 
 interface EditMyBookHistoryFormProps {
   myBookId: number;
@@ -44,64 +18,12 @@ interface EditMyBookHistoryFormProps {
 export function UpdateMyBookHistoryForm({
   myBookId,
 }: EditMyBookHistoryFormProps) {
-  const {
-    handleSubmit,
-    formState: { isSubmitting, isDirty, dirtyFields },
-  } = useFormContext<UpdateMyBookHistoryType>();
-  const { open, close } = useModal();
-  const { props } = useAppSelector(modalSelector);
-  const { selectedHistory } = props as UpdateMyBookHistoryProps;
-
-  const { mutate } = useUpdateMyBookHistory(myBookId);
-
-  const handleClickGoBack = () =>
-    open('VIEW_MY_BOOK_HISTORY', { selectedHistory });
-
-  const onSubmit = useCallback(
-    (data: UpdateMyBookHistoryType) => {
-      if (!isDirty) return null;
-
-      const allowedFields: UpdatableFields[] = [
-        'startPage',
-        'endPage',
-        'startTime',
-        'endTime',
-        'readingMinutes',
-        'readingMood',
-        'memo',
-      ];
-
-      const changedFields = extractDirtyValues(
-        data,
-        dirtyFields,
-        allowedFields
-      );
-
-      const payload: UpdateMyBookHistoryPayload = {
-        id: data.id,
-        ...changedFields,
-      };
-
-      mutate(payload, {
-        onSuccess: () => {
-          /**
-           * TODO 토스트 추가하기
-           */
-          close();
-        },
-        onError: () => {
-          /**
-           * TODO 토스트 추가하기
-           */
-        },
-      });
-    },
-    [mutate, close, isDirty, dirtyFields]
-  );
+  const { handleSubmit, handleClickGoBack, isDirty, isLoading } =
+    useUpdateMyBookHistorySubmit(myBookId);
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit}
       className="flex-1 flex flex-col min-h-0"
     >
       <div className="flex-1 min-h-0 overflow-y-auto scrollbar-none p-4 flex flex-col gap-y-4">
@@ -120,11 +42,11 @@ export function UpdateMyBookHistoryForm({
           <Button
             key="submit-btn"
             type="submit"
-            disabled={isSubmitting || !isDirty}
-            isLoading={isSubmitting}
+            disabled={isLoading || !isDirty}
+            isLoading={isLoading}
             className="flex-1"
           >
-            {isSubmitting ? '수정 중...' : '수정하기'}
+            {isLoading ? '수정 중...' : '수정하기'}
           </Button>
           <Button
             key="view-modal-btn"

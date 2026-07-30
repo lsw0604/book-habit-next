@@ -16,7 +16,7 @@ export function UpdateMyBookHistoryPageCard() {
   const [startPage, endPage] = watch(['startPage', 'endPage']);
 
   const handleOnFocus = (e: FocusEvent<HTMLInputElement>) => {
-    e.target.select();
+    setTimeout(() => e.target.select(), 0);
   };
 
   return (
