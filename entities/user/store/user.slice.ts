@@ -12,8 +12,8 @@ const initialState: UserState = {
   isAuthenticated: false,
 };
 
-const authSlice = createSlice({
-  name: 'auth',
+const userSlice = createSlice({
+  name: 'user',
   initialState,
   reducers: {
     setUserState(state, action: PayloadAction<SerializedUser>) {
@@ -27,5 +27,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUserState, clearUserState } = authSlice.actions;
-export default authSlice.reducer;
+export const { setUserState, clearUserState } = userSlice.actions;
+export default userSlice.reducer;
