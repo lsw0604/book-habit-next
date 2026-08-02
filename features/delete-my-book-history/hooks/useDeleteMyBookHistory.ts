@@ -1,25 +1,23 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { queryKeys } from '@/shared/query/keys';
 import type { APIError } from '@/shared/api';
-import { type MyBookHistory, toMyBookHistoryViewModel } from '@/entities/my-book-history';
+import { myBookHistoryQueryKeys, type MyBookHistory } from '@/entities/my-book-history';
 
 import { deleteMyBookHistoryService } from '../api';
 
 export const useDeleteMyBookHistory = (myBookId: number) => {
   const { deleteMyBookHistory } = deleteMyBookHistoryService;
   const queryClient = useQueryClient();
-  const historiesQueryKey = queryKeys.myBookHistory.list(myBookId).queryKey;
+  const historiesQueryKey = myBookHistoryQueryKeys.list(myBookId).queryKey;
 
   return useMutation<
-    MyBookHistory,
+    void,
     APIError,
     number,
     { previousHistories: MyBookHistory[] }
   >({
     mutationFn: async (myBookHistoryId: number) => {
-      const response = await deleteMyBookHistory(myBookHistoryId);
-      return toMyBookHistoryViewModel(response);
+      await deleteMyBookHistory(myBookHistoryId);
     },
     onMutate: async (myBookHistoryId: number) => {
       await queryClient.cancelQueries({ queryKey: historiesQueryKey });

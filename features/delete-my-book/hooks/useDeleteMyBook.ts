@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { APIError } from "@/shared/api";
-import { queryKeys } from "@/shared/query/keys";
-import { MyBookDetail } from "@/entities/my-book";
+import { myBookQueryKeys, type MyBookDetail } from "@/entities/my-book";
+import { myBookReviewQueryKeys } from "@/entities/my-book-review";
+import { myBookHistoryQueryKeys } from "@/entities/my-book-history";
 
 import { deleteMyBookService } from "../api";
 
@@ -21,7 +22,7 @@ export const useDeleteMyBook = () => {
   >({
     mutationFn: async (id) => await deleteMyBook(id),
     onMutate: async (id) => {
-      const detailKey = queryKeys.myBook.detail(id).queryKey;
+      const detailKey = myBookQueryKeys.detail(id).queryKey;
       await queryClient.cancelQueries({ queryKey: detailKey });
 
       const previousDetail = queryClient.getQueryData<MyBookDetail>(detailKey);
@@ -30,14 +31,14 @@ export const useDeleteMyBook = () => {
 
       if (!isbn) {
         const existQueries = queryClient.getQueriesData<MyBookDetail>({
-          queryKey: queryKeys.myBook.exist._def
+          queryKey: myBookQueryKeys.exist._def
         })
         const found = existQueries.find(([_, data]) => data?.id === id);
         isbn = found?.[1]?.book?.isbn;
       }
 
       if (isbn) {
-        const existKey = queryKeys.myBook.exist(isbn).queryKey;
+        const existKey = myBookQueryKeys.exist(isbn).queryKey;
         await queryClient.cancelQueries({ queryKey: existKey });
         queryClient.setQueryData(existKey, null);
       }
@@ -52,14 +53,14 @@ export const useDeleteMyBook = () => {
 
         if (previousDetail) {
           queryClient.setQueryData(
-            queryKeys.myBook.detail(id).queryKey,
+            myBookQueryKeys.detail(id).queryKey,
             previousDetail
           );
         }
 
         if (isbn && previousDetail) {
           queryClient.setQueryData(
-            queryKeys.myBook.exist(isbn).queryKey,
+            myBookQueryKeys.exist(isbn).queryKey,
             previousDetail
           );
         }
@@ -68,15 +69,15 @@ export const useDeleteMyBook = () => {
     onSuccess: (_data, id, context) => {
       const { isbn } = context;
 
-      queryClient.invalidateQueries({ queryKey: queryKeys.myBook.list._def });
+      queryClient.invalidateQueries({ queryKey: myBookQueryKeys.list._def });
 
       if (isbn) {
-        queryClient.setQueryData(queryKeys.myBook.exist(isbn).queryKey, null);
+        queryClient.setQueryData(myBookQueryKeys.exist(isbn).queryKey, null);
       }
 
-      queryClient.removeQueries({ queryKey: queryKeys.myBook.detail(id).queryKey })
-      queryClient.removeQueries({ queryKey: queryKeys.myBookReview.detail(id).queryKey })
-      queryClient.removeQueries({ queryKey: queryKeys.myBookHistory.list(id).queryKey })
+      queryClient.removeQueries({ queryKey: myBookQueryKeys.detail(id).queryKey })
+      queryClient.removeQueries({ queryKey: myBookReviewQueryKeys.detail(id).queryKey })
+      queryClient.removeQueries({ queryKey: myBookHistoryQueryKeys.list(id).queryKey })
     }
   })
 }

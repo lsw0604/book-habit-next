@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { queryKeys } from '@/shared/query/keys';
 import type { APIError } from '@/shared/api';
-import { toMyBookHistoryViewModel, type MyBookHistory, type MyBookHistoryDTO } from '@/entities/my-book-history';
+import { myBookHistoryQueryKeys, toMyBookHistoryViewModel, type MyBookHistory, type MyBookHistoryDTO } from '@/entities/my-book-history';
 
 import type { AddMyBookHistoryType } from '../schema';
 import { addMyBookHistoryService } from '../api';
@@ -16,7 +15,7 @@ export const useAddMyBookHistory = ({
 }: UseAddMyBookHistoryParams) => {
   const { addMyBookHistory } = addMyBookHistoryService;
   const queryClient = useQueryClient();
-  const historiesQueryKey = queryKeys.myBookHistory.list(myBookId).queryKey;
+  const historiesQueryKey = myBookHistoryQueryKeys.list(myBookId).queryKey;
 
   return useMutation<
     MyBookHistory,

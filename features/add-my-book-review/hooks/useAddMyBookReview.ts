@@ -1,8 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { queryKeys } from "@/shared/query";
 import type { APIError } from "@/shared/api";
-import { type MyBookReview, MyBookReviewDTO, toMyBookReviewViewModel } from "@/entities/my-book-review";
+import {
+  type MyBookReviewDTO,
+  myBookReviewQueryKeys,
+} from "@/entities/my-book-review";
+import { myBookQueryKeys } from "@/entities/my-book";
 
 import { addMyBookReviewService } from "../api"
 import type { AddMyBookReviewType } from "../schema";
@@ -10,17 +13,14 @@ import type { AddMyBookReviewType } from "../schema";
 export const useAddMyBookReview = (myBookId: number, isbn?: string) => {
   const { addMyBookReview } = addMyBookReviewService;
   const queryClient = useQueryClient();
-  const reviewDetailQueryKey = queryKeys.myBookReview.detail(myBookId).queryKey;
+  const reviewDetailQueryKey = myBookReviewQueryKeys.detail(myBookId).queryKey;
 
-  return useMutation<MyBookReview, APIError, AddMyBookReviewType, { previousReview: MyBookReview | null; optimisticId: number }>({
-    mutationFn: async (payload: AddMyBookReviewType) => {
-      const response = await addMyBookReview(payload);
-      return toMyBookReviewViewModel(response);
-    },
+  return useMutation<MyBookReviewDTO, APIError, AddMyBookReviewType, { previousReview: MyBookReviewDTO | null; optimisticId: number }>({
+    mutationFn: async (payload: AddMyBookReviewType) => await addMyBookReview(payload),
     onMutate: async (payload: AddMyBookReviewType) => {
       await queryClient.cancelQueries({ queryKey: reviewDetailQueryKey });
 
-      const previousReview = queryClient.getQueryData<MyBookReview>(reviewDetailQueryKey) ?? null;
+      const previousReview = queryClient.getQueryData<MyBookReviewDTO>(reviewDetailQueryKey) ?? null;
 
       const now = new Date();
       const optimisticId = now.getTime();
@@ -38,9 +38,7 @@ export const useAddMyBookReview = (myBookId: number, isbn?: string) => {
         }
       }
 
-      const optimisticReview = toMyBookReviewViewModel(optimisticDTO);
-
-      queryClient.setQueryData<MyBookReview>(reviewDetailQueryKey, optimisticReview)
+      queryClient.setQueryData<MyBookReviewDTO>(reviewDetailQueryKey, optimisticDTO)
 
       return { previousReview, optimisticId };
     },
@@ -50,12 +48,12 @@ export const useAddMyBookReview = (myBookId: number, isbn?: string) => {
       }
     },
     onSuccess: (newReview, _vars, _context) => {
-      queryClient.setQueryData<MyBookReview>(reviewDetailQueryKey, newReview);
+      queryClient.setQueryData<MyBookReviewDTO>(reviewDetailQueryKey, newReview);
 
-      queryClient.invalidateQueries({ queryKey: queryKeys.myBook.detail(myBookId).queryKey, refetchType: 'all' });
+      queryClient.invalidateQueries({ queryKey: myBookQueryKeys.detail(myBookId).queryKey, refetchType: 'all' });
 
       if (isbn) {
-        queryClient.invalidateQueries({ queryKey: queryKeys.myBook.exist(isbn).queryKey, refetchType: 'all' });
+        queryClient.invalidateQueries({ queryKey: myBookQueryKeys.exist(isbn).queryKey, refetchType: 'all' });
       }
     },
     onSettled: (_data, _err, _vars, context) => {

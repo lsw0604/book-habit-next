@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
-import { bookService } from '@/entities/book';
-import { getQueryClient, queryKeys } from '@/shared/query';
+import { bookQueryKeys, bookService } from '@/entities/book';
+import { getQueryClient } from '@/shared/query';
 import { SearchedBookDetail } from '@/widgets/searched-book-detail';
 
 export default async function BookPage({
@@ -13,7 +13,7 @@ export default async function BookPage({
   const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: queryKeys.book.isbn(isbn).queryKey,
+    queryKey: bookQueryKeys.isbn(isbn).queryKey,
     queryFn: () => fetchBookDetail(isbn),
   });
 

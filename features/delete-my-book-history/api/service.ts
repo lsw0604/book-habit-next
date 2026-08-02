@@ -1,12 +1,11 @@
-import { MyBookHistoryDTO } from "@/entities/my-book-history";
 import { API_ENDPOINTS, apiClient } from "@/shared/api";
 
-export const deleteMyBookHistoryService = {
-  deleteMyBookHistory: async (myBookHistoryId: number) => {
-    const response = await apiClient.delete<MyBookHistoryDTO>(
-      `${API_ENDPOINTS.MY_BOOK_HISTORY}/${myBookHistoryId}`
-    );
+export interface DeleteMyBookHistoryService {
+  deleteMyBookHistory: (id: number) => Promise<void>;
+}
 
-    return response;
+export const deleteMyBookHistoryService: DeleteMyBookHistoryService = {
+  deleteMyBookHistory: async (id: number) => {
+    await apiClient.delete<void>(`${API_ENDPOINTS.MY_BOOK_HISTORY}/${id}`);
   },
 }

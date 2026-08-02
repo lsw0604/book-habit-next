@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import type { APIError } from '@/shared/api';
-import { queryKeys } from '@/shared/query/keys';
-import { type MyBookHistory, toMyBookHistoryViewModel } from '@/entities/my-book-history';
+import { type MyBookHistory, type MyBookHistoryDTO, myBookHistoryQueryKeys } from '@/entities/my-book-history';
 
 import { updateMyBookHistoryService } from '../api';
 import type { UpdateMyBookHistoryPayload } from '../schema';
@@ -12,20 +11,17 @@ import type { UpdateMyBookHistoryPayload } from '../schema';
 export const useUpdateMyBookHistory = (myBookId: number) => {
   const { updateMyBookHistory } = updateMyBookHistoryService;
   const queryClient = useQueryClient();
-  const historiesQueryKey = queryKeys.myBookHistory.list(myBookId).queryKey;
+  const historiesQueryKey = myBookHistoryQueryKeys.list(myBookId).queryKey;
 
   return useMutation<
-    MyBookHistory,
+    MyBookHistoryDTO,
     APIError,
     UpdateMyBookHistoryPayload,
     {
       previousHistories: MyBookHistory[];
     }
   >({
-    mutationFn: async (payload: UpdateMyBookHistoryPayload) => {
-      const response = await updateMyBookHistory(payload);
-      return toMyBookHistoryViewModel(response);
-    },
+    mutationFn: async (payload: UpdateMyBookHistoryPayload) => await updateMyBookHistory(payload),
     onMutate: async (payload: UpdateMyBookHistoryPayload) => {
       await queryClient.cancelQueries({ queryKey: historiesQueryKey });
 

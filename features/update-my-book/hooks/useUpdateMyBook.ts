@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { APIError } from "@/shared/api";
-import { queryKeys } from "@/shared/query/keys";
-import { MyBookDetail, toMyBookDetailViewModel } from "@/entities/my-book";
+import { type MyBookDetail, type MyBookDetailDTO, myBookQueryKeys } from "@/entities/my-book";
 
 import { updateMyBookService, UpdateMyBookPayload } from "../api";
 
@@ -11,20 +10,17 @@ export const useUpdateMyBook = () => {
   const queryClient = useQueryClient();
 
   return useMutation<
-    MyBookDetail, 
-    APIError, 
+    MyBookDetailDTO,
+    APIError,
     UpdateMyBookPayload,
     {
       previousDetail: MyBookDetail | null | undefined;
       id: number;
     }
   >({
-    mutationFn: async (payload) => {
-      const myBook = await updateMyBook(payload)
-      return toMyBookDetailViewModel(myBook);
-    },
+    mutationFn: async (payload) => await updateMyBook(payload),
     onMutate: async (payload) => {
-      const detailKey = queryKeys.myBook.detail(payload.id).queryKey;
+      const detailKey = myBookQueryKeys.detail(payload.id).queryKey;
       await queryClient.cancelQueries({ queryKey: detailKey });
 
       const previousDetail = queryClient.getQueryData<MyBookDetail>(detailKey);
@@ -46,7 +42,7 @@ export const useUpdateMyBook = () => {
       if (context) {
         const { id, previousDetail } = context;
         queryClient.setQueryData(
-          queryKeys.myBook.detail(id).queryKey,
+          myBookQueryKeys.detail(id).queryKey,
           previousDetail
         );
       }
@@ -54,11 +50,11 @@ export const useUpdateMyBook = () => {
     onSuccess: (data) => {
       const { id, book } = data;
 
-      queryClient.invalidateQueries({ queryKey: queryKeys.myBook.list._def })
-      queryClient.setQueryData(queryKeys.myBook.detail(id).queryKey, data)
+      queryClient.invalidateQueries({ queryKey: myBookQueryKeys.list._def })
+      queryClient.setQueryData(myBookQueryKeys.detail(id).queryKey, data)
 
       if (book?.isbn) {
-        queryClient.setQueryData(queryKeys.myBook.exist(book.isbn).queryKey, data);
+        queryClient.setQueryData(myBookQueryKeys.exist(book.isbn).queryKey, data);
       }
     }
   })

@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { MyBookDetail, toMyBookDetailViewModel } from "@/entities/my-book";
-import { APIError } from "@/shared/api";
-import { queryKeys } from "@/shared/query/keys";
+import type { APIError } from "@/shared/api";
+import { myBookQueryKeys, type MyBookDetail, toMyBookDetailViewModel } from "@/entities/my-book";
 
 import { AddFinishedPayload, addMyBookService } from "../api"
 
@@ -21,7 +20,7 @@ export const useAddWantToRead = () => {
       return toMyBookDetailViewModel(rawMyBook);
     },
     onMutate: async (isbn) => {
-      const existKey = queryKeys.myBook.exist(isbn).queryKey;
+      const existKey = myBookQueryKeys.exist(isbn).queryKey;
       await queryClient.cancelQueries({ queryKey: existKey });
 
       const previous = queryClient.getQueryData<MyBookDetail | null>(existKey);
@@ -30,12 +29,12 @@ export const useAddWantToRead = () => {
     },
     onError: (_err, isbn, context) => {
       if (context) {
-        queryClient.setQueryData(queryKeys.myBook.exist(isbn).queryKey, context.previous);
+        queryClient.setQueryData(myBookQueryKeys.exist(isbn).queryKey, context.previous);
       }
     },
     onSuccess: (response, isbn) => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.myBook.list._def })
-      queryClient.setQueryData(queryKeys.myBook.exist(isbn).queryKey, response);
+      queryClient.invalidateQueries({ queryKey: myBookQueryKeys.list._def })
+      queryClient.setQueryData(myBookQueryKeys.exist(isbn).queryKey, response);
     }
   })
 }
@@ -55,7 +54,7 @@ export const useAddReadingBook = () => {
       return toMyBookDetailViewModel(rawMyBook);
     },
     onMutate: async (isbn) => {
-      const existKey = queryKeys.myBook.exist(isbn).queryKey;
+      const existKey = myBookQueryKeys.exist(isbn).queryKey;
       await queryClient.cancelQueries({ queryKey: existKey });
 
       const previous = queryClient.getQueryData<MyBookDetail | null>(existKey);
@@ -64,12 +63,12 @@ export const useAddReadingBook = () => {
     },
     onError: (_err, isbn, context) => {
       if (context) {
-        queryClient.setQueryData(queryKeys.myBook.exist(isbn).queryKey, context.previous);
+        queryClient.setQueryData(myBookQueryKeys.exist(isbn).queryKey, context.previous);
       }
     },
     onSuccess: (response, isbn) => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.myBook.list._def })
-      queryClient.setQueryData(queryKeys.myBook.exist(isbn).queryKey, response);
+      queryClient.invalidateQueries({ queryKey: myBookQueryKeys.list._def })
+      queryClient.setQueryData(myBookQueryKeys.exist(isbn).queryKey, response);
     }
   })
 }
@@ -89,7 +88,7 @@ export const useAddFinishedBook = () => {
       return toMyBookDetailViewModel(rawMyBook);
     },
     onMutate: async (payload) => {
-      const existKey = queryKeys.myBook.exist(payload.isbn).queryKey;
+      const existKey = myBookQueryKeys.exist(payload.isbn).queryKey;
       await queryClient.cancelQueries({ queryKey: existKey });
 
       const previous = queryClient.getQueryData<MyBookDetail | null>(existKey);
@@ -98,12 +97,12 @@ export const useAddFinishedBook = () => {
     },
     onError: (_err, payload, context) => {
       if (context) {
-        queryClient.setQueryData(queryKeys.myBook.exist(payload.isbn).queryKey, context.previous);
+        queryClient.setQueryData(myBookQueryKeys.exist(payload.isbn).queryKey, context.previous);
       }
     },
     onSuccess: (response, payload) => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.myBook.list._def })
-      queryClient.setQueryData(queryKeys.myBook.exist(payload.isbn).queryKey, response);
+      queryClient.invalidateQueries({ queryKey: myBookQueryKeys.list._def })
+      queryClient.setQueryData(myBookQueryKeys.exist(payload.isbn).queryKey, response);
     }
   })
 }

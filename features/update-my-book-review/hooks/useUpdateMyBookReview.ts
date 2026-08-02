@@ -3,10 +3,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   type MyBookReview,
   type MyBookReviewDTO,
-  toMyBookReviewViewModel,
+  myBookReviewQueryKeys,
 } from '@/entities/my-book-review';
+import { myBookQueryKeys } from '@/entities/my-book';
 import { APIError } from '@/shared/api';
-import { queryKeys } from '@/shared/query';
 
 import { updateMyBookReviewService } from '../api';
 import type { UpdateMyBookReviewType } from '../schema';
@@ -14,21 +14,18 @@ import type { UpdateMyBookReviewType } from '../schema';
 export const useUpdateMyBookReview = (myBookId: number, myBookReviewId: number) => {
   const { updateMyBookReview } = updateMyBookReviewService;
   const queryClient = useQueryClient();
-  const reviewDetailQueryKey = queryKeys.myBookReview.detail(myBookId).queryKey;
+  const reviewDetailQueryKey = myBookReviewQueryKeys.detail(myBookId).queryKey;
 
   return useMutation<
-    MyBookReview,
+    MyBookReviewDTO,
     APIError,
     UpdateMyBookReviewType,
     { previousReview: MyBookReview | undefined }
   >({
-    mutationFn: async (payload: UpdateMyBookReviewType) => {
-      const response: MyBookReviewDTO = await updateMyBookReview({
-        ...payload,
-        myBookReviewId,
-      });
-      return toMyBookReviewViewModel(response);
-    },
+    mutationFn: async (payload: UpdateMyBookReviewType) => await updateMyBookReview({
+      ...payload,
+      myBookReviewId,
+    }),
     onMutate: async (payload: UpdateMyBookReviewType) => {
       await queryClient.cancelQueries({ queryKey: reviewDetailQueryKey });
 
@@ -42,7 +39,6 @@ export const useUpdateMyBookReview = (myBookId: number, myBookReviewId: number) 
           updatedAt: new Date(),
         });
       }
-
       return { previousReview };
     },
     onError: (_err, _vars, context) => {
@@ -52,9 +48,9 @@ export const useUpdateMyBookReview = (myBookId: number, myBookReviewId: number) 
     },
     onSuccess: (updatedReview) => {
       // PATCH 성공 시 서버가 반환한 최신 데이터로 캐시를 동기화합니다 (추가 GET 요청 방지)
-      queryClient.setQueryData<MyBookReview>(reviewDetailQueryKey, updatedReview);
+      queryClient.setQueryData<MyBookReviewDTO>(reviewDetailQueryKey, updatedReview);
       queryClient.invalidateQueries({
-        queryKey: queryKeys.myBook.detail(myBookId).queryKey,
+        queryKey: myBookQueryKeys.detail(myBookId).queryKey,
       });
     },
   });
