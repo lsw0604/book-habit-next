@@ -13,4 +13,4 @@ export interface MyBookReview {
   };
 }
 
-export interface SerializedMyBookReview extends MyBookReviewDTO {}
+export type SerializedMyBookReview = MyBookReviewDTO;

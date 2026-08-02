@@ -2,11 +2,10 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import type { BookSummary } from '@/entities/book';
 import { type APIError, useApiStatus } from '@/shared/api';
-import { queryKeys } from '@/shared/query/keys';
 
 import type { BookSearchParams } from '../schema';
 import type { BookSearchsDTO } from '../api';
-import { bookSearchService } from '../api';
+import { bookSearchService, bookSearchQueryKeys } from '../api';
 import { toSummaryBookViewModel } from '../lib';
 
 export const useBookSearch = ({ query, size, sort, target, }: BookSearchParams) => {
@@ -17,7 +16,7 @@ export const useBookSearch = ({ query, size, sort, target, }: BookSearchParams) 
     APIError,
     BookSummary[]
   >({
-    queryKey: queryKeys.book.search({ query, size, sort, target }).queryKey,
+    queryKey: bookSearchQueryKeys.search({ query, size, sort, target }).queryKey,
     queryFn: ({ pageParam = 1 }) =>
       searchBook({
         query,

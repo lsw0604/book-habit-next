@@ -4,16 +4,16 @@ import { apiClient, API_ENDPOINTS } from '@/shared/api';
 
 import type { MyBooksDTO, MyBookDetailDTO } from './my-book.dto';
 
-export interface MyBookService {
-  getMyBook: (myBookId: number) => Promise<MyBookDetailDTO>;
-  getMyBooks: (payload: GetMyBooksPayload) => Promise<MyBooksDTO>;
-  findByIsbn: (isbn: string) => Promise<MyBookDetailDTO | null>;
-}
-
 export interface GetMyBooksPayload {
   page: number;
   status: string;
   order: string;
+}
+
+export interface MyBookService {
+  getMyBook: (myBookId: number) => Promise<MyBookDetailDTO>;
+  getMyBooks: (payload: GetMyBooksPayload) => Promise<MyBooksDTO>;
+  findByIsbn: (isbn: string) => Promise<MyBookDetailDTO | null>;
 }
 
 export const myBookService = {

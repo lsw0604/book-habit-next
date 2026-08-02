@@ -1,9 +1,8 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { APIError } from "@/shared/api";
-import { queryKeys } from "@/shared/query";
 
-import { myBookService, type MyBookDetailDTO } from "../api"
+import { myBookQueryKeys, myBookService, type MyBookDetailDTO } from "../api"
 import { toMyBookDetailViewModel } from "../lib";
 import type { MyBookDetail } from "../model";
 
@@ -12,14 +11,14 @@ export const useMyBookIsbn = (isbn: string) => {
   const queryClient = useQueryClient();
 
   return useQuery<MyBookDetailDTO | null, APIError, MyBookDetail | null>({
-    queryKey: queryKeys.myBook.exist(isbn).queryKey,
+    queryKey: myBookQueryKeys.exist(isbn).queryKey,
     queryFn: async () => {
       const response = await findByIsbn(isbn);
       if (!response) return null;
 
       // 💡 [Cache Seeding] 뷰모델 중복 변환 연산 없이 DTO 원본 id를 직접 참조하여 주입
       queryClient.setQueryData(
-        queryKeys.myBook.detail(response.id).queryKey,
+        myBookQueryKeys.detail(response.id).queryKey,
         response
       );
 

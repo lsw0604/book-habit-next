@@ -3,14 +3,13 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { toUserViewModel, type User } from '@/entities/user';
-import { queryKeys } from '@/shared/query';
 import type { APIError } from '@/shared/api';
 
-import { loginService } from '../api';
+import { loginQueryKeys, loginService } from '../api';
 
 export const useKakao = (code: string) =>
   useQuery<User, APIError>({
-    queryKey: queryKeys.auth.kakao(code).queryKey,
+    queryKey: loginQueryKeys.kakao(code).queryKey,
     queryFn: async () => {
       const response = await loginService.kakao(code);
       const { user } = response;
