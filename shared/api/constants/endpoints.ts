@@ -27,6 +27,3 @@ export const API_ENDPOINTS = {
     FIND_OR_CREATE: 'api/book/find-or-create',
   },
 } as const;
-
-export const MAX_RETRY_COUNT = 1;
-export const isClient = typeof window !== 'undefined';

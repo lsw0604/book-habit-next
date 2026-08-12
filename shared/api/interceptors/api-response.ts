@@ -1,98 +1,79 @@
-import { AxiosError, isAxiosError, type AxiosInstance } from 'axios';
+import {
+  AxiosError,
+  isAxiosError,
+  type AxiosInstance,
+  type InternalAxiosRequestConfig,
+} from 'axios';
 
-import type { ErrorDTO, CustomAxiosRequestConfig } from '../types';
+import { API_ENDPOINTS } from '../constants';
+import type { ErrorDTO } from '../types';
 
-interface InterceptorOptions<T> {
-  refreshFn: () => Promise<T>;
+interface InterceptorOptions {
+  refreshFn: () => Promise<void>;
   onRefreshFailed: (reason: string) => void;
-  extractToken: (response: T) => string | undefined;
 }
 
 let isRefreshing = false;
 
 let failedQueue: Array<{
-  resolve: (token: string) => void;
+  resolve: () => void;
   reject: (error: AxiosError) => void;
 }> = [];
 
-const processQueue = (
-  error: AxiosError | null,
-  token: string | null = null
-) => {
-  failedQueue.forEach(prom => {
+const processQueue = (error: AxiosError | null) => {
+  failedQueue.forEach(({ resolve, reject }) => {
     if (error) {
-      prom.reject(error);
-    } else if (token) {
-      prom.resolve(token);
+      reject(error);
+    } else {
+      resolve();
     }
   });
 
   failedQueue = [];
 };
 
-export const setupApiResponseInterceptor = <T>(
+export const setupApiResponseInterceptor = (
   instance: AxiosInstance,
-  options: InterceptorOptions<T>
+  options: InterceptorOptions
 ): number => {
-  const { refreshFn, onRefreshFailed, extractToken } = options;
+  const { refreshFn, onRefreshFailed } = options;
 
   const interceptorId = instance.interceptors.response.use(
     response => response,
     async (error: AxiosError<ErrorDTO>) => {
-      const originalRequest = error.config as CustomAxiosRequestConfig;
+      const originalRequest = error.config as
+        | InternalAxiosRequestConfig
+        | undefined;
 
       if (error.response?.status !== 401 || !originalRequest) {
         return Promise.reject(error);
       }
 
+      if (originalRequest.url === API_ENDPOINTS.AUTH.REFRESH) {
+        onRefreshFailed('Refresh API returned 401');
+        return Promise.reject(error);
+      }
+
       if (isRefreshing) {
-        return new Promise<string>((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
           failedQueue.push({ resolve, reject });
-        })
-          .then(token => {
-            if (originalRequest.headers) {
-              originalRequest.headers.Authorization = `Bearer ${token}`;
-            }
-            return instance(originalRequest);
-          })
-          .catch(err => Promise.reject(err));
+        }).then(() => instance(originalRequest));
       }
 
       isRefreshing = true;
 
-      if (originalRequest.url === '/api/auth/refresh') {
-        isRefreshing = false;
-        onRefreshFailed('Refresh API returned 401');
-        processQueue(error, null);
-        return Promise.reject(error);
-      }
-
       try {
-        const response: T = await refreshFn();
-        const newAccessToken = extractToken(response);
-
-        if (!newAccessToken) {
-          throw new Error('New accessToken could not be extracted.');
-        }
-
-        window.localStorage.setItem('accessToken', newAccessToken);
-
-        processQueue(null, newAccessToken);
-
-        if (originalRequest.headers) {
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        }
+        await refreshFn();
+        processQueue(null);
         return await instance(originalRequest);
       } catch (refreshError) {
-        if (isAxiosError<ErrorDTO>(refreshError)) {
-          processQueue(refreshError, null);
-        } else {
-          const genericError = new AxiosError(
-            'An unexpected error occurred during token refresh.'
-          );
-          processQueue(genericError, null);
-        }
+        const rejection = isAxiosError<ErrorDTO>(refreshError)
+          ? refreshError
+          : new AxiosError(
+              'An unexpected error occurred during token refresh.'
+            );
 
+        processQueue(rejection);
         onRefreshFailed('Refresh failed');
         return await Promise.reject(refreshError);
       } finally {

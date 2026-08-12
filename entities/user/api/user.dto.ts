@@ -12,7 +12,3 @@ export interface AccessDTO {
   user: UserDTO;
   isAuthenticated: boolean;
 }
-
-export interface RefreshDTO {
-  accessToken: string;
-}

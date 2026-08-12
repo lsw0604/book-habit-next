@@ -1,10 +1,10 @@
 import { API_ENDPOINTS, authClient } from "@/shared/api";
 
-import type { AccessDTO, RefreshDTO } from "./user.dto";
+import type { AccessDTO } from "./user.dto";
 
 export interface UserService {
   access: () => Promise<AccessDTO>;
-  refresh: () => Promise<RefreshDTO>;
+  refresh: () => Promise<void>;
 }
 
 export const userService: UserService = {
@@ -12,8 +12,7 @@ export const userService: UserService = {
     const response = await authClient.get<AccessDTO>(API_ENDPOINTS.AUTH.ACCESS)
     return response;
   },
-  refresh: async (): Promise<RefreshDTO> => {
-    const response = await authClient.post<RefreshDTO>(API_ENDPOINTS.AUTH.REFRESH)
-    return response;
+  refresh: async (): Promise<void> => {
+    await authClient.post<void>(API_ENDPOINTS.AUTH.REFRESH)
   }
 };
