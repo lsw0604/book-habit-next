@@ -1,20 +1,11 @@
-import { userSelector } from '@/entities/user';
-import { useAppSelector } from '@/shared/redux';
+import type { User } from '@/entities/user';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
-import { Skeleton } from '@/shared/ui/skeleton';
 
-export function HeaderProfile() {
-  const { user } = useAppSelector(userSelector);
+interface HeaderProfileProps {
+  user: User;
+}
 
-  if (!user) {
-    return (
-      <div className="flex items-center gap-2">
-        <Skeleton className="h-8 w-24 rounded-md" />
-        <Skeleton className="h-10 w-10 rounded-full" />
-      </div>
-    );
-  }
-
+export function HeaderProfile({ user }: HeaderProfileProps) {
   return (
     <div className="flex cursor-pointer items-center gap-2">
       <p className="text-sm font-medium text-gray-700">{user.name}님</p>

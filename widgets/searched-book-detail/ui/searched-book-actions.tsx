@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import { userSelector } from "@/entities/user"
-import { useAppSelector } from "@/shared/redux"
-import { SearchedBookDeactiveActions } from "./searched-book-deactive-action";
-import { SearchedBookActiveActions } from "./searched-book-active-actions";
+import { useSession } from '@/entities/user';
+
+import { SearchedBookActiveActions } from './searched-book-active-actions';
+import { SearchedBookDeactiveAction } from './searched-book-deactive-action';
 
 interface SearchedBookActionsProps {
   isbn: string;
 }
 
 export function SearchedBookActions({ isbn }: SearchedBookActionsProps) {
-  const { isAuthenticated } = useAppSelector(userSelector)
+  const { data: user } = useSession();
 
-  if (!isAuthenticated) return <SearchedBookDeactiveActions isbn={isbn} />
+  if (!user) return <SearchedBookDeactiveAction isbn={isbn} />;
 
   return <SearchedBookActiveActions isbn={isbn} />;
 }

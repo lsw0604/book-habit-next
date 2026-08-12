@@ -1,12 +1,12 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
+import { userQueryKeys } from '@/entities/user';
 import { useKakao } from '@/features/login';
-import { setUserState, serializeUser } from '@/entities/user';
-import { useAppDispatch } from '@/shared/redux';
 import { Button } from '@/shared/ui/button';
 import { Spinner } from '@/shared/ui/spinner';
 
@@ -15,17 +15,19 @@ export default function KakaoLoginPage({
 }: {
   searchParams: { code: string; state: string };
 }) {
-  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
   const router = useRouter();
 
-  const { data, isSuccess, isLoading, refetch, isError } = useKakao(code);
+  const { isSuccess, isLoading, refetch, isError } = useKakao(code);
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setUserState(serializeUser(data)));
+      queryClient.invalidateQueries({
+        queryKey: userQueryKeys.access.queryKey,
+      });
       router.push(state || '/search');
     }
-  }, [isSuccess, data, dispatch, router, state]);
+  }, [isSuccess, queryClient, router, state]);
 
   if (!code) {
     return (

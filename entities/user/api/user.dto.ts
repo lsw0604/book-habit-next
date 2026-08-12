@@ -10,5 +10,4 @@ export interface UserDTO {
 
 export interface AccessDTO {
   user: UserDTO;
-  isAuthenticated: boolean;
 }

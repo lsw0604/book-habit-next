@@ -1,4 +1,5 @@
 import { EventEmitter } from "@/shared/events";
+
 import { User } from "./user.model";
 
 export type UserEventData = {

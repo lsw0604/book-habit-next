@@ -19,7 +19,3 @@ export interface User {
   gender: Gender;
   provider: Provider;
 }
-
-export interface SerializedUser extends Omit<User, 'birthday'> {
-  birthday: string | null;
-}

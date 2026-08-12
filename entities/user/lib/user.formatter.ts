@@ -15,6 +15,4 @@ export const formatProvider = (provider: string) => {
   return Provider.UNKNOWN; 
 }
 
-export const formatProfile = (profile: string | null): string => {
-  return profile ?? DEFAULT_USER_IMAGE;
-}
+export const formatProfile = (profile: string | null): string => profile ?? DEFAULT_USER_IMAGE
