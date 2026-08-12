@@ -20,6 +20,11 @@ const ViewMyBookHistoryModal = lazy(() =>
     default: module.ViewMyBookHistoryModal,
   }))
 );
+const ViewMyBookReviewModal = lazy(() =>
+  import('@/features/view-my-book-review').then(module => ({
+    default: module.ViewMyBookReviewModal,
+  }))
+);
 const AddMyBookHistoryModal = lazy(() =>
   import('@/features/add-my-book-history').then(module => ({
     default: module.AddMyBookHistoryModal,
@@ -53,6 +58,11 @@ const DeleteMyBookModal = lazy(() =>
 const DeleteMyBookHistoryModal = lazy(() =>
   import('@/features/delete-my-book-history').then(module => ({
     default: module.DeleteMyBookHistoryModal,
+  }))
+);
+const DeleteMyBookReviewModal = lazy(() =>
+  import('@/features/delete-my-book-review').then(module => ({
+    default: module.DeleteMyBookReviewModal,
   }))
 );
 
@@ -89,6 +99,9 @@ export function ModalManager() {
       case 'VIEW_MY_BOOK_HISTORY': {
         return <ViewMyBookHistoryModal {...props} />;
       }
+      case 'VIEW_MY_BOOK_REVIEW': {
+        return <ViewMyBookReviewModal {...props} />;
+      }
       case 'ADD_MY_BOOK_HISTORY': {
         return <AddMyBookHistoryModal {...props} />;
       }
@@ -109,6 +122,9 @@ export function ModalManager() {
       }
       case 'DELETE_MY_BOOK_HISTORY': {
         return <DeleteMyBookHistoryModal {...props} />;
+      }
+      case 'DELETE_MY_BOOK_REVIEW': {
+        return <DeleteMyBookReviewModal {...props} />;
       }
       default:
         return null;
