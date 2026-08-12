@@ -1,52 +1,71 @@
 'use client';
 
-import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
-import { useMyBookIsbn } from "@/entities/my-book";
-import { myBookReviewService } from "@/entities/my-book-review";
-import { myBookHistoryService } from "@/entities/my-book-history";
+import { useModal } from '@/entities/modal';
+import { useMyBookIsbn } from '@/entities/my-book';
+import {
+  myBookHistoryQueryKeys,
+  myBookHistoryService,
+} from '@/entities/my-book-history';
+import {
+  myBookReviewQueryKeys,
+  myBookReviewService,
+} from '@/entities/my-book-review';
+import { AddMyBookAction } from '@/features/add-my-book';
+import { UpdateMyBookAction } from '@/features/update-my-book';
 
-import { queryKeys } from "@/shared/query/keys";
-
-import { SearchedBookAddAction } from "./searched-book-add-action";
-import { SearchedBookUpdateAction } from "./searched-book-update-action";
+import { SearchedBookActiveActionsError } from './searched-book-active-actions-error';
+import { SearchedBookActiveActionsLoader } from './searched-book-active-actions-loader';
 
 interface SearchedBookActiveActionsProps {
   isbn: string;
 }
 
-export function SearchedBookActiveActions({ isbn }: SearchedBookActiveActionsProps) {
+export function SearchedBookActiveActions({
+  isbn,
+}: SearchedBookActiveActionsProps) {
   const queryClient = useQueryClient();
-  const { data, isLoading, isError } = useMyBookIsbn(isbn);
+  const { data, isLoading, isError, error, refetch } = useMyBookIsbn(isbn);
+  const { open } = useModal();
   const myBookId = data?.id;
 
   useEffect(() => {
-    // 임시 낙관적 ID(예: Date.now() 타임스탬프)는 100,000,000보다 큽니다.
-    // 진짜 DB 일련번호(auto_increment)일 때만 prefetch를 수행합니다.
-    const isRealDbId = myBookId && myBookId < 100_000_000;
+    if (!myBookId) return;
 
-    if (isRealDbId) {
-      queryClient.prefetchQuery({
-        queryKey: queryKeys.myBookReview.detail(myBookId).queryKey,
-        queryFn: () => myBookReviewService.getMyBookReview(myBookId),
-        staleTime: 10 * 60 * 1000,
-      });
+    queryClient.prefetchQuery({
+      queryKey: myBookReviewQueryKeys.detail(myBookId).queryKey,
+      queryFn: () => myBookReviewService.getMyBookReview(myBookId),
+      staleTime: 10 * 60 * 1000,
+    });
 
-      queryClient.prefetchQuery({
-        queryKey: queryKeys.myBookHistory.list(myBookId).queryKey,
-        queryFn: () => myBookHistoryService.getMyBookHistories(myBookId),
-        staleTime: 10 * 60 * 1000,
-      });
-    }
+    queryClient.prefetchQuery({
+      queryKey: myBookHistoryQueryKeys.list(myBookId).queryKey,
+      queryFn: () => myBookHistoryService.getMyBookHistories(myBookId),
+      staleTime: 10 * 60 * 1000,
+    });
   }, [myBookId, queryClient]);
 
-  if (isLoading) return <>loading</>;
-  if (isError) return <>error</>
+  if (isLoading) return <SearchedBookActiveActionsLoader />;
+  if (isError) {
+    return (
+      <SearchedBookActiveActionsError error={error} onRetry={() => refetch()} />
+    );
+  }
 
-  if (!data) return <SearchedBookAddAction isbn={isbn} />
+  if (!data) return <AddMyBookAction isbn={isbn} />;
 
-  return (
-    <SearchedBookUpdateAction data={data} />
-  );
+  // eslint-disable-next-line no-underscore-dangle -- _count is the API's field name
+  const hasReview = data._count.review > 0;
+
+  const handleReviewClick = () => {
+    if (hasReview) {
+      open('UPDATE_MY_BOOK_REVIEW', { myBookId: data.id });
+    } else {
+      open('ADD_MY_BOOK_REVIEW', { myBookId: data.id, isbn: data.book.isbn });
+    }
+  };
+
+  return <UpdateMyBookAction data={data} onReviewClick={handleReviewClick} />;
 }
