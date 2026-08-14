@@ -1,5 +1,6 @@
-import type { AxiosRequestConfig } from 'axios';
 import { cookies } from 'next/headers';
+
+import type { RequestOptions } from '../types';
 
 /**
  * 서버 컴포넌트에서 인증이 필요한 API를 호출할 때 사용한다.
@@ -13,12 +14,10 @@ import { cookies } from 'next/headers';
  * ⚠️ 이 모듈은 `@/shared/api` 배럴에 포함하지 않는다.
  *    클라이언트 컴포넌트가 `next/headers`를 끌어오면 빌드가 깨진다.
  */
-export const withServerAuth = (
-  config?: AxiosRequestConfig
-): AxiosRequestConfig => ({
-  ...config,
+export const withServerAuth = (options?: RequestOptions): RequestOptions => ({
+  ...options,
   headers: {
-    ...config?.headers,
+    ...options?.headers,
     Cookie: cookies().toString(),
   },
 });

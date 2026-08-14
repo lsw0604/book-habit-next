@@ -1,8 +1,6 @@
 import { stringify } from 'querystring';
 
-import type { AxiosRequestConfig } from 'axios';
-
-import { apiClient, API_ENDPOINTS } from '@/shared/api';
+import { apiClient, API_ENDPOINTS, type RequestOptions } from '@/shared/api';
 
 import type { MyBooksDTO, MyBookDetailDTO } from './my-book.dto';
 
@@ -13,44 +11,44 @@ export interface GetMyBooksPayload {
 }
 
 /**
- * config는 서버 컴포넌트에서 쿠키를 실어 보내기 위한 통로다.
+ * options는 서버 컴포넌트에서 쿠키를 실어 보내기 위한 통로다.
  * @see shared/api/server/withServerAuth
  */
 export interface MyBookService {
   getMyBook: (
     myBookId: number,
-    config?: AxiosRequestConfig
+    options?: RequestOptions
   ) => Promise<MyBookDetailDTO>;
   getMyBooks: (
     payload: GetMyBooksPayload,
-    config?: AxiosRequestConfig
+    options?: RequestOptions
   ) => Promise<MyBooksDTO>;
   findByIsbn: (
     isbn: string,
-    config?: AxiosRequestConfig
+    options?: RequestOptions
   ) => Promise<MyBookDetailDTO | null>;
 }
 
 export const myBookService: MyBookService = {
-  getMyBook: async (myBookId, config) => {
+  getMyBook: async (myBookId, options) => {
     const response = await apiClient.get<MyBookDetailDTO>(
       `${API_ENDPOINTS.MY_BOOK.DEFAULT}/${myBookId}`,
-      config
+      options
     );
     return response;
   },
-  getMyBooks: async (payload, config) => {
+  getMyBooks: async (payload, options) => {
     const queryString = stringify({ ...payload });
     const response = await apiClient.get<MyBooksDTO>(
       `${API_ENDPOINTS.MY_BOOK.DEFAULT}?${queryString}`,
-      config
+      options
     );
     return response;
   },
-  findByIsbn: async (isbn, config) => {
+  findByIsbn: async (isbn, options) => {
     const response = await apiClient.get<MyBookDetailDTO | null>(
       `${API_ENDPOINTS.MY_BOOK.DEFAULT}/is-exist/${isbn}`,
-      config
+      options
     );
     return response;
   },
