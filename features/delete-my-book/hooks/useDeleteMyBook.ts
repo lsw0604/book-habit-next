@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { APIError } from "@/shared/api";
-import { myBookQueryKeys, type MyBookDetail } from "@/entities/my-book";
+import { myBookQueryKeys, type MyBookDetailDTO } from "@/entities/my-book";
 import { myBookReviewQueryKeys } from "@/entities/my-book-review";
 import { myBookHistoryQueryKeys } from "@/entities/my-book-history";
 
@@ -16,7 +16,7 @@ export const useDeleteMyBook = () => {
     APIError,
     number,
     {
-      previousDetail: MyBookDetail | null | undefined;
+      previousDetail: MyBookDetailDTO | null | undefined;
       isbn?: string;
     }
   >({
@@ -25,12 +25,13 @@ export const useDeleteMyBook = () => {
       const detailKey = myBookQueryKeys.detail(id).queryKey;
       await queryClient.cancelQueries({ queryKey: detailKey });
 
-      const previousDetail = queryClient.getQueryData<MyBookDetail>(detailKey);
+      const previousDetail =
+        queryClient.getQueryData<MyBookDetailDTO>(detailKey);
 
       let isbn = previousDetail?.book.isbn;
 
       if (!isbn) {
-        const existQueries = queryClient.getQueriesData<MyBookDetail>({
+        const existQueries = queryClient.getQueriesData<MyBookDetailDTO>({
           queryKey: myBookQueryKeys.exist._def
         })
         const found = existQueries.find(([_, data]) => data?.id === id);
