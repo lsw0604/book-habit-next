@@ -2,26 +2,14 @@
 
 import { useSearchParams } from 'next/navigation';
 
-import { MyBookStatus } from '@/entities/my-book';
+import { parseFilterMyBookParams } from '../lib';
+import type { FilterMyBookType } from '../schema';
 
-import { FilterMyBookOrder } from '../model';
-import { filterMyBookSchema } from '../schema';
-
-export const useFilterMyBookParams = (): {
-  order: FilterMyBookOrder;
-  status: 'ALL' | MyBookStatus;
-} => {
+export const useFilterMyBookParams = (): FilterMyBookType => {
   const searchParams = useSearchParams();
-  const params = {
+
+  return parseFilterMyBookParams({
     order: searchParams.get('order'),
-    status: searchParams.get('status') || 'ALL',
-  };
-
-  const result = filterMyBookSchema.safeParse(params);
-
-  if (!result.success) {
-    return { order: FilterMyBookOrder.desc, status: 'ALL' };
-  }
-
-  return result.data;
+    status: searchParams.get('status'),
+  });
 };
