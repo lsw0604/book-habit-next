@@ -15,6 +15,8 @@ const BOARD_COLUMNS: readonly MyBookStatus[] = [
 /**
  * PC 전용 칸반 보드.
  * 상태별로 독립된 컬럼을 두므로 필터의 status는 사용하지 않고 order만 반영한다.
+ *
+ * 높이는 AppShell의 main이 확정해 주므로 flex 체인만으로 충분하다.
  */
 export function MyBookBoard() {
   const { order } = useFilterMyBookParams();

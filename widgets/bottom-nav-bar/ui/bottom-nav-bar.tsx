@@ -19,7 +19,7 @@ export function BottomNavBar() {
   return (
     <nav
       role="navigation"
-      className="fixed bottom-0 z-50 w-full bg-gradient-to-r from-white to-gray-50 shadow-lg"
+      className="w-full shrink-0 bg-gradient-to-r from-white to-gray-50 shadow-lg"
     >
       <ul className="flex h-16 w-full cursor-pointer">
         {BOTTOM_NAVIGATION_ITEMS.map(option => (

@@ -25,7 +25,7 @@ function HeaderStatus() {
 
 export function HeaderBar() {
   return (
-    <header className="fixed top-0 z-50 h-16 w-screen border-b bg-background">
+    <header className="h-16 w-full shrink-0 border-b bg-background">
       <nav className="container flex h-full w-full items-center justify-between">
         <Link href="/" className="text-lg font-bold text-foreground">
           Book Habit

@@ -1,8 +1,8 @@
-import { useQueryParams } from '@/shared/hooks';
 import {
   bookSearchParamsSchema,
   BookSearchItemLoader,
 } from '@/features/book-search';
+import { useQueryParams } from '@/shared/hooks';
 
 import { BookSearchListGrid } from './layout';
 
@@ -10,7 +10,7 @@ export function BookSearchListLoader() {
   const { size: length } = useQueryParams(bookSearchParamsSchema);
 
   return (
-    <div className="w-full h-full overflow-scroll scrollbar-none">
+    <div className="w-full">
       <BookSearchListGrid className="pb-4">
         {Array.from({ length }).map((_, index) => (
           // eslint-disable-next-line react/no-array-index-key

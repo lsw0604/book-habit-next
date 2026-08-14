@@ -1,11 +1,4 @@
-'use client';
-
-import dynamic from 'next/dynamic';
-import { usePathname } from 'next/navigation';
-
-import { cn } from '@/shared/utils';
-import { BottomNavBar } from '@/widgets/bottom-nav-bar';
-import { HeaderBar } from '@/widgets/header-bar';
+import type { Metadata } from 'next';
 
 import {
   QueryProvider,
@@ -13,41 +6,31 @@ import {
   AuthProvider,
   ApiProvider,
 } from './_providers';
+import { AppShell } from './_shell';
 
 import './global.css';
 
-const ModalRoot = dynamic(
-  () => import('@/widgets/modal-root').then(module => module.ModalRoot),
-  { ssr: false }
-);
+export const metadata: Metadata = {
+  title: {
+    default: '책벌래',
+    template: '%s | 책벌래',
+  },
+  description: '부담없이 기록하는 독서기록장',
+};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-
   return (
-    <html lang="ko" className="scrollbar-none">
+    <html lang="ko">
       <body>
         <ReduxProvider>
           <QueryProvider>
             <ApiProvider>
               <AuthProvider>
-                <ModalRoot />
-                <div id="root-toast" />
-                <div id="root-modal" />
-                <HeaderBar />
-                <main
-                  className={cn(
-                    'min-h-screen box-border flex flex-col',
-                    pathname !== '/' && 'py-16'
-                  )}
-                >
-                  {children}
-                </main>
-                <BottomNavBar />
+                <AppShell>{children}</AppShell>
               </AuthProvider>
             </ApiProvider>
           </QueryProvider>

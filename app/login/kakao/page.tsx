@@ -46,7 +46,7 @@ export default function KakaoLoginPage({
   }
 
   return (
-    <section className="w-full h-screen px-4 flex justify-center items-center">
+    <section className="flex w-full flex-1 items-center justify-center px-4">
       {isLoading && (
         <div className="flex flex-col items-center p-1 pb-4 rounded-lg border border-gray-300 shadow-md">
           {/* TODO Alert Component */}

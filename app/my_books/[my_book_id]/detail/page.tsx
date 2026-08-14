@@ -1,28 +1,29 @@
-import MyBookComment from './_components/my-book-comments';
-import MyBookDetail from './_components/my-book-detail';
-import MyBookHistory from './_components/my-book-history';
-import ClientWrapper from '@/components/common/client-wrapper';
+import { ClientWrapper } from '@/shared/ui/client-wrapper';
+import { PageContainer } from '@/shared/ui/page-container';
+import { MyBookDetail } from '@/widgets/my-book-detail';
+import { MyBookHistoryDetail } from '@/widgets/my-book-history-detail';
+import { MyBookReviewDetail } from '@/widgets/my-book-review-detail';
 
-export default async function MyBookDetailPage({
+export default function MyBookDetailPage({
   params,
 }: {
   params: {
-    my_book_id: number;
+    my_book_id: string;
   };
 }) {
-  const myBookId = params.my_book_id;
+  const myBookId = Number(params.my_book_id);
 
   return (
-    <div className="w-full h-full p-2 overflow-scroll scrollbar-none">
+    <PageContainer className="p-2">
       <ClientWrapper>
         <MyBookDetail myBookId={myBookId} />
       </ClientWrapper>
       <ClientWrapper>
-        <MyBookComment myBookId={myBookId} />
+        <MyBookHistoryDetail myBookId={myBookId} />
       </ClientWrapper>
       <ClientWrapper>
-        <MyBookHistory myBookId={myBookId} />
+        <MyBookReviewDetail myBookId={myBookId} />
       </ClientWrapper>
-    </div>
+    </PageContainer>
   );
 }

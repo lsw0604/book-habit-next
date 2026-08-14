@@ -8,8 +8,8 @@ import { PageContainer } from '@/shared/ui/page-container'; // 공통 페이지 
 
 export default function NotFound() {
   return (
-    <PageContainer>
-      <div className="w-full h-full flex flex-col items-center justify-center p-4">
+    <PageContainer fitViewport>
+      <div className="flex w-full flex-1 flex-col items-center justify-center p-4">
         {/* 메인 콘텐츠 카드 */}
         <div className="bg-white rounded-lg shadow-xl p-8 max-w-3xl w-full flex flex-col-reverse md:flex-row items-center justify-center gap-8">
           {/* 왼쪽: 404 숫자 및 텍스트 */}

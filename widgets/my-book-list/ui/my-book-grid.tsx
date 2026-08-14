@@ -45,5 +45,10 @@ export function MyBookGrid() {
     );
   };
 
-  return <div className="flex-1 flex flex-col">{renderContent()}</div>;
+  // 페이지가 fitViewport라 그리드가 자체 스크롤을 갖는다
+  return (
+    <div className="flex min-h-0 flex-1 flex-col overflow-y-auto scrollbar-none">
+      {renderContent()}
+    </div>
+  );
 }

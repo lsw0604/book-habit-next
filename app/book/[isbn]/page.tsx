@@ -2,6 +2,7 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
 import { bookQueryKeys, bookService } from '@/entities/book';
 import { getQueryClient } from '@/shared/query';
+import { PageContainer } from '@/shared/ui/page-container';
 import { SearchedBookDetail } from '@/widgets/searched-book-detail';
 
 export default async function BookPage({
@@ -20,8 +21,10 @@ export default async function BookPage({
   const dehydration = dehydrate(queryClient);
 
   return (
-    <HydrationBoundary state={dehydration}>
-      <SearchedBookDetail isbn={isbn} />
-    </HydrationBoundary>
+    <PageContainer>
+      <HydrationBoundary state={dehydration}>
+        <SearchedBookDetail isbn={isbn} />
+      </HydrationBoundary>
+    </PageContainer>
   );
 }
