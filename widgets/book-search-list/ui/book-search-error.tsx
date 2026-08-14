@@ -1,27 +1,25 @@
-import { isAxiosError, AxiosError } from 'axios';
 import { AlertCircle, RotateCw } from 'lucide-react';
 
+import { APIError } from '@/shared/api';
 import { Button } from '@/shared/ui/button';
 
 interface BookSearchErrorProps {
-  error: Error | AxiosError;
+  error: Error;
   onRetry?: () => void;
 }
 
-const getErrorMessage = (error: Error | AxiosError) => {
-  if (isAxiosError(error)) {
-    if (error.response) {
-      return {
-        main: '요청을 처리하는 중 문제가 발생했습니다.',
-        sub: '잠시 후 다시 시도해주세요.',
-      };
-    }
-    if (error.request) {
-      return {
-        main: '서버에서 응답이 없습니다.',
-        sub: '네트워크 연결을 확인해주세요.',
-      };
-    }
+/** 네트워크 실패도 래퍼가 APIError로 정규화하므로 여기서 axios를 알 필요가 없다 */
+const getErrorMessage = (error: Error) => {
+  if (error instanceof APIError) {
+    return error.isNetworkError
+      ? {
+          main: '서버에서 응답이 없습니다.',
+          sub: '네트워크 연결을 확인해주세요.',
+        }
+      : {
+          main: '요청을 처리하는 중 문제가 발생했습니다.',
+          sub: '잠시 후 다시 시도해주세요.',
+        };
   }
   return {
     main: '알 수 없는 오류가 발생했습니다.',

@@ -1,4 +1,3 @@
-import { isAxiosError } from 'axios';
 import { AlertCircle, RotateCw } from 'lucide-react';
 
 import { APIError } from '@/shared/api';
@@ -9,10 +8,8 @@ interface SearchedBookActiveActionsErrorProps {
   onRetry?: () => void;
 }
 
+/** 네트워크 실패도 래퍼가 APIError로 정규화하므로 여기서 axios를 알 필요가 없다 */
 const getErrorMessage = (error: Error) => {
-  if (isAxiosError(error) && !error.response) {
-    return '서버에서 응답이 없습니다.\n네트워크 연결을 확인해주세요.';
-  }
   if (error instanceof APIError) {
     return error.message;
   }
