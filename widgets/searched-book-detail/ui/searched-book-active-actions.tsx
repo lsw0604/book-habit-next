@@ -3,7 +3,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-import { useModal } from '@/entities/modal';
 import { useMyBookIsbn } from '@/entities/my-book';
 import {
   myBookHistoryQueryKeys,
@@ -28,7 +27,6 @@ export function SearchedBookActiveActions({
 }: SearchedBookActiveActionsProps) {
   const queryClient = useQueryClient();
   const { data, isLoading, isError, error, refetch } = useMyBookIsbn(isbn);
-  const { open } = useModal();
   const myBookId = data?.id;
 
   useEffect(() => {
@@ -56,16 +54,5 @@ export function SearchedBookActiveActions({
 
   if (!data) return <AddMyBookAction isbn={isbn} />;
 
-  // eslint-disable-next-line no-underscore-dangle -- _count is the API's field name
-  const hasReview = data._count.review > 0;
-
-  const handleReviewClick = () => {
-    if (hasReview) {
-      open('UPDATE_MY_BOOK_REVIEW', { myBookId: data.id });
-    } else {
-      open('ADD_MY_BOOK_REVIEW', { myBookId: data.id, isbn: data.book.isbn });
-    }
-  };
-
-  return <UpdateMyBookAction data={data} onReviewClick={handleReviewClick} />;
+  return <UpdateMyBookAction data={data} />;
 }

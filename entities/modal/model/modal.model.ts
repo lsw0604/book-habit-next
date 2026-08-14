@@ -14,10 +14,6 @@ export interface ViewMyBookReviewProps {
   selectedReview: SerializedMyBookReview;
 }
 
-export interface AddMyBookWithReviewProps {
-  isbn: string;
-}
-
 export interface AddMyBookHistoryProps {
   selectedDate: string;
 }
@@ -60,7 +56,6 @@ export type ModalProps =
   | DeleteMyBookHistoryProps;
 
 export type ModalPropsMap = {
-  ADD_MY_BOOK_WITH_REVIEW: AddMyBookWithReviewProps;
   ADD_MY_BOOK_HISTORY: AddMyBookHistoryProps;
   ADD_MY_BOOK_REVIEW: AddMyBookReviewProps;
   VIEW_SEARCHED_BOOK: ViewSearchedBookProps;
@@ -78,7 +73,6 @@ export type ModalType = keyof ModalPropsMap;
 export type CloseModalState = { isOpen: false; type: null; props: undefined };
 
 export type OpenModalState =
-  | { isOpen: true; type: 'ADD_MY_BOOK_WITH_REVIEW'; props: AddMyBookWithReviewProps }
   | { isOpen: true; type: 'ADD_MY_BOOK_HISTORY'; props: AddMyBookHistoryProps }
   | { isOpen: true; type: 'ADD_MY_BOOK_REVIEW'; props: AddMyBookReviewProps }
   | { isOpen: true; type: 'VIEW_SEARCHED_BOOK'; props: ViewSearchedBookProps }

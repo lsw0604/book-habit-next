@@ -1,6 +1,8 @@
-import { useModal } from "@/entities/modal";
-
-import { useAddFinishedBook, useAddReadingBook, useAddWantToRead } from "./useAddMyBook";
+import {
+  useAddFinishedBook,
+  useAddReadingBook,
+  useAddWantToRead,
+} from './useAddMyBook';
 
 interface UseAddMyBookActionParams {
   isbn: string;
@@ -10,29 +12,23 @@ export const useAddMyBookAction = ({ isbn }: UseAddMyBookActionParams) => {
   const { mutate: mutateAddFinishedBook } = useAddFinishedBook();
   const { mutate: mutateAddReadingBook } = useAddReadingBook();
   const { mutate: mutateAddWantToRead } = useAddWantToRead();
-  const { open } = useModal();
-
-  const handleReadingClick = () => {
-    mutateAddReadingBook(isbn);
-  }
 
   const handleWantToReadClick = () => {
     mutateAddWantToRead(isbn);
-  }
+  };
 
-  const handleFinishedClick = (rating: number) => {
-    mutateAddFinishedBook({ rating, isbn })
-  }
+  const handleReadingClick = () => {
+    mutateAddReadingBook(isbn);
+  };
 
-  const handleModalClick = () => {
-    open('ADD_MY_BOOK_WITH_REVIEW', { isbn });
-  }
+  /** 별점은 서재에 담긴 뒤 '읽음' 상태에서 매긴다 */
+  const handleReadClick = () => {
+    mutateAddFinishedBook({ isbn, rating: 0 });
+  };
 
   return {
-    handleFinishedClick,
-    handleModalClick,
+    handleWantToReadClick,
     handleReadingClick,
-    handleWantToReadClick
-  }
-
-}
+    handleReadClick,
+  };
+};

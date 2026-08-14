@@ -35,11 +35,6 @@ const AddMyBookReviewModal = lazy(() =>
     default: module.AddMyBookReviewModal,
   }))
 );
-const AddMyBookWithReviewModal = lazy(() =>
-  import('@/features/add-my-book-with-review').then(module => ({
-    default: module.AddMyBookWithReviewModal
-  }))
-)
 const UpdateMyBookHistoryModal = lazy(() =>
   import('@/features/update-my-book-history').then(module => ({
     default: module.UpdateMyBookHistoryModal,
@@ -107,9 +102,6 @@ export function ModalManager() {
       }
       case 'ADD_MY_BOOK_REVIEW': {
         return <AddMyBookReviewModal {...props} />;
-      }
-      case 'ADD_MY_BOOK_WITH_REVIEW': {
-        return <AddMyBookWithReviewModal {...props} />;
       }
       case 'UPDATE_MY_BOOK_HISTORY': {
         return <UpdateMyBookHistoryModal {...props} />;

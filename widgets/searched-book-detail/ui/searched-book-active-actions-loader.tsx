@@ -1,12 +1,12 @@
-import { Skeleton } from "@/shared/ui/skeleton";
+import { Skeleton } from '@/shared/ui/skeleton';
 
 function SearchedBookActiveActionButtonSkeleton() {
   return (
-    <div className="flex flex-col items-center justify-center py-3 rounded-xl border border-gray-200 gap-1.5">
+    <div className="flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl border border-gray-200">
       <Skeleton className="w-[22px] h-[22px] rounded-full" />
       <Skeleton className="w-10 h-3" />
     </div>
-  )
+  );
 }
 
 export function SearchedBookActiveActionsLoader() {
@@ -17,15 +17,6 @@ export function SearchedBookActiveActionsLoader() {
         <SearchedBookActiveActionButtonSkeleton />
         <SearchedBookActiveActionButtonSkeleton />
       </div>
-      <div className="w-full p-4 rounded-xl border transition-all">
-        <div className="w-full h-[40px] grid grid-cols-5 place-items-center">
-          <Skeleton className="h-4 w-4 rounded-full" />
-          <Skeleton className="h-4 w-4 rounded-full" />
-          <Skeleton className="h-4 w-4 rounded-full" />
-          <Skeleton className="h-4 w-4 rounded-full" />
-          <Skeleton className="h-4 w-4 rounded-full" />
-        </div>
-      </div>
     </div>
-  )
+  );
 }
