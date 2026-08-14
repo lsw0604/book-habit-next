@@ -7,7 +7,6 @@ import {
   type MyBookStatus,
 } from '@/entities/my-book';
 import type { FilterMyBookOrder } from '@/features/filter-my-book';
-import { useApiStatus } from '@/shared/api';
 import { useInfiniteScroll } from '@/shared/hooks';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { Spinner } from '@/shared/ui/spinner';
@@ -37,10 +36,9 @@ function MyBookBoardColumnLoader() {
 export function MyBookBoardColumn({ status, order }: MyBookBoardColumnProps) {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     useMyBooks({ order, status });
-  const { isInitialized } = useApiStatus();
   const ref = useInfiniteScroll(fetchNextPage, hasNextPage);
 
-  const isShowLoader = !isInitialized || isLoading;
+  const isShowLoader = isLoading;
   const totalCount = data?.meta?.totalCount ?? 0;
 
   const renderContent = () => {

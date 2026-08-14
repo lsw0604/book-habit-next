@@ -1,7 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import type { APIError } from '@/shared/api';
-import { useApiStatus } from '@/shared/api';
 
 import { myBookQueryKeys, type GetMyBooksPayload, type MyBooksDTO, myBookService } from '../api';
 import { toMyBooksViewModel } from '../lib';
@@ -11,7 +10,6 @@ export const useMyBooks = (
   params: Pick<GetMyBooksPayload, 'order' | 'status'>
 ) => {
   const { getMyBooks } = myBookService;
-  const { isInitialized } = useApiStatus();
 
   return useInfiniteQuery<MyBooksDTO, APIError, MyBooks>({
     queryKey: myBookQueryKeys.list(params).queryKey,
@@ -24,7 +22,6 @@ export const useMyBooks = (
     },
     getNextPageParam: response => response.meta?.nextPage,
     initialPageParam: 1,
-    enabled: isInitialized,
     select: data => {
       if (data.pages.length === 0) {
         return {

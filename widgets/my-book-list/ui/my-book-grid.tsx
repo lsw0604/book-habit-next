@@ -2,7 +2,6 @@
 
 import { useMyBooks, MyBookItem } from '@/entities/my-book';
 import { useFilterMyBookParams } from '@/features/filter-my-book';
-import { useApiStatus } from '@/shared/api';
 import { useInfiniteScroll } from '@/shared/hooks';
 import { Spinner } from '@/shared/ui/spinner';
 import { cn } from '@/shared/utils/class-name';
@@ -15,12 +14,10 @@ export function MyBookGrid() {
   const { order, status } = useFilterMyBookParams();
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     useMyBooks({ order, status });
-  const { isInitialized } = useApiStatus();
   const ref = useInfiniteScroll(fetchNextPage, hasNextPage);
 
   const renderContent = () => {
-    // SSR로 hydration된 캐시가 있으면 초기화를 기다리지 않고 곧바로 렌더한다
-    if (!data && (!isInitialized || isLoading)) return <MyBookListLoader />;
+    if (isLoading) return <MyBookListLoader />;
     if (!data || data.books.length === 0) return <MyBookListEmpty />;
 
     return (

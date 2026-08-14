@@ -1,15 +1,14 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import type { BookSummary } from '@/entities/book';
-import { type APIError, useApiStatus } from '@/shared/api';
+import type { APIError } from '@/shared/api';
 
-import type { BookSearchParams } from '../schema';
 import type { BookSearchsDTO } from '../api';
 import { bookSearchService, bookSearchQueryKeys } from '../api';
 import { toSummaryBookViewModel } from '../lib';
+import type { BookSearchParams } from '../schema';
 
 export const useBookSearch = ({ query, size, sort, target, }: BookSearchParams) => {
-  const { isInitialized } = useApiStatus();
   const { searchBook } = bookSearchService;
   return useInfiniteQuery<
     BookSearchsDTO,
@@ -30,7 +29,7 @@ export const useBookSearch = ({ query, size, sort, target, }: BookSearchParams) 
       return response.meta.hasNextPage ? nextPage : undefined;
     },
     initialPageParam: 1,
-    enabled: isInitialized && !!query,
+    enabled: !!query,
     select: data =>
       data.pages.flatMap(page =>
         page.items.map(i => toSummaryBookViewModel(i))

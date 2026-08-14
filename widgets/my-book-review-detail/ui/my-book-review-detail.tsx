@@ -6,28 +6,21 @@ import {
   useMyBookReview,
   type SerializedMyBookReview,
 } from '@/entities/my-book-review';
-import { useApiStatus } from '@/shared/api';
 
 import { MyBookReviewDetailEmpty } from './my-book-review-detail-empty';
 import { MyBookReviewDetailLoader } from './my-book-review-detail-loader';
 
 export function MyBookReviewDetail({ myBookId }: { myBookId: number }) {
   const { data, isLoading } = useMyBookReview(myBookId);
-  const { isInitialized } = useApiStatus();
   const { open } = useModal();
 
   const onClickAdd = () => open('ADD_MY_BOOK_REVIEW', { myBookId });
   const onClickView = (selectedReview: SerializedMyBookReview) =>
     open('VIEW_MY_BOOK_REVIEW', { selectedReview });
 
-  /**
-   * SSR로 hydration된 캐시가 있으면 data가 이미 채워져 있다(리뷰 없음은 null).
-   * 이때는 ApiProvider 초기화를 기다릴 이유가 없으므로 곧바로 렌더한다.
-   */
-  const isShowLoader = data === undefined && (!isInitialized || isLoading);
-
   const renderContent = () => {
-    if (isShowLoader) return <MyBookReviewDetailLoader />;
+    if (isLoading) return <MyBookReviewDetailLoader />;
+    // 리뷰가 없으면 data는 null이다 (undefined = 아직 안 옴)
     if (!data) return <MyBookReviewDetailEmpty onClick={onClickAdd} />;
     return <MyBookReviewCard myBookReview={data} onClick={onClickView} />;
   };

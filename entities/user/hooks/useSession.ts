@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-import { useApiStatus, type APIError } from '@/shared/api';
+import type { APIError } from '@/shared/api';
 
 import { userQueryKeys, userService, type AccessDTO } from '../api';
 import { toUserViewModel } from '../lib';
@@ -17,13 +17,11 @@ import type { User } from '../model';
  */
 export const useSession = () => {
   const { access } = userService;
-  const { isInitialized } = useApiStatus();
 
   return useQuery<AccessDTO, APIError, User>({
     queryKey: userQueryKeys.access.queryKey,
     queryFn: access,
     select: response => toUserViewModel(response.user),
-    enabled: isInitialized,
     staleTime: 5 * 60 * 1000,
   });
 };
