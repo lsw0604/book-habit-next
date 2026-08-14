@@ -1,16 +1,16 @@
 'use client';
 
 import { useAutoSubmit } from '@/shared/hooks/form';
+import { SelectController } from '@/shared/ui/select-controller';
 
+import { FILTER_BOOK_ORDER_OPTIONS, FILTER_BOOK_STATUS_OPTIONS } from '../constants';
 import {
   useFilterMyBookParams,
   useFilterMyBookForm,
   useFilterMyBookFormSubmit,
 } from '../hooks';
-import { FILTER_BOOK_ORDER_OPTIONS, FILTER_BOOK_STATUS_OPTIONS } from '../constants';
 import type { FilterMyBookType } from '../schema';
 
-import { SelectController } from '@/shared/ui/select-controller';
 
 export function FilterMyBookBar() {
   const params = useFilterMyBookParams();
@@ -31,11 +31,14 @@ export function FilterMyBookBar() {
           name="order"
           options={FILTER_BOOK_ORDER_OPTIONS}
         />
-        <SelectController
-          control={control}
-          name="status"
-          options={FILTER_BOOK_STATUS_OPTIONS}
-        />
+        {/* PC는 칸반 보드가 상태별 컬럼을 모두 보여주므로 상태 필터를 숨긴다 */}
+        <div className="w-full lg:hidden">
+          <SelectController
+            control={control}
+            name="status"
+            options={FILTER_BOOK_STATUS_OPTIONS}
+          />
+        </div>
       </div>
     </form>
   );

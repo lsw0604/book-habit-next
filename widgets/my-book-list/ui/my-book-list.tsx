@@ -1,45 +1,24 @@
 'use client';
 
-import { useMyBooks } from '@/entities/my-book/hooks';
-import { MyBookItem } from '@/entities/my-book/ui';
-import { useFilterMyBookParams } from '@/features/filter-my-book';
-import { useApiStatus } from '@/shared/api/hooks';
-import { useInfiniteScroll } from '@/shared/hooks';
-import { Spinner } from '@/shared/ui/spinner';
-import { cn } from '@/shared/utils/class-name';
+import { useEffect, useState } from 'react';
+import { useMediaQuery } from 'usehooks-ts';
 
-import { MyBookListEmpty } from './my-book-list-empty';
+import { MyBookBoard } from './my-book-board';
+import { MyBookGrid } from './my-book-grid';
 import { MyBookListLoader } from './my-book-list-loader';
 
+/** PC는 상태별 칸반 보드, 모바일은 기존 표지 그리드를 보여준다 */
 export function MyBookList() {
-  const { order, status } = useFilterMyBookParams();
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
-    useMyBooks({ order, status });
-  const { isInitialized } = useApiStatus();
-  const ref = useInfiniteScroll(fetchNextPage, hasNextPage);
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const [isMounted, setIsMounted] = useState(false);
 
-  if (!isInitialized || isLoading) return <MyBookListLoader />;
-  if (!data || data.books.length === 0) return <MyBookListEmpty />;
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-  return (
-    <div className="w-full h-full overflow-scroll scrollbar-none">
-      <ul
-        className={cn(
-          'w-full gap-2 grid px-2 grid-cols-3 flex-col', // 기본 모바일 레이아웃
-          'sm:grid-cols-4 sm:gap-4', // 작은 화면에서 4열로 변경
-          'md:grid-cols-5 md:gap-4', // 중간 화면에서 5열로 변경
-          'lg:grid-cols-6 lg:gap-4', // 큰 화면에서 6열로 변경
-          'xl:grid-cols-7 xl:gap-4', // 큰 화면에서 7열로 변경
-          '2xl:grid-cols-10 2xl:gap-4 2xl:max-w-screen-2xl 2xl:mx-auto' // 2xl 이상에서 최대 너비 제한
-        )}
-      >
-        {data.books.map(book => (
-          <MyBookItem key={`${book.title}-${book.id}`} book={book} />
-        ))}
-      </ul>
-      <div className="w-full flex justify-center p-4" ref={ref}>
-        {isFetching && <Spinner size="sm" className="border-gray-800" />}
-      </div>
-    </div>
-  );
+  // 마운트 전에는 화면 폭을 알 수 없다.
+  // 여기서 섣불리 한쪽을 그리면 쓰지도 않을 뷰의 쿼리가 발생하므로 로더만 그린다.
+  if (!isMounted) return <MyBookListLoader />;
+
+  return isDesktop ? <MyBookBoard /> : <MyBookGrid />;
 }
