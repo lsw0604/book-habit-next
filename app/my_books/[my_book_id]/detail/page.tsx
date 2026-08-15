@@ -11,8 +11,8 @@ import {
 } from '@/entities/my-book-review';
 import { withServerAuth } from '@/shared/api/server';
 import { getQueryClient } from '@/shared/query';
-import { ClientWrapper } from '@/shared/ui/client-wrapper';
 import { PageContainer } from '@/shared/ui/page-container';
+import { WidgetBoundary } from '@/shared/ui/widget-boundary';
 import { MyBookDetail } from '@/widgets/my-book-detail';
 import { MyBookHistoryDetail } from '@/widgets/my-book-history-detail';
 import { MyBookReviewDetail } from '@/widgets/my-book-review-detail';
@@ -64,19 +64,19 @@ export default async function MyBookDetailPage({
         <div className="mx-auto w-full lg:grid lg:min-h-0 lg:max-w-[1200px] lg:flex-1 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-x-8">
           {/* 참조 영역 — 표지·서지·상태 변경·책 소개 */}
           <aside className="lg:min-h-0 lg:overflow-y-auto lg:scrollbar-none">
-            <ClientWrapper>
+            <WidgetBoundary>
               <MyBookDetail myBookId={myBookId} />
-            </ClientWrapper>
+            </WidgetBoundary>
           </aside>
 
           {/* 작업 영역 — 독서 기록과 한줄평 */}
           <div className="flex flex-col lg:min-h-0 lg:overflow-y-auto lg:scrollbar-none">
-            <ClientWrapper>
+            <WidgetBoundary>
               <MyBookHistoryDetail myBookId={myBookId} />
-            </ClientWrapper>
-            <ClientWrapper>
+            </WidgetBoundary>
+            <WidgetBoundary>
               <MyBookReviewDetail myBookId={myBookId} />
-            </ClientWrapper>
+            </WidgetBoundary>
           </div>
         </div>
       </PageContainer>
