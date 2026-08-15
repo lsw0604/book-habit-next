@@ -51,16 +51,34 @@ export default async function MyBookDetailPage({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <PageContainer className="p-2">
-        <ClientWrapper>
-          <MyBookDetail myBookId={myBookId} />
-        </ClientWrapper>
-        <ClientWrapper>
-          <MyBookHistoryDetail myBookId={myBookId} />
-        </ClientWrapper>
-        <ClientWrapper>
-          <MyBookReviewDetail myBookId={myBookId} />
-        </ClientWrapper>
+      {/**
+       * PC는 두 컬럼이 각자 스크롤하고 페이지 자체는 뷰포트에 고정된다(칸반과 같은 방식).
+       * sticky를 쓰지 않는 이유: 좌측 컬럼이 뷰포트보다 높아서 sticky로는 고정되지 않고
+       * 아래쪽을 보여주려 함께 밀려 올라간다. 독립 스크롤이라 컬럼 높이에 제약이 없다.
+       *
+       * lg:min-h-0은 fitViewport가 하는 일을 PC에서만 적용한 것이다.
+       * 모바일에서는 이 클래스들이 전부 꺼져 페이지가 늘어나고 main이 스크롤한다.
+       * DOM 순서가 곧 모바일 순서이므로 모바일 레이아웃은 그대로 유지된다.
+       */}
+      <PageContainer className="p-2 lg:min-h-0 lg:p-6">
+        <div className="mx-auto w-full lg:grid lg:min-h-0 lg:max-w-[1200px] lg:flex-1 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-x-8">
+          {/* 참조 영역 — 표지·서지·상태 변경·책 소개 */}
+          <aside className="lg:min-h-0 lg:overflow-y-auto lg:scrollbar-none">
+            <ClientWrapper>
+              <MyBookDetail myBookId={myBookId} />
+            </ClientWrapper>
+          </aside>
+
+          {/* 작업 영역 — 독서 기록과 한줄평 */}
+          <div className="flex flex-col lg:min-h-0 lg:overflow-y-auto lg:scrollbar-none">
+            <ClientWrapper>
+              <MyBookHistoryDetail myBookId={myBookId} />
+            </ClientWrapper>
+            <ClientWrapper>
+              <MyBookReviewDetail myBookId={myBookId} />
+            </ClientWrapper>
+          </div>
+        </div>
       </PageContainer>
     </HydrationBoundary>
   );
