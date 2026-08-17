@@ -1,7 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import {
+  myBookHistoryQueryKeys,
+  type MyBookHistoryDTO,
+} from '@/entities/my-book-history';
 import type { APIError } from '@/shared/api';
-import { myBookHistoryQueryKeys, type MyBookHistory } from '@/entities/my-book-history';
 
 import { deleteMyBookHistoryService } from '../api';
 
@@ -14,7 +17,7 @@ export const useDeleteMyBookHistory = (myBookId: number) => {
     void,
     APIError,
     number,
-    { previousHistories: MyBookHistory[] }
+    { previousHistories: MyBookHistoryDTO[] }
   >({
     mutationFn: async (myBookHistoryId: number) => {
       await deleteMyBookHistory(myBookHistoryId);
@@ -22,10 +25,11 @@ export const useDeleteMyBookHistory = (myBookId: number) => {
     onMutate: async (myBookHistoryId: number) => {
       await queryClient.cancelQueries({ queryKey: historiesQueryKey });
 
+      // 캐시는 DTO를 담는다 (읽을 때 select가 ViewModel로 바꾼다)
       const previousHistories =
-        queryClient.getQueryData<MyBookHistory[]>(historiesQueryKey) ?? [];
+        queryClient.getQueryData<MyBookHistoryDTO[]>(historiesQueryKey) ?? [];
 
-      queryClient.setQueryData<MyBookHistory[]>(
+      queryClient.setQueryData<MyBookHistoryDTO[]>(
         historiesQueryKey,
         (oldHistories = []) =>
           oldHistories.filter(oldHistory => oldHistory.id !== myBookHistoryId)

@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { myBookQueryKeys } from '@/entities/my-book';
 import {
-  type MyBookReview,
   type MyBookReviewDTO,
   myBookReviewQueryKeys,
 } from '@/entities/my-book-review';
-import { myBookQueryKeys } from '@/entities/my-book';
 import { APIError } from '@/shared/api';
 
 import { updateMyBookReviewService } from '../api';
@@ -20,23 +19,26 @@ export const useUpdateMyBookReview = (myBookId: number, myBookReviewId: number) 
     MyBookReviewDTO,
     APIError,
     UpdateMyBookReviewType,
-    { previousReview: MyBookReview | undefined }
+    { previousReview: MyBookReviewDTO | undefined }
   >({
-    mutationFn: async (payload: UpdateMyBookReviewType) => await updateMyBookReview({
-      ...payload,
-      myBookReviewId,
-    }),
+    mutationFn: (payload: UpdateMyBookReviewType) =>
+      updateMyBookReview({
+        ...payload,
+        myBookReviewId,
+      }),
     onMutate: async (payload: UpdateMyBookReviewType) => {
       await queryClient.cancelQueries({ queryKey: reviewDetailQueryKey });
 
-      const previousReview = queryClient.getQueryData<MyBookReview>(reviewDetailQueryKey);
+      const previousReview =
+        queryClient.getQueryData<MyBookReviewDTO>(reviewDetailQueryKey);
 
       if (previousReview) {
-        queryClient.setQueryData<MyBookReview>(reviewDetailQueryKey, {
+        // 캐시는 DTO를 담으므로 낙관적 값도 DTO 형태여야 한다 (날짜는 Date가 아니라 ISO 문자열)
+        queryClient.setQueryData<MyBookReviewDTO>(reviewDetailQueryKey, {
           ...previousReview,
           review: payload.review,
           isPublic: payload.isPublic,
-          updatedAt: new Date(),
+          updatedAt: new Date().toISOString(),
         });
       }
       return { previousReview };

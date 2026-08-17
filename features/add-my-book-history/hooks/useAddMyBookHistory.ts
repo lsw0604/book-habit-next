@@ -1,10 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import {
+  myBookHistoryQueryKeys,
+  type MyBookHistoryDTO,
+} from '@/entities/my-book-history';
 import type { APIError } from '@/shared/api';
-import { myBookHistoryQueryKeys, toMyBookHistoryViewModel, type MyBookHistory, type MyBookHistoryDTO } from '@/entities/my-book-history';
 
-import type { AddMyBookHistoryType } from '../schema';
 import { addMyBookHistoryService } from '../api';
+import type { AddMyBookHistoryType } from '../schema';
 
 interface UseAddMyBookHistoryParams {
   myBookId: number;
@@ -17,24 +20,26 @@ export const useAddMyBookHistory = ({
   const queryClient = useQueryClient();
   const historiesQueryKey = myBookHistoryQueryKeys.list(myBookId).queryKey;
 
+  /**
+   * 캐시는 DTO를 담는다. mutationFn도, 낙관적 값도 DTO 형태를 유지해야 한다.
+   * ViewModel을 넣으면 읽을 때 select(toMyBookHistoryViewModel)가 한 번 더 적용되어
+   * parseISO(Date)가 Invalid Date를 만든다 — 예외 없이 조용히 깨진다.
+   */
   return useMutation<
-    MyBookHistory,
+    MyBookHistoryDTO,
     APIError,
     AddMyBookHistoryType,
     {
-      previousHistories: MyBookHistory[];
+      previousHistories: MyBookHistoryDTO[];
       optimisticId: number;
     }
   >({
-    mutationFn: async (payload: AddMyBookHistoryType) => {
-      const response = await addMyBookHistory(payload);
-      return toMyBookHistoryViewModel(response);
-    },
+    mutationFn: (payload: AddMyBookHistoryType) => addMyBookHistory(payload),
     onMutate: async (payload: AddMyBookHistoryType) => {
       await queryClient.cancelQueries({ queryKey: historiesQueryKey });
 
       const previousHistories =
-        queryClient.getQueryData<MyBookHistory[]>(historiesQueryKey) ?? [];
+        queryClient.getQueryData<MyBookHistoryDTO[]>(historiesQueryKey) ?? [];
 
       const now = new Date();
       const optimisticDTO: MyBookHistoryDTO = {
@@ -52,16 +57,14 @@ export const useAddMyBookHistory = ({
         updatedAt: now.toISOString(),
       };
 
-      const optimisticNewHistory = toMyBookHistoryViewModel(optimisticDTO);
-
-      queryClient.setQueryData<MyBookHistory[]>(
+      queryClient.setQueryData<MyBookHistoryDTO[]>(
         historiesQueryKey,
-        (oldHistories = []) => [...oldHistories, optimisticNewHistory]
+        (oldHistories = []) => [...oldHistories, optimisticDTO]
       );
 
       return {
         previousHistories,
-        optimisticId: optimisticNewHistory.id,
+        optimisticId: optimisticDTO.id,
       };
     },
     onError: (_err, _vars, context) => {
@@ -70,10 +73,12 @@ export const useAddMyBookHistory = ({
       }
     },
     onSuccess: (realNewHistory, _vars, context) => {
-      queryClient.setQueryData<MyBookHistory[]>(historiesQueryKey, (old = []) =>
-        old.map(history =>
-          history.id === context.optimisticId ? realNewHistory : history
-        )
+      queryClient.setQueryData<MyBookHistoryDTO[]>(
+        historiesQueryKey,
+        (old = []) =>
+          old.map(history =>
+            history.id === context.optimisticId ? realNewHistory : history
+          )
       );
     },
     onSettled: (_data, _error, _vars, context) => {
