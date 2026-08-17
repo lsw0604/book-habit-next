@@ -4,4 +4,5 @@ export * from './date';
 export * from './extract-dirty-values';
 export * from './is-client';
 export * from './parse-param';
+export * from './select-on-focus';
 export * from './text';

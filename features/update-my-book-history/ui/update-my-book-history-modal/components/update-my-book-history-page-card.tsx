@@ -1,9 +1,9 @@
 import { BookOpenIcon } from 'lucide-react';
-import { FocusEvent } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { calculatePages } from '@/entities/my-book-history';
 import { Input } from '@/shared/ui/input';
+import { selectAllOnFocus } from '@/shared/utils';
 
 import type { UpdateMyBookHistoryType } from '../../../schema';
 
@@ -14,10 +14,6 @@ export function UpdateMyBookHistoryPageCard() {
     watch,
   } = useFormContext<UpdateMyBookHistoryType>();
   const [startPage, endPage] = watch(['startPage', 'endPage']);
-
-  const handleOnFocus = (e: FocusEvent<HTMLInputElement>) => {
-    setTimeout(() => e.target.select(), 0);
-  };
 
   return (
     <div className="border border-gray-200 rounded-lg p-4 space-y-3">
@@ -34,7 +30,7 @@ export function UpdateMyBookHistoryPageCard() {
           min={0}
           error={!!errors.startPage}
           errorMessage={errors.startPage?.message}
-          onFocus={handleOnFocus}
+          onFocus={selectAllOnFocus}
           {...register('startPage', { valueAsNumber: true })}
         />
         <Input
@@ -45,7 +41,7 @@ export function UpdateMyBookHistoryPageCard() {
           autoComplete="off"
           min={0}
           error={!!errors.endPage}
-          onFocus={handleOnFocus}
+          onFocus={selectAllOnFocus}
           errorMessage={errors.endPage?.message}
           {...register('endPage', { valueAsNumber: true })}
         />
