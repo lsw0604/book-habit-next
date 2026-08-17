@@ -29,6 +29,7 @@ const buttonVariants = cva(
         sm: 'h-8 px-2 py-1 rounded-sm',
         md: 'h-10 px-4 py-2 rounded-md',
         lg: 'h-12 px-8 py-4 rounded-lg',
+        icon: 'h-8 w-8 p-0 rounded-md',
       },
     },
     defaultVariants: {
@@ -54,7 +55,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        {isLoading ? <Spinner size={size} /> : props.children}
+        {/* Spinner에는 icon 사이즈가 없다 — 정사각 버튼에는 sm을 쓴다 */}
+        {isLoading ? (
+          <Spinner size={size === 'icon' ? 'sm' : size} />
+        ) : (
+          props.children
+        )}
       </Comp>
     );
   }

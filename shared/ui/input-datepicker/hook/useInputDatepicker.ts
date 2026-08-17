@@ -4,6 +4,7 @@ import {
   MouseEvent,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import type { SelectSingleEventHandler } from 'react-day-picker';
@@ -32,27 +33,38 @@ export const useInputDatepicker = ({
   onChange,
   externalError,
 }: UseInputDatepickerProps): UseInputDatepickerReturn => {
-  const [dateStr, setDateStr] = useState<string>('');
+  const [dateStr, setDateStr] = useState<string>(() =>
+    value ? format(value, 'yyyy-MM-dd') : ''
+  );
   const [internalError, setInternalError] = useState<string | null>(null);
 
   const hasError = Boolean(internalError || externalError);
 
-  useEffect(() => {
-    if (value) {
-      const newDateStr = format(value, 'yyyy-MM-dd');
-      if (dateStr !== newDateStr) {
-        setDateStr(newDateStr);
-      }
-      setInternalError(null);
-    }
-  }, [value, dateStr]);
+  /**
+   * 우리가 올려보낸 값이 그대로 되돌아온 것인지 구분하는 기준.
+   *
+   * 입력 도중에는 "2025-0"처럼 날짜가 되지 못하는 문자열을 들고 있어야 하는데,
+   * 그 시점의 value는 undefined다. 이걸 외부 초기화와 구분하지 못하면
+   * 타이핑하는 족족 입력칸이 지워진다.
+   */
+  const emittedRef = useRef<Date | undefined>(value);
 
   const notifyChange = useCallback(
     (day: Date | undefined, e: ChangeEvent<HTMLInputElement> | MouseEvent) => {
+      emittedRef.current = day;
       onChange(day, day || new Date(), {}, e as MouseEvent);
     },
     [onChange]
   );
+
+  // 폼 reset처럼 밖에서 값이 바뀐 경우에만 입력칸을 값에 맞춘다
+  useEffect(() => {
+    if (value === emittedRef.current) return;
+
+    emittedRef.current = value;
+    setDateStr(value ? format(value, 'yyyy-MM-dd') : '');
+    setInternalError(null);
+  }, [value]);
 
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -99,13 +111,10 @@ export const useInputDatepicker = ({
 
   const handleCalendarSelect: SelectSingleEventHandler = useCallback(
     (day, ...rest) => {
+      emittedRef.current = day;
       onChange(day, ...rest);
       setInternalError(null);
-
-      // Calendar에서 날짜 선택 해제에 대한 동작
-      if (day === undefined) {
-        setDateStr('');
-      }
+      setDateStr(day ? format(day, 'yyyy-MM-dd') : '');
     },
     [onChange]
   );

@@ -6,11 +6,14 @@ import {
   setMinutes,
   setSeconds,
 } from 'date-fns';
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 
 import { getValidHour, getValidMinuteOrSecond } from '../lib/formatter';
 
-type PickerType = 'hours' | 'minutes' | 'seconds';
+export type PickerType = 'hours' | 'minutes' | 'seconds';
+
+/** 값이 없을 때 보여줄 자리 표시 */
+export const EMPTY_SEGMENT = '--';
 
 interface UseTimePickerProps {
   date: Date | undefined;
@@ -25,61 +28,65 @@ interface ReturnTimePicker {
   stepTime: (step: number, type: PickerType) => void;
 }
 
+const pad = (value: number): string => String(value).padStart(2, '0');
+
 export const useTimepicker = ({
   date,
   setDate,
 }: UseTimePickerProps): ReturnTimePicker => {
-  const currentDate = useMemo(() => date ?? new Date(), [date]);
+  /**
+   * 값이 없으면 "--"를 보여준다.
+   * 예전에는 date ?? new Date()로 현재 시각을 그렸는데,
+   * 폼에는 아무 값도 없는 상태라 화면과 실제 값이 어긋났다.
+   */
+  const hour = date ? pad(getHours(date)) : EMPTY_SEGMENT;
+  const minute = date ? pad(getMinutes(date)) : EMPTY_SEGMENT;
+  const second = date ? pad(getSeconds(date)) : EMPTY_SEGMENT;
 
-  const hour = useMemo(
-    () => getValidHour(String(getHours(currentDate))),
-    [currentDate]
+  const setTime = useCallback(
+    (value: string, type: PickerType) => {
+      // 값이 없는 상태에서 처음 입력하면 오늘 날짜를 기준으로 시각을 만든다
+      const baseDate = date ?? new Date();
+      const numericValue = parseInt(value, 10);
+
+      if (Number.isNaN(numericValue)) return;
+
+      switch (type) {
+        case 'hours':
+          setDate(setHours(baseDate, numericValue));
+          break;
+        case 'minutes':
+          setDate(setMinutes(baseDate, numericValue));
+          break;
+        case 'seconds':
+          setDate(setSeconds(baseDate, numericValue));
+          break;
+        default:
+      }
+    },
+    [date, setDate]
   );
-  const minute = useMemo(
-    () => getValidMinuteOrSecond(String(getMinutes(currentDate))),
-    [currentDate]
+
+  const stepTime = useCallback(
+    (step: number, type: PickerType) => {
+      const baseDate = date ?? new Date();
+      const currentVal = {
+        hours: getHours(baseDate),
+        minutes: getMinutes(baseDate),
+        seconds: getSeconds(baseDate),
+      };
+
+      const newNumericValue = currentVal[type] + step;
+      // 경계를 넘으면 반대편으로 순환시킨다 (23 → 00, 00 → 23)
+      const validValue =
+        type === 'hours'
+          ? getValidHour(String(newNumericValue))
+          : getValidMinuteOrSecond(String(newNumericValue));
+
+      setTime(validValue, type);
+    },
+    [date, setTime]
   );
-  const second = useMemo(
-    () => getValidMinuteOrSecond(String(getSeconds(currentDate))),
-    [currentDate]
-  );
-
-  const setTime = (value: string, type: PickerType) => {
-    let newDate;
-    const numericValue = parseInt(value, 10);
-
-    switch (type) {
-      case 'hours':
-        newDate = setHours(currentDate, numericValue);
-        break;
-      case 'minutes':
-        newDate = setMinutes(currentDate, numericValue);
-        break;
-      case 'seconds':
-        newDate = setSeconds(currentDate, numericValue);
-        break;
-      default:
-        return;
-    }
-    setDate(newDate);
-  };
-
-  const stepTime = (step: number, type: PickerType) => {
-    const currentVal = {
-      hours: getHours(currentDate),
-      minutes: getMinutes(currentDate),
-      seconds: getSeconds(currentDate),
-    };
-
-    const newNumericValue = currentVal[type] + step;
-    // getValid... 유틸리티 함수를 사용하여 값을 순환시킨 후 설정
-    const validValue =
-      type === 'hours'
-        ? getValidHour(String(newNumericValue))
-        : getValidMinuteOrSecond(String(newNumericValue));
-
-    setTime(validValue, type);
-  };
 
   return {
     hour,

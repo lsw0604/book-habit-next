@@ -1,5 +1,5 @@
 import { ClockIcon } from 'lucide-react';
-import { useRef } from 'react';
+import { useId, useRef } from 'react';
 
 import { ErrorMessage } from '@/shared/ui/error-message';
 import { Label } from '@/shared/ui/label';
@@ -13,6 +13,7 @@ import { timepickerVariants } from './variants';
 interface TimePickerProps {
   value: Date | undefined;
   onChange: (date: Date | undefined) => void;
+  id?: string;
   className?: string;
   label?: string;
   errorMessage?: string;
@@ -22,6 +23,7 @@ interface TimePickerProps {
 export default function InputTimepicker({
   value,
   onChange,
+  id,
   className,
   label,
   errorMessage,
@@ -30,6 +32,15 @@ export default function InputTimepicker({
   const hourRef = useRef<HTMLInputElement>(null);
   const minuteRef = useRef<HTMLInputElement>(null);
   const secondRef = useRef<HTMLInputElement>(null);
+
+  /**
+   * 한 화면에 여러 개가 놓이므로 id는 인스턴스마다 달라야 한다.
+   * 예전에는 분·초가 "minutes"/"seconds"로 고정돼 있어
+   * 시작/종료 시간을 함께 그리면 같은 id가 중복됐다.
+   */
+  const generatedId = useId();
+  const baseId = id ?? generatedId;
+  const hourId = `${baseId}-hours`;
 
   const { hour, minute, second, setTime, stepTime } = useTimepicker({
     date: value,
@@ -51,10 +62,7 @@ export default function InputTimepicker({
   return (
     <div className={cn('flex flex-col group', className)}>
       {label && (
-        <Label
-          htmlFor={`${label}-hours`}
-          className="text-xs ml-1 mb-2 font-bold"
-        >
+        <Label htmlFor={hourId} className="text-xs ml-1 mb-2 font-bold">
           {label}
         </Label>
       )}
@@ -62,7 +70,7 @@ export default function InputTimepicker({
         <ClockIcon className="mr-2" size={16} />
         <div className="flex w-full items-center h-full">
           <TimeInput
-            id={`${label}-hours`}
+            id={hourId}
             ref={hourRef}
             value={hour}
             onRightFocus={() => minuteRef.current?.focus()}
@@ -74,7 +82,7 @@ export default function InputTimepicker({
           />
           <span>:</span>
           <TimeInput
-            id="minutes"
+            id={`${baseId}-minutes`}
             ref={minuteRef}
             value={minute}
             setValue={stepNum => setTime(stepNum, 'minutes')}
@@ -86,7 +94,7 @@ export default function InputTimepicker({
           />
           <span>:</span>
           <TimeInput
-            id="seconds"
+            id={`${baseId}-seconds`}
             ref={secondRef}
             value={second}
             setValue={stepNum => setTime(stepNum, 'seconds')}
