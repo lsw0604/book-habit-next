@@ -12,8 +12,15 @@ import {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
+import { useMediaQuery } from 'usehooks-ts';
 
-import { BACKDROP_VARIANT, MODAL_VARIANT } from './variants';
+import { cn } from '@/shared/utils/class-name';
+
+import {
+  BACKDROP_VARIANT,
+  DESKTOP_MODAL_VARIANT,
+  MODAL_VARIANT,
+} from './variants';
 
 interface Props {
   isOpen: boolean;
@@ -30,6 +37,13 @@ export function ModalPortal({
   const [mounted, setMounted] = useState<boolean>(false);
   const [shouldRender, setShouldRender] = useState<boolean>(false);
   const ref = useRef<Element | null>(null);
+  // 모바일은 바텀 시트, PC는 중앙 다이얼로그로 등장 방향이 다르다.
+  // 첫 프레임부터 올바른 애니메이션을 쓰도록 초기값을 즉시 읽는다.
+  // (마운트 전에는 null을 반환하므로 하이드레이션 불일치는 발생하지 않는다.)
+  const isDesktop = useMediaQuery('(min-width: 1024px)', {
+    initializeWithValue: true,
+  });
+  const modalVariant = isDesktop ? DESKTOP_MODAL_VARIANT : MODAL_VARIANT;
 
   const onClickHandle = useCallback(
     (e: MouseEvent) => {
@@ -64,7 +78,7 @@ export function ModalPortal({
       setShouldRender(true);
     } else if (!isOpen && shouldRender) {
       const longestAnimationDuration = Math.max(
-        MODAL_VARIANT.exit.transition.duration,
+        modalVariant.exit.transition.duration,
         BACKDROP_VARIANT.exit.transition.duration
       );
       const timer = setTimeout(() => {
@@ -73,7 +87,7 @@ export function ModalPortal({
 
       return () => clearTimeout(timer);
     }
-  }, [isOpen, shouldRender]);
+  }, [isOpen, shouldRender, modalVariant]);
 
   if (!ref.current || !mounted || !shouldRender) {
     return null;
@@ -93,13 +107,23 @@ export function ModalPortal({
         onKeyDown={keydownHandle}
       />
       <motion.div
-        variants={MODAL_VARIANT}
+        variants={modalVariant}
         initial="initial"
         animate={isOpen ? 'animate' : 'exit'}
-        className="absolute z-9999 w-full h-auto min-h-[10%] max-h-[80%] bottom-0 rounded-tl-lg rounded-tr-lg bg-white flex flex-col"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        className={cn(
+          // 모바일: 화면 하단에 붙는 바텀 시트
+          'absolute bottom-0 z-9999 flex h-auto max-h-[80%] min-h-[10%] w-full flex-col rounded-tl-lg rounded-tr-lg bg-white',
+          // PC: 화면 중앙에 뜨는 고정 폭 다이얼로그
+          'lg:relative lg:bottom-auto lg:max-h-[85vh] lg:w-[32rem] lg:rounded-lg lg:shadow-2xl'
+        )}
       >
-        <div className="flex justify-between items-center p-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+        <div className="shrink-0 flex justify-between items-center p-4 border-b border-gray-200">
+          <h2 id="modal-title" className="text-lg font-semibold text-gray-900">
+            {title}
+          </h2>
           <button
             type="button"
             key="close-btn"
