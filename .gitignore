@@ -35,3 +35,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .vscode
+
+# 로컬 전용 문서·도구 설정 (커밋하지 않음)
+/.omc
+/docs
+/.claude
+/CLAUDE.md
