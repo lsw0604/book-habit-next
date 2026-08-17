@@ -1,21 +1,22 @@
 import { format } from 'date-fns';
-import {
-  type ChangeEvent,
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { type ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import type { SelectSingleEventHandler } from 'react-day-picker';
 
-import { INPUT_DATEPICKER_CONSTRAINTS } from '../lib/constants';
+import {
+  INPUT_DATEPICKER_CONSTRAINTS,
+  INPUT_DATEPICKER_FORMAT,
+} from '../lib/constants';
 import { extractDigits, addSeparatorsToDateString } from '../lib/formatter';
-import { validatePartialDate, parseAndValidateDate } from '../lib/validator';
+import {
+  type DateBounds,
+  validatePartialDate,
+  parseAndValidateDate,
+} from '../lib/validator';
 
 interface UseInputDatepickerProps {
   value: Date | undefined;
-  onChange: SelectSingleEventHandler;
+  onChange: (date: Date | undefined) => void;
+  bounds: DateBounds;
   externalError?: boolean;
 }
 
@@ -25,16 +26,17 @@ interface UseInputDatepickerReturn {
   hasError: boolean;
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleCalendarSelect: SelectSingleEventHandler;
-  handleClearDate: (e: MouseEvent) => void;
+  handleClearDate: () => void;
 }
 
 export const useInputDatepicker = ({
   value,
   onChange,
+  bounds,
   externalError,
 }: UseInputDatepickerProps): UseInputDatepickerReturn => {
   const [dateStr, setDateStr] = useState<string>(() =>
-    value ? format(value, 'yyyy-MM-dd') : ''
+    value ? format(value, INPUT_DATEPICKER_FORMAT.DISPLAY) : ''
   );
   const [internalError, setInternalError] = useState<string | null>(null);
 
@@ -50,9 +52,9 @@ export const useInputDatepicker = ({
   const emittedRef = useRef<Date | undefined>(value);
 
   const notifyChange = useCallback(
-    (day: Date | undefined, e: ChangeEvent<HTMLInputElement> | MouseEvent) => {
+    (day: Date | undefined) => {
       emittedRef.current = day;
-      onChange(day, day || new Date(), {}, e as MouseEvent);
+      onChange(day);
     },
     [onChange]
   );
@@ -62,7 +64,7 @@ export const useInputDatepicker = ({
     if (value === emittedRef.current) return;
 
     emittedRef.current = value;
-    setDateStr(value ? format(value, 'yyyy-MM-dd') : '');
+    setDateStr(value ? format(value, INPUT_DATEPICKER_FORMAT.DISPLAY) : '');
     setInternalError(null);
   }, [value]);
 
@@ -72,61 +74,53 @@ export const useInputDatepicker = ({
         e.target.value,
         INPUT_DATEPICKER_CONSTRAINTS.MAX_DIGITS
       );
-      const formattedInput = addSeparatorsToDateString(digits);
-      setDateStr(formattedInput);
+      setDateStr(addSeparatorsToDateString(digits));
 
       let newDate: Date | null = null;
       let newError: string | null = null;
 
-      const partialError = validatePartialDate(digits);
+      const partialError = validatePartialDate(digits, bounds);
 
       if (partialError) {
-        // 부분적인 날짜 형식이 유효하지 않은 경우
         newError = partialError;
       } else if (digits.length === INPUT_DATEPICKER_CONSTRAINTS.MAX_DIGITS) {
-        // 날짜가 모두 입력된 경우 (8자리)
-        const { date, error: fullError } = parseAndValidateDate(digits);
+        const { date, error: fullError } = parseAndValidateDate(digits, bounds);
 
         if (fullError) {
-          // 유효하지 않은 날짜인 경우
           newError = fullError;
         } else {
           newDate = date;
         }
       }
-      // 3. 내부 에러 상태를 업데이트합니다.
+
       setInternalError(newError);
 
       if (newDate) {
         if (!value || newDate.getTime() !== value.getTime()) {
-          notifyChange(newDate, e);
+          notifyChange(newDate);
         }
       } else if (value) {
-        // 입력을 지우면 날짜도 지워줌
-        notifyChange(undefined, e);
+        // 날짜가 완성되지 않은 동안에는 값을 비워 둔다
+        notifyChange(undefined);
       }
     },
-    [value, notifyChange]
+    [value, notifyChange, bounds]
   );
 
   const handleCalendarSelect: SelectSingleEventHandler = useCallback(
-    (day, ...rest) => {
-      emittedRef.current = day;
-      onChange(day, ...rest);
+    day => {
+      notifyChange(day);
       setInternalError(null);
-      setDateStr(day ? format(day, 'yyyy-MM-dd') : '');
-    },
-    [onChange]
-  );
-
-  const handleClearDate = useCallback(
-    (e: MouseEvent) => {
-      notifyChange(undefined, e);
-      setDateStr('');
-      setInternalError(null);
+      setDateStr(day ? format(day, INPUT_DATEPICKER_FORMAT.DISPLAY) : '');
     },
     [notifyChange]
   );
+
+  const handleClearDate = useCallback(() => {
+    notifyChange(undefined);
+    setDateStr('');
+    setInternalError(null);
+  }, [notifyChange]);
 
   return {
     dateStr,

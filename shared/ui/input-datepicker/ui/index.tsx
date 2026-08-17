@@ -1,6 +1,6 @@
 import { ko } from 'date-fns/locale';
 import { AlertCircle, CalendarIcon, XIcon } from 'lucide-react';
-import { forwardRef } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
@@ -16,11 +16,19 @@ import { cn } from '@/shared/utils/class-name';
 
 import { useInputDatepicker } from '../hook/useInputDatepicker';
 import { INPUT_DATEPICKER_CONSTRAINTS } from '../lib/constants';
+import type { DateBounds } from '../lib/validator';
 import { calendarBTNVariants, clearBTNVariants } from '../style';
 
 import type { InputDatepickerProps } from './types';
 
 type StateType = 'default' | 'disabled' | 'error';
+
+const DEFAULT_FROM_DATE = new Date(INPUT_DATEPICKER_CONSTRAINTS.MIN_YEAR, 0, 1);
+const DEFAULT_TO_DATE = new Date(
+  INPUT_DATEPICKER_CONSTRAINTS.MAX_YEAR,
+  11,
+  31
+);
 
 const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
   (
@@ -33,10 +41,24 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
       className,
       errorMessage,
       error: externalError,
+      fromDate = DEFAULT_FROM_DATE,
+      toDate = DEFAULT_TO_DATE,
       ...props
     },
     ref
   ) => {
+    const generatedId = useId();
+    const inputId = id ?? generatedId;
+    const errorId = `${inputId}-error`;
+
+    // 호출부가 new Date()를 인라인으로 넘겨도 참조가 흔들리지 않게 고정한다
+    const fromTime = fromDate.getTime();
+    const toTime = toDate.getTime();
+    const bounds = useMemo<DateBounds>(
+      () => ({ fromDate: new Date(fromTime), toDate: new Date(toTime) }),
+      [fromTime, toTime]
+    );
+
     const {
       error,
       dateStr,
@@ -44,7 +66,8 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
       handleClearDate,
       handleInputChange,
       handleCalendarSelect,
-    } = useInputDatepicker({ onChange, value, externalError });
+    } = useInputDatepicker({ onChange, value, bounds, externalError });
+
     let state: StateType = 'default';
 
     if (disabled) {
@@ -53,11 +76,12 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
       state = 'error';
     }
     const finalErrorMessage = error || errorMessage;
+    const showErrorMessage = hasError && !!finalErrorMessage;
 
     return (
       <div className={cn('w-full space-y-1', className)}>
         {label && (
-          <Label htmlFor={id} className="text-xs ml-1 font-bold">
+          <Label htmlFor={inputId} className="text-xs ml-1 font-bold">
             {label}
           </Label>
         )}
@@ -70,6 +94,7 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
                   variant="ghost"
                   size="sm"
                   disabled={disabled}
+                  aria-label="달력 열기"
                   className={calendarBTNVariants({
                     state: disabled ? 'disabled' : 'default',
                   })}
@@ -88,10 +113,8 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
                   selected={value}
                   defaultMonth={value}
                   onSelect={handleCalendarSelect}
-                  fromDate={
-                    new Date(INPUT_DATEPICKER_CONSTRAINTS.MIN_YEAR, 0, 1)
-                  }
-                  toDate={new Date()}
+                  fromDate={bounds.fromDate}
+                  toDate={bounds.toDate}
                   className="rounded-lg"
                 />
               </Popover.Content>
@@ -99,12 +122,16 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
           </div>
           <input
             ref={ref}
-            id={id}
+            id={inputId}
             disabled={disabled}
             placeholder="YYYY-MM-DD"
             className={inputVariants({ state, hasIcon: true })}
             value={dateStr}
             onChange={handleInputChange}
+            inputMode="numeric"
+            autoComplete="off"
+            aria-invalid={hasError}
+            aria-describedby={showErrorMessage ? errorId : undefined}
             {...props}
           />
           {hasError && (
@@ -119,6 +146,7 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
                 variant="none"
                 size="icon"
                 disabled={disabled}
+                aria-label="날짜 지우기"
                 className={clearBTNVariants({
                   state: disabled ? 'disabled' : 'default',
                 })}
@@ -129,8 +157,8 @@ const InputDatepicker = forwardRef<HTMLInputElement, InputDatepickerProps>(
             </div>
           )}
         </div>
-        {hasError && finalErrorMessage && (
-          <ErrorMessage>{finalErrorMessage}</ErrorMessage>
+        {showErrorMessage && (
+          <ErrorMessage id={errorId}>{finalErrorMessage}</ErrorMessage>
         )}
       </div>
     );

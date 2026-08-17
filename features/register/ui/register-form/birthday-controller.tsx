@@ -20,6 +20,7 @@ export function BirthdayController() {
             label="생년월일"
             value={value}
             onChange={onChange}
+            toDate={new Date()}
             error={!!error}
             errorMessage={error?.message}
           />

@@ -45,7 +45,7 @@ export function AddMyBookHistoryTimeContainer() {
               label="독서 시작 시간"
               onChange={field.onChange}
               value={field.value}
-              isError={!!error}
+              error={!!error}
               className="w-full"
             />
           )}
@@ -58,7 +58,7 @@ export function AddMyBookHistoryTimeContainer() {
               label="독서 종료 시간"
               onChange={field.onChange}
               value={field.value}
-              isError={!!error}
+              error={!!error}
               className="w-full"
             />
           )}
