@@ -41,8 +41,22 @@ export const baseMyBookHistorySchema = z.object({
   readingMood: readingMoodSchema, // 위에서 정의한 ReadingMood enum 스키마 사용
 });
 
-export const baseMyBookHistoryRefinement = (
-  data: BaseMyBookHistoryType,
+export type TimeRangeFields = Pick<
+  BaseMyBookHistoryType,
+  'startTime' | 'endTime' | 'readingMinutes'
+>;
+
+export type PageRangeFields = Pick<
+  BaseMyBookHistoryType,
+  'startPage' | 'endPage'
+>;
+
+/**
+ * 독서 시간 관련 교차 검증.
+ * 전체 폼과 단계별(시간 단계) 스키마가 함께 사용한다.
+ */
+export const timeRangeRefinement = (
+  data: TimeRangeFields,
   ctx: z.RefinementCtx
 ) => {
   // 1. 종료 시간 > 시작 시간 검사
@@ -54,17 +68,7 @@ export const baseMyBookHistoryRefinement = (
     });
   }
 
-  // 2. 종료 페이지 >= 시작 페이지 검사
-  if (data.endPage < data.startPage) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message:
-        '종료 페이지는 시작 페이지보다 크거나 같은 값으로 입력해 주세요.',
-      path: ['endPage'],
-    });
-  }
-
-  // 3. 독서 시간과 시간 범위 일치 여부 검사
+  // 2. 독서 시간과 시간 범위 일치 여부 검사
   if (data.startTime && data.endTime && data.readingMinutes >= 0) {
     const diffInMinutes =
       (data.endTime.getTime() - data.startTime.getTime()) / (1000 * 60);
@@ -77,6 +81,33 @@ export const baseMyBookHistoryRefinement = (
       });
     }
   }
+};
+
+/**
+ * 독서 페이지 관련 교차 검증.
+ * 전체 폼과 단계별(페이지 단계) 스키마가 함께 사용한다.
+ */
+export const pageRangeRefinement = (
+  data: PageRangeFields,
+  ctx: z.RefinementCtx
+) => {
+  // 종료 페이지 >= 시작 페이지 검사
+  if (data.endPage < data.startPage) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message:
+        '종료 페이지는 시작 페이지보다 크거나 같은 값으로 입력해 주세요.',
+      path: ['endPage'],
+    });
+  }
+};
+
+export const baseMyBookHistoryRefinement = (
+  data: BaseMyBookHistoryType,
+  ctx: z.RefinementCtx
+) => {
+  timeRangeRefinement(data, ctx);
+  pageRangeRefinement(data, ctx);
 };
 
 export type BaseMyBookHistoryType = z.infer<typeof baseMyBookHistorySchema>;
